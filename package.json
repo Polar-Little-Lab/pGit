@@ -31,12 +31,13 @@
     ],
     "mac": {
       "category": "public.app-category.developer-tools",
-      "identity": "-",
+      "identity": null,
       "hardenedRuntime": false,
       "artifactName": "pGit-${version}-macos-${arch}.${ext}"
     },
     "directories": {
       "output": "dist"
-    }
+    },
+    "afterPack": "desktop/sign.cjs"
   }
 }
