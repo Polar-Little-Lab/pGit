@@ -34,8 +34,8 @@ jobs:
         run: |
           codesign --verify --deep --strict dist/mac-arm64/pGit.app
           codesign --verify --deep --strict dist/mac/pGit.app
-          test -s dist/pGit-0.1.0-macos-arm64.zip
-          test -s dist/pGit-0.1.0-macos-x64.zip
+          test -s dist/pGit-0.2.0-macos-arm64.zip
+          test -s dist/pGit-0.2.0-macos-x64.zip
       - uses: actions/upload-artifact@v4
         with:
           name: pGit-macos
@@ -46,6 +46,6 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          TAG="v0.1.0-preview.${GITHUB_RUN_NUMBER}"
+          TAG="v0.2.0-preview.${GITHUB_RUN_NUMBER}"
           gh release create "$TAG" dist/*.zip dist/*.dmg --target "$GITHUB_SHA" --prerelease --title "pGit $TAG · macOS preview" --notes "macOS preview. arm64: Apple Silicon / x64: Intel. Includes runtime; Node.js installation is not required. Git must be installed (Xcode Command Line Tools). Ad-hoc signed; not Apple-notarized. First launch may require System Settings > Privacy & Security > Open Anyway. Local Git tests and bundle signature verification passed; automated UI workflows passed; manual macOS QA remains pending."
 
