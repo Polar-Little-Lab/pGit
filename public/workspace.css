@@ -3,3 +3,5 @@
 .provider-row{padding:16px;border:1px solid var(--border);border-radius:8px;margin-bottom:12px;background:var(--surface)}.provider-row button{height:32px;margin-right:8px}
 .select-lines{overflow:auto;padding:12px 0;line-height:1.8;font-size:12px}.select-line{display:flex;align-items:baseline;white-space:pre;margin:0!important}.select-line input{margin:0 8px 0 0;accent-color:var(--accent)}.check-spacer{display:inline-block;width:21px;flex-shrink:0}.select-line code{white-space:pre}
 .wip-row{display:block;width:100%;height:40px;border:0;border-bottom:1px solid var(--border);border-radius:0;text-align:left;background:var(--canvas);color:var(--accent);font-weight:600;padding:0 24px}
+
+.history-scope{font-size:11px;color:var(--accent);max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.remote-group summary{cursor:pointer;color:var(--muted);padding:6px 10px}.remote-branch{padding-left:24px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.branch-empty{padding:8px 12px;color:var(--muted);font-size:11px}#allHistory{margin-top:16px}
