@@ -66,3 +66,19 @@ npm test
 ## 로컬 연결
 
 127.0.0.1의 임의 포트에만 바인딩하며, API는 Host·Origin·세션 토큰 검증을 거칩니다. 셸 문자열 대신 인자 배열로 Git을 실행하고 diff의 외부 도구 및 textconv 실행을 끕니다. 신뢰하는 로컬 저장소에서 사용하세요. 파일 변경 폐기, reset --hard, force push 등 파괴적 작업은 제공하지 않습니다.
+
+
+## 0.2 기능 확장
+
+A안 Polar 제품군 로고를 사용합니다. 브랜치/원격/태그/stash, merge/rebase/cherry-pick/revert 및 continue/abort, worktree, 파일 history/blame/reflog/참조 비교를 UI에서 실행할 수 있습니다.
+
+- 변경 사항 화면: 파일별·블록별·줄별 스테이징, 좌우 비교, 텍스트 편집, base/ours/theirs 충돌 편집.
+- 작업 검색(⌘K / Ctrl+K): 인터랙티브 리베이스의 순서 변경·pick/drop/squash/fixup, amend, ignore, 전체 메시지 검색, 작성자/서명 설정.
+- Git LFS status/fetch는 Git LFS 설치가 필요합니다. Submodule 초기화/갱신과 worktree lock/unlock을 제공합니다.
+- GitHub 화면은 `gh` 설치 및 `gh auth login`이 필요합니다. origin의 GitHub 또는 Enterprise 저장소에서 PR/issue/Actions 조회, draft PR/리뷰/댓글/이슈 게시와 PR checkout을 지원합니다. 외부 게시 작업은 실행 폼에서 명시적으로 실행합니다.
+- 리베이스와 amend 전 HEAD는 `refs/pgit/backups/<timestamp>`에 보관합니다. 복구가 필요하면 Reflog/참조 비교로 확인 후 Git으로 복원하세요. 자동 undo/redo 전체 기능은 아직 없습니다.
+- 충돌 편집과 부분 스테이징은 일반 텍스트를 대상으로 합니다. 부분 스테이징은 생성/삭제/이름변경/모드변경 파일을 제외합니다. 편집은 1MB 이하 파일을 지원합니다.
+
+`npm test`는 임시 Git 저장소로 동작을 검증합니다. `npx playwright install chromium && npm run test:ui`는 브라우저 UI를 검증합니다. CI에서 두 검증을 통과해야 배포합니다. 실제 사용자 계정으로 GitHub 게시나 수동 macOS 조작을 테스트한 것은 아닙니다.
+
+전체 유료 기능과 동등한 완성판은 아닙니다. 구현/미구현 범위는 [NON_AI_ROADMAP.md](docs/NON_AI_ROADMAP.md)에 기록합니다. GitLab/Bitbucket/Azure, Jira/Trello, OAuth, 공유 워크스페이스·팀/SSO·온프레미스는 아직 미구현입니다.
