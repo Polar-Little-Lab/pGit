@@ -1,6 +1,6 @@
 {
   "name": "pgit",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -37,7 +37,8 @@
       "public/index.html",
       "public/*.js",
       "public/*.css",
-      "public/logo.svg"
+      "public/logo.svg",
+      "comparison.mjs"
     ],
     "mac": {
       "category": "public.app-category.developer-tools",
