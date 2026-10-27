@@ -2,3 +2,5 @@
 .diff-controls input[type=checkbox]{width:13px;height:13px;margin:0 4px 0 0;flex-shrink:0}.diff-controls label{display:inline-flex;align-items:center}.diff-controls label[hidden]{display:none}
 .commit-inspector{height:var(--inspector-height,320px);min-height:180px}.comparison-divider{height:8px;min-height:8px;flex-shrink:0;cursor:ns-resize;touch-action:none;background:var(--canvas);display:flex;align-items:center;justify-content:center}.comparison-divider:before{content:'';height:2px;width:40px;border-radius:2px;background:var(--border)}.comparison-divider:hover:before,.comparison-divider:focus-visible:before{background:var(--accent)}
 .commit-inspector{max-height:max(180px,calc(100% - 200px))}
+
+.diff-word{color:inherit;background:#f3bcb8;border-radius:2px;padding:0;font:inherit}.diff-added .diff-word{background:#a8dfbc}.diff-line-number:before{content:attr(data-change);position:absolute;left:3px;font-size:11px;color:var(--accent)}.diff-removed .diff-line-number{box-shadow:inset 3px 0 #c96760}.diff-added .diff-line-number{box-shadow:inset 3px 0 #439e6a}
