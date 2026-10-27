@@ -33,3 +33,18 @@ Uses existing Git credentials/SSH agent and Git signing/hooks configuration. No 
 ## Branding
 
 The original standalone p/Git concept is not selected. Existing pTerm and pZip both use a polar bear with a dark blue tile. Three family-level directions are under review: A shared bear silhouette with functional glyph; B shared bear holding a tool panel; C functional glyph plus a bear badge. No existing app icon has been changed.
+
+## Second implementation batch
+
+- Selected logo A: shared pTerm bear silhouette/navy tile, pGit branch glyph; vector source and deterministic macOS icon build.
+- Hunk-level stage/unstage with stale-diff checks (tracked text modifications only).
+- Text editor with stale-file and symlink guards, HEAD/worktree side-by-side comparison.
+- Base/ours/theirs conflict viewer and editable result, marker checks, save-and-stage.
+- Interactive rebase of linear ancestry: reorder, pick, squash, fixup, drop; expected HEAD check and backup refs. Merge-preserving rebase and reword remain pending.
+- Amend with expected HEAD and backup; escaped ignore entries; full-history message search (200 results).
+- Worktree lock/unlock; submodule recursive init/update/status; LFS status/fetch (Git LFS must be installed).
+- Repository-local author/signing settings; recent repositories on this device.
+- GitHub CLI integration: PR/issue/Actions lists, PR diff/checks/checkout, draft PR, review and comments, issue creation/comments. Requires user-installed `gh` and `gh auth login`; no credentials are copied into pGit. Provider execution is unit-tested, not live-account tested.
+- Added browser workflow verification in CI. Its outcome must be checked before releasing.
+
+Still pending: line-level staging, recovery-backed discard, image/Markdown rendering, multi-cherry-pick, full undo/redo, force-with-lease UI, Gitflow, terminal, tabs, workspaces/sharing, graph virtualisation and drag/drop, additional providers/issue trackers, OAuth, team services/SSO/on-prem. This is not full GitKraken paid parity.
