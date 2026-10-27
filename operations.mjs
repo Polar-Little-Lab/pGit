@@ -1,0 +1,60 @@
+import {git, snapshot, openRepo} from './git.mjs';
+import {access, mkdir, realpath} from 'node:fs/promises';
+import path from 'node:path';
+
+const text=(value,label)=>{if(typeof value!=='string'||!value.trim()||value.includes('\0')||value.length>4096)throw Error(`${label}을 입력하세요.`);return value.trim()};
+async function ref(root,value){const name=text(value,'참조');if(name.startsWith('-'))throw Error('잘못된 참조');return (await git(root,['rev-parse','--verify','--end-of-options',`${name}^{commit}`])).trim()}
+async function branchName(root,value){const name=text(value,'브랜치 이름');await git(root,['check-ref-format','--branch',name]);return name}
+async function localBranch(root,value){const name=await branchName(root,value);await git(root,['show-ref','--verify',`refs/heads/${name}`]);return name}
+async function remoteName(root,value){const name=text(value,'원격 이름');if(!(await git(root,['remote'])).trim().split('\n').includes(name))throw Error('원격 저장소가 없습니다.');return name}
+async function clean(root){if((await snapshot(root)).files.length)throw Error('먼저 변경을 커밋하거나 stash에 보관하세요.');}
+async function idle(root){if((await extras(root)).operation)throw Error('진행 중인 작업을 계속하거나 중단하세요.');}
+function remoteURL(value){const url=text(value,'원격 URL');if(!/^(https:\/\/[^\s]+|ssh:\/\/[^\s]+|[\w.-]+@[\w.-]+:[^\s]+|\/[^\0]*)$/.test(url))throw Error('HTTPS, SSH 또는 로컬 절대 경로를 사용하세요.');if(/^https:\/\/[^/]*@/.test(url))throw Error('URL에 토큰을 넣지 마세요. Git credential helper를 사용하세요.');return url}
+async function exists(file){return access(file).then(()=>true,()=>false)}
+export async function extras(root){
+ const dir=(await git(root,['rev-parse','--absolute-git-dir'])).trim();
+ let operation=null;for(const [file,name] of [['rebase-merge','rebase'],['rebase-apply','rebase'],['MERGE_HEAD','merge'],['CHERRY_PICK_HEAD','cherry-pick'],['REVERT_HEAD','revert']])if(await exists(path.join(dir,file))){operation=name;break}
+ const remotes=(await git(root,['remote'])).trim().split('\n').filter(Boolean);
+ const refs=(await git(root,['for-each-ref','--format=%(refname)%09%(objectname)%09%(subject)','refs/remotes','refs/tags'])).trim().split('\n').filter(Boolean).map(s=>{const [name,hash,...subject]=s.split('\t');return {name,hash,subject:subject.join('\t')}});
+ const stashes=(await git(root,['stash','list','--format=%H%x09%gd%x09%gs'])).trim().split('\n').filter(Boolean).map(s=>{const [hash,name,...title]=s.split('\t');return {hash,name,title:title.join('\t')}});
+ const upstream=await git(root,['rev-parse','--abbrev-ref','--symbolic-full-name','@{upstream}']).then(s=>s.trim(),()=>null);
+ const counts=upstream?await git(root,['rev-list','--left-right','--count','HEAD...@{upstream}']).then(s=>s.trim().split(/\s+/).map(Number),()=>[0,0]):[0,0];
+ const worktrees=(await git(root,['worktree','list','--porcelain','-z'])).split('\0\0').filter(Boolean).map(block=>{const fields=block.split('\0');return {path:fields.find(x=>x.startsWith('worktree '))?.slice(9),branch:fields.find(x=>x.startsWith('branch '))?.slice(7),locked:fields.some(x=>x.startsWith('locked'))}});
+ return {remotes,refs,stashes,upstream,ahead:counts[0],behind:counts[1],operation,worktrees};
+}
+export async function fullState(root,limit){return {...await snapshot(root,limit),...await extras(root)}}
+export async function createRepository(kind,data){const target=text(data.path,'대상 절대 경로');if(!path.isAbsolute(target))throw Error('절대 경로가 필요합니다.');if(kind==='init'){await mkdir(target,{recursive:true});if(await git(target,['rev-parse','--show-toplevel']).then(()=>true,()=>false))throw Error('이미 Git 저장소 안에 있습니다.');await git(target,['init','-b','main'])}else {if(await exists(target))throw Error('복제 대상은 아직 존재하지 않는 폴더여야 합니다.');await git(path.dirname(target),['clone','--',remoteURL(data.url),target]);}return openRepo(target)}
+export const readOperations=new Set(['stashDiff','fileHistory','blame','compare','reflog','remoteList','worktreeList','trackedFiles']);
+export async function operate(root,action,d={}){
+ switch(action){
+ case 'branchCreate':await idle(root);await git(root,['branch',await branchName(root,d.name),await ref(root,d.ref||'HEAD')]);break;
+ case 'branchSwitch':await idle(root);await clean(root);await git(root,['switch',await localBranch(root,d.name)]);break;
+ case 'branchRename':await idle(root);await git(root,['branch','-m',await localBranch(root,d.name),await branchName(root,d.newName)]);break;
+ case 'branchDelete':await idle(root);await git(root,['branch','-d',await localBranch(root,d.name)]);break;
+ case 'remoteAdd':{const name=text(d.name,'원격 이름');if(!/^[a-zA-Z0-9][\w.-]*$/.test(name))throw Error('잘못된 원격 이름');await git(root,['remote','add',name,remoteURL(d.url)]);break}
+ case 'remoteRemove':await git(root,['remote','remove',await remoteName(root,d.name)]);break;
+ case 'remoteList':return git(root,['remote','-v']);
+ case 'fetch':await git(root,['fetch','--prune',await remoteName(root,d.remote)]);break;
+ case 'pull':await idle(root);await clean(root);if(!(await extras(root)).upstream)throw Error('Push로 추적 브랜치를 먼저 설정하세요.');await git(root,['pull','--ff-only']);break;
+ case 'push':{await idle(root);const branch=(await snapshot(root)).branch;await localBranch(root,branch);await git(root,['push','--set-upstream',await remoteName(root,d.remote),`refs/heads/${branch}:refs/heads/${branch}`]);break}
+ case 'tagCreate':{const name=text(d.name,'태그 이름');await git(root,['check-ref-format',`refs/tags/${name}`]);if(name.startsWith('-'))throw Error('잘못된 태그');await git(root,['tag',...(d.message?['-a','-m',text(d.message,'태그 메시지')]:[]),name,await ref(root,d.ref||'HEAD')]);break}
+ case 'tagDelete':{const name=text(d.name,'태그 이름');await git(root,['show-ref','--verify',`refs/tags/${name}`]);await git(root,['tag','-d','--',name]);break}
+ case 'stashSave':await idle(root);await git(root,['stash','push','--include-untracked','-m',text(d.message||'pGit stash','메시지')]);break;
+ case 'stashApply':case 'stashPop':case 'stashDrop':case 'stashDiff':{const stash=(await extras(root)).stashes.find(s=>s.hash===d.hash);if(!stash)throw Error('Stash가 변경되었습니다. 새로고침하세요.');if(action==='stashDiff')return git(root,['stash','show','-p','--include-untracked',stash.name]);await idle(root);if(action!=='stashDrop')await clean(root);await git(root,['stash',action==='stashApply'?'apply':action==='stashPop'?'pop':'drop',stash.name]);break}
+ case 'merge':await idle(root);await clean(root);await git(root,['merge','--no-edit',await ref(root,d.ref)]);break;
+ case 'rebase':await idle(root);await clean(root);await git(root,['rebase',await ref(root,d.ref)]);break;
+ case 'cherryPick':case 'revert':await idle(root);await clean(root);await git(root,[action==='cherryPick'?'cherry-pick':'revert','--no-edit',await ref(root,d.ref)]);break;
+ case 'continue':case 'abort':{const op=(await extras(root)).operation;if(!op)throw Error('진행 중인 작업이 없습니다.');await git(root,op==='merge'&&action==='continue'?['commit','--no-edit']:[op,action==='continue'?'--continue':'--abort']);break}
+ case 'resolve':{const files=(await snapshot(root)).files;if(!files.some(f=>f.name===d.name&&f.conflict))throw Error('충돌 파일을 선택하세요.');await git(root,['add','--',d.name]);break}
+ case 'undoCommit':await idle(root);await clean(root);await git(root,['reset','--soft',await ref(root,'HEAD~1')]);break;
+ case 'fileHistory':case 'blame':{const name=text(d.name,'파일 경로');const files=(await git(root,['ls-files','-z'])).split('\0');if(!files.includes(name))throw Error('추적 중인 파일을 선택하세요.');return action==='blame'?git(root,['blame','--date=short','--',name]):git(root,['log','--follow','-n','100','--format=%h %aI %an%n%s','--',name]);}
+ case 'trackedFiles':return (await git(root,['ls-files','-z'])).split('\0').filter(Boolean);
+ case 'compare':return git(root,['diff','--stat','--patch','--no-ext-diff','--no-textconv',await ref(root,d.from),await ref(root,d.to),'--']);
+ case 'reflog':return git(root,['reflog','-n','100','--date=iso']);
+ case 'worktreeList':return git(root,['worktree','list']);
+ case 'worktreeAdd':{await idle(root);const target=text(d.path,'절대 경로');if(!path.isAbsolute(target)||await exists(target))throw Error('존재하지 않는 절대 경로를 입력하세요.');await git(root,['worktree','add','-b',await branchName(root,d.name),'--',target,await ref(root,d.ref||'HEAD')]);break}
+ case 'worktreeRemove':{const target=await realpath(text(d.path,'worktree 경로'));if(target===await realpath(root))throw Error('현재 작업 폴더는 삭제할 수 없습니다.');await git(root,['worktree','remove','--',target]);break}
+ default:throw Error('지원하지 않는 작업입니다.');
+ }
+ return null;
+}
