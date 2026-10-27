@@ -1,0 +1,43 @@
+name: Build macOS download
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/release-macos.yml', 'desktop/**', 'package.json']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: macos-release
+  cancel-in-progress: false
+jobs:
+  macos:
+    runs-on: macos-14
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install
+      - run: npm test
+      - run: npm run dist:mac
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      - name: Verify bundles
+        run: |
+          codesign --verify --deep --strict dist/mac-arm64/pGit.app
+          codesign --verify --deep --strict dist/mac/pGit.app
+          test -s dist/pGit-0.1.0-macos-arm64.zip
+          test -s dist/pGit-0.1.0-macos-x64.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pGit-macos
+          path: |
+            dist/*.zip
+            dist/*.dmg
+      - name: Publish download
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="v0.1.0-preview.${GITHUB_RUN_NUMBER}"
+          gh release create "$TAG" dist/*.zip dist/*.dmg --target "$GITHUB_SHA" --prerelease --title "pGit $TAG · macOS preview" --notes "macOS preview. arm64: Apple Silicon / x64: Intel. Includes runtime; Node.js installation is not required. Git must be installed (Xcode Command Line Tools). Ad-hoc signed; not Apple-notarized. First launch may require System Settings > Privacy & Security > Open Anyway. Local Git tests and bundle signature verification passed; interactive macOS QA remains pending."
