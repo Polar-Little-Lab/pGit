@@ -1,7 +1,15 @@
 # pGit · 0.1.0
 
 Polar Frost 디자인 기반의 가벼운 로컬 Git 클라이언트 개발 버전입니다.
-AI 기능은 포함하지 않습니다. 이번 버전은 **Node.js 로컬 서버 + 브라우저 UI**이며 macOS 설치 앱(DMG)은 아직 제공하지 않습니다.
+AI 기능은 포함하지 않습니다. macOS 데스크톱 패키징(Electron)과 ZIP/DMG 자동 빌드를 추가했습니다. 릴리스 파일 생성 여부는 아래 다운로드 페이지에서 확인하세요.
+
+[macOS 앱 다운로드](https://github.com/Polar-Little-Lab/pGit/releases)
+
+- Apple Silicon: `macos-arm64` 파일
+- Intel: `macos-x64` 파일
+- Node.js는 앱에 포함됩니다. Git은 별도 설치가 필요합니다(`xcode-select --install`).
+- Apple 공증 전 미리보기 빌드입니다. 첫 실행은 시스템 설정 → 개인정보 보호 및 보안 → 그래도 열기가 필요할 수 있습니다.
+- 설치 앱의 화면·실기기 검증은 아직 완료되지 않았습니다.
 
 ## 실행
 
@@ -44,7 +52,7 @@ npm test
 
 ## 다음 단계
 
-1. macOS Tauri 셸과 네이티브 폴더 선택 연결
+1. macOS 패키지 실기기 검증 및 배포 안정화 (현재 Electron 셸·폴더 선택 연결)
 2. 브랜치 생성·안전한 전환, 커밋 그래프 레인 및 검색 개선
 3. Fetch / Pull / Push와 기존 SSH 인증 연결
 4. Stash, 파일 이력, 태그
