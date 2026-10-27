@@ -15,7 +15,7 @@ export async function extras(root){
  const dir=(await git(root,['rev-parse','--absolute-git-dir'])).trim();
  let operation=null;for(const [file,name] of [['rebase-merge','rebase'],['rebase-apply','rebase'],['MERGE_HEAD','merge'],['CHERRY_PICK_HEAD','cherry-pick'],['REVERT_HEAD','revert']])if(await exists(path.join(dir,file))){operation=name;break}
  const remotes=(await git(root,['remote'])).trim().split('\n').filter(Boolean);
- const refs=(await git(root,['for-each-ref','--format=%(refname)%09%(objectname)%09%(subject)','refs/remotes','refs/tags'])).trim().split('\n').filter(Boolean).map(s=>{const [name,hash,...subject]=s.split('\t');return {name,hash,subject:subject.join('\t')}});
+ const refs=(await git(root,['for-each-ref','--format=%(refname)%09%(objectname)%09%(*objectname)%09%(subject)','refs/remotes','refs/tags'])).trim().split('\n').filter(Boolean).map(s=>{const [name,object,peeled,...subject]=s.split('\t');return {name,hash:peeled||object,subject:subject.join('\t')}});
  const stashes=(await git(root,['stash','list','--format=%H%x09%gd%x09%gs'])).trim().split('\n').filter(Boolean).map(s=>{const [hash,name,...title]=s.split('\t');return {hash,name,title:title.join('\t')}});
  const upstream=await git(root,['rev-parse','--abbrev-ref','--symbolic-full-name','@{upstream}']).then(s=>s.trim(),()=>null);
  const counts=upstream?await git(root,['rev-list','--left-right','--count','HEAD...@{upstream}']).then(s=>s.trim().split(/\s+/).map(Number),()=>[0,0]):[0,0];
