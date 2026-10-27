@@ -2,7 +2,7 @@ name: Build macOS download
 on:
   push:
     branches: [main]
-    paths: ['.github/workflows/release-macos.yml', 'desktop/**', 'package.json']
+    paths: ['.github/workflows/release-macos.yml', 'desktop/**', 'package.json', 'test/**', 'server.mjs', 'git.mjs', 'public/index.html']
   workflow_dispatch:
 permissions:
   contents: write
