@@ -2,7 +2,7 @@ name: Build macOS download
 on:
   push:
     branches: [main]
-    paths: ['.github/workflows/release-macos.yml', 'desktop/**', 'package.json', 'test/**', 'server.mjs', 'git.mjs', 'public/index.html']
+    paths: ['.github/workflows/release-macos.yml', 'desktop/**', 'package.json', 'test/**', 'server.mjs', 'git.mjs', 'public/**', 'operations.mjs', 'advanced.mjs', 'providers.mjs', 'scripts/**']
   workflow_dispatch:
 permissions:
   contents: write
@@ -20,6 +20,13 @@ jobs:
           node-version: '22'
       - run: npm install
       - run: npm test
+      - run: npx playwright install chromium
+      - run: npm run test:ui
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pGit-ui-verification
+          path: test-results/
       - run: npm run dist:mac
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
@@ -27,8 +34,8 @@ jobs:
         run: |
           codesign --verify --deep --strict dist/mac-arm64/pGit.app
           codesign --verify --deep --strict dist/mac/pGit.app
-          test -s dist/pGit-0.1.0-macos-arm64.zip
-          test -s dist/pGit-0.1.0-macos-x64.zip
+          test -s dist/pGit-0.2.0-macos-arm64.zip
+          test -s dist/pGit-0.2.0-macos-x64.zip
       - uses: actions/upload-artifact@v4
         with:
           name: pGit-macos
@@ -39,5 +46,6 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          TAG="v0.1.0-preview.${GITHUB_RUN_NUMBER}"
-          gh release create "$TAG" dist/*.zip dist/*.dmg --target "$GITHUB_SHA" --prerelease --title "pGit $TAG · macOS preview" --notes "macOS preview. arm64: Apple Silicon / x64: Intel. Includes runtime; Node.js installation is not required. Git must be installed (Xcode Command Line Tools). Ad-hoc signed; not Apple-notarized. First launch may require System Settings > Privacy & Security > Open Anyway. Local Git tests and bundle signature verification passed; interactive macOS QA remains pending."
+          TAG="v0.2.0-preview.${GITHUB_RUN_NUMBER}"
+          gh release create "$TAG" dist/*.zip dist/*.dmg --target "$GITHUB_SHA" --prerelease --title "pGit $TAG · macOS preview" --notes "macOS preview. arm64: Apple Silicon / x64: Intel. Includes runtime; Node.js installation is not required. Git must be installed (Xcode Command Line Tools). Ad-hoc signed; not Apple-notarized. First launch may require System Settings > Privacy & Security > Open Anyway. Local Git tests and bundle signature verification passed; automated UI workflows passed; manual macOS QA remains pending."
+

@@ -1,6 +1,6 @@
 {
   "name": "pgit",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -10,30 +10,41 @@
     "start": "node server.mjs",
     "test": "node --test test/*.test.mjs",
     "desktop": "electron .",
-    "dist:mac": "electron-builder --mac zip dmg --arm64 --x64 --publish never"
+    "dist:mac": "electron-builder --mac zip dmg --arm64 --x64 --publish never",
+    "predist:mac": "node scripts/build-icons.cjs",
+    "test:ui": "node test/ui.mjs"
   },
   "main": "desktop/main.cjs",
   "description": "Polar Frost local Git client",
   "author": "Polar Little Lab",
   "devDependencies": {
     "electron": "40.0.0",
-    "electron-builder": "26.0.12"
+    "electron-builder": "26.0.12",
+    "playwright": "1.58.2"
   },
   "build": {
     "appId": "dev.polar.pgit",
     "productName": "pGit",
     "files": [
       "desktop/**/*",
-      "public/index.html",
       "git.mjs",
       "server.mjs",
-      "package.json"
+      "package.json",
+      "operations.mjs",
+      "advanced.mjs",
+      "scripts/sequence-editor.cjs",
+      "providers.mjs",
+      "public/index.html",
+      "public/*.js",
+      "public/*.css",
+      "public/logo.svg"
     ],
     "mac": {
       "category": "public.app-category.developer-tools",
       "identity": null,
       "hardenedRuntime": false,
-      "artifactName": "pGit-${version}-macos-${arch}.${ext}"
+      "artifactName": "pGit-${version}-macos-${arch}.${ext}",
+      "icon": "build/icon.png"
     },
     "directories": {
       "output": "dist"
