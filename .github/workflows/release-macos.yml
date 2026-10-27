@@ -2,7 +2,7 @@ name: Build macOS download
 on:
   push:
     branches: [main]
-    paths: ['.github/workflows/release-macos.yml', 'desktop/**', 'package.json', 'test/**', 'server.mjs', 'git.mjs', 'public/index.html']
+    paths: ['.github/workflows/release-macos.yml', 'desktop/**', 'package.json', 'test/**', 'server.mjs', 'git.mjs', 'public/**', 'operations.mjs']
   workflow_dispatch:
 permissions:
   contents: write
@@ -41,3 +41,4 @@ jobs:
         run: |
           TAG="v0.1.0-preview.${GITHUB_RUN_NUMBER}"
           gh release create "$TAG" dist/*.zip dist/*.dmg --target "$GITHUB_SHA" --prerelease --title "pGit $TAG · macOS preview" --notes "macOS preview. arm64: Apple Silicon / x64: Intel. Includes runtime; Node.js installation is not required. Git must be installed (Xcode Command Line Tools). Ad-hoc signed; not Apple-notarized. First launch may require System Settings > Privacy & Security > Open Anyway. Local Git tests and bundle signature verification passed; interactive macOS QA remains pending."
+
