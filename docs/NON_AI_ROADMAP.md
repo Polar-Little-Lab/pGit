@@ -48,3 +48,11 @@ The original standalone p/Git concept is not selected. Existing pTerm and pZip b
 - Added browser workflow verification in CI. Its outcome must be checked before releasing.
 
 Still pending: line-level staging, recovery-backed discard, image/Markdown rendering, multi-cherry-pick, full undo/redo, force-with-lease UI, Gitflow, terminal, tabs, workspaces/sharing, graph virtualisation and drag/drop, additional providers/issue trackers, OAuth, team services/SSO/on-prem. This is not full GitKraken paid parity.
+
+### Verification update
+
+- GitHub Linux CI passed the initial 0.2 browser workflow (open/graph/logo/CSS/branch/hunk stage/text edit/command palette).
+- Line-level stage and unstage are now implemented and covered with adjacent changes in a single hunk. Prior pending line-staging entries above are superseded.
+- Annotated tags now point to the peeled target in the graph.
+- HTTP tests cover CSP, asset serving, missing credentials and cross-origin request rejection.
+- macOS packaging and final UI run must still be checked for the final release commit.
