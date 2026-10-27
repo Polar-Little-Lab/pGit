@@ -1,0 +1,19 @@
+import {chromium} from 'playwright';
+import assert from 'node:assert/strict';
+import {mkdtemp,writeFile,rm,mkdir,realpath,readFile} from 'node:fs/promises';
+import os from 'node:os';import path from 'node:path';
+import {git} from '../git.mjs';import {server,ready} from '../server.mjs';
+const root=await realpath(await mkdtemp(path.join(os.tmpdir(),'pgit-ui-')));let browser;
+try{
+ await git(root,['init','-b','main']);await git(root,['config','user.name','Polar']);await git(root,['config','user.email','polar@example.com']);
+ await writeFile(root+'/example.txt',Array.from({length:30},(_,i)=>'line '+i).join('\n')+'\n');await git(root,['add','.']);await git(root,['commit','-m','Initial UI fixture']);
+ await writeFile(root+'/example.txt',(await readFile(root+'/example.txt','utf8')).replace('line 1\n','modified line 1\n').replace('line 25\n','modified line 25\n'));
+ browser=await chromium.launch({headless:true,...(process.env.PGIT_BROWSER_PATH?{executablePath:process.env.PGIT_BROWSER_PATH}:{})});const page=await browser.newPage({viewport:{width:1440,height:940}});const errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error'&&!m.text().includes('favicon'))errors.push(m.text())});
+ await page.goto(await ready);await page.getByRole('button',{name:'저장소 열기',exact:true}).click();await page.locator('#pathInput').fill(root);await page.locator('#openForm').getByRole('button',{name:'열기',exact:true}).click();await page.locator('.historyrow').first().waitFor();assert.equal(await page.locator('.brand img').evaluate(el=>el.complete&&el.naturalWidth>0),true);
+ assert.equal(await page.locator('.git-toolbar').first().evaluate(el=>getComputedStyle(el).display),'flex');
+ await page.getByRole('button',{name:'브랜치 만들기',exact:true}).click();await page.locator('#command-name').fill('ui-feature');await page.locator('#commandDialog').getByRole('button',{name:'실행',exact:true}).click();await page.locator('#commandDialog').waitFor({state:'hidden'});assert.match(await git(root,['branch','--list']),/ui-feature/);
+ await page.locator('#changesNav').click();await page.getByRole('button',{name:'블록 스테이징',exact:true}).click();await page.locator('.hunk-card').first().waitFor();assert.equal(await page.locator('.hunk-card').count(),2);await page.locator('.hunk-card').first().getByRole('button').click();await page.waitForFunction(()=>document.querySelectorAll('.hunk-card').length===1);assert.match(await git(root,['diff','--cached']),/modified line 1/);assert.doesNotMatch(await git(root,['diff','--cached']),/modified line 25/);await page.locator('.advanced-dialog').getByRole('button',{name:'닫기',exact:true}).click();
+ await page.getByRole('button',{name:'편집',exact:true}).click();await page.locator('.code-editor').waitFor();await page.locator('.code-editor').fill('edited in pGit\n');await page.getByRole('button',{name:'파일 저장',exact:true}).click();await page.locator('.advanced-dialog').waitFor({state:'hidden'});assert.equal(await readFile(root+'/example.txt','utf8'),'edited in pGit\n');
+ await page.getByRole('button',{name:'작업 검색 ⌘K',exact:true}).click();await page.getByRole('searchbox',{name:'Git 작업 검색'}).fill('인터랙티브');await page.getByRole('button',{name:'인터랙티브 리베이스',exact:true}).click();await page.locator('#command-base').waitFor();await page.locator('#commandDialog').getByRole('button',{name:'닫기',exact:true}).click();
+ await page.locator('#historyNav').click();await mkdir('test-results',{recursive:true});await page.screenshot({path:'test-results/workspace.png',fullPage:true});assert.deepEqual(errors,[]);console.log('UI passed: open, graph, logo, styles, branch, hunk staging, editor and command palette.');
+}finally{await browser?.close();await new Promise(r=>server.close(r));await rm(root,{recursive:true,force:true})}
