@@ -5,6 +5,7 @@ try{
  for(const label of ['first','second']){await writeFile(root+'/file',label+'\n');await git(root,['stash','push','-m',label])}
  browser=await chromium.launch({headless:true,...(process.env.PGIT_BROWSER_PATH?{executablePath:process.env.PGIT_BROWSER_PATH}:{})});const page=await browser.newPage({viewport:{width:1440,height:900}});page.setDefaultTimeout(15000);const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto((await ready)+'workspace');assert.equal(await page.evaluate(root=>mutate('open',{path:root}),root),true);
  const sidebar=page.locator('.shell>aside');assert.equal(await sidebar.locator('#allHistory').count(),0);assert.equal(await page.locator('#history .filterbar #allHistory').count(),1);assert.equal(await sidebar.locator('.sidebar-integrations #githubNav svg').count(),1);
+ assert.equal(await sidebar.locator('.sidebar-integrations').evaluate(e=>e.nextElementSibling.id),'extraRefs');
  for(const [key,count] of [['local',3],['remote',1],['tags',1],['stashes',2]]){
   const group=sidebar.locator(`[data-section="${key}"]`);assert.equal(await group.locator(':scope>summary .folder-count').textContent(),String(count));await group.locator(':scope>summary').click();assert.equal(await group.locator('.branch-section-body').isVisible(),false);await page.evaluate(()=>render());assert.equal(await group.getAttribute('open'),null);await group.locator(':scope>summary').press('Enter');assert.equal(await group.locator('.branch-section-body').isVisible(),true);
  }

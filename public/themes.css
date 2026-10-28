@@ -34,3 +34,13 @@ html[data-theme] .idea-diff .diff-controls .ui-segmented>button[aria-pressed=tru
 html[data-theme] .idea-diff .diff-controls .ui-segmented>button[aria-pressed=false]:hover{background:var(--control-hover)}
 .settings-button.icon-control{width:32px;height:32px;padding:0;border-color:transparent;background:transparent}
 .settings-button[aria-pressed=true]{background:var(--control-selected);color:var(--accent)}
+/* A project tab is one visual surface, including its close-button area. */
+html[data-theme] .project-tab{background:transparent;border-color:transparent;cursor:pointer;overflow:hidden}
+html[data-theme] .project-tab.selected{background:var(--surface)!important;color:var(--text);border-color:var(--border)}
+html[data-theme] .project-tab:hover{background:var(--control-hover)}
+html[data-theme] .project-tab.selected:hover{background:var(--control-selected)!important}
+html[data-theme] .project-tab>button{background:transparent;border-radius:0}
+html[data-theme] .project-tab>.tab-close{align-self:stretch;width:32px;height:auto;margin:0;flex:0 0 32px}
+html[data-theme] .project-tab>.tab-close:hover{background:transparent;color:var(--accent)}
+html[data-theme] .project-tab>button:focus-visible{outline-offset:-3px;border-radius:4px}
+html[data-theme] .project-tab.selected:before{background:var(--accent);pointer-events:none}
