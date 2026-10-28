@@ -12,7 +12,7 @@
     "desktop": "electron .",
     "dist:mac": "electron-builder --mac zip dmg --arm64 --x64 --publish never",
     "predist:mac": "node scripts/build-icons.cjs",
-    "test:ui": "node test/ui.mjs && node test/ui-tabs.mjs && node test/ui-workflow.mjs && node test/ui-language.mjs && node test/ui-diff-editor.mjs && node test/ui-conflicts.mjs && node test/ui-merge-preview.mjs && node test/ui-worktrees.mjs"
+    "test:ui": "node test/ui.mjs && node test/ui-tabs.mjs && node test/ui-workflow.mjs && node test/ui-language.mjs && node test/ui-diff-editor.mjs && node test/ui-conflicts.mjs && node test/ui-merge-preview.mjs && node test/ui-worktrees.mjs && node test/ui-refresh.mjs"
   },
   "main": "desktop/main.cjs",
   "description": "Polar Frost local Git client",
@@ -32,6 +32,7 @@
       "package.json",
       "operations.mjs",
       "merge-preview.mjs",
+      "refresh.mjs",
       "advanced.mjs",
       "scripts/sequence-editor.cjs",
       "providers.mjs",
