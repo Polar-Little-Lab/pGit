@@ -200,3 +200,12 @@ body .idea-diff .diff-count{padding-left:8px}
 .conflict-block pre{margin:6px 0 0;padding:8px;min-height:0;max-height:180px;overflow:auto;background:var(--canvas);font:12px/1.5 ui-monospace,monospace;color:var(--text)}
 .conflict-block>details{padding:8px;border-top:1px solid var(--border);font-size:11px}
 .conflict-blocks+label{display:block;margin:10px 0 6px;font-size:12px}
+.merge-preview{margin-top:12px;padding:12px;border:1px solid var(--border);border-radius:4px;background:var(--canvas);font-size:12px}
+.merge-preview>strong{display:block;margin-bottom:8px;color:var(--accent)}
+.merge-preview[data-status=conflicts]>strong,.merge-preview[data-status=unrelated]>strong{color:var(--danger)}
+body .merge-preview p{margin:6px 0;overflow-wrap:anywhere}
+.merge-preview>code{display:block;margin-bottom:8px;color:var(--muted);font-size:11px}
+.merge-preview ul{margin:8px 0;padding-left:18px;max-height:200px;overflow:auto}
+.merge-preview li{overflow-wrap:anywhere;padding:3px 0}
+.merge-preview pre{max-height:150px;min-height:0;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;font-size:11px;background:var(--surface);color:var(--text)}
+body dialog .preview-run{height:32px;font-size:12px}

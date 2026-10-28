@@ -1,6 +1,23 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+병합 전 충돌 검사|Check merge conflicts
+검사할 참조|Reference to inspect
+검사|Inspect
+병합 가능 여부를 검사하는 중…|Checking merge compatibility…
+이미 현재 브랜치에 포함되어 있습니다.|Already included in the current branch.
+충돌 없이 빠른 앞으로 이동할 수 있습니다.|Can fast-forward without conflicts.
+자동 병합할 수 있습니다.|Can merge automatically.
+병합 충돌이 예상됩니다.|Merge conflicts detected.
+공통 이력이 없어 병합할 수 없습니다.|Cannot merge unrelated histories.
+작업 중인 변경은 검사에 포함되지 않습니다. 병합 전 커밋하거나 스태시에 보관하세요.|Uncommitted changes are excluded. Commit or stash them before merging.
+상세 결과|Details
+검사 이후 브랜치가 변경되었습니다. 다시 검사하세요.|Branches changed since inspection. Inspect again.
+사용자 지정 병합 드라이버가 있어 자동 검사를 지원하지 않습니다.|Preview is unavailable with custom merge drivers.
+병합 전 검사는 Git 2.38 이상이 필요합니다.|Merge inspection requires Git 2.38 or newer.
+검사할 참조가 올바르지 않습니다.|Invalid reference to inspect.
+Git 병합 검사 결과를 읽을 수 없습니다.|Could not read the merge inspection result.
+
 선택 되돌리기|Undo selection
 최종 결과|Final result
 왼쪽 사용|Use left
