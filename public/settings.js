@@ -1,10 +1,14 @@
 (() => {
- const valid=['light','dark','system'];
+ const valid=[...PgitThemes.map(theme=>theme.id),'system'];
  let theme=localStorage.getItem('pgit.theme')||'light';
  const system=matchMedia('(prefers-color-scheme: dark)');
  function setTheme(value,{persist=true}={}){
   theme=valid.includes(value)?value:'light';
-  document.documentElement.dataset.theme=theme==='system'?(system.matches?'dark':'light'):theme;
+  const palette=PgitThemes.find(item=>item.id===(theme==='system'?(system.matches?'dark':'light'):theme));
+  const html=document.documentElement;html.dataset.theme=palette.id;html.dataset.appearance=palette.appearance;
+  for(const [key,value] of Object.entries(palette.colors))html.style.setProperty('--polar-'+key,value);
+  for(const [key,value] of Object.entries({bg:palette.colors.surface,hover:palette.colors.soft,selected:palette.colors.selected,'selected-border':palette.colors.accent,border:palette.colors.border}))html.style.setProperty('--control-'+key,value);
+  html.style.setProperty('--polar-danger',palette.appearance==='dark'?'#ed9b96':'#b44848');
   localStorage.setItem('pgit.theme',theme);
   document.querySelectorAll('[data-theme-choice]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.themeChoice===theme)));
   if(parent===window){document.querySelectorAll('iframe.project-frame').forEach(f=>f.contentWindow.postMessage({source:'pgit-theme',theme},location.origin));if(persist&&typeof save==='function')save()}
@@ -17,9 +21,9 @@
  const page=document.createElement('section');page.id='settingsPage';page.hidden=true;page.setAttribute('aria-labelledby','settingsTitle');
  page.innerHTML=`<aside class="settings-nav"><button type="button" data-close-settings>작업 공간으로 돌아가기</button><h1 id="settingsTitle">설정</h1><nav aria-label="설정 항목"><button type="button" data-settings-section="appearance">모양</button><button type="button" data-settings-section="language">언어</button></nav></aside><div class="settings-content"><section data-settings-panel="appearance" aria-labelledby="appearanceTitle"><h2 id="appearanceTitle" tabindex="-1">모양</h2><h3>테마</h3><div class="theme-gallery" role="group" aria-label="테마"></div></section><section data-settings-panel="language" aria-labelledby="languageTitle" hidden><h2 id="languageTitle" tabindex="-1">언어</h2><div class="language-options" role="group" aria-label="언어"><button type="button" class="literal-data" data-language-choice="ko"><strong>한국어</strong><span>Korean</span></button><button type="button" class="literal-data" data-language-choice="en"><strong>English</strong><span>영어</span></button></div></section></div>`;
  // Cards are data-driven so further themes do not turn settings into a larger modal.
- for(const [id,name] of [['light','Frost'],['dark','Polar Night'],['system','시스템 설정 사용']]){
+ for(const {id,name,colors} of [...PgitThemes,{id:'system',name:'시스템 설정 사용'}]){
   const card=document.createElement('button');card.type='button';card.className='theme-card';card.dataset.themeChoice=id;
-  const preview=document.createElement('span');preview.className='theme-preview preview-'+id;preview.setAttribute('aria-hidden','true');preview.innerHTML='<span class="preview-tabs"></span><span class="preview-sidebar"><i></i><i></i><i></i></span><span class="preview-graph"><i></i><i></i><i></i><i></i></span><span class="preview-details"><i></i><i></i></span>';
+  const preview=document.createElement('span');preview.className='theme-preview preview-'+id;preview.setAttribute('aria-hidden','true');if(colors){for(const [key,color] of Object.entries({bg:colors.canvas,panel:colors.soft,line:colors.border,accent:colors.accent}))preview.style.setProperty('--preview-'+key,color)}preview.innerHTML='<span class="preview-tabs"></span><span class="preview-sidebar"><i></i><i></i><i></i></span><span class="preview-graph"><i></i><i></i><i></i><i></i></span><span class="preview-details"><i></i><i></i></span>';
   const label=document.createElement('span');label.className='theme-card-label';const text=document.createElement('strong');text.textContent=name;if(id!=='system')text.className='literal-data';label.append(text,PgitIcons.icon('check'));card.append(preview,label);card.onclick=()=>setTheme(id);page.querySelector('.theme-gallery').append(card);
  }
  const container=document.querySelector('#projectPanels')||document.body;container.append(page);
@@ -49,7 +53,7 @@
  PgitIcons.label(page.querySelector('[data-close-settings]'),'back','작업 공간으로 돌아가기');
  for(const item of page.querySelectorAll('[data-settings-section]')){PgitIcons.label(item,item.dataset.settingsSection==='appearance'?'palette':'language',item.textContent);item.onclick=()=>open(item.dataset.settingsSection)}
  page.querySelectorAll('[data-language-choice]').forEach(b=>b.onclick=()=>{window.PgitI18n.setLanguage(b.dataset.languageChoice);sync()});
- const button=document.createElement('button');button.type='button';button.className='settings-button';button.setAttribute('aria-pressed','false');PgitIcons.label(button,'settings','설정');button.onclick=()=>page.hidden?open():close();
+ const button=document.createElement('button');button.type='button';button.className='settings-button';button.setAttribute('aria-pressed','false');PgitIcons.label(button,'settings');button.setAttribute('aria-label','설정');button.dataset.tooltip='설정 · ⌘/Ctrl+,';button.onclick=()=>page.hidden?open():close();
  (document.querySelector('.project-bar')||document.querySelector('header'))?.append(button);
  Object.assign(window.PgitSettings,{open,close});
  document.addEventListener('keydown',event=>{if((event.metaKey||event.ctrlKey)&&event.key===','){event.preventDefault();open()}else if(event.key==='Escape'&&!page.hidden){event.preventDefault();close()}});

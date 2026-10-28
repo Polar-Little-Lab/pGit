@@ -1,6 +1,13 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+설정 · ⌘/Ctrl+,|Settings · ⌘/Ctrl+,
+이전 변경으로 이동 · Alt+↑|Go to previous change · Alt+↑
+다음 변경으로 이동 · Alt+↓|Go to next change · Alt+↓
+변경 전후를 좌우로 나란히 비교합니다.|Compare before and after side by side.
+삭제된 줄과 추가된 줄을 한 화면에서 비교합니다.|Compare removed and added lines in one view.
+좌우 코드의 스크롤 위치를 함께 이동합니다.|Keep both code panes at the same scroll position.
+
 여는 중…|Opening…
 복제 중…|Cloning…
 만드는 중…|Creating…

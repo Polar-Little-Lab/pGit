@@ -38,6 +38,6 @@ test('language preference persists only supported locales',async t=>{
 });
 
 test('theme preference only persists supported choices',()=>{
- for(const theme of ['light','dark','system'])assert.equal(store.normalizeWorkspace({theme}).theme,theme);
+ for(const theme of ['light','glacier','snow','dark','aurora','midnight','system'])assert.equal(store.normalizeWorkspace({theme}).theme,theme);
  assert.equal(store.normalizeWorkspace({theme:'invalid'}).theme,undefined);
 });
