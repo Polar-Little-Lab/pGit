@@ -1,13 +1,14 @@
-# AI 제외 기능 구현 현황 · pGit 0.3
+# AI 제외 기능 구현 현황 · pGit 0.4
 
 범위 기준: [GitKraken 요금제](https://gitkraken.com/pricing), [Desktop 기능 문서](https://help.gitkraken.com/gitkraken-desktop/gitkraken-desktop-home/). 2026-10-27 확인. 기능적인 목표이며 GitKraken의 소스나 브랜드를 복제하지 않습니다. AI 생성·설명·도우미·에이전트·MCP는 제외합니다.
 
 ## 구현한 기능
 
-| 영역 | 0.3 구현 |
+| 영역 | 0.4 구현 |
 |---|---|
 | 브랜드 | A안 공통 곰 실루엣/남색 타일, pGit 분기 기호, SVG 원본·macOS 아이콘 빌드 |
 | 그래프 | 커밋/브랜치/원격/태그, 부모 연결, WIP, 선택·필터·키보드, 컨텍스트 메뉴 |
+| 프로젝트 | 상단 +/탭, 프로젝트별 독립 요청·선택·초안, 최근 프로젝트, 데스크톱 재실행 시 탭 복원 |
 | 기본 Git | Clone/Init/Open, Stage/Unstage/Commit, Branch CRUD, Remote CRUD, Fetch/Prune/Pull(ff-only)/Push |
 | 커밋 비교 | 파일별 Before/After, 줄 정렬·변경 색상·가상화·동기 스크롤·확대, 병합 부모 선택, 임의 두 참조/Shift+클릭 비교 |
 | 고급 변경 | 블록·줄 Stage/Unstage, 오래된 Diff 거부, 파일 편집·외부 변경 감지·심볼릭 링크 차단, 좌우 Diff, Ignore |
@@ -25,7 +26,7 @@ GitHub는 사용자 기기의 `gh` 설치/로그인이 필요하며 OAuth UI는 
 - 복구 가능한 변경 폐기, 이미지/Markdown 미리보기, 확장된 Diff 설정.
 - Merge-preserving rebase·Reword, 모든 작업의 undo/redo journal, 안전한 force-with-lease UI.
 - Gitflow 전체 흐름, 내장 터미널, 다중 프로필, 고급 Submodule/LFS 관리.
-- 즐겨찾기·여러 저장소 탭·로컬 워크스페이스, 딥링크, 테마·단축키 설정, 자동 갱신.
+- 즐겨찾기·프로젝트 그룹, 딥링크, 다크 테마·단축키 설정, 파일 감시 자동 갱신.
 - Windows/Linux 패키지, macOS 공증 및 수동 실기기 QA.
 
 ## 남은 외부 서비스·팀 기능
@@ -40,7 +41,7 @@ GitHub는 사용자 기기의 `gh` 설치/로그인이 필요하며 OAuth UI는 
 
 ## 검증 범위
 
-- 로컬 테스트 18개 통과: 임시 Git 저장소 기반 동작, CLI 인자 검증, HTTP Origin/토큰/CSP.
+- 0.4 로컬 테스트 21개: 임시 Git 저장소 기반 동작, CLI 인자 검증, HTTP Origin/토큰/CSP.
 - 최종 변경 브랜치의 Linux UI CI 통과: 저장소/그래프/컨텍스트 메뉴/아이콘/CSS/브랜치/부분 스테이징/편집/실제 Fixup 리베이스.
 - macOS 릴리스 워크플로는 테스트와 UI 검증 후 arm64/x64 ZIP·DMG를 만들고 ad-hoc 서명을 검사합니다. 개별 실행 결과는 Actions에서 확인합니다.
 - GitHub 실제 계정으로 게시하는 기능, 사용자 기기 SSH/서명, 수동 macOS UI는 별도 검증이 남아 있습니다.

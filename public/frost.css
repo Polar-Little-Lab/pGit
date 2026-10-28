@@ -1,0 +1,22 @@
+/* Polar UI Frost 0.1.0 — sourced from design-system/tokens/frost.json. */
+:root{
+  --polar-canvas: #f3f8fc;
+  --polar-surface: #ffffff;
+  --polar-soft: #e7eff6;
+  --polar-text: #213347;
+  --polar-muted: #586d80;
+  --polar-border: #c8d8e5;
+  --polar-accent: #32678c;
+  --polar-accentHover: #285573;
+  --polar-danger: #b44848;
+  --polar-success: #287761;
+  --polar-warning: #94601f;
+  --polar-disabled: #8192a0;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --space-xxl: 32px;
+  --canvas:var(--polar-canvas);--surface:var(--polar-surface);--soft:var(--polar-soft);--text:var(--polar-text);--muted:var(--polar-muted);--border:var(--polar-border);--accent:var(--polar-accent);--danger:var(--polar-danger);
+}

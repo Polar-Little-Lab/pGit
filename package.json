@@ -1,6 +1,6 @@
 {
   "name": "pgit",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -12,7 +12,7 @@
     "desktop": "electron .",
     "dist:mac": "electron-builder --mac zip dmg --arm64 --x64 --publish never",
     "predist:mac": "node scripts/build-icons.cjs",
-    "test:ui": "node test/ui.mjs"
+    "test:ui": "node test/ui.mjs && node test/ui-tabs.mjs && node test/ui-workflow.mjs && node test/ui-language.mjs && node test/ui-diff-editor.mjs"
   },
   "main": "desktop/main.cjs",
   "description": "Polar Frost local Git client",
@@ -34,11 +34,11 @@
       "advanced.mjs",
       "scripts/sequence-editor.cjs",
       "providers.mjs",
-      "public/index.html",
       "public/*.js",
       "public/*.css",
-      "public/logo.svg",
-      "comparison.mjs"
+      "public/*.svg",
+      "comparison.mjs",
+      "public/*.html"
     ],
     "mac": {
       "category": "public.app-category.developer-tools",

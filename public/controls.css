@@ -1,0 +1,190 @@
+/* Shared Frost interaction rules. Loaded last in both shell and workspace.
+   Segments choose one value; toggles enable independent options; actions execute.
+   Dense chrome uses 28px controls, forms use 36px, all share state and focus. */
+:root {
+  --control-height:28px;
+  --control-radius:4px;
+  --control-bg:#f8fbfd;
+  --control-hover:#e7f0f7;
+  --control-selected:#dcecf6;
+  --control-selected-border:#9abdd3;
+  --control-border:var(--polar-border);
+}
+button,input,textarea,select{font-family:inherit}
+button{border-radius:var(--control-radius)}
+button:disabled{opacity:.45;cursor:default}
+button:not(:disabled):hover{background-color:var(--control-hover)}
+button.primary:not(:disabled){background:var(--polar-accent);border-color:var(--polar-accent);color:#fff}
+button.primary:not(:disabled):hover{background:var(--polar-accentHover)}
+:where(button,input,textarea,select,summary,[tabindex]):focus-visible{outline:2px solid var(--polar-accent);outline-offset:2px}
+/* Every compact command uses the same baseline, corner and type size. */
+body :is(.diff-controls,.compare-bar,.file-actions) button,
+body .working-review .bar .file-actions button,
+body .language-switch,body .compare-close {
+  height:var(--control-height);border-radius:var(--control-radius);
+  padding:0 8px;font-size:11px;line-height:1.2;
+  border:1px solid var(--control-border);background:var(--control-bg);
+  font-weight:500;white-space:nowrap;flex-shrink:0;
+}
+body .idea-diff .diff-controls{gap:8px;padding:6px 10px;min-height:40px}
+body .idea-diff .diff-controls .diff-icon{width:28px;min-width:28px;padding:0;border-color:transparent;font-size:18px;background:transparent}
+/* Exclusive choices have one enclosing border; individual toggles have a check. */
+body .ui-segmented{
+  display:inline-flex;align-items:stretch;flex-shrink:0;gap:0;padding:0;margin:0;
+  height:var(--control-height);border:1px solid var(--control-border);
+  border-radius:var(--control-radius);background:var(--control-bg);overflow:hidden;
+}
+body .ui-segmented>button,body .idea-diff .diff-controls .ui-segmented>button{
+  height:100%;min-height:0;border:0;border-radius:0;margin:0;padding:0 9px;
+  background:transparent;color:var(--polar-text);font-size:11px;font-weight:500;box-shadow:none;
+}
+body .ui-segmented>button+button,body .idea-diff .diff-controls .ui-segmented>button+button{border-left:1px solid var(--control-border)}
+body .ui-segmented>button[aria-pressed=true],body .idea-diff .diff-controls .ui-segmented>button[aria-pressed=true],
+body .idea-diff .diff-controls .ui-toggle[aria-pressed=true]{
+  background:var(--control-selected);color:var(--polar-accent);font-weight:500;
+}
+body .ui-segmented>button:focus-visible{outline-offset:-2px}
+body .idea-diff .diff-controls .ui-toggle{display:inline-flex;align-items:center;gap:6px}
+body .idea-diff .diff-controls .ui-toggle:before{
+  content:'';display:block;width:12px;height:12px;flex-shrink:0;
+  background:currentColor;opacity:0;
+  mask:url("/check.svg") center/contain no-repeat;
+}
+body .idea-diff .diff-controls .ui-toggle[aria-pressed=true]{border-color:var(--control-selected-border)}
+body .idea-diff .diff-controls .ui-toggle[aria-pressed=true]:before{opacity:1}
+body :is(.diff-controls,.file-actions,.compare-bar) button:not(:disabled):hover,
+body .ui-segmented>button:not(:disabled):hover{background-color:var(--control-hover)}
+/* One disclosure and one branch icon at every level; nesting alone shows depth. */
+.shell>aside :is(.remote-group,.branch-folder,.branch-section){margin:0}
+.shell>aside :is(.remote-group,.branch-folder,.branch-section)>summary{
+  display:flex;align-items:center;gap:8px;list-style:none;cursor:pointer;
+  min-height:30px;padding:4px 8px;border-radius:var(--control-radius);
+  font-size:12px;font-weight:500;line-height:20px;color:var(--polar-muted);
+}
+.shell>aside :is(.remote-group,.branch-folder,.branch-section)>summary::-webkit-details-marker{display:none}
+.shell>aside :is(.remote-group,.branch-folder,.branch-section)>summary::marker{content:''}
+.shell>aside :is(.remote-group,.branch-folder,.branch-section)>summary:before{
+  content:'';width:12px;height:12px;flex:0 0 12px;
+  background:currentColor;transform:rotate(0deg);
+  mask:url("/chevron.svg") center/contain no-repeat;
+}
+.shell>aside :is(.remote-group,.branch-folder,.branch-section)[open]>summary:before{transform:rotate(90deg)}
+.shell>aside :is(.remote-group,.branch-folder,.branch-section)>summary:hover{background:var(--control-hover)}
+.shell>aside .folder-count{font-size:10px;color:var(--polar-muted);font-variant-numeric:tabular-nums}
+.shell>aside .branch-folder-children{padding-left:8px;margin-left:14px;border-left:1px solid var(--control-border)}
+.shell>aside :is(.branchitem,.remote-branch){
+  display:flex;align-items:center;gap:8px;height:30px;min-height:30px!important;
+  padding:4px 8px!important;font-size:12px!important;line-height:20px;
+}
+.shell>aside :is(.branchitem,.remote-branch):before{
+  content:'';display:block;width:12px;height:12px;flex:0 0 12px;margin:0;
+  background:var(--polar-accent);
+  mask:url("/branch.svg") center/contain no-repeat;
+}
+.shell>aside :is(.branchitem,.remote-branch).active{background:var(--control-selected)!important;color:var(--polar-accent)}
+/* Forms, selectors and command lists share spacing and keyboard feedback. */
+body dialog{border-radius:8px;border-color:var(--control-border)}
+body dialog :is(input:not([type=checkbox]),select,textarea):not(.code-editor){
+  border:1px solid var(--control-border);border-radius:var(--control-radius);background:var(--control-bg);font-size:12px;
+}
+body dialog input:not([type=checkbox]):not(.native-select-source){height:36px;padding:0 10px}
+body dialog button:not(.overview-marker):not(.diff-fold):not(.frost-select-option){border-radius:var(--control-radius)}
+body :is(.command-body,.dialog-actions,.path-field)>button{height:36px;font-size:12px}
+body :is(.command-option,.frost-select-option){border-radius:var(--control-radius);font-size:12px}
+body .frost-select-trigger{border-color:var(--control-border);border-radius:var(--control-radius);background:var(--control-bg)}
+body .frost-select-option[aria-selected=true]{background:var(--control-selected);color:var(--polar-accent)}
+body .project-options{display:flex;width:100%;height:36px;margin-bottom:20px}
+body .project-options>button{font-size:12px}
+body input[type=checkbox]{accent-color:var(--polar-accent)}
+
+.shell>aside .branch-section{margin-top:12px}
+.shell>aside .branch-section>summary{font-size:10px;font-weight:600;letter-spacing:.4px}
+.shell>aside .branch-label{display:block;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.shell>aside .branchitem.checked-out:after{margin-left:auto;flex-shrink:0}
+
+body .frost-select-trigger:after{content:'';width:12px;height:12px;background:currentColor;mask:url('/chevron.svg') center/contain no-repeat;transform:rotate(90deg)}
+body dialog .ui-segmented>button{border-radius:0}
+body .idea-diff .diff-controls{flex-wrap:wrap;overflow-x:visible}
+/* Section children follow exactly the same nesting step as branch folders. */
+.shell>aside .branch-section-body{margin-left:14px;padding-left:8px;border-left:1px solid var(--control-border)}
+/* Dialogs size to their task, rather than giving short menus an editor canvas. */
+body dialog{
+  inset:0;margin:auto;width:440px;max-width:calc(100vw - 32px);
+  max-height:calc(100vh - 32px);height:fit-content;min-height:0;
+  padding:0;overflow:hidden;border-radius:8px;background:var(--polar-surface);
+}
+body dialog[open]{display:flex;flex-direction:column}
+body dialog>.bar{flex-shrink:0;min-height:44px;padding:8px 14px;gap:12px;background:var(--polar-canvas)}
+body dialog>.bar>strong{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px}
+body dialog>.bar>button{height:28px;padding:0 9px;font-size:11px;flex-shrink:0}
+body dialog :is(.command-body,.advanced-body,.body){padding:14px;min-height:0;max-height:calc(100vh - 108px);overflow:auto}
+body dialog :is(.command-body,.advanced-body) p{font-size:12px;line-height:1.5;margin:0 0 12px}
+body dialog .command-notice{padding:8px 10px;border-radius:4px}
+body dialog .command-error:empty,body dialog #projectError:empty{display:none}
+body dialog .command-body label,body dialog .advanced-body form label{margin:10px 0 5px;font-size:12px}
+body dialog .command-body label:first-child,body dialog .advanced-body form label:first-child{margin-top:0}
+body dialog .command-body input{margin:0 0 10px}
+body dialog .command-body>.frost-select{margin:0 0 10px}
+body dialog .command-body>.frost-select .frost-select-trigger{height:34px}
+body dialog :is(.command-body,.advanced-body) button.primary{display:block;margin:12px 0 0 auto;height:34px;padding:0 14px;font-size:12px}
+body dialog .command-option{height:auto;min-height:32px;padding:6px 9px;margin:2px 0;text-align:left;overflow-wrap:anywhere}
+body dialog .advanced-body>.command-option{margin:2px 0}
+body dialog .advanced-body>p:last-child{margin-bottom:0}
+body #commandDialog{width:460px}
+body #commandDialog[data-dialog-kind=palette]{width:520px;top:clamp(24px,10vh,96px);bottom:auto;margin:0 auto}
+body #commandDialog[data-dialog-kind=palette] .command-body{max-height:min(560px,72vh)}
+body #commandDialog[data-dialog-kind=output]{width:900px}
+body dialog .command-output{margin:0;padding:14px;min-height:0;max-height:70vh;overflow:auto;font-size:12px}
+body .advanced-dialog{width:460px}
+body .advanced-dialog[data-dialog-kind=menu]{width:340px}
+body .advanced-dialog[data-dialog-kind=list]{width:540px}
+body .advanced-dialog[data-dialog-kind=editor]{width:940px}
+body .advanced-dialog[data-dialog-kind=wide]{width:1080px}
+body .advanced-dialog .code-editor{display:block;height:clamp(200px,45vh,480px);min-height:120px;max-height:65vh;margin:0;padding:10px;border-radius:4px}
+body .advanced-dialog .conflict-sides{gap:8px}
+body .advanced-dialog .conflict-sides h3{font-size:11px;margin:0 0 6px}
+body .advanced-dialog .conflict-sides pre{min-height:80px;max-height:22vh;margin:0;padding:8px}
+body .advanced-dialog .hunk-card{margin:10px 0;padding:10px;border-radius:4px}
+body .advanced-dialog .hunk-card:first-child{margin-top:0}
+body .advanced-dialog .hunk-card:last-child{margin-bottom:0}
+body .advanced-dialog .hunk-card .primary{margin:0 0 8px auto}
+body .comparison-dialog,body .diff-editor-dialog{width:min(1400px,calc(100vw - 32px))!important;height:min(860px,calc(100vh - 48px));max-height:calc(100vh - 32px)}
+body .diff-editor-dialog .advanced-body{padding:0;max-height:none;overflow:hidden}
+body .comparison-dialog .is-expanded{min-height:0}
+body .branch-drop-dialog{width:400px;padding:16px}
+body .branch-drop-dialog h2{font-size:15px;margin:0 0 10px}
+body .branch-drop-dialog p{font-size:12px;margin:0 0 10px}
+body .branch-drop-dialog .branch-route{padding:8px}
+body .branch-drop-dialog>button:last-child{align-self:flex-end;margin-top:8px}
+body #projectDialog,body #closeTabDialog{width:460px;padding:18px}
+body #projectDialog>form{min-height:0;overflow:auto}
+body dialog .dialog-heading{margin-bottom:14px;gap:12px}
+body dialog .dialog-heading h2{font-size:17px;line-height:1.4;margin:0;letter-spacing:0}
+body dialog .dialog-heading .eyebrow{display:none}
+body dialog .project-options{margin-bottom:14px;height:32px}
+body dialog .dialog-actions{margin-top:16px;gap:8px}
+body #projectDialog label{margin:10px 0 5px}
+body #projectHelp{margin:8px 0 0;font-size:11px}
+body #closeTabDialog p{margin:0;font-size:12px;line-height:1.6}
+@media(max-width:700px){body .conflict-sides{grid-template-columns:1fr}body .conflict-sides pre{max-height:100px}}
+/* Quiet editor chrome: mode groups, then independent view options. */
+body .idea-diff .diff-controls{gap:4px;padding:5px 10px;background:var(--polar-canvas);min-height:38px}
+body .idea-diff .diff-controls .ui-segmented{
+  height:26px;border:0;border-radius:4px;background:var(--polar-soft);
+  padding:2px;margin-right:10px;gap:2px;overflow:visible;
+}
+body .idea-diff .diff-controls .ui-segmented>button{
+  height:22px;padding:0 8px;font-size:11px;border:0;border-radius:3px;
+  color:var(--polar-muted);background:transparent;
+}
+body .idea-diff .diff-controls .ui-segmented>button+button{border:0}
+body .idea-diff .diff-controls .ui-segmented>button[aria-pressed=true]{background:var(--polar-surface);color:var(--polar-accent);box-shadow:0 1px 2px #21334718}
+body .idea-diff .diff-controls .ui-toggle{
+  height:26px;padding:0 8px;border:0;border-radius:3px;
+  background:transparent;color:var(--polar-muted);font-weight:400;
+}
+body .idea-diff .diff-controls .ui-toggle:before{display:none}
+body .idea-diff .diff-controls .ui-toggle[aria-pressed=true]{background:var(--control-selected);color:var(--polar-accent);box-shadow:inset 0 -2px var(--control-selected-border);font-weight:500}
+body .idea-diff .diff-controls .diff-icon{height:26px;min-width:24px;width:24px;font-size:18px;color:var(--polar-muted)}
+body .idea-diff .diff-controls .diff-icon:nth-of-type(2){margin-right:8px}
+body .idea-diff .diff-count{padding-left:8px}
