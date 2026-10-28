@@ -1,5 +1,5 @@
 import {mergePreview} from './merge-preview.mjs';
-import {git, snapshot, openRepo} from './git.mjs';
+import {git, snapshot, openRepo, parseStatus} from './git.mjs';
 import {access, mkdir, realpath} from 'node:fs/promises';
 import path from 'node:path';
 
@@ -20,12 +20,27 @@ export async function extras(root){
  const stashes=(await git(root,['stash','list','--format=%H%x09%gd%x09%gs'])).trim().split('\n').filter(Boolean).map(s=>{const [hash,name,...title]=s.split('\t');return {hash,name,title:title.join('\t')}});
  const upstream=await git(root,['rev-parse','--abbrev-ref','--symbolic-full-name','@{upstream}']).then(s=>s.trim(),()=>null);
  const counts=upstream?await git(root,['rev-list','--left-right','--count','HEAD...@{upstream}']).then(s=>s.trim().split(/\s+/).map(Number),()=>[0,0]):[0,0];
- const worktrees=(await git(root,['worktree','list','--porcelain','-z'])).split('\0\0').filter(Boolean).map(block=>{const fields=block.split('\0');return {path:fields.find(x=>x.startsWith('worktree '))?.slice(9),branch:fields.find(x=>x.startsWith('branch '))?.slice(7),locked:fields.some(x=>x.startsWith('locked'))}});
+ const worktrees=await worktreeEntries(root);
  return {remotes,refs,stashes,upstream,ahead:counts[0],behind:counts[1],operation,worktrees};
+}
+export async function worktreeEntries(root){
+ return (await git(root,['worktree','list','--porcelain','-z'])).split('\0\0').filter(Boolean).map((block,index)=>{
+  const fields=block.split('\0'),value=key=>fields.find(x=>x.startsWith(key+' '))?.slice(key.length+1);
+  return {path:value('worktree'),branch:value('branch')||null,head:value('HEAD')||null,main:index===0,detached:fields.includes('detached'),bare:fields.includes('bare'),locked:fields.some(x=>x==='locked'||x.startsWith('locked ')),lockReason:value('locked')||'',prunable:fields.some(x=>x==='prunable'||x.startsWith('prunable '))};
+ });
+}
+export async function worktreeOverview(root){
+ const entries=await worktreeEntries(root),result=[];
+ for(let i=0;i<entries.length;i+=4)result.push(...await Promise.all(entries.slice(i,i+4).map(async item=>{
+  if(item.bare)return {...item,current:false,changes:null,error:null};
+  try{const current=await realpath(item.path)===await realpath(root);const changes=parseStatus(await git(item.path,['status','--porcelain=v1','-z','--untracked-files=all'])).length;return {...item,current,changes,error:null}}
+  catch{return {...item,current:false,changes:null,error:'작업 폴더 상태를 읽을 수 없습니다.'}}
+ })));
+ return result;
 }
 export async function fullState(root,limit){return {...await snapshot(root,limit),...await extras(root)}}
 export async function createRepository(kind,data){const target=text(data.path,'대상 절대 경로');if(!path.isAbsolute(target))throw Error('절대 경로가 필요합니다.');if(kind==='init'){await mkdir(target,{recursive:true});if(await git(target,['rev-parse','--show-toplevel']).then(()=>true,()=>false))throw Error('이미 Git 저장소 안에 있습니다.');await git(target,['init','-b','main'])}else {if(await exists(target))throw Error('복제 대상은 아직 존재하지 않는 폴더여야 합니다.');await git(path.dirname(target),['clone','--',remoteURL(data.url),target]);}return openRepo(target)}
-export const readOperations=new Set(['mergePreview','stashDiff','fileHistory','blame','compare','reflog','remoteList','worktreeList','trackedFiles']);
+export const readOperations=new Set(['worktreeOverview','mergePreview','stashDiff','fileHistory','blame','compare','reflog','remoteList','worktreeList','trackedFiles']);
 export async function operate(root,action,d={}){
  switch(action){
  case 'mergePreview':return mergePreview(root,d);
@@ -53,9 +68,10 @@ export async function operate(root,action,d={}){
  case 'trackedFiles':return (await git(root,['ls-files','-z'])).split('\0').filter(Boolean);
  case 'compare':return git(root,['diff','--stat','--patch','--no-ext-diff','--no-textconv',await ref(root,d.from),await ref(root,d.to),'--']);
  case 'reflog':return git(root,['reflog','-n','100','--date=iso']);
+ case 'worktreeOverview':return worktreeOverview(root);
  case 'worktreeList':return git(root,['worktree','list']);
  case 'worktreeAdd':{await idle(root);const target=text(d.path,'절대 경로');if(!path.isAbsolute(target)||await exists(target))throw Error('존재하지 않는 절대 경로를 입력하세요.');await git(root,['worktree','add','-b',await branchName(root,d.name),'--',target,await ref(root,d.ref||'HEAD')]);break}
- case 'worktreeRemove':{const target=await realpath(text(d.path,'worktree 경로'));if(target===await realpath(root))throw Error('현재 작업 폴더는 삭제할 수 없습니다.');await git(root,['worktree','remove','--',target]);break}
+ case 'worktreeRemove':{const target=await realpath(text(d.path,'worktree 경로'));const entries=await worktreeEntries(root);let item;for(const w of entries){if(await realpath(w.path).then(p=>p===target,()=>false)){item=w;break}}if(!item)throw Error('등록된 worktree가 아닙니다.');if(item.main||target===await realpath(root))throw Error('기본 또는 현재 작업 폴더는 삭제할 수 없습니다.');if(item.locked)throw Error('잠금을 해제한 뒤 삭제하세요.');await git(root,['worktree','remove','--',target]);break;}
  default:throw Error('지원하지 않는 작업입니다.');
  }
  return null;

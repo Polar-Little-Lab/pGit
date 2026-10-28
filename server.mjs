@@ -1,6 +1,6 @@
 import http from 'node:http';
 import {randomBytes} from 'node:crypto';
-import {readFile} from 'node:fs/promises';
+import {readFile,realpath} from 'node:fs/promises';
 import * as git from './git.mjs';
 import {fullState,operate,readOperations,createRepository} from './operations.mjs';
 import {advanced,advancedActions,advancedReads} from './advanced.mjs';
@@ -8,7 +8,7 @@ import {provider,providerActions} from './providers.mjs';
 import {comparisonFiles,comparisonFile,workingComparison} from './comparison.mjs';
 const token=randomBytes(32).toString('hex');
 const workspaces=new Map(), busyWorkspaces=new Set(), busyRoots=new Set();
-const assets=new Set(['merge-preview.js','conflict-model.js','conflict-editor.js','settings.js','themes.css','controls.css','check.svg','chevron.svg','branch.svg','changes.js','workspace.js','workspace.css','logo.svg','advanced.js','providers.js','diff-layout.js','comparison.js','comparison.css','shell.js','arctic.js','arctic.css','shell.css','frost.css','graph-workspace.js','frost-select.js','workflow-tools.js','i18n.js','code-syntax.js','diff-viewer.js']);
+const assets=new Set(['worktrees.js','merge-preview.js','conflict-model.js','conflict-editor.js','settings.js','themes.css','controls.css','check.svg','chevron.svg','branch.svg','changes.js','workspace.js','workspace.css','logo.svg','advanced.js','providers.js','diff-layout.js','comparison.js','comparison.css','shell.js','arctic.js','arctic.css','shell.css','frost.css','graph-workspace.js','frost-select.js','workflow-tools.js','i18n.js','code-syntax.js','diff-viewer.js']);
 const server=http.createServer(async(req,res)=>{
  res.setHeader('Cache-Control','no-store');res.setHeader('X-Content-Type-Options','nosniff');
  const host=`127.0.0.1:${server.address().port}`;
@@ -42,6 +42,7 @@ const server=http.createServer(async(req,res)=>{
     if(!root)throw Error('먼저 저장소를 여세요.');
     if(busyRoots.has(root))throw Error('같은 저장소에서 다른 작업이 진행 중입니다.');
     busyRoots.add(root);lockedRoot=root;
+    if(action==='worktreeRemove'){const target=await realpath(data.path);if([...workspaces.values()].includes(target))throw Error('열려 있는 프로젝트 탭을 먼저 닫으세요.');}
     if(['open','init','clone'].includes(action)){result=await fullState(root);workspaces.set(workspaceId,root)}
     else switch(action){
      case 'workingComparison':result=await workingComparison(root,data);break;

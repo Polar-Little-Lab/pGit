@@ -1,6 +1,32 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+워크트리 만들기|Create worktree
+등록된 worktree가 아닙니다.|This worktree is not registered.
+워크트리|Worktrees
+워크트리 관리|Manage worktrees
+현재 프로젝트|Current project
+기본 작업 폴더|Main worktree
+잠김|Locked
+변경 없음|No changes
+프로젝트 탭으로 열기|Open in project tab
+작업 폴더 열기|Open working directory
+잠금|Lock
+잠금 해제|Unlock
+삭제|Delete
+작업 폴더 삭제|Delete working directory
+만들기|Create
+시작 참조|Starting reference
+새 브랜치|New branch
+새 작업 폴더 절대 경로|Absolute path for new worktree
+이 작업 폴더를 삭제합니다. 브랜치와 커밋은 유지됩니다.|Delete this working directory. The branch and commits are kept.
+변경이 없고 잠금이 해제된 작업 폴더만 삭제할 수 있습니다.|Only clean, unlocked working directories can be deleted.
+열려 있는 프로젝트 탭을 먼저 닫으세요.|Close the open project tab first.
+기본 또는 현재 작업 폴더는 삭제할 수 없습니다.|The main or current worktree cannot be deleted.
+잠금을 해제한 뒤 삭제하세요.|Unlock the worktree before deleting it.
+작업 폴더 상태를 읽을 수 없습니다.|Cannot read the working directory status.
+커밋 초안을 정리한 뒤 작업 폴더를 전환하세요.|Finish the commit draft before switching working directories.
+
 병합 전 충돌 검사|Check merge conflicts
 검사할 참조|Reference to inspect
 검사|Inspect
@@ -403,6 +429,7 @@ const en=Object.fromEntries(pairs.trim().split('\n').map(line=>line.split('|')))
 const reverse=Object.fromEntries(Object.entries(en).map(([key,value])=>[value,key]));
 const ko={'Stash 만들기':'스태시 저장','Stash 적용':'스태시 적용','Stash 적용 후 제거':'스태시 적용 후 삭제','Stash Pop':'스태시 적용 후 삭제','Stash 삭제':'스태시 삭제','Stash Diff':'스태시 변경 보기',Stash:'스태시','Cherry-pick':'체리픽',Revert:'되돌림 커밋',Blame:'줄별 작성 이력',Reflog:'참조 이동 기록',WORKSPACE:'작업 공간',LOCAL:'로컬 브랜치',REMOTE:'원격 브랜치',TAGS:'태그',STASHES:'스태시',COMMIT:'커밋',NEWPROJECT:'새 프로젝트','NEW PROJECT':'새 프로젝트','GitHub Pull Requests':'GitHub 풀 리퀘스트','GitHub Issues':'GitHub 이슈','Worktree 목록':'워크트리 목록','Worktree 만들기':'워크트리 만들기','Worktree 제거':'워크트리 제거','Worktree 잠금':'워크트리 잠금','Worktree 잠금 해제':'워크트리 잠금 해제','Submodule 상태':'서브모듈 상태','Submodule 초기화·갱신':'서브모듈 초기화·갱신','Git LFS 상태':'Git LFS 상태'};
 const templates=[
+ [/^변경 (\d+)개$/,n=>`${n} changes`],
  [/^남은 충돌 (\d+)개$/,n=>`${n} conflicts remaining`],
  [/^충돌 (\d+)$/,n=>`Conflict ${n}`],
  [/^검색 결과 (\d+)개 \/ (\d+)개$/,(n,total)=>`${n} results / ${total} commits`],
