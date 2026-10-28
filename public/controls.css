@@ -226,3 +226,44 @@ body .worktree-dialog{width:760px}
 .worktree-confirm{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:12px}
 .worktree-confirm p{margin:0 0 10px}.worktree-confirm button+button{margin-left:8px;color:var(--danger)}
 .worktree-dialog .command-error:empty{display:none}
+/* History filtering and selection use the same compact control spacing. */
+body .filterbar{flex-wrap:wrap}
+.graph-visibility-tools,.history-selection-tools{display:flex;align-items:center;gap:8px;font-size:11px;min-width:0}
+.graph-visibility-tools{margin-left:auto}.graph-visibility-tools>.literal-data{max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.graph-visibility-tools button,.history-selection-tools button{height:26px;padding:0 8px;font-size:11px;border-radius:4px}
+.history-selection-tools{padding:6px 12px;background:var(--control-selected);border-bottom:1px solid var(--border)}
+.history-selection-tools>span{margin-right:auto}
+.shell>aside .graph-ref-hidden{opacity:.5;text-decoration:line-through}
+.shell>aside .graph-ref-solo{box-shadow:inset 2px 0 var(--accent);background:var(--control-selected)}
+.cherry-pick-order{padding-left:22px;margin:10px 0;max-height:320px;overflow:auto}
+.cherry-pick-order li{padding:6px 0;font-size:12px;overflow-wrap:anywhere}
+.cherry-pick-order code{margin-right:10px;color:var(--muted);font-size:11px}
+.pgit-icon{display:inline-block;width:16px;height:16px;flex:0 0 16px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle}
+.icon-control{display:inline-flex;align-items:center;justify-content:center;gap:7px}
+button.nav.icon-control{justify-content:flex-start}
+body .primary-tools .pgit-icon{width:18px;height:18px;flex-basis:18px}
+body .worktree-dialog{width:760px}
+.worktree-list{border-top:1px solid var(--border)}
+.worktree-card{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:18px;row-gap:4px;border:0;border-bottom:1px solid var(--border);border-radius:0;background:transparent;padding:14px 0;margin:0}
+.worktree-card:last-child{border-bottom:0;padding-bottom:0}
+.worktree-card-heading{grid-column:1;justify-content:flex-start}
+.worktree-card-heading strong{margin-right:0}
+.worktree-card>.worktree-path,.worktree-card>.worktree-status{grid-column:1;margin:0}
+.worktree-card>.worktree-actions{grid-column:2;grid-row:1/4;display:grid;grid-template-columns:1fr 1fr;gap:6px;align-self:center}
+.worktree-card>.worktree-actions>button:first-child{grid-column:1/-1}
+.worktree-card>.worktree-confirm{grid-column:1/-1}
+.worktree-card>.worktree-actions>button:last-child{color:var(--danger)}
+.worktree-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px;background:var(--canvas)}
+.worktree-form[hidden]{display:none}.worktree-form label{margin:0}
+.worktree-form label:nth-child(2){grid-column:1/-1;grid-row:2}
+.worktree-form>.worktree-actions{grid-column:1/-1;justify-content:flex-end}
+body .worktree-form button.primary{margin:0;height:30px}
+@media(max-width:660px){.worktree-card{grid-template-columns:1fr}.worktree-card>.worktree-actions{grid-column:1;grid-row:auto;display:flex;flex-wrap:wrap;justify-content:flex-end;margin-top:6px}.worktree-form{grid-template-columns:1fr}.worktree-form label:nth-child(2){grid-row:auto}}
+.tab-mark .pgit-icon{width:14px;height:14px}
+@media(prefers-reduced-motion:no-preference){.tab-mark.is-busy .pgit-icon{animation:icon-spin 1.5s linear infinite}@keyframes icon-spin{to{transform:rotate(360deg)}}}
+body #commandDialog[data-dialog-kind=list]{width:540px}
+body .diff-column-header>.pgit-icon{width:13px;height:13px;flex-basis:13px;color:var(--muted)}
+body dialog .close-control{display:inline-flex;align-items:center;justify-content:center;flex:0 0 28px;width:28px;min-width:28px;height:28px;padding:0!important;margin-left:auto;border:0;background:transparent;color:var(--muted);border-radius:4px}
+body dialog .close-control:hover{background:var(--control-hover);color:var(--text)}
+body dialog .close-control:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+body .is-expanded .compare-bar{padding-right:48px}

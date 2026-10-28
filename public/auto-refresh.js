@@ -8,7 +8,8 @@
   return request(action,data).finally(()=>pending--);
  };
  function eligible(){
-  return state&&!working&&!pending&&!document.hidden&&
+  return state&&!working&&!pending&&!document.hidden&&!document.body.dataset.settings&&
+   (!window.frameElement||!parent.document.body.dataset.settings)&&
    !window.frameElement?.hidden&&!document.querySelector('dialog[open]');
  }
  function schedule(delay=3000){clearTimeout(timer);timer=setTimeout(refresh,delay)}

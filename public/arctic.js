@@ -20,10 +20,8 @@ const workspaceHeading=document.querySelector('.top');workspaceHeading.classList
 const repoHeading=el('span','저장소를 여세요','repo-heading');workspaceHeading.prepend(repoHeading);
 const branchBadge=$('branchPicker');branchBadge.title='현재 체크아웃된 브랜치';
 const arcticToolbar=document.querySelector('.git-toolbar');arcticToolbar.classList.add('workspace-toolbar');
-const symbols={fetch:'↓',pull:'⇣',push:'⇡',branchCreate:'⑂',stashSave:'▣'};
-for(const b of arcticToolbar.querySelectorAll('[data-repo-command]')){const span=el('span',symbols[b.dataset.repoCommand]||'','tool-symbol');span.setAttribute('aria-hidden','true');b.prepend(span)}
 const undo=el('button','↶ 마지막 커밋 취소');undo.title='마지막 커밋을 취소하고 변경을 스테이징에 남깁니다.';undo.dataset.repoCommand='undoCommit';undo.onclick=()=>openCommand('undoCommit');arcticToolbar.append(undo);
-const refresh=el('button','↻');refresh.setAttribute('aria-label','저장소 새로고침');refresh.title='저장소 새로고침';refresh.onclick=()=>state&&mutate('state');arcticToolbar.append(refresh);
+const refresh=el('button');PgitIcons.label(refresh,'refresh');refresh.setAttribute('aria-label','저장소 새로고침');refresh.title='저장소 새로고침';refresh.onclick=()=>state&&mutate('state');arcticToolbar.append(refresh);
 const switchView=el('button','그래프 보기','return-graph');switchView.onclick=()=>tab('history');workingReview.prepend(switchView);
 const side=document.querySelector('.shell > aside');const captions=[...side.querySelectorAll(':scope > .caption')];const repositoryCaption=captions.find(c=>c.textContent==='REPOSITORY');if(repositoryCaption){let node=repositoryCaption.nextSibling;while(node){const next=node.nextSibling;node.remove();node=next}repositoryCaption.remove()}
 const sidebarFoot=el('div',undefined,'sidebar-foot');sidebarFoot.append(el('span','POLAR WORKSPACE'),el('small','코드의 흐름을 더 선명하게.'));side.append(sidebarFoot);

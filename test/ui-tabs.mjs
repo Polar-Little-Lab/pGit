@@ -18,7 +18,7 @@ try{
  await first.locator('.commit-file[data-name="app.txt"]').click();
  await first.locator('.diff-added code').filter({hasText:'aurora-api original'}).waitFor();
  assert.equal(await first.locator('#history').isVisible(),false);
- await first.getByRole('button',{name:'← 그래프로 돌아가기',exact:true}).click();
+ await first.getByRole('button',{name:'그래프로 돌아가기',exact:true}).click();
  await first.locator('#changesNav').click();
  assert.equal(await first.locator('#selectedCommitPanel').isVisible(),false);
  assert.equal(await first.getByRole('textbox',{name:'커밋 메시지',exact:true}).inputValue(),'Aurora draft stays here');

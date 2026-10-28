@@ -1,6 +1,31 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+표시할 커밋이 없습니다.|No commits to display.
+
+로컬 브랜치|Local branches
+원격 브랜치|Remote branches
+
+작업 공간으로 돌아가기|Back to workspace
+설정 항목|Settings sections
+테마|Theme
+시스템 설정 사용|Use system appearance
+
+그래프에 표시|Show in graph
+그래프에서 숨기기|Hide in graph
+이 브랜치만 보기|Solo this branch
+단독 보기 종료|Stop soloing
+선택 해제|Clear selection
+선택한 커밋 Cherry-pick|Cherry-pick selected commits
+여러 커밋 선택|Multiple commits selected
+여러 커밋 Cherry-pick|Cherry-pick multiple commits
+적용 순서를 확인하는 중…|Checking application order…
+적용 대상|Target branch
+현재 브랜치에 적용|Apply to current branch
+서로 다른 커밋을 2개에서 100개까지 선택하세요.|Select 2 to 100 distinct commits.
+병합 커밋은 여러 커밋 Cherry-pick에서 제외하세요.|Exclude merge commits from multi-commit cherry-pick.
+현재 브랜치가 변경되었습니다. 적용 대상을 다시 확인하세요.|The current branch changed. Review the target again.
+
 워크트리 만들기|Create worktree
 등록된 worktree가 아닙니다.|This worktree is not registered.
 워크트리|Worktrees
@@ -161,7 +186,7 @@ Git 작업 검색|Search Git commands
 날짜|Date
 불러온 이력에서 메시지, 작성자, SHA 검색|Search loaded history by message, author or SHA
 그래프 보기|Show graph
-← 그래프로 돌아가기|← Back to graph
+그래프로 돌아가기|Back to graph
 작업 중인 변경 보기|Show working changes
 작업 중|Unstaged
 커밋할 변경|Staged
@@ -429,6 +454,8 @@ const en=Object.fromEntries(pairs.trim().split('\n').map(line=>line.split('|')))
 const reverse=Object.fromEntries(Object.entries(en).map(([key,value])=>[value,key]));
 const ko={'Stash 만들기':'스태시 저장','Stash 적용':'스태시 적용','Stash 적용 후 제거':'스태시 적용 후 삭제','Stash Pop':'스태시 적용 후 삭제','Stash 삭제':'스태시 삭제','Stash Diff':'스태시 변경 보기',Stash:'스태시','Cherry-pick':'체리픽',Revert:'되돌림 커밋',Blame:'줄별 작성 이력',Reflog:'참조 이동 기록',WORKSPACE:'작업 공간',LOCAL:'로컬 브랜치',REMOTE:'원격 브랜치',TAGS:'태그',STASHES:'스태시',COMMIT:'커밋',NEWPROJECT:'새 프로젝트','NEW PROJECT':'새 프로젝트','GitHub Pull Requests':'GitHub 풀 리퀘스트','GitHub Issues':'GitHub 이슈','Worktree 목록':'워크트리 목록','Worktree 만들기':'워크트리 만들기','Worktree 제거':'워크트리 제거','Worktree 잠금':'워크트리 잠금','Worktree 잠금 해제':'워크트리 잠금 해제','Submodule 상태':'서브모듈 상태','Submodule 초기화·갱신':'서브모듈 초기화·갱신','Git LFS 상태':'Git LFS 상태'};
 const templates=[
+ [/^선택한 커밋 · (\d+)$/,n=>`Selected commits · ${n}`],
+ [/^숨긴 브랜치 표시 · (\d+)$/,n=>`Show hidden branches · ${n}`],
  [/^변경 (\d+)개$/,n=>`${n} changes`],
  [/^남은 충돌 (\d+)개$/,n=>`${n} conflicts remaining`],
  [/^충돌 (\d+)$/,n=>`Conflict ${n}`],

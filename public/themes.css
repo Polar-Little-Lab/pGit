@@ -1,8 +1,4 @@
 .settings-button{margin-left:auto;height:28px;padding:0 10px;font-size:11px;flex-shrink:0;-webkit-app-region:no-drag}
-body #settingsDialog{width:420px}
-.settings-body section{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 0}
-.settings-body section+section{border-top:1px solid var(--border)}
-.settings-body h3{margin:0;font-size:12px;font-weight:500}
 html[data-theme=dark]{color-scheme:dark;--polar-canvas:#17232f;--polar-surface:#1e2d3b;--polar-soft:#263949;--polar-text:#dde8f0;--polar-muted:#9bb1c2;--polar-border:#3b5366;--polar-accent:#96cce9;--polar-accentHover:#83bedf;--polar-danger:#ed9b96;--control-bg:#213342;--control-hover:#30495d;--control-selected:#35556d;--control-selected-border:#6196b5;--control-border:#3b5366}
 html[data-theme=dark] body{background:var(--canvas);color:var(--text)}
 html[data-theme=dark] :is(header,footer,.project-bar,.workspace-toolbar,.shell>aside,.selected-commit-panel,#changes,.working-review,.history-head,.filterbar,.compare-bar,.diff-controls,.diff-column-header,.diff-file-note,.unified-legend,.selected-commit-heading,.commit-file-heading,.bar,.change-group-title,.review-back,.return-graph){background:var(--canvas)!important;color:var(--text);border-color:var(--border)}

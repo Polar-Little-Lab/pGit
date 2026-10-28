@@ -1,3 +1,4 @@
+import {cherryPickPlan} from './multi-commit.mjs';
 import {mergePreview} from './merge-preview.mjs';
 import {git, snapshot, openRepo, parseStatus} from './git.mjs';
 import {access, mkdir, realpath} from 'node:fs/promises';
@@ -40,7 +41,7 @@ export async function worktreeOverview(root){
 }
 export async function fullState(root,limit){return {...await snapshot(root,limit),...await extras(root)}}
 export async function createRepository(kind,data){const target=text(data.path,'대상 절대 경로');if(!path.isAbsolute(target))throw Error('절대 경로가 필요합니다.');if(kind==='init'){await mkdir(target,{recursive:true});if(await git(target,['rev-parse','--show-toplevel']).then(()=>true,()=>false))throw Error('이미 Git 저장소 안에 있습니다.');await git(target,['init','-b','main'])}else {if(await exists(target))throw Error('복제 대상은 아직 존재하지 않는 폴더여야 합니다.');await git(path.dirname(target),['clone','--',remoteURL(data.url),target]);}return openRepo(target)}
-export const readOperations=new Set(['worktreeOverview','mergePreview','stashDiff','fileHistory','blame','compare','reflog','remoteList','worktreeList','trackedFiles']);
+export const readOperations=new Set(['cherryPickPreview','worktreeOverview','mergePreview','stashDiff','fileHistory','blame','compare','reflog','remoteList','worktreeList','trackedFiles']);
 export async function operate(root,action,d={}){
  switch(action){
  case 'mergePreview':return mergePreview(root,d);
@@ -60,6 +61,12 @@ export async function operate(root,action,d={}){
  case 'stashApply':case 'stashPop':case 'stashDrop':case 'stashDiff':{const stash=(await extras(root)).stashes.find(s=>s.hash===d.hash);if(!stash)throw Error('Stash가 변경되었습니다. 새로고침하세요.');if(action==='stashDiff')return git(root,['stash','show','-p','--include-untracked',stash.name]);await idle(root);if(action!=='stashDrop')await clean(root);await git(root,['stash',action==='stashApply'?'apply':action==='stashPop'?'pop':'drop',stash.name]);break}
  case 'merge':{await idle(root);await clean(root);const target=await ref(root,d.ref);if((d.expectedHead&&d.expectedHead!==await ref(root,'HEAD'))||(d.expectedTarget&&d.expectedTarget!==target))throw Error('검사 이후 브랜치가 변경되었습니다. 다시 검사하세요.');await git(root,['merge','--no-edit',target]);break;}
  case 'rebase':await idle(root);await clean(root);await git(root,['rebase',await ref(root,d.ref)]);break;
+ case 'cherryPickPreview':return cherryPickPlan(root,d.refs);
+ case 'cherryPickMany':{
+  await idle(root);await clean(root);const plan=await cherryPickPlan(root,d.refs);
+  if(plan.head!==d.expectedHead||plan.branch!==d.expectedBranch)throw Error('현재 브랜치가 변경되었습니다. 적용 대상을 다시 확인하세요.');
+  await git(root,['cherry-pick','--no-edit',...plan.commits.map(commit=>commit.hash)]);break;
+ }
  case 'cherryPick':case 'revert':await idle(root);await clean(root);await git(root,[action==='cherryPick'?'cherry-pick':'revert','--no-edit',await ref(root,d.ref)]);break;
  case 'continue':case 'abort':{const op=(await extras(root)).operation;if(!op)throw Error('진행 중인 작업이 없습니다.');await git(root,op==='merge'&&action==='continue'?['commit','--no-edit']:[op,action==='continue'?'--continue':'--abort']);break}
  case 'resolve':{const files=(await snapshot(root)).files;if(!files.some(f=>f.name===d.name&&f.conflict))throw Error('충돌 파일을 선택하세요.');await git(root,['add','--',d.name]);break}
