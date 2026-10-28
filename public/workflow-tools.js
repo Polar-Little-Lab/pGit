@@ -20,6 +20,7 @@ controls();
 
 // Branch groups are presentation only; all actions retain the complete Git ref.
 const branchFolderExpansion=new Map();
+try{for(const entry of JSON.parse(localStorage.getItem('pgit.sidebar-sections')||'[]'))if(Array.isArray(entry)&&typeof entry[1]==='boolean')branchFolderExpansion.set(...entry)}catch{}
 function groupBranches(host,buttons,prefix,relativeName){
  const tree={groups:new Map(),leaves:[]};
  for(const button of buttons){const name=relativeName(button),parts=name.split('/');let node=tree;for(const segment of parts.slice(0,-1)){if(!node.groups.has(segment))node.groups.set(segment,{groups:new Map(),leaves:[]});node=node.groups.get(segment)}const label=el('span',parts.at(-1),'branch-label literal-data');button.firstChild.replaceWith(label);button.title=name;node.leaves.push(button)}
@@ -34,9 +35,9 @@ const folderRender=render;render=function(){folderRender();groupBranches($('bran
 function branchSection(key,label,nodes){
  const section=el('details',undefined,'branch-section');
  const stateKey=(state?.root||'')+'|section|'+key;
- section.open=branchFolderExpansion.get(stateKey)??true;
+ section.dataset.section=key;section.open=branchFolderExpansion.get(stateKey)??true;
  const summary=el('summary',label),body=el('div',undefined,'branch-section-body');
- summary.addEventListener('click',()=>branchFolderExpansion.set((state?.root||'')+'|section|'+key,!section.open));
+ summary.addEventListener('click',()=>{branchFolderExpansion.set((state?.root||'')+'|section|'+key,!section.open);localStorage.setItem('pgit.sidebar-sections',JSON.stringify([...branchFolderExpansion].filter(([key])=>key.includes('|section|'))))});
  section.append(summary,body);nodes[0].before(section);body.append(...nodes);return section;
 }
 const sectionRender=render;render=function(){
@@ -44,5 +45,7 @@ const sectionRender=render;render=function(){
  let local=$('branches').closest('.branch-section');
  if(!local){const caption=$('branches').previousElementSibling;local=branchSection('local','로컬 브랜치',[$('branches')]);if(caption?.classList.contains('caption'))caption.remove()}
  local.open=branchFolderExpansion.get((state?.root||'')+'|section|local')??true;
- const extra=$('extraRefs');if(extra){const caption=extra.querySelector(':scope>.caption');if(caption){const nodes=[];let node=caption.nextElementSibling;while(node&&!node.classList.contains('caption')){nodes.push(node);node=node.nextElementSibling}if(nodes.length){branchSection('remote','원격 브랜치',nodes);caption.remove()}}}
+ if(!$('branches').children.length)$('branches').append(el('div','로컬 브랜치 없음','branch-empty'));
+ const localSummary=local.querySelector(':scope>summary');localSummary.querySelector('.folder-count')?.remove();localSummary.append(el('span',String(state?.branches.length||0),'folder-count'));
+ const extra=$('extraRefs');if(extra){for(const [index,caption] of [...extra.querySelectorAll(':scope>.caption')].entries()){const [key,label,empty]=[['remote','원격 브랜치','원격 브랜치 없음'],['tags','TAGS','태그 없음'],['stashes','STASHES','스태시 없음']][index];const nodes=[];let node=caption.nextElementSibling;while(node&&!node.classList.contains('caption')){nodes.push(node);node=node.nextElementSibling}if(!nodes.length){const placeholder=el('div',empty,'branch-empty');caption.after(placeholder);nodes.push(placeholder)}const section=branchSection(key,label,nodes);const count=key==='remote'?extra.querySelectorAll('.remote-branch').length:key==='tags'?state.refs.filter(r=>r.name.startsWith('refs/tags/')).length:state.stashes.length;section.querySelector('summary').append(el('span',String(count),'folder-count'));caption.remove()}}
 };

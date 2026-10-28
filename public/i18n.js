@@ -1,6 +1,13 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+연동|Integrations
+태그 없음|No tags
+스태시 없음|No stashes
+TAGS|Tags
+STASHES|Stashes
+로컬 브랜치 없음|No local branches
+
 설정 · ⌘/Ctrl+,|Settings · ⌘/Ctrl+,
 이전 변경으로 이동 · Alt+↑|Go to previous change · Alt+↑
 다음 변경으로 이동 · Alt+↓|Go to next change · Alt+↓
