@@ -1,0 +1,30 @@
+import {chromium} from 'playwright';import assert from 'node:assert/strict';import {mkdtemp,writeFile,rm,realpath,mkdir} from 'node:fs/promises';import os from 'node:os';import path from 'node:path';import {git} from '../git.mjs';import {server,ready} from '../server.mjs';
+const parent=await realpath(await mkdtemp(path.join(os.tmpdir(),'pgit-project-dialog-'))),root=parent+'/source';let browser;
+try{
+ await git(parent,['init','-b','main',root]);await git(root,['config','user.name','Polar']);await git(root,['config','user.email','test@example.invalid']);await writeFile(root+'/file','base\n');await git(root,['add','.']);await git(root,['commit','-m','base']);
+ browser=await chromium.launch({headless:true,...(process.env.PGIT_BROWSER_PATH?{executablePath:process.env.PGIT_BROWSER_PATH}:{})});const page=await browser.newPage({viewport:{width:1280,height:800}});page.setDefaultTimeout(15000);const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.addInitScript(root=>{window.pgitDesktop={chooseFolder:async()=>root,loadWorkspace:async()=>null,saveWorkspace:async()=>{}}},root);
+ await page.goto(await ready);await page.getByRole('button',{name:'새 프로젝트 탭',exact:true}).click();
+ await page.getByRole('button',{name:'찾아보기',exact:true}).click();assert.equal(await page.locator('#projectPath').inputValue(),root);
+ await page.getByRole('button',{name:'복제',exact:true}).click();assert.equal(await page.locator('#projectPath').inputValue(),'');await page.locator('#cloneUrl').fill(root);await page.locator('#projectPath').fill(parent+'/clone');
+ await page.getByRole('button',{name:'로컬 열기',exact:true}).click();assert.equal(await page.locator('#projectPath').inputValue(),root);
+ await mkdir('test-results',{recursive:true});
+ for(const size of [{width:1280,height:800},{width:760,height:500},{width:420,height:360}]){
+  await page.setViewportSize(size);
+  for(const mode of ['open','clone','init']){
+   await page.locator(`[data-project-mode=${mode}]`).click();await page.locator('#projectPath').focus();
+   const layout=await page.locator('#projectDialog').evaluate(dialog=>{const bounds=dialog.getBoundingClientRect(),form=dialog.querySelector('form'),input=dialog.querySelector('#projectPath'),buttons=[...dialog.querySelectorAll('[data-project-mode]')];return {fits:bounds.top>=0&&bounds.bottom<=innerHeight&&bounds.left>=0&&bounds.right<=innerWidth,overflow:form.scrollWidth>form.clientWidth,offset:getComputedStyle(input).outlineOffset,corners:buttons.map(b=>getComputedStyle(b).borderRadius),submitVisible:dialog.querySelector('#submitProject').getBoundingClientRect().bottom<=innerHeight}});
+   assert.equal(layout.fits,true);assert.equal(layout.overflow,false);assert.equal(layout.offset,'-2px');assert.deepEqual(layout.corners,['0px','0px','0px']);assert.equal(layout.submitVisible,true);
+  }
+ }
+ await page.setViewportSize({width:1280,height:800});await page.locator('[data-project-mode=open]').click();await page.locator('#projectPath').fill('relative/path');await page.locator('#submitProject').click();await page.locator('#projectError').getByText('폴더의 절대 경로를 입력하세요.',{exact:true}).waitFor();assert.equal(await page.locator('#projectPath').getAttribute('aria-invalid'),'true');
+ await page.locator('#projectPath').fill(root);assert.equal(await page.locator('#projectError').textContent(),'');await page.screenshot({path:'test-results/project-open-fixed.png'});await page.locator('#submitProject').click();await page.locator('#projectDialog').waitFor({state:'hidden'});assert.equal(await page.getByRole('tab').count(),1);
+ await page.getByRole('button',{name:'새 프로젝트 탭',exact:true}).click();await page.locator('[data-project-mode=clone]').click();await page.locator('#projectPath').fill(root);await page.locator('#submitProject').click();await page.locator('#projectError').filter({hasText:/./}).waitFor();assert.equal(await page.locator('#projectDialog').isVisible(),true);assert.equal(await page.getByRole('tab').count(),1);assert.equal(await page.locator('#cloneUrl').inputValue(),root);assert.equal(await page.locator('#submitProject').isEnabled(),true);
+ await page.locator('#projectPath').fill(parent+'/clone');await page.locator('#submitProject').click();await page.locator('#projectDialog').waitFor({state:'hidden'});assert.equal(await page.getByRole('tab').count(),2);assert.equal((await git(parent+'/clone',['log','-1','--format=%s'])).trim(),'base');
+ await page.getByRole('button',{name:'새 프로젝트 탭',exact:true}).click();await page.locator('[data-project-mode=init]').click();await page.locator('#projectPath').fill(parent+'/new');
+ let arrived,release;const captured=new Promise(resolve=>arrived=resolve),held=new Promise(resolve=>release=resolve);
+ await page.route('**/api',async route=>{if(route.request().postDataJSON().action==='init'){arrived();await held}await route.continue()});
+ await page.locator('#submitProject').click();await captured;
+ assert.equal(await page.locator('[data-project-mode=clone]').isDisabled(),true);assert.equal(await page.locator('#projectPath').isDisabled(),true);assert.equal(await page.locator('#submitProject').textContent(),'만드는 중…');await page.keyboard.press('Escape');assert.equal(await page.locator('#projectDialog').isVisible(),true);release();await page.locator('#projectDialog').waitFor({state:'hidden'});assert.equal(await page.getByRole('tab').count(),3);assert.equal((await git(parent+'/new',['branch','--show-current'])).trim(),'main');
+ assert.deepEqual(errors,[]);console.log('Project dialog UI passed: native picker, independent drafts, focus/segments, narrow/short windows, validation, clone failure/retry and initialization.');
+}finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await rm(parent,{recursive:true,force:true})}

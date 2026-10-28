@@ -1,6 +1,14 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+여는 중…|Opening…
+복제 중…|Cloning…
+만드는 중…|Creating…
+폴더를 찾을 수 없습니다. 경로를 확인하세요.|Folder not found. Check the path.
+Git 저장소가 아닌 폴더입니다.|This folder is not a Git repository.
+폴더에 접근할 권한이 없습니다.|You do not have permission to access this folder.
+복제 대상은 아직 존재하지 않는 폴더여야 합니다.|The clone destination must be a folder that does not yet exist.
+
 표시할 커밋이 없습니다.|No commits to display.
 
 로컬 브랜치|Local branches

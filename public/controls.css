@@ -88,7 +88,6 @@ body dialog :is(input:not([type=checkbox]),select,textarea):not(.code-editor){
   border:1px solid var(--control-border);border-radius:var(--control-radius);background:var(--control-bg);font-size:12px;
 }
 body dialog input:not([type=checkbox]):not(.native-select-source){height:36px;padding:0 10px}
-body dialog button:not(.overview-marker):not(.diff-fold):not(.frost-select-option){border-radius:var(--control-radius)}
 body :is(.command-body,.dialog-actions,.path-field)>button{height:36px;font-size:12px}
 body :is(.command-option,.frost-select-option){border-radius:var(--control-radius);font-size:12px}
 body .frost-select-trigger{border-color:var(--control-border);border-radius:var(--control-radius);background:var(--control-bg)}
@@ -156,8 +155,23 @@ body .branch-drop-dialog h2{font-size:15px;margin:0 0 10px}
 body .branch-drop-dialog p{font-size:12px;margin:0 0 10px}
 body .branch-drop-dialog .branch-route{padding:8px}
 body .branch-drop-dialog>button:last-child{align-self:flex-end;margin-top:8px}
-body #projectDialog,body #closeTabDialog{width:460px;padding:18px}
-body #projectDialog>form{min-height:0;overflow:auto}
+body #closeTabDialog{width:460px;padding:18px}
+body #projectDialog{width:460px;padding:0}
+body #projectDialog>form{display:flex;flex-direction:column;min-height:0;overflow:hidden;max-height:calc(100vh - 32px)}
+body #projectDialog .dialog-heading{flex-shrink:0;padding:14px 18px;margin:0}
+body #projectDialog .project-fields{min-height:0;overflow:auto;padding:0 18px 14px}
+body #projectDialog .dialog-actions{flex-shrink:0;margin:0;padding:12px 18px;border-top:1px solid var(--border);background:var(--canvas)}
+body #projectDialog .project-options{height:34px;margin:0 0 16px}
+body #projectDialog .project-options>button{flex:1;min-width:0;border-radius:0;box-shadow:none;font-size:12px}
+body #projectDialog .path-field{align-items:center}
+body #projectDialog .path-field input{flex:1;width:0}
+body #projectDialog .path-field button{flex-shrink:0}
+body #projectDialog input{height:36px}
+body #projectDialog #submitProject{min-width:108px}
+body dialog :is(input:not([type=checkbox]),textarea,select):focus-visible{outline:2px solid var(--accent);outline-offset:-2px;box-shadow:none}
+body dialog [aria-invalid=true]{border-color:var(--danger)}
+body #projectDialog #projectError{margin:10px 0 0;max-height:none}
+@media(max-width:420px){body #projectDialog .dialog-heading,body #projectDialog .dialog-actions{padding:12px}body #projectDialog .project-fields{padding:0 12px 12px}body #projectDialog .path-field{flex-wrap:wrap}body #projectDialog .path-field input{flex-basis:100%;width:100%}body #projectDialog .path-field button{margin-left:auto}}
 body dialog .dialog-heading{margin-bottom:14px;gap:12px}
 body dialog .dialog-heading h2{font-size:17px;line-height:1.4;margin:0;letter-spacing:0}
 body dialog .dialog-heading .eyebrow{display:none}
