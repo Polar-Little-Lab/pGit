@@ -19,7 +19,13 @@
  setTheme(theme,{persist:false});
  if(parent!==window){document.addEventListener('keydown',event=>{if((event.metaKey||event.ctrlKey)&&event.key===','){event.preventDefault();parent.postMessage({source:'pgit-pane',type:'settings'},location.origin)}});return;}
  const page=document.createElement('section');page.id='settingsPage';page.hidden=true;page.setAttribute('aria-labelledby','settingsTitle');
- page.innerHTML=`<aside class="settings-nav"><button type="button" data-close-settings>작업 공간으로 돌아가기</button><h1 id="settingsTitle">설정</h1><nav aria-label="설정 항목"><button type="button" data-settings-section="appearance">모양</button><button type="button" data-settings-section="language">언어</button></nav></aside><div class="settings-content"><section data-settings-panel="appearance" aria-labelledby="appearanceTitle"><h2 id="appearanceTitle" tabindex="-1">모양</h2><h3>테마</h3><div class="theme-gallery" role="group" aria-label="테마"></div></section><section data-settings-panel="language" aria-labelledby="languageTitle" hidden><h2 id="languageTitle" tabindex="-1">언어</h2><div class="language-options" role="group" aria-label="언어"><button type="button" class="literal-data" data-language-choice="ko"><strong>한국어</strong><span>Korean</span></button><button type="button" class="literal-data" data-language-choice="en"><strong>English</strong><span>영어</span></button></div></section></div>`;
+ page.innerHTML=`<aside class="settings-nav"><button type="button" data-close-settings>작업 공간으로 돌아가기</button><h1 id="settingsTitle">설정</h1><nav aria-label="설정 항목"><button type="button" data-settings-section="appearance">모양</button><button type="button" data-settings-section="language">언어</button></nav></aside><div class="settings-content"><section data-settings-panel="appearance" aria-labelledby="appearanceTitle"><h2 id="appearanceTitle" tabindex="-1">모양</h2><h3>테마</h3><div class="theme-gallery" role="group" aria-label="테마"></div></section><section data-settings-panel="language" aria-labelledby="languageTitle" hidden><h2 id="languageTitle" tabindex="-1">언어</h2><div class="language-options" role="group" aria-label="언어"></div></section></div>`;
+ for(const {id,name,english} of PgitI18n.languages){
+  const choice=document.createElement('button');choice.type='button';choice.className='literal-data';choice.dataset.languageChoice=id;
+  const native=document.createElement('strong');native.textContent=name;native.lang=id;
+  const subtitle=document.createElement('span');subtitle.textContent=english;subtitle.lang='en';
+  choice.append(native,subtitle);page.querySelector('.language-options').append(choice);
+ }
  // Cards are data-driven so further themes do not turn settings into a larger modal.
  for(const {id,name,colors} of [...PgitThemes,{id:'system',name:'시스템 설정 사용'}]){
   const card=document.createElement('button');card.type='button';card.className='theme-card';card.dataset.themeChoice=id;

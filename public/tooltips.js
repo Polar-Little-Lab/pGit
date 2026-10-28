@@ -20,6 +20,6 @@
  document.addEventListener('click',event=>{const button=target(event);if(button){show(button);hideTimer=setTimeout(hide,3500)}else hide()});
  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&anchor){hide()}},true);
  tip.addEventListener('pointerenter',()=>clearTimeout(hideTimer));tip.addEventListener('pointerleave',hide);
- window.addEventListener('resize',hide);document.addEventListener('scroll',()=>{if(anchor)position()},true);document.addEventListener('close',hide,true);window.addEventListener('blur',hide);
+ window.addEventListener('pgit-language-change',hide);window.addEventListener('resize',hide);document.addEventListener('scroll',()=>{if(anchor)position()},true);document.addEventListener('close',hide,true);window.addEventListener('blur',hide);
  new MutationObserver(()=>{if(anchor&&!anchor.isConnected)hide()}).observe(document.body,{childList:true,subtree:true});
 })();

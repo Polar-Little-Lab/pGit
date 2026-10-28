@@ -33,7 +33,7 @@ test('desktop tab persistence validates paths, omits drafts and writes atomicall
 test('language preference persists only supported locales',async t=>{
  const dir=await mkdtemp(path.join(os.tmpdir(),'pgit-locale-'));t.after(()=>rm(dir,{recursive:true,force:true}));const file=path.join(dir,'workspace.json');
  await store.writeWorkspace(file,{language:'en',projects:[{path:'/north'}]});assert.equal((await store.readWorkspace(file)).language,'en');
- await store.writeWorkspace(file,{language:'ko'});assert.equal((await store.readWorkspace(file)).language,'ko');
+ for(const language of ['ko','ja','zh-CN','es','fr']){await store.writeWorkspace(file,{language});assert.equal((await store.readWorkspace(file)).language,language)}
  await store.writeWorkspace(file,{language:'invalid'});assert.equal((await store.readWorkspace(file)).language,undefined);
 });
 

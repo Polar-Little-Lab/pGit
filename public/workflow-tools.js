@@ -43,7 +43,7 @@ function branchSection(key,label,nodes){
 const sectionRender=render;render=function(){
  sectionRender();
  let local=$('branches').closest('.branch-section');
- if(!local){const caption=$('branches').previousElementSibling;local=branchSection('local','로컬 브랜치',[$('branches')]);if(caption?.classList.contains('caption'))caption.remove()}
+ if(!local){const caption=$('branches').previousElementSibling;local=branchSection('local','로컬 브랜치',[$('branches')]);if(caption?.classList.contains('caption'))caption.remove();const heading=el('div','저장소','caption sidebar-repository-title');local.before(heading)}
  local.open=branchFolderExpansion.get((state?.root||'')+'|section|local')??true;
  if(!$('branches').children.length)$('branches').append(el('div','로컬 브랜치 없음','branch-empty'));
  const localSummary=local.querySelector(':scope>summary');localSummary.querySelector('.folder-count')?.remove();localSummary.append(el('span',String(state?.branches.length||0),'folder-count'));

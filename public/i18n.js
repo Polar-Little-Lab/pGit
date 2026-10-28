@@ -1,6 +1,15 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+이력 필터 해제|Clear history filter
+WORKSPACE|Workspace
+LOCAL|Local branches
+REMOTE|Remote branches
+COMMIT|Commit
+NEWPROJECT|New project
+NEW PROJECT|New project
+작업 공간|Workspace
+
 연동|Integrations
 태그 없음|No tags
 스태시 없음|No stashes
@@ -472,7 +481,7 @@ origin 저장소에 이슈를 게시합니다.|Create an issue in the origin rep
 이 파일의 스테이징된 변경을 모두 해제합니다.|Unstage all staged changes in this file.
 현재 체크아웃된 브랜치|Currently checked-out branch
 `;
-const en=Object.fromEntries(pairs.trim().split('\n').map(line=>line.split('|')));
+const en=Object.fromEntries(pairs.trim().split('\n').filter(line=>line.includes('|')).map(line=>line.split('|')));
 const reverse=Object.fromEntries(Object.entries(en).map(([key,value])=>[value,key]));
 const ko={'Stash 만들기':'스태시 저장','Stash 적용':'스태시 적용','Stash 적용 후 제거':'스태시 적용 후 삭제','Stash Pop':'스태시 적용 후 삭제','Stash 삭제':'스태시 삭제','Stash Diff':'스태시 변경 보기',Stash:'스태시','Cherry-pick':'체리픽',Revert:'되돌림 커밋',Blame:'줄별 작성 이력',Reflog:'참조 이동 기록',WORKSPACE:'작업 공간',LOCAL:'로컬 브랜치',REMOTE:'원격 브랜치',TAGS:'태그',STASHES:'스태시',COMMIT:'커밋',NEWPROJECT:'새 프로젝트','NEW PROJECT':'새 프로젝트','GitHub Pull Requests':'GitHub 풀 리퀘스트','GitHub Issues':'GitHub 이슈','Worktree 목록':'워크트리 목록','Worktree 만들기':'워크트리 만들기','Worktree 제거':'워크트리 제거','Worktree 잠금':'워크트리 잠금','Worktree 잠금 해제':'워크트리 잠금 해제','Submodule 상태':'서브모듈 상태','Submodule 초기화·갱신':'서브모듈 초기화·갱신','Git LFS 상태':'Git LFS 상태'};
 const templates=[
@@ -503,17 +512,19 @@ const templates=[
  [/^변경 줄 (\d+)$/,n=>`Changed line ${n}`],
  [/^STASHES · (\d+)$/,n=>`STASHES · ${n}`]
 ];
-let language=localStorage.getItem('pgit.language')==='en'?'en':'ko';
-function t(source){if(typeof source!=='string')return source;const leading=source.match(/^\s*/)[0],trailing=source.match(/\s*$/)[0],key=source.trim();if(!key)return source;let value=language==='ko'?(ko[key]||ko[reverse[key]]||reverse[key]||key):(en[key]||key);if(language==='en'&&value===key){for(const [pattern,format] of templates){const match=key.match(pattern);if(match){value=format(...match.slice(1));break}}}else if(language==='ko'&&/^STASHES · /.test(key))value=key.replace('STASHES','스태시');return leading+value+trailing}
+const languages=window.PgitLocales.languages;
+const supported=value=>languages.some(item=>item.id===value)?value:'ko';
+let language=supported(localStorage.getItem('pgit.language'));
+function t(source){if(typeof source!=='string')return source;const leading=source.match(/^\s*/)[0],trailing=source.match(/\s*$/)[0],key=source.trim();if(!key)return source;let value=language==='ko'?(ko[key]||ko[reverse[key]]||reverse[key]||key):(en[key]||key);if(language!=='ko'&&value===key){for(const [pattern,format] of templates){const match=key.match(pattern);if(match){value=format(...match.slice(1));break}}}else if(language==='ko'&&/^STASHES · /.test(key))value=key.replace('STASHES','스태시');if(language!=='ko'&&language!=='en')value=PgitLocales.translate(language,value);return leading+value+trailing}
 const originals=new WeakMap(),attributes=new WeakMap();
 // Data-bearing DOM is excluded even when a user names a branch/file "닫기" or "Stash 만들기".
 const dataSelector='script,style,pre,code,textarea,option,.subject-text,.historyrow .cell-muted,.historyrow time,.remote-group summary,#extraRefs>.nav,.graph-refs,.branchitem,.remote-branch,[data-ref],.repo-heading,.current-branch,.tab-text,.recent-project strong,.recent-project small,.change-path,.file-path,.commit-author,.commit-parents button,.selected-commit-panel h2,.commit-body,.commit-file>span:last-child,.compare-file small,.diff-controls strong,.commit-meta,.provider-row strong,.provider-row p,.branch-route,.literal-data,#status,#footBranch,#pathInput,#projectPath,#cloneUrl';
 function translateText(node){if(node.parentElement?.closest(dataSelector))return;if(node.parentElement?.closest('.frost-select-trigger,.frost-select-option')&&!node.parentElement.closest('.frost-select[data-ui-options]'))return;let record=originals.get(node);if(!record||node.data!==record.output)record={source:node.data};const output=t(record.source);record.output=output;originals.set(node,record);if(node.data!==output)node.data=output}
 function translateElement(element){if(element.matches('script,style'))return;for(const name of ['aria-label','placeholder','title']){if(!element.hasAttribute(name))continue;if(name==='title'&&element.matches('[data-ref],.historyrow,.branchmarker,.commit-file,.compare-file,.file-select,.project-tab>button,.current-branch,.repo-heading,.frost-select-trigger'))continue;let records=attributes.get(element);if(!records){records={};attributes.set(element,records)}const value=element.getAttribute(name);let record=records[name];if(!record||record.output!==value)record={source:value};const output=t(record.source);record.output=output;records[name]=record;if(value!==output)element.setAttribute(name,output)}}
-function translateTree(root){if(root.nodeType===3){translateText(root);return}if(root.nodeType!==1)return;translateElement(root);for(const element of root.querySelectorAll('[aria-label],[placeholder],[title]'))translateElement(element);for(const time of root.querySelectorAll('time[datetime]')){const date=new Date(time.dateTime);const value=time.closest('.historyrow')?date.toLocaleDateString(language==='en'?'en-US':'ko-KR'):date.toLocaleString(language==='en'?'en-US':'ko-KR');if(time.textContent!==value)time.textContent=value}const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);while(walker.nextNode())translateText(walker.currentNode)}
+function translateTree(root){if(root.nodeType===3){translateText(root);return}if(root.nodeType!==1)return;translateElement(root);for(const element of root.querySelectorAll('[aria-label],[placeholder],[title]'))translateElement(element);for(const time of root.querySelectorAll('time[datetime]')){const date=new Date(time.dateTime);const value=time.closest('.historyrow')?date.toLocaleDateString(languages.find(item=>item.id===language).locale):date.toLocaleString(languages.find(item=>item.id===language).locale);if(time.textContent!==value)time.textContent=value}const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);while(walker.nextNode())translateText(walker.currentNode)}
 const observer=new MutationObserver(records=>{for(const r of records){if(r.type==='characterData')translateText(r.target);else if(r.type==='attributes')translateElement(r.target);else for(const node of r.addedNodes)translateTree(node)}});
-function setLanguage(value,{persist=true}={}){language=value==='en'?'en':'ko';document.documentElement.lang=language;window.dispatchEvent(new CustomEvent('pgit-language-change',{detail:language}));localStorage.setItem('pgit.language',language);translateTree(document.body);document.querySelectorAll('.language-switch').forEach(button=>{button.textContent=language==='ko'?'한국어 ▾':'English ▾';button.setAttribute('aria-label',language==='ko'?'언어 변경: English':'Change language: 한국어')});if(window.parent===window){document.querySelectorAll('iframe.project-frame').forEach(frame=>frame.contentWindow.postMessage({source:'pgit-language',language},location.origin));if(persist&&typeof save==='function')save()}}
-window.PgitI18n={t,setLanguage,get language(){return language}};
+function setLanguage(value,{persist=true}={}){language=supported(value);document.documentElement.lang=language;window.dispatchEvent(new CustomEvent('pgit-language-change',{detail:language}));localStorage.setItem('pgit.language',language);translateTree(document.body);document.querySelectorAll('.language-switch').forEach(button=>{button.textContent=language==='ko'?'한국어 ▾':'English ▾';button.setAttribute('aria-label',language==='ko'?'언어 변경: English':'Change language: 한국어')});if(window.parent===window){document.querySelectorAll('iframe.project-frame').forEach(frame=>frame.contentWindow.postMessage({source:'pgit-language',language},location.origin));if(persist&&typeof save==='function')save()}}
+window.PgitI18n={t,setLanguage,languages,get language(){return language}};
 window.addEventListener('message',event=>{if(event.origin===location.origin&&event.source===parent&&event.data?.source==='pgit-language')setLanguage(event.data.language,{persist:false})});
 setLanguage(language,{persist:false});observer.observe(document.body,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:['aria-label','placeholder','title']});
 })();

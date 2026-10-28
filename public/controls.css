@@ -293,3 +293,5 @@ body .is-expanded .compare-bar{padding-right:48px}
 .shell>aside .branch-section>summary:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 #history .filterbar #allHistory{margin:0;flex:none;height:28px;padding:0 9px;font-size:11px;white-space:nowrap;background:transparent;border:1px solid var(--border)}
 #history .filterbar #allHistory[aria-pressed=true]{background:var(--control-selected)!important;color:var(--accent)}
+.shell>aside .sidebar-repository-title{border-top:1px solid var(--border);margin:12px 0 0;padding:12px 8px 0;font-size:10px;letter-spacing:.4px}
+.shell>aside .sidebar-repository-title+.branch-section{margin-top:6px}
