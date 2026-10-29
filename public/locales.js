@@ -545,6 +545,10 @@ messages['1 conflicts remaining']=['残り 1 件の競合','剩余 1 个冲突',
 messages['Expand 1 unchanged lines']=['変更のない 1 行を展開','展开 1 行未更改的内容','Expandir 1 línea sin cambios','Développer 1 ligne inchangée'];
 messages['Commit staged changes · 1 files']=['ステージ済みの変更をコミット · 1 ファイル','提交已暂存的更改 · 1 个文件','Crear commit · 1 archivo preparado','Commiter · 1 fichier indexé'];
 messages['Commit only the 1 staged files.']=['ステージ済みの 1 ファイルのみコミットします。','仅提交 1 个已暂存文件。','Solo se incluirá el archivo preparado.','Seul le fichier indexé sera commité.'];
+messages['Show all history']=['すべての履歴を表示','查看全部历史','Ver todo el historial','Voir tout l’historique'];
+messages['Branch: {0}']=['ブランチ: {0}','分支：{0}','Rama: {0}','Branche : {0}'];
+messages['Tag: {0}']=['タグ: {0}','标签：{0}','Etiqueta: {0}','Tag : {0}'];
+messages['Commit: {0}']=['コミット: {0}','提交：{0}','Commit: {0}','Commit : {0}'];
 const escape=value=>value.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 const templates=Object.keys(messages).filter(key=>/\{\d+\}/.test(key)).sort((a,b)=>b.replace(/\{\d+\}/g,'').length-a.replace(/\{\d+\}/g,'').length).map(key=>{
  const indices=[];let pattern='',last=0;
