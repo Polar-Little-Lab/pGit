@@ -2,7 +2,7 @@
 html[data-theme] body{background:var(--canvas);color:var(--text)}
 html[data-theme] :is(header,footer,.project-bar,.workspace-toolbar,.shell>aside,.selected-commit-panel,#changes,.working-review,.history-head,.filterbar,.compare-bar,.diff-controls,.diff-column-header,.diff-file-note,.unified-legend,.selected-commit-heading,.commit-file-heading,.bar,.change-group-title,.review-back,.return-graph){background:var(--canvas)!important;color:var(--text);border-color:var(--border)}
 html[data-theme] :is(input,textarea,select,dialog,.frost-select-popup,.frost-select-option,.history-scroll,.historyrow,#history,.diff-scroll,.diff-canvas,.welcome,.recent-project,.commit-review,.compare-content,.diff-control-help){background-color:var(--surface);color:var(--text);border-color:var(--border)}
-html[data-theme] :is(.historyrow:nth-child(even),.diff-line-number,.diff-overview,.diff-bridge,.diff-gap,.command-notice,.branch-route,.project-options,.project-tab.selected,.author-avatar,.repo-symbol){background:var(--soft)!important;color:var(--muted);border-color:var(--border)}
+html[data-theme] :is(.diff-line-number,.diff-overview,.diff-bridge,.diff-gap,.command-notice,.branch-route,.project-options,.project-tab.selected,.author-avatar,.repo-symbol){background:var(--soft)!important;color:var(--muted);border-color:var(--border)}
 html[data-theme] :is(.nav.active,.historyrow.active,.file.active,.commit-file.active,.compare-file.active,.frost-select-option[aria-selected=true]){background:var(--control-selected)!important;color:var(--text)}
 html[data-theme] :is(.cell-muted,.caption,.history-info,.history-scope,.change-state,.diff-count,.diff-header-path,.commit-body,.commit-author time,.commit-parents,.command-body p,.intro p,.recent-project small,.welcome-footer){color:var(--muted)}
 html[data-theme] :is(.current-branch,.repo-heading,.branch-folder-name,.commit-parents button,.diff-column-header code){color:var(--polar-accent)}
@@ -53,3 +53,8 @@ html[data-theme] .historyrow:focus-visible{outline:2px solid var(--accent);outli
 /* Alignment spacers are empty canvas, not a stack of highlighted code rows. */
 html[data-theme] .idea-diff .diff-code-row.diff-gap{background:var(--surface)!important;border:0;box-shadow:none}
 html[data-theme] .idea-diff .diff-gap .diff-line-number{background:var(--surface)!important;border:0}
+
+/* Quiet row striping; reserve stronger color for hover and selection. */
+html[data-theme] .historyrow:not(.active){background:var(--surface);color:var(--text)}
+html[data-theme] .historyrow:nth-child(even):not(.active){background:color-mix(in srgb,var(--soft) 24%,var(--surface))}
+html[data-theme] .historyrow:not(.active):hover{background:color-mix(in srgb,var(--control-selected) 48%,var(--surface))}
