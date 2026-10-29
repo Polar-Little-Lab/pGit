@@ -41,7 +41,8 @@
       "public/*.css",
       "public/*.svg",
       "comparison.mjs",
-      "public/*.html"
+      "public/*.html",
+      "public/*.png"
     ],
     "mac": {
       "category": "public.app-category.developer-tools",
