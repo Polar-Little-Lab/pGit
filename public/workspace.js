@@ -40,7 +40,17 @@ controls();
 
 // One history navigation surface; HEAD and the viewed branch are separate states.
 let selectedHistoryRef=null;
-const allHistory=el('button','전체 이력 보기','nav');allHistory.id='allHistory';allHistory.className='history-scope-reset';allHistory.title='전체 이력 보기';allHistory.onclick=()=>chooseHistoryRef(null,null);const scopeHistoryRender=renderHistory;renderHistory=function(){scopeHistoryRender();const bar=document.querySelector('#history .filterbar');if(bar){bar.prepend(allHistory);const label=bar.querySelector('.history-scope');if(label)label.hidden=!scope}};
 function chooseHistoryRef(ref,hash){selectedHistoryRef=ref;scope=hash;activeCommit=hash;tab('history');renderHistory()}
-function historyScopeLabel(){return scope?(selectedHistoryRef?.startsWith('refs/tags/')?'태그: ':selectedHistoryRef?'브랜치: ':'커밋: ')+(selectedHistoryRef?.replace(/^refs\/(heads|remotes|tags)\//,'')||scope.slice(0,7)):'전체 이력 · Local + Remote'}
-function syncHistoryScope(){if(!scope)selectedHistoryRef=null;if(selectedHistoryRef&&state){const ref=state.refs.find(r=>r.name===selectedHistoryRef);const branch=state.branches.find(b=>'refs/heads/'+b.name===selectedHistoryRef);if(ref||branch)scope=(ref||branch).hash;else{scope=null;selectedHistoryRef=null}}allHistory.hidden=!scope;document.querySelectorAll('[data-ref]').forEach(b=>{const selected=!!scope&&b.dataset.ref===selectedHistoryRef;b.classList.toggle('active',selected);b.setAttribute('aria-pressed',String(selected))})}
+function historyScopeLabel(){return scope?(selectedHistoryRef?.startsWith('refs/tags/')?'태그: ':selectedHistoryRef?'브랜치: ':'커밋: ')+(selectedHistoryRef?.replace(/^refs\/(heads|remotes|tags)\//,'')||scope.slice(0,7)):'브랜치 선택'}
+let historyScopeRoot=null,historyCheckedOutRef=null;
+function syncHistoryScope(){
+ if(!state)return;
+ if(historyScopeRoot!==state.root){historyScopeRoot=state.root;selectedHistoryRef=null;scope=null;historyCheckedOutRef=null}
+ const checkedOut=state.branch==='(detached HEAD)'?null:'refs/heads/'+state.branch;
+ if(historyCheckedOutRef!==checkedOut&&selectedHistoryRef===historyCheckedOutRef){selectedHistoryRef=null;scope=null}
+ historyCheckedOutRef=checkedOut;
+ if(!scope)selectedHistoryRef=null;
+ if(selectedHistoryRef){const ref=state.refs.find(r=>r.name===selectedHistoryRef)||state.branches.find(b=>'refs/heads/'+b.name===selectedHistoryRef);if(ref)scope=ref.hash;else{selectedHistoryRef=null;scope=null}}
+ if(!scope){const current=state.branches.find(b=>b.current)||state.branches.find(b=>b.name===state.branch);selectedHistoryRef=current?'refs/heads/'+current.name:null;scope=current?.hash||state.head||null}
+ document.querySelectorAll('[data-ref]').forEach(b=>{const selected=!!scope&&b.dataset.ref===selectedHistoryRef;b.classList.toggle('active',selected);b.setAttribute('aria-pressed',String(selected))});
+}

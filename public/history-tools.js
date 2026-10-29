@@ -19,7 +19,7 @@ function changeGraphVisibility(action,ref){
  else if(action==='stop')soloGraphRef=null;
  else{hiddenGraphRefs.clear();soloGraphRef=null}
  try{localStorage.setItem('pgit.graph.'+state.root,JSON.stringify({hidden:[...hiddenGraphRefs],solo:soloGraphRef}))}catch{}
- scope=null;selectedHistoryRef=null;selectedCommits.clear();selectionAnchor=null;tab('history');render();
+ const chosen=soloGraphRef&&graphRefs().find(item=>item.name===soloGraphRef);if(chosen){scope=chosen.hash;selectedHistoryRef=chosen.name}else if(action==='stop'){scope=null;selectedHistoryRef=null}selectedCommits.clear();selectionAnchor=null;tab('history');render();
 }
 function paintGraphRefs(){document.querySelectorAll('aside [data-ref]').forEach(button=>{
  button.classList.toggle('graph-ref-hidden',hiddenGraphRefs.has(button.dataset.ref)&&!soloGraphRef);
