@@ -24,7 +24,22 @@ function renderCodeDiff(content,data){
  function paint(code,row,side){const text=row[side]??'',number=side==='before'?row.oldLine:row.newLine;const tokens=syntax[side][number-1]||[{text,kind:''}];let parts=[{text,changed:false}];if(wordHighlight&&row.kind==='change'){row.inline??=PgitDiff.inlineChanges(row.before,row.after);parts=row.inline[side]}
   let tokenIndex=0,tokenOffset=0;for(const part of parts){const target=part.changed?el('mark',undefined,'diff-word'):document.createDocumentFragment();let remaining=part.text.length;while(remaining>0){const token=tokens[tokenIndex];if(!token){target.append(document.createTextNode(part.text.slice(part.text.length-remaining)));break}const size=Math.min(remaining,token.text.length-tokenOffset),chunk=token.text.slice(tokenOffset,tokenOffset+size);target.append(token.kind?el('span',chunk,'syntax-'+token.kind):document.createTextNode(chunk));remaining-=size;tokenOffset+=size;if(tokenOffset===token.text.length){tokenIndex++;tokenOffset=0}}code.append(target)}
  }
- function drawConnectors(){if(!connector||panes.length!==2)return;const height=panes[0].clientHeight;connector.setAttribute('viewBox',`0 0 24 ${Math.max(1,height)}`);connector.replaceChildren();for(const start of blocks){let end=start+1;while(end<rows.length&&rows[end].kind!=='context'&&rows[end].kind!=='fold')end++;const before=rows.slice(start,end).some(r=>r.before!==null),after=rows.slice(start,end).some(r=>r.after!==null);let a=start*ROW-panes[0].scrollTop,b=end*ROW-panes[0].scrollTop,c=start*ROW-panes[1].scrollTop,d=end*ROW-panes[1].scrollTop;if(!before)b=a;if(!after)d=c;if(Math.max(b,d)<0||Math.min(a,c)>height)continue;const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d',`M0 ${a} C${!after?21:12} ${a} ${!after?21:12} ${c} 24 ${c} L24 ${d} C${!before?3:12} ${d} ${!before?3:12} ${b} 0 ${b} Z`);path.setAttribute('class',!before?'bridge-add':!after?'bridge-delete':'bridge-change');connector.append(path)}}
+ function drawConnectors(){
+  if(!connector||panes.length!==2)return;
+  const height=panes[0].clientHeight;
+  connector.setAttribute('viewBox',`0 0 24 ${Math.max(1,height)}`);connector.replaceChildren();
+  for(const start of blocks){
+   let end=start+1;while(end<rows.length&&rows[end].kind!=='context'&&rows[end].kind!=='fold')end++;
+   const extent=side=>{let first=-1,last=-1;for(let i=start;i<end;i++)if(rows[i][side]!==null){if(first<0)first=i;last=i}return first<0?[start,start,false]:[first,last+1,true]};
+   const left=extent('before'),right=extent('after');
+   const a=left[0]*ROW-panes[0].scrollTop,b=left[1]*ROW-panes[0].scrollTop,c=right[0]*ROW-panes[1].scrollTop,d=right[1]*ROW-panes[1].scrollTop;
+   if(Math.max(b,d)<0||Math.min(a,c)>height)continue;
+   const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+   // Horizontal tangents join the actual colored blocks; alignment blanks are excluded.
+   path.setAttribute('d',`M0 ${a} C12 ${a} 12 ${c} 24 ${c} L24 ${d} C12 ${d} 12 ${b} 0 ${b} Z`);
+   path.setAttribute('class',!left[2]?'bridge-add':!right[2]?'bridge-delete':'bridge-change');connector.append(path);
+  }
+ }
  function drawUnified(oldTop){
   const model=PgitDiff.unifiedRows(rows),entries=model.entries;unifiedOffsets=model.offsets;
   const container=el('section',undefined,'unified-comparison');

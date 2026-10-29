@@ -58,8 +58,12 @@ html[data-theme] .idea-diff .diff-gap .diff-line-number{background:var(--surface
 html[data-theme] .historyrow:not(.active){background:var(--surface);color:var(--text)}
 html[data-theme] .historyrow:nth-child(even):not(.active){background:color-mix(in srgb,var(--soft) 24%,var(--surface))}
 html[data-theme] .historyrow:not(.active):hover{background:color-mix(in srgb,var(--control-selected) 48%,var(--surface))}
-/* Soft filled connectors retain their visual weight for long changed blocks. */
-html[data-theme] .diff-bridge path{stroke-width:1;stroke-linejoin:round;vector-effect:non-scaling-stroke}
-html[data-theme] .bridge-add{fill:color-mix(in srgb,#63aa81 28%,var(--surface));stroke:color-mix(in srgb,#63aa81 80%,var(--text))}
-html[data-theme] .bridge-delete{fill:color-mix(in srgb,#cc7b78 25%,var(--surface));stroke:color-mix(in srgb,#cc7b78 80%,var(--text))}
-html[data-theme] .bridge-change{fill:color-mix(in srgb,var(--accent) 20%,var(--surface));stroke:var(--accent)}
+/* Continuous diff surfaces, with rounded transitions and no outlined ornament. */
+html[data-theme] .diff-bridge path{stroke:none}
+html[data-theme] .bridge-add{fill:#e4f1e8}
+html[data-theme] .bridge-delete{fill:#f8e8e7}
+html[data-theme] .bridge-change{fill:#e8f0f8}
+html[data-appearance=dark] .bridge-add{fill:#233f36}
+html[data-appearance=dark] .bridge-delete{fill:#4b3035}
+html[data-appearance=dark] .bridge-change{fill:#253d55}
+html[data-theme] .diff-bridge{background:var(--surface)!important}
