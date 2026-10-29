@@ -482,6 +482,26 @@ origin 저장소에 이슈를 게시합니다.|Create an issue in the origin rep
 이 파일의 남은 변경을 모두 스테이징합니다.|Stage all remaining changes in this file.
 이 파일의 스테이징된 변경을 모두 해제합니다.|Unstage all staged changes in this file.
 현재 체크아웃된 브랜치|Currently checked-out branch
+상세 보기|View details
+목록으로|Back to list
+개요|Overview
+변경 파일|Changed files
+검사 결과|Check results
+리뷰 작성|Write a review
+더 불러오기|Load more
+설명이 없습니다.|No description.
+서버가 이 파일의 Diff를 제공하지 않습니다.|The server did not provide a diff for this file.
+서버가 일부 변경 파일을 생략했습니다.|The server omitted some changed files.
+Diff 표시 한도를 초과했습니다.|Diff display limit reached.
+리뷰 종류|Review type
+리뷰 내용|Review content
+댓글 게시|Post comment
+승인|Approve
+변경 요청|Request changes
+게시|Publish
+입력한 리뷰를 GitHub에 게시합니다.|Publish this review to GitHub.
+입력한 리뷰를 GitLab에 게시합니다.|Publish this review to GitLab.
+리뷰를 게시했습니다.|Review published.
 커밋으로 Reset|Reset to commit
 대상 커밋|Target commit
 Reset 실행 취소·다시 실행|Undo or redo Reset

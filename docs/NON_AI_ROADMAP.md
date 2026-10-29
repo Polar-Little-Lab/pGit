@@ -117,3 +117,12 @@ GitHub는 사용자 기기의 `gh` 설치/로그인이 필요하며 OAuth UI는 
 - Reset은 깨끗한 작업 상태에서 Soft/Mixed/Hard 미리보기와 확인을 제공한다. 이전 HEAD 백업, 마지막 Reset의 Undo/Redo를 저장하며 이후 상태 변경이 있으면 거부한다. 서브모듈과 무시된 파일 충돌은 지원하지 않는다.
 - Reword는 제목·본문을 그대로 편집한다. 충돌이 발생해도 실행 계획/메시지를 Git 디렉터리에 유지하고, 계속/중단 완료 후 정리한다.
 - 다음 범위: GitHub PR와 GitLab MR의 상세 리뷰 화면을 함께 개선하고, Reset 이외 Git 작업의 Undo/Redo를 확장한다.
+
+
+### 2026-10-29: GitHub PR / GitLab MR 상세 리뷰
+
+- 두 서비스에 공통 상세 화면: 개요, 파일별 부분 통합 Diff, 검사, 댓글, 리뷰 작성.
+- GitHub Check Runs + Commit Status, 댓글 + 리뷰 기록. GitLab 파이프라인 + MR notes.
+- GitHub 댓글/승인/변경 요청, GitLab 댓글/승인 게시 연결. 선택한 원격과 head/base 검증, 승인 SHA 지정, 실패 시 초안 보존.
+- 100개 단위 추가 조회, 생략된 Diff 표시, 외부 HTML 미실행, 좁은 창 대응.
+- 다음: 줄별 리뷰 댓글/스레드, 승인 정책과 병합 가능 상태의 상세 표시, 검토 후 병합 실행. 실제 사내 서버 검증은 아직 수행하지 않음.

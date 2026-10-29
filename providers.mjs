@@ -1,3 +1,6 @@
+import {parseGitHubRemote,parseGitLabRemote} from './provider-remotes.mjs';
+export {parseGitHubRemote,parseGitLabRemote} from './provider-remotes.mjs';
+import {reviewProvider,reviewActions} from './provider-review.mjs';
 import {execFile} from 'node:child_process';import {promisify} from 'node:util';import {git,snapshot} from './git.mjs';import {extras} from './operations.mjs';
 const exec=promisify(execFile);
 const string=(v,label,max=4000)=>{if(typeof v!=='string'||!v.trim()||v.length>max||v.includes('\0'))throw Error(label+'을 입력하세요.');return v.trim()};
@@ -17,19 +20,11 @@ case 'githubPRCheckout':return ['pr','checkout',number(d.number)];
 case 'githubIssueCreate':return ['issue','create','--title',string(d.title,'제목',256),'--body',string(d.body,'본문')];
 case 'githubIssueComment':return ['issue','comment',number(d.number),'--body',string(d.body,'댓글')];
 default:throw Error('지원하지 않는 GitHub 작업');}}
-export function parseGitHubRemote(url){let match=url.match(/^git@([\w.-]+):([\w.-]+)\/([\w.-]+?)(?:\.git)?$/)||url.match(/^https:\/\/([\w.-]+)\/([\w.-]+)\/([\w.-]+?)(?:\.git)?\/?$/)||url.match(/^ssh:\/\/git@([\w.-]+)\/([\w.-]+)\/([\w.-]+?)(?:\.git)?$/);if(!match)throw Error('origin에 GitHub HTTPS 또는 SSH 원격을 설정하세요.');return match[1]+'/'+match[2]+'/'+match[3]}
-export async function provider(root,action,d={}){if(action.startsWith('gitlab'))return gitlabProvider(root,action,d);const remote=await git(root,['remote','get-url','origin']).then(s=>s.trim(),()=>{throw Error('origin 원격이 없습니다.')});const repo=parseGitHubRemote(remote);if(action==='githubPRCheckout'){if((await snapshot(root)).files.length||(await extras(root)).operation)throw Error('작업 폴더가 깨끗하고 진행 중인 작업이 없어야 합니다.');}const args=[...githubArgs(action,d),'--repo',repo];try{const {stdout}=await exec('gh',args,{cwd:root,timeout:120000,maxBuffer:8*1024*1024,env:{...process.env,GH_PROMPT_DISABLED:'1',GH_PAGER:'cat',NO_COLOR:'1'}});return stdout||'완료'}catch(e){if(action==='githubPRChecks'&&[1,8].includes(e.code)&&e.stdout)return e.stdout;if(e.code==='ENOENT')throw Error('GitHub CLI(gh)를 설치하고 터미널에서 gh auth login으로 로그인하세요.');throw Error(e.stderr||e.message)}}
+for(const key of reviewActions)providerActions.add(key);
+export async function provider(root,action,d={}){if(reviewActions.includes(action))return reviewProvider(root,action,d);if(action.startsWith('gitlab'))return gitlabProvider(root,action,d);const remote=await git(root,['remote','get-url','origin']).then(s=>s.trim(),()=>{throw Error('origin 원격이 없습니다.')});const repo=parseGitHubRemote(remote);if(action==='githubPRCheckout'){if((await snapshot(root)).files.length||(await extras(root)).operation)throw Error('작업 폴더가 깨끗하고 진행 중인 작업이 없어야 합니다.');}const args=[...githubArgs(action,d),'--repo',repo];try{const {stdout}=await exec('gh',args,{cwd:root,timeout:120000,maxBuffer:8*1024*1024,env:{...process.env,GH_PROMPT_DISABLED:'1',GH_PAGER:'cat',NO_COLOR:'1'}});return stdout||'완료'}catch(e){if(action==='githubPRChecks'&&[1,8].includes(e.code)&&e.stdout)return e.stdout;if(e.code==='ENOENT')throw Error('GitHub CLI(gh)를 설치하고 터미널에서 gh auth login으로 로그인하세요.');throw Error(e.stderr||e.message)}}
 
 export const gitlabActions=['gitlabMRs','gitlabIssues','gitlabPipelines','gitlabMRDiff','gitlabMRChecks','gitlabMRCheckout','gitlabMRCreate','gitlabMRComment','gitlabIssueCreate'];
 for(const action of gitlabActions)providerActions.add(action);
-export function parseGitLabRemote(remote){
- let url;try{url=new URL(remote.replace(/^([^/@:]+)@([^/:]+):(.+)$/, 'ssh://$1@$2/$3'))}catch{throw Error('GitLab HTTPS 또는 SSH 원격을 선택하세요.')}
- if(!['https:','ssh:'].includes(url.protocol)||url.password||(url.protocol==='https:'&&url.username)||url.search||url.hash)throw Error('인증 정보 없는 GitLab HTTPS 또는 SSH 주소를 사용하세요.');
- const project=url.pathname.replace(/^\/|\/$/g,'').replace(/\.git$/,'');
- if(!/^[\w.-]+(?:\/[\w.-]+)+$/.test(project)||project.split('/').some(p=>p==='.'||p==='..'))throw Error('잘못된 GitLab 프로젝트 경로');
- const host=url.protocol==='ssh:'?url.hostname:url.host;
- return {host,project,repo:`https://${host}/${project}`};
-}
 export function gitlabArgs(action,d,remote){
  const project='projects/'+encodeURIComponent(remote.project), mr=()=>project+'/merge_requests/'+number(d.number);
  const api=(endpoint,fields)=>['api',endpoint,'--hostname',remote.host,...(fields?['--method','POST',...Object.entries(fields).flatMap(([k,v])=>['--raw-field',k+'='+v])]:[])];

@@ -305,3 +305,25 @@ body dialog .hunk-actions button,body dialog .hunk-actions button.primary{displa
 body dialog .select-line{align-items:center;gap:8px;padding:2px 0}
 body dialog .select-line input{margin:0}
 body dialog .check-spacer{width:16px;flex:0 0 16px}
+
+body dialog[data-dialog-kind=review]{width:min(1120px,calc(100vw - 32px));max-height:90vh}
+body dialog .provider-review{height:min(740px,78vh);display:flex;flex-direction:column;gap:12px;overflow:hidden}
+.review-toolbar,.review-tabs{display:flex;align-items:center;gap:8px;flex-shrink:0}.review-toolbar button:last-child{margin-left:auto}
+.review-heading{flex-shrink:0}.review-heading h2{font-size:17px;margin:0;overflow-wrap:anywhere}.review-heading p{margin:4px 0;font-size:12px}
+.review-tabs{border-bottom:1px solid var(--border);padding-bottom:8px;overflow-x:auto}.review-tabs button{white-space:nowrap}
+.review-content{overflow:auto;flex:1;min-height:0}.review-description{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.7}
+.review-files{display:grid;grid-template-columns:minmax(170px,25%) minmax(0,1fr);height:100%;min-height:260px;gap:12px}
+.review-file-list{overflow:auto;border-right:1px solid var(--border);padding-right:8px}.review-file{display:block;width:100%;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:4px}
+.review-patch{overflow:auto;border:1px solid var(--border);border-radius:6px}.review-patch-heading{position:sticky;left:0;padding:10px;border-bottom:1px solid var(--border);overflow-wrap:anywhere}
+.review-patch-row{display:grid;grid-template-columns:42px 42px minmax(max-content,1fr);font:12px/1.8 ui-monospace,monospace;min-width:100%;width:max-content}
+.review-patch-row>span{text-align:right;padding-right:8px;color:var(--muted);user-select:none}.review-patch-row code{white-space:pre;padding:0 8px}
+.review-patch-row.added{background:color-mix(in srgb,#38976a 16%,var(--surface))}.review-patch-row.removed{background:color-mix(in srgb,#c75353 16%,var(--surface))}.review-patch-row.header{background:var(--soft)}
+.review-item{padding:12px 0;border-bottom:1px solid var(--border)}.review-item time{margin-left:12px;font-size:11px;color:var(--muted)}.review-item p{margin:4px 0}
+.review-form textarea{width:100%;display:block;resize:vertical;margin-top:12px;min-height:140px}.review-form textarea[hidden]{display:none}
+@media(max-width:700px){.review-files{grid-template-columns:1fr;height:auto}.review-file-list{max-height:130px;border-right:0}.review-patch{max-height:45vh}.review-heading h2{font-size:15px}}
+body dialog .review-content{display:flex;flex-direction:column;gap:8px}
+body dialog .review-files{height:auto;flex:1;min-height:0}
+body dialog .review-content>p:empty{display:none}
+body dialog .review-content>button{align-self:flex-start;flex-shrink:0}
+.review-items{overflow:auto;min-height:0}.review-content>.review-description{overflow:auto}
+@media(max-width:700px){body dialog .review-files{display:flex;flex-direction:column}.review-file-list{flex-shrink:0}.review-patch{flex:1;min-height:120px}}

@@ -40,6 +40,27 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"View details":["詳細を表示", "查看详情", "Ver detalles", "Voir les détails"],
+"Back to list":["一覧へ戻る", "返回列表", "Volver a la lista", "Retour à la liste"],
+"Overview":["概要", "概览", "Resumen", "Aperçu"],
+"Changed files":["変更ファイル", "更改的文件", "Archivos modificados", "Fichiers modifiés"],
+"Check results":["チェック結果", "检查结果", "Resultados de comprobaciones", "Résultats des vérifications"],
+"Write a review":["レビューを書く", "撰写审查", "Escribir una revisión", "Rédiger une revue"],
+"Load more":["さらに読み込む", "加载更多", "Cargar más", "Charger plus"],
+"No description.":["説明はありません。", "没有描述。", "Sin descripción.", "Aucune description."],
+"The server did not provide a diff for this file.":["サーバーはこのファイルの差分を提供していません。", "服务器未提供此文件的差异。", "El servidor no proporcionó un diff para este archivo.", "Le serveur n’a pas fourni de diff pour ce fichier."],
+"The server omitted some changed files.":["サーバーは一部の変更ファイルを省略しました。", "服务器省略了部分更改文件。", "El servidor omitió algunos archivos modificados.", "Le serveur a omis certains fichiers modifiés."],
+"Diff display limit reached.":["差分の表示上限に達しました。", "已达到差异显示上限。", "Se alcanzó el límite de visualización del diff.", "Limite d’affichage du diff atteinte."],
+"Review type":["レビューの種類", "审查类型", "Tipo de revisión", "Type de revue"],
+"Review content":["レビュー内容", "审查内容", "Contenido de la revisión", "Contenu de la revue"],
+"Post comment":["コメントを投稿", "发布评论", "Publicar comentario", "Publier un commentaire"],
+"Approve":["承認", "批准", "Aprobar", "Approuver"],
+"Request changes":["変更を要求", "请求更改", "Solicitar cambios", "Demander des modifications"],
+"Publish":["投稿", "发布", "Publicar", "Publier"],
+"Publish this review to GitHub.":["このレビューを GitHub に投稿します。", "将此审查发布到 GitHub。", "Publica esta revisión en GitHub.", "Publie cette revue sur GitHub."],
+"Publish this review to GitLab.":["このレビューを GitLab に投稿します。", "将此审查发布到 GitLab。", "Publica esta revisión en GitLab.", "Publie cette revue sur GitLab."],
+"Review published.":["レビューを投稿しました。", "审查已发布。", "Revisión publicada.", "Revue publiée."],
+
 "Reset to commit":["コミットへリセット", "重置到提交", "Restablecer a un commit", "Réinitialiser sur un commit"],
 "Target commit":["対象コミット", "目标提交", "Commit de destino", "Commit cible"],
 "Undo or redo Reset":["Reset の取り消し・やり直し", "撤销或重做重置", "Deshacer o rehacer Reset", "Annuler ou rétablir Reset"],

@@ -101,3 +101,8 @@ npm run dist:mac
 [Polar 디자인 시스템](https://github.com/Polar-Little-Lab/design-system)의 Frost 색상·간격·컨트롤을 사용합니다. Git 명령은 셸 문자열 대신 인자 배열로 실행하며 Diff의 외부 도구와 textconv는 끕니다. 신뢰하는 로컬 저장소에서 사용하세요.
 
 프로젝트 탭의 요청 격리, UI 동작과 디자인 적용 범위는 [Arctic workspace](docs/ARCTIC_WORKSPACE.md)를 참고하세요.
+
+
+PR/MR 목록의 **상세 보기**는 설명, 변경 파일별 통합 Diff, 검사 결과, 댓글·리뷰 작성 탭을 제공합니다. GitHub 검사에는 Check Runs와 기존 Commit Status를 함께 표시합니다. GitLab 검사에는 파이프라인 커밋 SHA를 표시합니다. 파일과 댓글은 100개씩 추가 조회하고, 서버의 Diff 생략·표시 한도를 구분합니다.
+
+GitHub 댓글/승인/변경 요청과 GitLab 댓글/승인은 **게시** 버튼을 눌러야 전송됩니다. 초안은 현재 앱 세션의 메모리에 저장하고 실패 시 유지합니다. 원격 주소와 검토한 커밋을 재확인하며 GitHub 리뷰는 `commit_id`, GitLab 승인은 `sha`로 검토 버전을 연결합니다. 외부 본문은 HTML 실행 없이 텍스트로 표시합니다. 실제 계정 게시·사내 인증/권한 검증, 줄별 리뷰 스레드와 병합 실행은 별도 범위입니다.
