@@ -482,6 +482,22 @@ origin 저장소에 이슈를 게시합니다.|Create an issue in the origin rep
 이 파일의 남은 변경을 모두 스테이징합니다.|Stage all remaining changes in this file.
 이 파일의 스테이징된 변경을 모두 해제합니다.|Unstage all staged changes in this file.
 현재 체크아웃된 브랜치|Currently checked-out branch
+Pull 방식|Pull strategy
+파일 변경 버리기|Discard file changes
+변경 버리기|Discard changes
+버린 변경 복구|Recover discarded changes
+복구|Restore
+복구할 변경이 없습니다.|No changes to recover.
+스테이징되지 않은 파일 변경을 버립니다. 버린 내용은 복구 목록에 보관합니다.|Discard unstaged file changes and keep a recovery copy.
+MR 번호|MR number
+MR 파이프라인|MR pipelines
+MR 체크아웃|Check out MR
+Draft MR 만들기|Create draft MR
+MR 댓글 게시|Post MR comment
+GitLab 이슈 만들기|Create GitLab issue
+선택한 GitLab 원격에 Draft MR을 게시합니다.|Publish a draft MR to the selected GitLab remote.
+입력한 댓글을 GitLab에 게시합니다.|Post this comment to GitLab.
+선택한 GitLab 원격에 이슈를 게시합니다.|Create an issue in the selected GitLab remote.
 `;
 const en=Object.fromEntries(pairs.trim().split('\n').filter(line=>line.includes('|')).map(line=>line.split('|')));
 const reverse=Object.fromEntries(Object.entries(en).map(([key,value])=>[value,key]));

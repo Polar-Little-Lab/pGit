@@ -1,6 +1,6 @@
 import {spawn} from 'node:child_process';
-import {readFile,writeFile,lstat,realpath,mkdtemp,rm} from 'node:fs/promises';
-import {createHash} from 'node:crypto';
+import {readFile,writeFile,lstat,realpath,mkdtemp,rm,mkdir,readdir} from 'node:fs/promises';
+import {createHash,randomUUID} from 'node:crypto';
 import path from 'node:path';
 import os from 'node:os';
 import {fileURLToPath} from 'node:url';
@@ -22,9 +22,22 @@ export function selectedLinePatch(header,hunk,selected,reverse=false){
  return header+`@@ -${oldStart},${oldCount} +${newStart},${newCount} @@\n`+result.join('\n')+'\n';
 }
 export async function rebasePlan(root,base){const hash=await commitRef(root,base),head=await commitRef(root,'HEAD');await git(root,['merge-base','--is-ancestor',hash,head]);if((await git(root,['rev-list','--merges',`${hash}..${head}`])).trim())throw Error('병합 커밋을 포함한 재정렬은 아직 지원하지 않습니다.');const lines=(await git(root,['log','--reverse','--format=%H%x09%s',`${hash}..${head}`])).trim().split('\n').filter(Boolean);if(lines.length>100)throw Error('한 번에 최대 100개 커밋을 편집할 수 있습니다.');return {base:hash,head,commits:lines.map(line=>{const [hash,...title]=line.split('\t');return {hash,title:title.join('\t'),action:'pick'}})}}
-export const advancedActions=new Set(['hunks','stageHunk','stageLines','readText','saveText','conflictRead','conflictSave','ignoreFile','amend','rebasePlan','rebaseApply','searchHistory','worktreeLock','worktreeUnlock','submodules','submoduleUpdate','lfsStatus','lfsFetch','profileRead','profileSave','diffSides']);
-export const advancedReads=new Set(['hunks','readText','conflictRead','rebasePlan','searchHistory','submodules','lfsStatus','profileRead','diffSides']);
+async function recoveryDir(root){const dir=path.join((await git(root,['rev-parse','--absolute-git-dir'])).trim(),'pgit-recovery');await mkdir(dir,{recursive:true,mode:0o700});return dir}
+async function discardPreview(root,name){
+ if((await extras(root)).operation)throw Error('진행 중인 작업을 먼저 완료하세요.');
+ const entry=(await snapshot(root)).files.find(f=>f.name===name);
+ if(!entry||entry.untracked||entry.conflict||entry.original||entry.worktree!=='M')throw Error('작업 폴더에서 수정한 추적 텍스트 파일을 선택하세요.');
+ const file=await textFile(root,name),base=await git(root,['show',`:${name}`]);
+ if(base.includes('\0')||Buffer.byteLength(base)>1024*1024||!Buffer.from(file.content).equals(await readFile(file.absolute)))throw Error('1MB 이하 UTF-8 텍스트 파일만 지원합니다.');
+ return {name,content:file.content,revision:file.revision,base,indexRevision:digest(base)};
+}
+export const advancedActions=new Set(['discardPreview','discardFile','recoveryList','recoverFile','hunks','stageHunk','stageLines','readText','saveText','conflictRead','conflictSave','ignoreFile','amend','rebasePlan','rebaseApply','searchHistory','worktreeLock','worktreeUnlock','submodules','submoduleUpdate','lfsStatus','lfsFetch','profileRead','profileSave','diffSides']);
+export const advancedReads=new Set(['discardPreview','recoveryList','hunks','readText','conflictRead','rebasePlan','searchHistory','submodules','lfsStatus','profileRead','diffSides']);
 export async function advanced(root,action,d={}){switch(action){
+case 'discardPreview':return discardPreview(root,d.name);
+case 'discardFile':{const preview=await discardPreview(root,d.name);if(preview.revision!==d.revision||preview.indexRevision!==d.indexRevision)throw Error('파일 또는 스테이징 내용이 변경되었습니다. 다시 확인하세요.');const backup={id:randomUUID(),name:d.name,content:preview.content,after:digest(preview.base),createdAt:new Date().toISOString()};await writeFile(path.join(await recoveryDir(root),backup.id+'.json'),JSON.stringify(backup),{flag:'wx',mode:0o600});const file=await textFile(root,d.name);if(file.revision!==preview.revision)throw Error('파일이 변경되었습니다.');await writeFile(file.absolute,preview.base);break}
+case 'recoveryList':{const dir=await recoveryDir(root),items=[];for(const name of await readdir(dir)){if(!/^[a-f0-9-]{36}\.json$/.test(name))continue;const item=JSON.parse(await readFile(path.join(dir,name),'utf8'));items.push({id:item.id,name:item.name,createdAt:item.createdAt})}return items.sort((a,b)=>b.createdAt.localeCompare(a.createdAt))}
+case 'recoverFile':{if((await extras(root)).operation)throw Error('진행 중인 작업을 먼저 완료하세요.');if(!/^[a-f0-9-]{36}$/.test(d.id))throw Error('잘못된 복구 항목');const location=path.join(await recoveryDir(root),d.id+'.json'),backup=JSON.parse(await readFile(location,'utf8'));await known(root,backup.name);const file=await textFile(root,backup.name);if(file.revision!==backup.after)throw Error('변경 취소 이후 파일이 수정되었습니다. 현재 내용을 보관한 뒤 복구하세요.');await writeFile(file.absolute,backup.content);await rm(location);break}
 case 'hunks':return hunks(root,d.name,!!d.staged);
 case 'stageLines':{const p=await hunks(root,d.name,!!d.staged);if(p.revision!==d.revision)throw Error('파일이 변경되었습니다.');const h=p.hunks.find(h=>h.index===d.index);if(!h)throw Error('변경 블록 없음');const patch=selectedLinePatch(p.header,h.text,d.lines,!!d.staged);await runGit(root,['apply','--cached','--check','-'],{input:patch});await runGit(root,['apply','--cached','-'],{input:patch});break}
 case 'stageHunk':{const p=await hunks(root,d.name,!!d.staged);if(p.revision!==d.revision)throw Error('파일이 변경되었습니다. Diff를 다시 열어 주세요.');const h=p.hunks.find(h=>h.index===d.index);if(!h)throw Error('변경 블록이 없습니다.');await runGit(root,['apply','--cached',...(d.staged?['--reverse']:[]),'--check','-'],{input:p.header+h.text});await runGit(root,['apply','--cached',...(d.staged?['--reverse']:[]),'-'],{input:p.header+h.text});break}

@@ -40,6 +40,23 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Pull strategy":["Pull 方式", "拉取方式", "Estrategia de Pull", "Stratégie de Pull"],
+"Discard file changes":["ファイルの変更を破棄", "丢弃文件更改", "Descartar cambios del archivo", "Abandonner les modifications du fichier"],
+"Discard changes":["変更を破棄", "丢弃更改", "Descartar cambios", "Abandonner les modifications"],
+"Recover discarded changes":["破棄した変更を復元", "恢复已丢弃的更改", "Recuperar cambios descartados", "Restaurer les modifications abandonnées"],
+"Restore":["復元", "恢复", "Restaurar", "Restaurer"],
+"No changes to recover.":["復元できる変更はありません。", "没有可恢复的更改。", "No hay cambios que recuperar.", "Aucune modification à restaurer."],
+"Discard unstaged file changes and keep a recovery copy.":["未ステージの変更を破棄し、復元用コピーを保存します。", "丢弃未暂存的文件更改并保留恢复副本。", "Descarta los cambios sin preparar y guarda una copia de recuperación.", "Abandonne les modifications non indexées et conserve une copie de récupération."],
+"MR number":["MR 番号", "MR 编号", "Número de MR", "Numéro de MR"],
+"MR pipelines":["MR パイプライン", "MR 流水线", "Pipelines de MR", "Pipelines de MR"],
+"Check out MR":["MR をチェックアウト", "检出 MR", "Cambiar a MR", "Extraire la MR"],
+"Create draft MR":["ドラフト MR を作成", "创建草稿 MR", "Crear MR en borrador", "Créer une MR brouillon"],
+"Post MR comment":["MR コメントを投稿", "发布 MR 评论", "Publicar comentario en MR", "Publier un commentaire sur la MR"],
+"Create GitLab issue":["GitLab イシューを作成", "创建 GitLab 议题", "Crear issue en GitLab", "Créer une issue GitLab"],
+"Publish a draft MR to the selected GitLab remote.":["選択した GitLab リモートにドラフト MR を公開します。", "向所选 GitLab 远程仓库发布草稿 MR。", "Publica una MR en borrador en el remoto GitLab seleccionado.", "Publie une MR brouillon sur le distant GitLab sélectionné."],
+"Post this comment to GitLab.":["このコメントを GitLab に投稿します。", "将此评论发布到 GitLab。", "Publica este comentario en GitLab.", "Publie ce commentaire sur GitLab."],
+"Create an issue in the selected GitLab remote.":["選択した GitLab リモートにイシューを作成します。", "在所选 GitLab 远程仓库创建议题。", "Crea una issue en el remoto GitLab seleccionado.", "Crée une issue sur le distant GitLab sélectionné."],
+
  "Integrations": ["連携", "集成", "Integraciones", "Intégrations"],
  "No tags": ["タグなし", "无标签", "Sin etiquetas", "Aucun tag"],
  "No stashes": ["スタッシュなし", "无储藏", "Sin stashes", "Aucun stash"],

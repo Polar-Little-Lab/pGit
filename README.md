@@ -37,7 +37,15 @@ Apple Silicon은 `macos-arm64`, Intel은 `macos-x64` 파일을 받으세요. Nod
 | 탐색·보관 | 파일 History·Blame, Reflog·참조 비교, 태그, Stash 생성·Diff·Apply·Pop·Drop |
 | 확장 | Worktree 생성·조회·제거·Lock/Unlock, Submodule 상태·초기화/갱신, LFS 상태/Fetch |
 | 설정 | 저장소별 작성자·이메일·기존 Git 키를 사용하는 서명 설정 |
+| GitLab | 자체 호스팅·하위 그룹·원격 선택, MR/Issues/Pipelines 목록, MR Diff·파이프라인·Checkout, Draft MR·댓글·이슈 생성 |
+| 복구 | 추적 텍스트 파일의 미스테이징 변경 버리기·복구 목록, 외부 수정 감지 |
 | GitHub | PR/Issues/Actions 목록, PR Diff·검사·Checkout, Draft PR·리뷰·댓글·이슈 게시 |
+
+GitLab 기능은 `glab` 설치와 `glab auth login --hostname gitlab.example.com` 로그인이 필요합니다. 연동 화면에서 선택한 원격 URL의 호스트와 프로젝트 경로를 사용하며 하위 그룹을 지원합니다. SSH 포트는 API 포트로 사용하지 않습니다. 별도 API 포트는 HTTPS 원격 주소에 지정하세요. 토큰을 pGit에 저장하지 않습니다. MR 생성·댓글·이슈 생성은 명령 폼에서 실행해야 게시됩니다. 실제 사내 서버 인증·권한은 해당 환경에서 검증해야 합니다.
+
+변경 버리기는 1MB 이하 UTF-8 추적 파일의 작업 폴더 수정에 한정됩니다. 스테이징된 내용은 유지하고 복구본은 해당 워크트리의 Git 디렉터리에 저장합니다. 작업 검색의 **버린 변경 복구**에서 복원하며, 이후 수정된 파일은 덮어쓰지 않습니다. 새 파일·삭제·이름 변경·바이너리·줄/블록 단위 버리기 및 일반 Undo/Redo는 후속 범위입니다.
+
+Pull은 fast-forward only(기본), Merge, Rebase를 선택할 수 있습니다. 충돌은 기존 계속/중단 흐름에서 처리합니다.
 
 GitHub 기능은 사용자 PC의 `gh` 설치와 `gh auth login`이 필요합니다. `origin`의 GitHub 또는 Enterprise 저장소를 대상으로 기존 로그인 정보를 사용합니다. 이 앱이 토큰을 수집하지 않습니다. LFS 기능은 Git LFS 설치가 필요합니다. Git hook과 SSH/credential helper·서명 설정은 기존 Git 설정을 사용합니다.
 
@@ -78,7 +86,7 @@ npm run dist:mac
 ## 구조와 디자인
 
 - `git.mjs`, `operations.mjs`, `advanced.mjs`: 실제 Git 실행과 검증
-- `providers.mjs`: 선택적 GitHub CLI 어댑터
+- `providers.mjs`: 선택적 GitHub/GitLab CLI 어댑터
 - `server.mjs`: 127.0.0.1의 임의 포트, Host·Origin·세션 토큰 검증, 프로젝트별 요청 분리
 - `public/shell.*`: 프로젝트 탭·최근 프로젝트·시작 화면
 - `public/arctic.*`: 그래프/diff와 커밋 패널 배치

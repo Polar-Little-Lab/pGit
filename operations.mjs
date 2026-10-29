@@ -53,7 +53,7 @@ export async function operate(root,action,d={}){
  case 'remoteRemove':await git(root,['remote','remove',await remoteName(root,d.name)]);break;
  case 'remoteList':return git(root,['remote','-v']);
  case 'fetch':await git(root,['fetch','--prune',await remoteName(root,d.remote)]);break;
- case 'pull':await idle(root);await clean(root);if(!(await extras(root)).upstream)throw Error('Push로 추적 브랜치를 먼저 설정하세요.');await git(root,['pull','--ff-only']);break;
+ case 'pull':{const strategy=d.strategy||'ff-only';if(!['ff-only','merge','rebase'].includes(strategy))throw Error('잘못된 Pull 방식');await idle(root);await clean(root);if(!(await extras(root)).upstream)throw Error('Push로 추적 브랜치를 먼저 설정하세요.');await git(root,['pull',...(strategy==='ff-only'?['--ff-only']:strategy==='merge'?['--no-rebase','--ff','--no-edit']:['--rebase'])]);break;}
  case 'push':{await idle(root);const branch=(await snapshot(root)).branch;await localBranch(root,branch);await git(root,['push','--set-upstream',await remoteName(root,d.remote),`refs/heads/${branch}:refs/heads/${branch}`]);break}
  case 'tagCreate':{const name=text(d.name,'태그 이름');await git(root,['check-ref-format',`refs/tags/${name}`]);if(name.startsWith('-'))throw Error('잘못된 태그');await git(root,['tag',...(d.message?['-a','-m',text(d.message,'태그 메시지')]:[]),name,await ref(root,d.ref||'HEAD')]);break}
  case 'tagDelete':{const name=text(d.name,'태그 이름');await git(root,['show-ref','--verify',`refs/tags/${name}`]);await git(root,['tag','-d','--',name]);break}

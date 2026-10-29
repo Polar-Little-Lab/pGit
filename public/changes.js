@@ -99,7 +99,7 @@ function syncDiffControls() {
   if (hint) hint.textContent = !file ? '파일을 선택하면 해당 영역의 변경을 보여줍니다.' : file.conflict ? '충돌 파일 · 해결 후 스테이징하세요.' :
     staged ? 'HEAD → 인덱스 · 이 변경이 커밋됩니다.' : '인덱스 → 작업 폴더 · 이 변경은 아직 커밋되지 않습니다.';
   for (const button of document.querySelectorAll('[data-file-action]')) {
-    button.disabled = working || !file || (button.dataset.fileAction === 'conflictRead' && !file.conflict);
+    button.disabled = working || !file || (button.dataset.fileAction === 'conflictRead' && !file.conflict) || (button.dataset.fileAction === 'discardPreview' && (staged || file?.untracked || file?.conflict || file?.original || file?.worktree !== 'M'));
   }
 }
 
