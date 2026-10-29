@@ -482,6 +482,22 @@ origin 저장소에 이슈를 게시합니다.|Create an issue in the origin rep
 이 파일의 남은 변경을 모두 스테이징합니다.|Stage all remaining changes in this file.
 이 파일의 스테이징된 변경을 모두 해제합니다.|Unstage all staged changes in this file.
 현재 체크아웃된 브랜치|Currently checked-out branch
+커밋으로 Reset|Reset to commit
+대상 커밋|Target commit
+Reset 실행 취소·다시 실행|Undo or redo Reset
+Reset 방식|Reset mode
+Soft · 변경을 스테이징에 유지|Soft · Keep changes staged
+Mixed · 변경을 작업 폴더에 유지|Mixed · Keep changes in working folder
+Hard · 대상 커밋의 파일로 변경|Hard · Replace files with target commit
+Hard Reset의 파일 변경을 확인했습니다.|I have reviewed the file changes for Hard Reset.
+Reset 실행|Run Reset
+실행 취소할 Reset이 없습니다.|No Reset to undo.
+Reset 실행 취소|Undo Reset
+Reset 다시 실행|Redo Reset
+Reset 이후 저장소가 변경되었습니다. 자동 실행 취소를 할 수 없습니다.|The repository changed after Reset. Automatic undo is unavailable.
+다시 버리기|Discard again
+이 블록 버리기|Discard this hunk
+선택한 줄 버리기|Discard selected lines
 Pull 방식|Pull strategy
 파일 변경 버리기|Discard file changes
 변경 버리기|Discard changes

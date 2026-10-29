@@ -295,3 +295,13 @@ body .is-expanded .compare-bar{padding-right:48px}
 #history .filterbar #allHistory[aria-pressed=true]{background:var(--control-selected)!important;color:var(--accent)}
 .shell>aside .sidebar-repository-title{border-top:1px solid var(--border);margin:12px 0 0;padding:12px 8px 0;font-size:10px;letter-spacing:.4px}
 .shell>aside .sidebar-repository-title+.branch-section{margin-top:6px}
+
+/* Dialog checkboxes keep their own column instead of inheriting full-width text inputs. */
+body dialog input[type=checkbox]{width:16px;height:16px;flex:0 0 16px;margin:0;vertical-align:middle}
+body dialog .reset-confirm{display:flex;align-items:center;gap:8px;margin-top:12px}
+body dialog .reset-confirm[hidden]{display:none}
+body dialog .hunk-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+body dialog .hunk-actions button,body dialog .hunk-actions button.primary{display:inline-flex;align-items:center;margin:0;height:32px;padding:0 10px}
+body dialog .select-line{align-items:center;gap:8px;padding:2px 0}
+body dialog .select-line input{margin:0}
+body dialog .check-spacer{width:16px;flex:0 0 16px}

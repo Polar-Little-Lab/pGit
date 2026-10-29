@@ -1,4 +1,5 @@
 import http from 'node:http';
+import {historyEdit,historyEditActions,historyEditReads} from './history-edits.mjs';
 import {repositoryRevision} from './refresh.mjs';
 import {randomBytes} from 'node:crypto';
 import {readFile,realpath} from 'node:fs/promises';
@@ -56,7 +57,7 @@ const server=http.createServer(async(req,res)=>{
      case 'stage':await git.stage(root,data.name,!!data.value);result=await fullState(root,data.limit);break;
      case 'stageAll':await git.stageAll(root,data.value);result=await fullState(root,data.limit);break;
      case 'commit':await git.commit(root,data.message);result=await fullState(root,data.limit);break;
-     default:result=providerActions.has(action)?await provider(root,action,data):advancedActions.has(action)?await advanced(root,action,data):await operate(root,action,data);if(!readOperations.has(action)&&!advancedReads.has(action)&&!providerActions.has(action))result=await fullState(root,data.limit);
+     default:result=historyEditActions.has(action)?await historyEdit(root,action,data):providerActions.has(action)?await provider(root,action,data):advancedActions.has(action)?await advanced(root,action,data):await operate(root,action,data);if(!historyEditReads.has(action)&&!readOperations.has(action)&&!advancedReads.has(action)&&!providerActions.has(action))result=await fullState(root,data.limit);
     }
    }
   }finally{busyWorkspaces.delete(workspaceId);if(lockedRoot)busyRoots.delete(lockedRoot)}

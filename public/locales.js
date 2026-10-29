@@ -40,6 +40,23 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Reset to commit":["コミットへリセット", "重置到提交", "Restablecer a un commit", "Réinitialiser sur un commit"],
+"Target commit":["対象コミット", "目标提交", "Commit de destino", "Commit cible"],
+"Undo or redo Reset":["Reset の取り消し・やり直し", "撤销或重做重置", "Deshacer o rehacer Reset", "Annuler ou rétablir Reset"],
+"Reset mode":["Reset の方式", "重置模式", "Modo de Reset", "Mode de Reset"],
+"Soft · Keep changes staged":["Soft · 変更をステージに保持", "Soft · 保持更改已暂存", "Soft · Mantener los cambios preparados", "Soft · Conserver les modifications indexées"],
+"Mixed · Keep changes in working folder":["Mixed · 変更を作業フォルダーに保持", "Mixed · 将更改保留在工作目录", "Mixed · Mantener los cambios en la carpeta de trabajo", "Mixed · Conserver les modifications dans le dossier de travail"],
+"Hard · Replace files with target commit":["Hard · 対象コミットのファイルに置換", "Hard · 替换为目标提交的文件", "Hard · Reemplazar archivos por los del commit de destino", "Hard · Remplacer les fichiers par ceux du commit cible"],
+"I have reviewed the file changes for Hard Reset.":["Hard Reset によるファイル変更を確認しました。", "我已检查硬重置的文件更改。", "He revisado los cambios de archivos de Hard Reset.", "J’ai vérifié les modifications de fichiers de Hard Reset."],
+"Run Reset":["Reset を実行", "执行重置", "Ejecutar Reset", "Exécuter Reset"],
+"No Reset to undo.":["取り消せる Reset はありません。", "没有可撤销的重置。", "No hay Reset que deshacer.", "Aucun Reset à annuler."],
+"Undo Reset":["Reset を取り消す", "撤销重置", "Deshacer Reset", "Annuler Reset"],
+"Redo Reset":["Reset をやり直す", "重做重置", "Rehacer Reset", "Rétablir Reset"],
+"The repository changed after Reset. Automatic undo is unavailable.":["Reset 後にリポジトリが変更されました。自動取り消しはできません。", "重置后仓库发生了变化，无法自动撤销。", "El repositorio cambió después de Reset. No se puede deshacer automáticamente.", "Le dépôt a changé après Reset. L’annulation automatique est indisponible."],
+"Discard again":["再び破棄", "再次丢弃", "Descartar de nuevo", "Abandonner à nouveau"],
+"Discard this hunk":["このブロックを破棄", "丢弃此块", "Descartar este bloque", "Abandonner ce bloc"],
+"Discard selected lines":["選択した行を破棄", "丢弃选中行", "Descartar líneas seleccionadas", "Abandonner les lignes sélectionnées"],
+
 "Pull strategy":["Pull 方式", "拉取方式", "Estrategia de Pull", "Stratégie de Pull"],
 "Discard file changes":["ファイルの変更を破棄", "丢弃文件更改", "Descartar cambios del archivo", "Abandonner les modifications du fichier"],
 "Discard changes":["変更を破棄", "丢弃更改", "Descartar cambios", "Abandonner les modifications"],

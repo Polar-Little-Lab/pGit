@@ -12,6 +12,26 @@ test('discard preserves staged content, persists recovery and rejects stale file
  assert.equal(await readFile(path.join(root,name),'utf8'),'staged\n');assert.equal(await git(root,['show',':'+name]),'staged\n');
  const list=await advanced(root,'recoveryList');assert.equal(list.length,1);
  await writeFile(path.join(root,name),'external\n');await assert.rejects(advanced(root,'recoverFile',{id:list[0].id}),/수정/);
- await writeFile(path.join(root,name),'staged\n');await advanced(root,'recoverFile',{id:list[0].id});assert.equal(await readFile(path.join(root,name),'utf8'),'unstaged\n');assert.equal((await advanced(root,'recoveryList')).length,0);
+ await writeFile(path.join(root,name),'staged\n');await advanced(root,'recoverFile',{id:list[0].id});assert.equal(await readFile(path.join(root,name),'utf8'),'unstaged\n');assert.equal((await advanced(root,'recoveryList'))[0].restored,true);
  const stale=await advanced(root,'discardPreview',{name});await writeFile(path.join(root,name),'new\n');await assert.rejects(advanced(root,'discardFile',stale),/변경/);assert.equal(await readFile(path.join(root,name),'utf8'),'new\n');
+});
+
+test('partial discard and redo preserve staging, other hunks and unselected lines',async t=>{
+ const root=await fixture(t),name='file.txt';let content=await readFile(root+'/'+name,'utf8');content=content.replace('line 0\n','staged\n');await writeFile(root+'/'+name,content);await git(root,['add',name]);const draft=content.replace('line 1\n','first\n').replace('line 2\n','second\n').replace('line 25\n','last\n');await writeFile(root+'/'+name,draft);
+ let patch=await hunks(root,name);const lines=patch.hunks[0].text.split('\n').slice(1).flatMap((line,i)=>['-line 1','+first'].includes(line)?[i]:[]);
+ await assert.rejects(advanced(root,'discardLines',{name,revision:patch.revision,index:0}),/선택/);
+ await advanced(root,'discardLines',{name,revision:patch.revision,index:0,lines});let text=await readFile(root+'/'+name,'utf8');assert.match(text,/line 1\nsecond\n/);assert.match(text,/last/);assert.match(await git(root,['show',':'+name]),/^staged/);
+ let [backup]=await advanced(root,'recoveryList');await advanced(root,'recoverFile',{id:backup.id});assert.equal(await readFile(root+'/'+name,'utf8'),draft);await advanced(root,'redoDiscard',{id:backup.id});assert.equal(await readFile(root+'/'+name,'utf8'),text);
+ patch=await hunks(root,name);await advanced(root,'discardHunk',{name,revision:patch.revision,index:1});assert.doesNotMatch(await readFile(root+'/'+name,'utf8'),/last/);assert.match(await readFile(root+'/'+name,'utf8'),/second/);
+ await assert.rejects(advanced(root,'discardHunk',{name,revision:patch.revision,index:0}),/변경/);await assert.rejects(advanced(root,'discardHunk',{name,revision:patch.revision,index:0,staged:true}),/스테이징/);
+});
+test('partial discard handles missing final newline and unusual filenames',async t=>{
+ const root=await fixture(t),name='space [x].txt';await writeFile(root+'/'+name,'base');await git(root,['add',name]);await git(root,['commit','-m','file']);await writeFile(root+'/'+name,'changed');const p=await hunks(root,name);await advanced(root,'discardHunk',{name,index:0,revision:p.revision});assert.equal(await readFile(root+'/'+name,'utf8'),'base');
+});
+test('reword preserves tree, full message and literal shell-like text',async t=>{
+ const root=await fixture(t),base=(await git(root,['rev-parse','HEAD'])).trim();for(const name of ['one','two']){await writeFile(root+'/'+name,name);await git(root,['add',name]);await git(root,['commit','-m',name+'\n\nOriginal body'])}const tree=(await git(root,['rev-parse','HEAD^{tree}'])).trim(),plan=await rebasePlan(root,base);assert.match(plan.commits[0].message,/Original body/);plan.commits[0].action='reword';plan.commits[0].message='New title\n\n$(touch should-not-exist) `literal`';await advanced(root,'rebaseApply',plan);assert.equal((await git(root,['rev-parse','HEAD^{tree}'])).trim(),tree);assert.equal((await git(root,['show','-s','--format=%B','HEAD~1'])).trim(),plan.commits[0].message);assert.equal((await git(root,['show','-s','--format=%B','HEAD'])).trim(),'two\n\nOriginal body');
+});
+
+test('reword plan survives a conflict and continues with the requested message',async t=>{
+ const root=await fixture(t),base=(await git(root,['rev-parse','HEAD'])).trim();await writeFile(root+'/file.txt','first\n');await git(root,['commit','-am','first']);await writeFile(root+'/file.txt','second\n');await git(root,['commit','-am','second']);const plan=await rebasePlan(root,base);plan.commits[0].action='drop';plan.commits[1].action='reword';plan.commits[1].message='Resolved message\n\nDetails';await assert.rejects(advanced(root,'rebaseApply',plan));assert.equal((await fullState(root)).operation,'rebase');await writeFile(root+'/file.txt','second\n');await git(root,['add','file.txt']);await operate(root,'continue');assert.equal((await fullState(root)).operation,null);assert.equal((await git(root,['show','-s','--format=%B','HEAD'])).trim(),plan.commits[1].message);
 });

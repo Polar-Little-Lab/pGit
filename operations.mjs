@@ -1,7 +1,7 @@
 import {cherryPickPlan} from './multi-commit.mjs';
 import {mergePreview} from './merge-preview.mjs';
 import {git, snapshot, openRepo, parseStatus} from './git.mjs';
-import {access, mkdir, realpath} from 'node:fs/promises';
+import {access, mkdir, realpath, readdir, rm} from 'node:fs/promises';
 import path from 'node:path';
 
 const text=(value,label)=>{if(typeof value!=='string'||!value.trim()||value.includes('\0')||value.length>4096)throw Error(`${label}을 입력하세요.`);return value.trim()};
@@ -68,7 +68,7 @@ export async function operate(root,action,d={}){
   await git(root,['cherry-pick','--no-edit',...plan.commits.map(commit=>commit.hash)]);break;
  }
  case 'cherryPick':case 'revert':await idle(root);await clean(root);await git(root,[action==='cherryPick'?'cherry-pick':'revert','--no-edit',await ref(root,d.ref)]);break;
- case 'continue':case 'abort':{const op=(await extras(root)).operation;if(!op)throw Error('진행 중인 작업이 없습니다.');await git(root,op==='merge'&&action==='continue'?['commit','--no-edit']:[op,action==='continue'?'--continue':'--abort']);break}
+ case 'continue':case 'abort':{const op=(await extras(root)).operation;if(!op)throw Error('진행 중인 작업이 없습니다.');await git(root,op==='merge'&&action==='continue'?['commit','--no-edit']:[op,action==='continue'?'--continue':'--abort']);if(op==='rebase'&&!(await extras(root)).operation){const dir=(await git(root,['rev-parse','--absolute-git-dir'])).trim();for(const entry of await readdir(dir,{withFileTypes:true}))if(entry.isDirectory()&&/^pgit-rebase-[a-zA-Z0-9]+$/.test(entry.name))await rm(path.join(dir,entry.name),{recursive:true,force:true})}break}
  case 'resolve':{const files=(await snapshot(root)).files;if(!files.some(f=>f.name===d.name&&f.conflict))throw Error('충돌 파일을 선택하세요.');await git(root,['add','--',d.name]);break}
  case 'undoCommit':await idle(root);await clean(root);await git(root,['reset','--soft',await ref(root,'HEAD~1')]);break;
  case 'fileHistory':case 'blame':{const name=text(d.name,'파일 경로');const files=(await git(root,['ls-files','-z'])).split('\0');if(!files.includes(name))throw Error('추적 중인 파일을 선택하세요.');return action==='blame'?git(root,['blame','--date=short','--',name]):git(root,['log','--follow','-n','100','--format=%h %aI %an%n%s','--',name]);}
