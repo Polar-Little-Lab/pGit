@@ -23,7 +23,7 @@ selectCommit=async function(commit){
  const title=el('h2',commit.title),author=el('div',undefined,'commit-author');
  const avatar=el('span',commit.author.slice(0,2).toUpperCase(),'author-avatar');
  const identity=el('div');const authored=el('time',new Date(commit.date).toLocaleString());authored.dateTime=commit.date;identity.append(el('strong',commit.author),authored);author.append(avatar,identity);
- const parents=el('div',undefined,'commit-parents');parents.append(el('span','부모 커밋'));for(const hash of commit.parents){const parent=el('button',hash.slice(0,7));parent.disabled=!state.history.some(c=>c.hash===hash);parent.onclick=()=>selectCommit(state.history.find(c=>c.hash===hash));parents.append(parent)}
+ const parents=el('div',undefined,'commit-parents');parents.append(el('span','부모 커밋'));for(const hash of commit.parents){const parent=el('button',hash.slice(0,7));parent.disabled=!state.history.some(c=>c.hash===hash);parent.title=hash;parent.onclick=()=>navigateToCommit(hash);parents.append(parent)}
  const status=el('div','변경 파일을 불러오는 중…','commit-file-heading');const list=el('div',undefined,'selected-commit-files');const commitBody=el('p',commit.body||'','commit-body');commitBody.hidden=!commit.body;commitPanel.replaceChildren(header,title,commitBody,author,parents,status,list);
  try{const summary=await api('comparisonFiles',{hash:commit.hash,parent:0});if(version!==commitSelectionVersion||!commitPanel.isConnected)return;
  status.textContent=`변경 파일 · ${summary.files.length}`;

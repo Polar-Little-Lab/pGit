@@ -48,6 +48,19 @@ const graphDrawRows=drawRows;drawRows=function(){
 };
 const graphRender=render;render=function(){loadGraphPreferences();graphRender();paintGraphRefs()};
 const graphSelectCommit=selectCommit;selectCommit=async function(commit){const result=graphSelectCommit(commit);paintCommitSelection();return result};
+// Explicit parent navigation reveals the destination without scrolling the inspector.
+function navigateToCommit(hash){
+ const commit=state?.history.find(item=>item.hash===hash);if(!commit)return;
+ selectedCommits.clear();selectionAnchor=hash;
+ const findRow=()=>document.querySelector(`.historyrow[data-hash="${hash}"]`);
+ if(!findRow()&&historyQuery){historyQuery='';renderHistory()}
+ selectCommit(commit);
+ const row=findRow(),scroller=$('historyScroll');if(!row||!scroller)return;
+ row.focus({preventScroll:true});
+ const head=scroller.querySelector('.history-head')?.offsetHeight||0;
+ const top=scroller.scrollTop+row.getBoundingClientRect().top-scroller.getBoundingClientRect().top-head-(scroller.clientHeight-head-row.offsetHeight)/2;
+ scroller.scrollTo({top:Math.max(0,top),behavior:'instant'});
+}
 $('history').addEventListener('click',event=>{
  const row=event.target.closest('.historyrow');if(!row)return;
  const hash=row.dataset.hash;

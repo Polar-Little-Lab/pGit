@@ -44,3 +44,9 @@ html[data-theme] .project-tab>.tab-close{align-self:stretch;width:32px;height:au
 html[data-theme] .project-tab>.tab-close:hover{background:transparent;color:var(--accent)}
 html[data-theme] .project-tab>button:focus-visible{outline-offset:-3px;border-radius:4px}
 html[data-theme] .project-tab.selected:before{background:var(--accent);pointer-events:none}
+/* Keep the destination legible against alternating history-row backgrounds. */
+html[data-theme] .historyrow.active{box-shadow:inset 3px 0 var(--accent),inset 0 1px var(--border),inset 0 -1px var(--border)}
+html[data-theme] .historyrow.active .subject-text{font-weight:600}
+html[data-theme] .historyrow.active>code{color:var(--accent);font-weight:600}
+html[data-theme] .historyrow.active svg circle{fill:var(--accent);stroke-width:2.5px}
+html[data-theme] .historyrow:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
