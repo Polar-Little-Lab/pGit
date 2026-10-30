@@ -19,3 +19,18 @@ test('GitLab uses chosen remote and blocks checkout with local changes before in
  await writeFile(path.join(root,'file'),'changed');await assert.rejects(gitlabProvider(root,'gitlabMRCheckout',{remote:'company',number:1},run),/깨끗/);assert.equal(calls,1);
  await assert.rejects(gitlabProvider(root,'gitlabMRs',{remote:'missing'},run),/원격/);
 });
+
+import {remoteWebInfo} from '../provider-remotes.mjs';
+test('remote web links use credential-free HTTPS and preserve host/project identity',()=>{
+ assert.deepEqual(remoteWebInfo('git@github.com:team/project.git'),{host:'github.com',project:'team/project',url:'https://github.com/team/project',provider:'github'});
+ assert.equal(remoteWebInfo('ssh://git@git.company.test:2222/division/team/project.git').url,'https://git.company.test/division/team/project');
+ assert.equal(remoteWebInfo('https://git.company.test:8443/team/project.git').url,'https://git.company.test:8443/team/project');
+ for(const value of ['/tmp/repo','git@company-alias:team/repo','https://token@github.com/team/repo','https://user:secret@github.com/team/repo','https://github.com/team/repo?token=secret','javascript:alert(1)','file:///tmp/repo'])assert.equal(remoteWebInfo(value),null);
+});
+
+import {provider} from '../providers.mjs';
+test('GitHub chooses the requested remote instead of silently using origin',async t=>{
+ const root=await mkdtemp(path.join(os.tmpdir(),'pgit-github-'));t.after(()=>rm(root,{recursive:true,force:true}));await git(root,['init','-b','main']);await git(root,['remote','add','origin','git@github.com:fork/repo.git']);await git(root,['remote','add','upstream','git@github.com:team/repo.git']);
+ let calls=0;const run=async(binary,args)=>{calls++;assert.equal(binary,'gh');assert.equal(args.at(-1),'github.com/team/repo');return {stdout:'[]'}};
+ assert.equal(await provider(root,'githubPRs',{remote:'upstream'},run),'[]');await assert.rejects(provider(root,'githubPRs',{remote:'missing'},run),/원격/);assert.equal(calls,1);
+});

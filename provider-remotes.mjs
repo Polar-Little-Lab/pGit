@@ -7,3 +7,14 @@ export function parseGitLabRemote(remote){
  const host=url.protocol==='ssh:'?url.hostname:url.host;
  return {host,project,repo:`https://${host}/${project}`};
 }
+
+// Never expose credentials or turn local paths/SSH aliases into browser links.
+export function remoteWebInfo(raw){
+ try{const url=new URL(raw.replace(/^([^/@:]+)@([^/:]+):(.+)$/, 'ssh://$1@$2/$3'));
+ if(!['https:','ssh:'].includes(url.protocol)||url.password||(url.protocol==='https:'&&url.username)||url.search||url.hash)return null;
+ const project=url.pathname.replace(/^\/|\/$/g,'').replace(/\.git$/,'');
+ if(!/^[\w.-]+(?:\/[\w.-]+)+$/.test(project)||project.split('/').some(p=>p==='.'||p==='..')||!url.hostname.includes('.'))return null;
+ const host=url.protocol==='ssh:'?url.hostname:url.host;
+ return {host,project,url:`https://${host}/${project}`,provider:url.hostname==='github.com'?'github':url.hostname==='gitlab.com'?'gitlab':null};
+ }catch{return null}
+}

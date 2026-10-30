@@ -63,6 +63,10 @@ Git 저장소가 아닌 폴더입니다.|This folder is not a Git repository.
 등록된 worktree가 아닙니다.|This worktree is not registered.
 워크트리|Worktrees
 워크트리 관리|Manage worktrees
+원격 저장소|Remote repositories
+선택한 원격 저장소에 이슈를 게시합니다.|Post an issue to the selected remote repository.
+리뷰 · 이슈 · CI|Reviews · Issues · CI
+웹 주소 없음|No web address
 브랜치 또는 폴더 검색|Search branches or folders
 상태 확인 불가|Status unavailable
 검색 결과가 없습니다.|No matching results.

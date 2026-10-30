@@ -1,3 +1,4 @@
+import {remoteWebInfo} from './provider-remotes.mjs';
 import {cherryPickPlan} from './multi-commit.mjs';
 import {mergePreview} from './merge-preview.mjs';
 import {git, snapshot, openRepo, parseStatus} from './git.mjs';
@@ -22,7 +23,8 @@ export async function extras(root){
  const upstream=await git(root,['rev-parse','--abbrev-ref','--symbolic-full-name','@{upstream}']).then(s=>s.trim(),()=>null);
  const counts=upstream?await git(root,['rev-list','--left-right','--count','HEAD...@{upstream}']).then(s=>s.trim().split(/\s+/).map(Number),()=>[0,0]):[0,0];
  const worktrees=await worktreeEntries(root);
- return {remotes,refs,stashes,upstream,ahead:counts[0],behind:counts[1],operation,worktrees};
+ const remoteDetails=await Promise.all(remotes.map(async name=>({name,...remoteWebInfo(await git(root,['remote','get-url',name]).then(s=>s.trim(),()=>''))})));
+ return {remotes,remoteDetails,refs,stashes,upstream,ahead:counts[0],behind:counts[1],operation,worktrees};
 }
 export async function worktreeEntries(root){
  return (await git(root,['worktree','list','--porcelain','-z'])).split('\0\0').filter(Boolean).map((block,index)=>{

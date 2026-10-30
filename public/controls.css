@@ -348,3 +348,16 @@ body dialog .provider-review[data-review-view=files]{height:min(740px,78vh)}
 body .worktree-dialog .worktree-actions button{display:inline-flex;align-items:center;justify-content:center;gap:6px}
 
 body dialog[data-dialog-kind=review]:has(.provider-review:not([data-review-view=files])){width:840px}
+.sidebar-integrations .remote-sites-heading{display:flex;align-items:center;justify-content:space-between;padding:0 8px 4px;gap:8px}
+.sidebar-integrations .remote-sites-heading .caption{margin:0;padding:0}
+.shell>aside .remote-sites-heading button{display:flex;align-items:center;justify-content:center;width:24px;height:24px;padding:3px;border:0;background:transparent}
+.remote-site{display:flex;align-items:center;min-width:0;margin:2px 4px;border-radius:4px}
+.remote-site:hover{background:var(--control-hover)}
+.remote-site-link{display:flex;align-items:center;gap:8px;min-width:0;flex:1;padding:8px;color:var(--text);text-decoration:none;border-radius:4px}
+.remote-site-text{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px;font-size:11px}
+.remote-site-text strong{font-size:12px;font-weight:600}
+.remote-site-text>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted)}
+.remote-site-external{font-size:13px;color:var(--muted)}
+.shell>aside .remote-site>button{display:flex;align-items:center;justify-content:center;width:28px;height:28px;flex-shrink:0;padding:5px;margin-right:4px;border:0;background:transparent;color:var(--muted)}
+.remote-site-link:focus-visible,.remote-site>button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.remote-sites-empty{font-size:11px;color:var(--muted);padding:4px 12px;margin:0}

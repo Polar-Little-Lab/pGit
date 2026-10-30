@@ -40,6 +40,10 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Post an issue to the selected remote repository.":["選択したリモートリポジトリにIssueを投稿します。","向选定的远程仓库发布议题。","Publica una incidencia en el repositorio remoto seleccionado.","Publie un ticket dans le dépôt distant sélectionné."],
+"Remote repositories":["リモートリポジトリ","远程仓库","Repositorios remotos","Dépôts distants"],
+"Reviews · Issues · CI":["レビュー · Issue · CI","审查 · 议题 · CI","Revisiones · Incidencias · CI","Revues · Tickets · CI"],
+"No web address":["Webアドレスなし","无网页地址","Sin dirección web","Aucune adresse web"],
 "No matching results.":["一致する結果がありません。","没有匹配的结果。","No hay resultados coincidentes.","Aucun résultat correspondant."],
 "Search branches or folders":["ブランチまたはフォルダーを検索","搜索分支或文件夹","Buscar ramas o carpetas","Rechercher des branches ou dossiers"],
 "Status unavailable":["状態を確認できません","状态不可用","Estado no disponible","État indisponible"],

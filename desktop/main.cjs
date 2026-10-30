@@ -1,4 +1,4 @@
-const {app,BrowserWindow,dialog,ipcMain,Menu}=require('electron');
+const {app,BrowserWindow,dialog,ipcMain,Menu,shell}=require('electron');
 const path=require('node:path');
 const {requireTrustedSender}=require('./trust.cjs');
 const {readWorkspace,writeWorkspace}=require('./workspace-store.cjs');
@@ -13,7 +13,7 @@ const store=path.join(app.getPath('userData'),'arctic-workspace.json');
 function trusted(event){requireTrustedSender(event,window.webContents,url)}
 ipcMain.handle('workspace-load',async event=>{trusted(event);return readWorkspace(store)});
 ipcMain.handle('workspace-save',async(event,value)=>{trusted(event);await writeWorkspace(store,value);return true});
-function createWindow(){window=new BrowserWindow({width:1520,height:960,minWidth:1100,minHeight:700,titleBarStyle:'hiddenInset',trafficLightPosition:{x:14,y:18},title:'pGit',backgroundColor:'#f3f8fc',webPreferences:{preload:path.join(__dirname,'preload.cjs'),nodeIntegration:false,contextIsolation:true,sandbox:true}});window.webContents.setWindowOpenHandler(()=>({action:'deny'}));window.webContents.on('will-navigate',(event,target)=>{if(target!==url)event.preventDefault()});window.webContents.session.setPermissionRequestHandler((_w,_p,callback)=>callback(false));window.loadURL(url);window.on('closed',()=>window=null)}
+function createWindow(){window=new BrowserWindow({width:1520,height:960,minWidth:1100,minHeight:700,titleBarStyle:'hiddenInset',trafficLightPosition:{x:14,y:18},title:'pGit',backgroundColor:'#f3f8fc',webPreferences:{preload:path.join(__dirname,'preload.cjs'),nodeIntegration:false,contextIsolation:true,sandbox:true}});window.webContents.setWindowOpenHandler(({url:target})=>{try{const link=new URL(target);if(link.protocol==='https:'&&!link.username&&!link.password)shell.openExternal(link.href).catch(()=>{});}catch{}return {action:'deny'}});window.webContents.on('will-navigate',(event,target)=>{if(target!==url)event.preventDefault()});window.webContents.session.setPermissionRequestHandler((_w,_p,callback)=>callback(false));window.loadURL(url);window.on('closed',()=>window=null)}
 Menu.setApplicationMenu(Menu.buildFromTemplate([{label:'pGit',submenu:[{role:'about'},{type:'separator'},{role:'quit'}]},{label:'편집',submenu:[{role:'undo'},{role:'redo'},{type:'separator'},{role:'cut'},{role:'copy'},{role:'paste'},{role:'selectAll'}]},{label:'보기',submenu:[{role:'reload'},{role:'resetZoom'},{role:'zoomIn'},{role:'zoomOut'},{role:'togglefullscreen'}]}]));
 createWindow();app.on('activate',()=>{if(!window)createWindow()});
 }catch(error){dialog.showErrorBox('pGit 시작 실패',error.message);app.quit()}});
