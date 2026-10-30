@@ -19,17 +19,19 @@ async function showProviderReview(provider,number,remote='origin',initialTab='ov
  back.onclick=()=>provider==='github'?showGitHub('githubPRs'):showGitLab('gitlabMRs',remote);refresh.onclick=()=>showProviderReview(provider,number,remote);toolbar.append(back,refresh);
  const header=el('section',undefined,'review-heading'),tabs=el('div',undefined,'review-tabs'),content=el('section',undefined,'review-content');content.setAttribute('aria-live','polite');body.append(toolbar,header,tabs,content);header.textContent='불러오는 중…';
  let detail,tabVersion=0,currentTab='overview';
- const context=()=>({provider,number,remote,repoId:detail.repoId,head:detail.head,base:detail.base});
+ const context=()=>({provider,number,remote,repoId:detail.repoId,head:detail.head,base:detail.base,start:detail.start});
  try{detail=await api('reviewDetail',{provider,number,remote});if(!alive())return}catch(e){if(alive())header.textContent=e.message;return}
  const draftKey=[root,detail.repoId,number].join('|');
  header.replaceChildren(el('h2',detail.title,'literal-data'),el('p',`${detail.author||''} · ${detail.source||''} → ${detail.target||''}`,'literal-data'),el('p',`${detail.state}${detail.draft?' · Draft':''} · ${detail.head?.slice(0,10)||''} · ${detail.mergeStatus||''}`,'literal-data'));
- const definitions=[['overview','개요'],['files','변경 파일'],['checks','검사 결과'],['comments','댓글'],['submit','리뷰 작성']];
+ const definitions=[['overview','개요'],['files','변경 파일'],['checks','검사 결과'],['comments','댓글'],['submit','리뷰 작성'],['threads','리뷰 스레드'],['merge','병합 실행']];
  for(const [key,label] of definitions){const button=el('button',label);button.dataset.reviewTab=key;button.onclick=()=>draw(key);tabs.append(button)}
  async function draw(key){
   currentTab=key;const request=++tabVersion,valid=()=>alive()&&request===tabVersion;
   tabs.querySelectorAll('button').forEach(b=>{b.classList.toggle('active',b.dataset.reviewTab===key);b.setAttribute('aria-pressed',String(b.dataset.reviewTab===key))});content.replaceChildren();
   if(key==='overview'){content.append(el('div',detail.description||'설명이 없습니다.',detail.description?'review-description literal-data':'review-description'));return}
   if(key==='submit'){renderForm();return}
+  if(key==='merge'){await renderMerge(valid);return}
+  if(key==='threads'){await renderThreads(valid);return}
   const list=el('div',undefined,key==='files'?'review-files':'review-items'),more=el('button','더 불러오기'),status=el('p');content.append(list,status,more);let page=1;const seenChecks=new Set();
   const fileList=el('div',undefined,'review-file-list'),diff=el('div',undefined,'review-patch');if(key==='files')list.append(fileList,diff);
   const action=key==='files'?'reviewFiles':key==='checks'?'reviewChecks':'reviewComments';
@@ -37,11 +39,11 @@ async function showProviderReview(provider,number,remote='origin',initialTab='ov
    const result=await api(action,{...context(),page});if(!valid())return;status.textContent='';
    for(const item of result.items){
     if(key==='files'){
-     const name=provider==='github'?item.filename:item.new_path,previous=provider==='github'?item.previous_filename:item.old_path;
+     const filePage=page;const name=provider==='github'?item.filename:item.new_path,previous=provider==='github'?item.previous_filename:item.old_path;
      const button=el('button',name,'review-file literal-data');button.title=previous&&previous!==name?previous+' → '+name:name;button.onclick=()=>{
       fileList.querySelectorAll('button').forEach(b=>{b.classList.toggle('active',b===button);b.setAttribute('aria-pressed',String(b===button))});diff.replaceChildren(el('div',button.title,'review-patch-heading literal-data'));
       const patch=provider==='github'?item.patch:item.diff;if(!patch||item.too_large||item.collapsed){diff.append(el('p','서버가 이 파일의 Diff를 제공하지 않습니다.'));return}
-      const rows=reviewPatchRows(patch),limit=10000;for(const line of rows.slice(0,limit)){const row=el('div',undefined,'review-patch-row '+line.kind);row.append(el('span',String(line.before??'')),el('span',String(line.after??'')),el('code',line.text));diff.append(row)}if(rows.length>limit)diff.append(el('p','Diff 표시 한도를 초과했습니다.'));
+      const rows=reviewPatchRows(patch),limit=10000;for(const line of rows.slice(0,limit)){const row=el('div',undefined,'review-patch-row '+line.kind);row.append(el('span',String(line.before??'')),el('span',String(line.after??'')),el('code',line.text));if(line.before||line.after){const comment=el('button','+','review-line-comment');comment.setAttribute('aria-label','줄 댓글 · '+(line.after??line.before));comment.title='줄 댓글';comment.onclick=()=>inlineForm(diff,{path:name,oldPath:previous||name,before:line.before,after:line.after,filePage},valid);row.append(comment)}diff.append(row)}if(rows.length>limit)diff.append(el('p','Diff 표시 한도를 초과했습니다.'));
      };fileList.append(button);if(fileList.children.length===1)button.click();
     }else if(key==='checks'){
      if(item.legacy&&seenChecks.has(item.name))continue;if(item.legacy)seenChecks.add(item.name);
@@ -53,6 +55,54 @@ async function showProviderReview(provider,number,remote='origin',initialTab='ov
    if(page===1&&!result.items.length)status.textContent='표시할 항목이 없습니다.';if(key==='files'&&!result.hasMore&&Number(detail.fileCount)>fileList.children.length)status.textContent='서버가 일부 변경 파일을 생략했습니다.';page++;more.hidden=!result.hasMore;
   }catch(e){if(valid())status.textContent=e.message}finally{if(valid())more.disabled=false}}
   more.onclick=load;await load();
+ }
+ async function postAction(action,data,error,button,onSuccess){
+  if(!alive()||working)return;working=true;controls();button.disabled=true;error.textContent='';
+  toolbar.querySelectorAll('button').forEach(b=>b.disabled=true);tabs.querySelectorAll('button').forEach(b=>b.disabled=true);
+  try{const result=await api(action,{...context(),...data});if(alive())await onSuccess(result)}
+  catch(e){if(alive())error.textContent=e.message}
+  finally{working=false;controls();if(alive()){button.disabled=false;toolbar.querySelectorAll('button').forEach(b=>b.disabled=false);tabs.querySelectorAll('button').forEach(b=>b.disabled=false)}}
+ }
+ function commentForm(host,key,label,action,data,onSuccess){
+  const form=el('form',undefined,'review-form review-thread-form'),title=el('strong',label,'literal-data'),text=el('textarea'),submit=el('button','게시','primary'),error=el('p',undefined,'command-error');
+  text.rows=3;text.maxLength=4000;text.required=true;text.setAttribute('aria-label','댓글 내용');text.value=reviewDrafts.get(key)?.body||'';text.oninput=()=>reviewDrafts.set(key,{body:text.value});submit.type='submit';error.setAttribute('role','alert');
+  form.append(title,text,error,submit);host.append(form);form.onsubmit=async e=>{e.preventDefault();if(!text.value.trim())return;const value=text.value;text.disabled=true;await postAction(action,{...data,body:value},error,submit,async()=>{reviewDrafts.delete(key);await onSuccess()});text.disabled=false};return form;
+ }
+ function inlineForm(diff,position,valid){
+  if(!valid()||working)return;diff.querySelector('.review-thread-form')?.remove();
+  const key=[draftKey,detail.head,position.path,position.before,position.after].join('|');
+  const form=commentForm(diff,key,position.path+' · '+(position.after??position.before),'reviewInline',position,async()=>{notify('리뷰를 게시했습니다.');await draw('threads')});
+  form.scrollIntoView({block:'nearest'});form.querySelector('textarea').focus();
+ }
+ async function renderThreads(valid){
+  const list=el('div',undefined,'review-items'),status=el('p'),more=el('button','더 불러오기');content.append(list,status,more);let page=1;const ghThreads=new Map();
+  function card(id,notes,position,resolvable,resolved){
+   const row=el('article',undefined,'review-item review-thread'),where=position?(position.new_path||position.path||'')+' · '+(position.new_line??position.old_line??position.line??''):'',title=el('strong',where||'#'+id,'literal-data');row.append(title);
+   for(const note of notes){const entry=el('section',undefined,'review-thread-note');entry.append(el('strong',note.user?.login||note.author?.username||'','literal-data'),el('div',note.body||'','review-description literal-data'));row.append(entry)}
+   const reply=el('button','답글');reply.onclick=()=>{if(row.querySelector('form'))return;commentForm(row,draftKey+'|reply|'+id,where,'reviewReply',{thread:id},async()=>{notify('리뷰를 게시했습니다.');await draw('threads')})};row.append(reply);
+   if(provider==='gitlab'&&resolvable){const resolve=el('button',resolved?'다시 열기':'해결됨으로 표시'),error=el('p',undefined,'command-error');error.setAttribute('role','alert');resolve.onclick=()=>postAction('reviewResolve',{thread:id,resolved:!resolved},error,resolve,()=>draw('threads'));row.append(resolve,error)}list.append(row);
+  }
+  async function load(){more.disabled=true;status.textContent='불러오는 중…';try{
+   const result=await api('reviewThreads',{...context(),page});if(!valid())return;
+   if(provider==='github'){
+    for(const item of result.items){const id=String(item.in_reply_to_id||item.id);if(!ghThreads.has(id))ghThreads.set(id,[]);ghThreads.get(id).push(item)}
+    list.replaceChildren();for(const [id,notes] of ghThreads){const first=notes.find(n=>!n.in_reply_to_id)||notes[0];card(id,notes,first,false,false)}
+   }else for(const item of result.items){const note=item.notes?.find(n=>n.position)||item.notes?.[0];card(item.id,item.notes||[],note?.position,item.notes?.some(n=>n.resolvable),item.notes?.filter(n=>n.resolvable).every(n=>n.resolved))}
+   status.textContent=page===1&&!result.items.length?'표시할 항목이 없습니다.':'';page++;more.hidden=!result.hasMore;
+  }catch(e){if(valid())status.textContent=e.message}finally{if(valid())more.disabled=false}}
+  more.onclick=load;await load();
+ }
+ async function renderMerge(valid){
+  const status=el('p','불러오는 중…');content.append(status);let plan;
+  try{plan=await api('reviewMergePreview',context());if(!valid())return}catch(e){if(valid())status.textContent=e.message;return}
+  status.textContent=plan.allowed?'병합 준비가 완료되었습니다.':plan.reasons.join('\n');
+  const route=el('p',`${plan.source} → ${plan.target} · ${plan.head.slice(0,10)}`,'literal-data');content.append(route);
+  if(!plan.allowed)return;
+  const select=el('select');select.setAttribute('aria-label','병합 방식');select.dataset.uiOptions='true';for(const method of plan.methods){const option=el('option',method);option.value=method;select.append(option)}
+  const confirm=el('label','대상 브랜치와 커밋을 확인했습니다.','reset-confirm'),check=el('input');check.type='checkbox';confirm.prepend(check);
+  const submit=el('button','지금 병합','primary'),error=el('p',undefined,'command-error');error.setAttribute('role','alert');submit.disabled=true;check.onchange=()=>submit.disabled=!check.checked;
+  submit.onclick=async()=>{if(!check.checked)return;select.disabled=true;check.disabled=true;await postAction('reviewMerge',{method:select.value,confirm:true},error,submit,async()=>{notify('병합이 완료되었습니다.');await showProviderReview(provider,number,remote)});select.disabled=false;check.disabled=false;check.checked=false;submit.disabled=true};
+  content.append(select,confirm,error,submit);
  }
  function renderForm(){
   const draft=reviewDrafts.get(draftKey)||{kind:'comment',body:''},form=el('form',undefined,'review-form'),select=el('select');select.setAttribute('aria-label','리뷰 종류');select.dataset.uiOptions='true';

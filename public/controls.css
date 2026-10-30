@@ -327,3 +327,9 @@ body dialog .review-content>p:empty{display:none}
 body dialog .review-content>button{align-self:flex-start;flex-shrink:0}
 .review-items{overflow:auto;min-height:0}.review-content>.review-description{overflow:auto}
 @media(max-width:700px){body dialog .review-files{display:flex;flex-direction:column}.review-file-list{flex-shrink:0}.review-patch{flex:1;min-height:120px}}
+.review-patch-row{position:relative;padding-right:32px}
+body dialog .review-line-comment{position:absolute;right:4px;top:1px;width:22px;height:20px;padding:0;font-size:14px;line-height:18px}
+body dialog .review-thread-form{padding:12px;border-top:1px solid var(--border);background:var(--surface);position:sticky;left:0;width:100%;min-width:240px}
+body dialog .review-thread-form textarea{min-height:80px;margin:8px 0}
+.review-thread-note{margin:10px 0;padding-left:12px;border-left:2px solid var(--border)}
+.review-thread>button{margin-right:8px}

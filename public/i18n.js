@@ -482,6 +482,24 @@ origin 저장소에 이슈를 게시합니다.|Create an issue in the origin rep
 이 파일의 남은 변경을 모두 스테이징합니다.|Stage all remaining changes in this file.
 이 파일의 스테이징된 변경을 모두 해제합니다.|Unstage all staged changes in this file.
 현재 체크아웃된 브랜치|Currently checked-out branch
+리뷰 스레드|Review threads
+병합 실행|Merge changes
+줄 댓글|Line comment
+댓글 내용|Comment content
+답글|Reply
+다시 열기|Reopen
+해결됨으로 표시|Mark resolved
+병합 준비가 완료되었습니다.|Ready to merge.
+병합 방식|Merge method
+대상 브랜치와 커밋을 확인했습니다.|I have checked the target branch and commit.
+지금 병합|Merge now
+병합이 완료되었습니다.|Merge completed.
+열려 있는 정식 PR/MR만 병합할 수 있습니다.|Only open, non-draft PRs or MRs can be merged.
+완료되지 않았거나 실패한 검사가 있습니다.|Some checks are pending or failed.
+병합 권한을 확인할 수 없습니다.|Merge permission could not be confirmed.
+사용할 수 있는 병합 방식이 없습니다.|No merge method is available.
+현재 커밋의 파이프라인이 통과하지 않았습니다.|The current commit pipeline has not passed.
+필수 파이프라인이 통과하지 않았습니다.|The required pipeline has not passed.
 상세 보기|View details
 목록으로|Back to list
 개요|Overview

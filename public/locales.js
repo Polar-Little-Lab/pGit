@@ -40,6 +40,25 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Review threads":["レビュースレッド", "审查讨论串", "Hilos de revisión", "Fils de revue"],
+"Merge changes":["マージを実行", "执行合并", "Ejecutar fusión", "Exécuter la fusion"],
+"Line comment":["行コメント", "行评论", "Comentario de línea", "Commentaire de ligne"],
+"Comment content":["コメント内容", "评论内容", "Contenido del comentario", "Contenu du commentaire"],
+"Reply":["返信", "回复", "Responder", "Répondre"],
+"Reopen":["再開", "重新打开", "Reabrir", "Rouvrir"],
+"Mark resolved":["解決済みにする", "标记为已解决", "Marcar como resuelto", "Marquer comme résolu"],
+"Ready to merge.":["マージの準備ができました。", "已准备好合并。", "Listo para fusionar.", "Prêt à fusionner."],
+"Merge method":["マージ方式", "合并方式", "Método de fusión", "Méthode de fusion"],
+"I have checked the target branch and commit.":["対象ブランチとコミットを確認しました。", "我已确认目标分支和提交。", "He comprobado la rama y el commit de destino.", "J’ai vérifié la branche et le commit cibles."],
+"Merge now":["今すぐマージ", "立即合并", "Fusionar ahora", "Fusionner maintenant"],
+"Merge completed.":["マージが完了しました。", "合并已完成。", "Fusión completada.", "Fusion terminée."],
+"Only open, non-draft PRs or MRs can be merged.":["オープンでドラフトではない PR/MR のみマージできます。", "只能合并打开的非草稿 PR/MR。", "Solo se pueden fusionar PR/MR abiertos que no sean borradores.", "Seules les PR/MR ouvertes hors brouillon peuvent être fusionnées."],
+"Some checks are pending or failed.":["未完了または失敗したチェックがあります。", "部分检查待完成或已失败。", "Hay comprobaciones pendientes o fallidas.", "Certaines vérifications sont en attente ou ont échoué."],
+"Merge permission could not be confirmed.":["マージ権限を確認できません。", "无法确认合并权限。", "No se pudo confirmar el permiso de fusión.", "L’autorisation de fusion n’a pas pu être confirmée."],
+"No merge method is available.":["使用可能なマージ方式がありません。", "没有可用的合并方式。", "No hay ningún método de fusión disponible.", "Aucune méthode de fusion n’est disponible."],
+"The current commit pipeline has not passed.":["現在のコミットのパイプラインが成功していません。", "当前提交的流水线尚未通过。", "El pipeline del commit actual no ha pasado.", "Le pipeline du commit actuel n’a pas réussi."],
+"The required pipeline has not passed.":["必須パイプラインが成功していません。", "必需的流水线尚未通过。", "El pipeline obligatorio no ha pasado.", "Le pipeline requis n’a pas réussi."],
+
 "View details":["詳細を表示", "查看详情", "Ver detalles", "Voir les détails"],
 "Back to list":["一覧へ戻る", "返回列表", "Volver a la lista", "Retour à la liste"],
 "Overview":["概要", "概览", "Resumen", "Aperçu"],
