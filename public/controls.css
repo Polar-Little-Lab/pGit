@@ -361,3 +361,7 @@ body dialog[data-dialog-kind=review]:has(.provider-review:not([data-review-view=
 .shell>aside .remote-site>button{display:flex;align-items:center;justify-content:center;width:28px;height:28px;flex-shrink:0;padding:5px;margin-right:4px;border:0;background:transparent;color:var(--muted)}
 .remote-site-link:focus-visible,.remote-site>button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 .remote-sites-empty{font-size:11px;color:var(--muted);padding:4px 12px;margin:0}
+
+/* Empty groups are static headings, not disabled disclosure controls. */
+.shell>aside .branch-section-heading{display:flex;align-items:center;gap:8px;min-height:30px;padding:4px 8px 4px 28px;font-size:10px;font-weight:600;letter-spacing:.4px;line-height:20px;color:var(--polar-muted)}
+.shell>aside .branch-section.is-empty>.branch-section-body{display:none}

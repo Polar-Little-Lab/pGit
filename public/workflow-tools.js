@@ -37,15 +37,27 @@ function branchSection(key,label,nodes){
  const stateKey=(state?.root||'')+'|section|'+key;
  section.dataset.section=key;section.open=branchFolderExpansion.get(stateKey)??true;
  const summary=el('summary',label),body=el('div',undefined,'branch-section-body');
- summary.addEventListener('click',()=>{branchFolderExpansion.set((state?.root||'')+'|section|'+key,!section.open);localStorage.setItem('pgit.sidebar-sections',JSON.stringify([...branchFolderExpansion].filter(([key])=>key.includes('|section|'))))});
+ summary.addEventListener('click',rememberBranchSection);
  section.append(summary,body);nodes[0].before(section);body.append(...nodes);return section;
+}
+function rememberBranchSection(event){const section=event.currentTarget.parentElement;branchFolderExpansion.set((state?.root||'')+'|section|'+section.dataset.section,!section.open);localStorage.setItem('pgit.sidebar-sections',JSON.stringify([...branchFolderExpansion].filter(([key])=>key.includes('|section|'))))}
+function setBranchSectionCount(section,count){
+ const empty=count===0;let heading=section.firstElementChild;
+ if((section.tagName==='DETAILS')===empty){
+  const replacement=el(empty?'section':'details',undefined,'branch-section'),title=el(empty?'div':'summary',undefined,empty?'branch-section-heading':undefined);
+  replacement.dataset.section=section.dataset.section;title.append(...heading.childNodes);if(!empty)title.addEventListener('click',rememberBranchSection);
+  replacement.append(title,...[...section.children].slice(1));section.replaceWith(replacement);section=replacement;heading=title;
+ }
+ section.classList.toggle('is-empty',empty);section.querySelector('.branch-section-body').hidden=empty;
+ section.querySelectorAll('.branch-empty').forEach(node=>node.remove());
+ if(!empty)section.open=branchFolderExpansion.get((state?.root||'')+'|section|'+section.dataset.section)??true;
+ heading.querySelector('.folder-count')?.remove();heading.append(el('span',String(count),'folder-count'));return section;
 }
 const sectionRender=render;render=function(){
  sectionRender();
  let local=$('branches').closest('.branch-section');
  if(!local){const caption=$('branches').previousElementSibling;local=branchSection('local','로컬 브랜치',[$('branches')]);if(caption?.classList.contains('caption'))caption.remove();const heading=el('div','저장소','caption sidebar-repository-title');local.before(heading)}
  local.open=branchFolderExpansion.get((state?.root||'')+'|section|local')??true;
- if(!$('branches').children.length)$('branches').append(el('div','로컬 브랜치 없음','branch-empty'));
- const localSummary=local.querySelector(':scope>summary');localSummary.querySelector('.folder-count')?.remove();localSummary.append(el('span',String(state?.branches.length||0),'folder-count'));
- const extra=$('extraRefs');if(extra){for(const [index,caption] of [...extra.querySelectorAll(':scope>.caption')].entries()){const [key,label,empty]=[['remote','원격 브랜치','원격 브랜치 없음'],['tags','TAGS','태그 없음'],['stashes','STASHES','스태시 없음']][index];const nodes=[];let node=caption.nextElementSibling;while(node&&!node.classList.contains('caption')){nodes.push(node);node=node.nextElementSibling}if(!nodes.length){const placeholder=el('div',empty,'branch-empty');caption.after(placeholder);nodes.push(placeholder)}const section=branchSection(key,label,nodes);const count=key==='remote'?extra.querySelectorAll('.remote-branch').length:key==='tags'?state.refs.filter(r=>r.name.startsWith('refs/tags/')).length:state.stashes.length;section.querySelector('summary').append(el('span',String(count),'folder-count'));caption.remove()}}
+ local=setBranchSectionCount(local,state?.branches.length||0);
+ const extra=$('extraRefs');if(extra){for(const [index,caption] of [...extra.querySelectorAll(':scope>.caption')].entries()){const [key,label,empty]=[['remote','원격 브랜치','원격 브랜치 없음'],['tags','TAGS','태그 없음'],['stashes','STASHES','스태시 없음']][index];const nodes=[];let node=caption.nextElementSibling;while(node&&!node.classList.contains('caption')){nodes.push(node);node=node.nextElementSibling}if(!nodes.length){const placeholder=el('div',empty,'branch-empty');caption.after(placeholder);nodes.push(placeholder)}const section=branchSection(key,label,nodes);const count=key==='remote'?extra.querySelectorAll('.remote-branch').length:key==='tags'?state.refs.filter(r=>r.name.startsWith('refs/tags/')).length:state.stashes.length;setBranchSectionCount(section,count);caption.remove()}}
 };
