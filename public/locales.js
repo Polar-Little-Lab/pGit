@@ -40,6 +40,9 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"No matching results.":["一致する結果がありません。","没有匹配的结果。","No hay resultados coincidentes.","Aucun résultat correspondant."],
+"Search branches or folders":["ブランチまたはフォルダーを検索","搜索分支或文件夹","Buscar ramas o carpetas","Rechercher des branches ou dossiers"],
+"Status unavailable":["状態を確認できません","状态不可用","Estado no disponible","État indisponible"],
 "Review threads":["レビュースレッド", "审查讨论串", "Hilos de revisión", "Fils de revue"],
 "Merge changes":["マージを実行", "执行合并", "Ejecutar fusión", "Exécuter la fusion"],
 "Line comment":["行コメント", "行评论", "Comentario de línea", "Commentaire de ligne"],

@@ -223,23 +223,7 @@ body .merge-preview p{margin:6px 0;overflow-wrap:anywhere}
 .merge-preview li{overflow-wrap:anywhere;padding:3px 0}
 .merge-preview pre{max-height:150px;min-height:0;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;font-size:11px;background:var(--surface);color:var(--text)}
 body dialog .preview-run{height:32px;font-size:12px}
-body .worktree-dialog{width:760px}
-.worktree-tools,.worktree-actions{display:flex;align-items:center;gap:8px}
-.worktree-tools{justify-content:space-between;margin-bottom:12px}
-.worktree-dialog button{height:30px;padding:0 10px;font-size:12px}
-.worktree-card{border:1px solid var(--border);border-radius:4px;padding:12px;margin-top:10px;background:var(--canvas)}
-.worktree-card-heading{display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:13px}
-.worktree-card-heading strong{margin-right:auto;overflow-wrap:anywhere}
-.worktree-badge{font-size:10px;padding:2px 6px;border-radius:3px;background:var(--soft);color:var(--muted)}
-.worktree-path{font:11px/1.5 ui-monospace,monospace;overflow-wrap:anywhere;color:var(--muted);margin:6px 0}
-.worktree-status{font-size:12px;margin:8px 0;color:var(--muted)}
-.worktree-form{border:1px solid var(--border);border-radius:4px;padding:12px;margin-bottom:12px}
-.worktree-form label{display:block;margin:0 0 10px;font-size:12px}
-.worktree-form input{display:block;width:100%;margin-top:5px}
-.worktree-form .worktree-actions{justify-content:flex-end}
-.worktree-confirm{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:12px}
-.worktree-confirm p{margin:0 0 10px}.worktree-confirm button+button{margin-left:8px;color:var(--danger)}
-.worktree-dialog .command-error:empty{display:none}
+
 /* History filtering and selection use the same compact control spacing. */
 body .filterbar{flex-wrap:wrap}
 .graph-visibility-tools,.history-selection-tools{display:flex;align-items:center;gap:8px;font-size:11px;min-width:0}
@@ -256,23 +240,7 @@ body .filterbar{flex-wrap:wrap}
 .icon-control{display:inline-flex;align-items:center;justify-content:center;gap:7px}
 button.nav.icon-control{justify-content:flex-start}
 body .primary-tools .pgit-icon{width:18px;height:18px;flex-basis:18px}
-body .worktree-dialog{width:760px}
-.worktree-list{border-top:1px solid var(--border)}
-.worktree-card{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:18px;row-gap:4px;border:0;border-bottom:1px solid var(--border);border-radius:0;background:transparent;padding:14px 0;margin:0}
-.worktree-card:last-child{border-bottom:0;padding-bottom:0}
-.worktree-card-heading{grid-column:1;justify-content:flex-start}
-.worktree-card-heading strong{margin-right:0}
-.worktree-card>.worktree-path,.worktree-card>.worktree-status{grid-column:1;margin:0}
-.worktree-card>.worktree-actions{grid-column:2;grid-row:1/4;display:grid;grid-template-columns:1fr 1fr;gap:6px;align-self:center}
-.worktree-card>.worktree-actions>button:first-child{grid-column:1/-1}
-.worktree-card>.worktree-confirm{grid-column:1/-1}
-.worktree-card>.worktree-actions>button:last-child{color:var(--danger)}
-.worktree-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px;background:var(--canvas)}
-.worktree-form[hidden]{display:none}.worktree-form label{margin:0}
-.worktree-form label:nth-child(2){grid-column:1/-1;grid-row:2}
-.worktree-form>.worktree-actions{grid-column:1/-1;justify-content:flex-end}
-body .worktree-form button.primary{margin:0;height:30px}
-@media(max-width:660px){.worktree-card{grid-template-columns:1fr}.worktree-card>.worktree-actions{grid-column:1;grid-row:auto;display:flex;flex-wrap:wrap;justify-content:flex-end;margin-top:6px}.worktree-form{grid-template-columns:1fr}.worktree-form label:nth-child(2){grid-row:auto}}
+
 .tab-mark .pgit-icon{width:14px;height:14px}
 @media(prefers-reduced-motion:no-preference){.tab-mark.is-busy .pgit-icon{animation:icon-spin 1.5s linear infinite}@keyframes icon-spin{to{transform:rotate(360deg)}}}
 body #commandDialog[data-dialog-kind=list]{width:540px}
@@ -307,7 +275,7 @@ body dialog .select-line input{margin:0}
 body dialog .check-spacer{width:16px;flex:0 0 16px}
 
 body dialog[data-dialog-kind=review]{width:min(1120px,calc(100vw - 32px));max-height:90vh}
-body dialog .provider-review{height:min(740px,78vh);display:flex;flex-direction:column;gap:12px;overflow:hidden}
+body dialog .provider-review{height:auto;max-height:min(740px,78vh);display:flex;flex-direction:column;gap:12px;overflow:hidden}
 .review-toolbar,.review-tabs{display:flex;align-items:center;gap:8px;flex-shrink:0}.review-toolbar button:last-child{margin-left:auto}
 .review-heading{flex-shrink:0}.review-heading h2{font-size:17px;margin:0;overflow-wrap:anywhere}.review-heading p{margin:4px 0;font-size:12px}
 .review-tabs{border-bottom:1px solid var(--border);padding-bottom:8px;overflow-x:auto}.review-tabs button{white-space:nowrap}
@@ -333,3 +301,49 @@ body dialog .review-thread-form{padding:12px;border-top:1px solid var(--border);
 body dialog .review-thread-form textarea{min-height:80px;margin:8px 0}
 .review-thread-note{margin:10px 0;padding-left:12px;border-left:2px solid var(--border)}
 .review-thread>button{margin-right:8px}
+/* Worktree manager: compact navigation and one selected item's actions. */
+body .worktree-dialog{width:820px}
+body .worktree-dialog[data-view=create]{width:480px}
+body .worktree-dialog>.body{padding:0;overflow:auto}
+.worktree-tools{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--border)}
+.worktree-tools input{flex:1;min-width:0;width:0}
+body .worktree-dialog button{height:32px;padding:0 10px;font-size:12px}
+body .worktree-dialog .close-control{width:28px;height:28px;padding:0}
+.worktree-tools button{flex-shrink:0}
+.worktree-layout{display:grid;grid-template-columns:minmax(220px, .9fr) minmax(0,1.1fr);min-height:260px;max-height:480px}
+.worktree-list{padding:6px;overflow:auto;background:var(--canvas);border-right:1px solid var(--border)}
+body .worktree-dialog .worktree-row{display:flex;flex-direction:column;align-items:stretch;width:100%;height:auto;gap:5px;padding:12px;text-align:left;background:transparent;border:1px solid transparent;border-radius:5px;margin:2px 0;color:var(--text)}
+body .worktree-dialog .worktree-row:hover{background:var(--control-hover)}
+body .worktree-dialog .worktree-row[aria-selected=true]{background:var(--control-selected);border-color:var(--control-border);box-shadow:inset 3px 0 var(--accent)}
+.worktree-row-heading{display:flex;align-items:center;gap:6px;min-width:0}
+.worktree-row-heading strong{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;flex:1}
+.worktree-folder{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);font-size:11px;padding-left:24px}
+.worktree-status{font-size:12px;color:var(--muted);margin:0}
+.worktree-row>.worktree-status{padding-left:24px;font-size:11px}
+.worktree-badge{font-size:10px;padding:2px 5px;border-radius:3px;background:var(--soft);color:var(--muted);white-space:nowrap}
+.worktree-detail{min-width:0;overflow:auto;padding:20px;display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+.worktree-detail-heading{display:flex;gap:8px;align-items:center;max-width:100%;font-size:15px;overflow-wrap:anywhere}
+.worktree-badges{display:flex;flex-wrap:wrap;gap:6px}.worktree-badges:empty{display:none}
+.worktree-field-label{font-size:11px;color:var(--muted);margin-top:4px}
+.worktree-path{font:12px/1.6 ui-monospace,monospace;overflow-wrap:anywhere;margin:-6px 0 0;max-width:100%}
+.worktree-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.worktree-detail>.worktree-actions{margin-top:6px}
+body .worktree-remove{margin-top:auto;color:var(--danger);background:transparent;border-color:transparent}
+.worktree-reason{font-size:11px;line-height:1.5;color:var(--muted);margin:-6px 0 0}
+.worktree-confirm{width:100%;border-top:1px solid var(--border);padding-top:12px;font-size:12px}
+.worktree-confirm p{margin:0 0 12px;line-height:1.5}.worktree-confirm button+button{margin-left:8px;color:var(--danger)}
+.worktree-empty{margin:16px;font-size:12px;color:var(--muted)}
+body .worktree-form{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:18px}
+.worktree-form label{display:flex;flex-direction:column;gap:6px;min-width:0;font-size:12px}
+.worktree-form label:nth-child(3){grid-column:1/-1}
+.worktree-form input{width:100%;min-width:0}
+.worktree-form>.worktree-actions{grid-column:1/-1;justify-content:flex-end;border-top:1px solid var(--border);padding-top:14px;margin-top:2px}
+body .worktree-dialog [hidden]{display:none!important}
+body .worktree-dialog .command-error{margin:12px 14px;font-size:12px}
+@media(max-width:600px){.worktree-layout{grid-template-columns:1fr;max-height:none;min-height:0}.worktree-list{max-height:190px;border-right:0;border-bottom:1px solid var(--border)}.worktree-detail{padding:16px}.worktree-tools{flex-wrap:wrap}.worktree-tools input{flex-basis:100%;width:100%}.worktree-tools button:last-child{margin-left:auto}body .worktree-form{grid-template-columns:1fr}.worktree-form label:nth-child(3){grid-column:auto}}
+
+body dialog .provider-review[data-review-view=files]{height:min(740px,78vh)}
+
+body .worktree-dialog .worktree-actions button{display:inline-flex;align-items:center;justify-content:center;gap:6px}
+
+body dialog[data-dialog-kind=review]:has(.provider-review:not([data-review-view=files])){width:840px}

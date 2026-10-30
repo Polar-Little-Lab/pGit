@@ -26,7 +26,7 @@ async function showProviderReview(provider,number,remote='origin',initialTab='ov
  const definitions=[['overview','개요'],['files','변경 파일'],['checks','검사 결과'],['comments','댓글'],['submit','리뷰 작성'],['threads','리뷰 스레드'],['merge','병합 실행']];
  for(const [key,label] of definitions){const button=el('button',label);button.dataset.reviewTab=key;button.onclick=()=>draw(key);tabs.append(button)}
  async function draw(key){
-  currentTab=key;const request=++tabVersion,valid=()=>alive()&&request===tabVersion;
+  currentTab=key;body.dataset.reviewView=key;const request=++tabVersion,valid=()=>alive()&&request===tabVersion;
   tabs.querySelectorAll('button').forEach(b=>{b.classList.toggle('active',b.dataset.reviewTab===key);b.setAttribute('aria-pressed',String(b.dataset.reviewTab===key))});content.replaceChildren();
   if(key==='overview'){content.append(el('div',detail.description||'설명이 없습니다.',detail.description?'review-description literal-data':'review-description'));return}
   if(key==='submit'){renderForm();return}
