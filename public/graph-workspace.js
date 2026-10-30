@@ -7,7 +7,7 @@ const reviewContent=el('div');reviewContent.id='commitReviewContent';
 commitReview.append(reviewBack,reviewContent);document.querySelector('main').append(commitPanel,commitReview);
 let panelSelection='commit',commitSelectionVersion=0,selectedCommitFile=null;
 function setPanel(selection){selection=mode==='changes'?'wip':'commit';panelSelection=selection;document.body.dataset.selection=selection;commitPanel.hidden=selection!=='commit';$('changes').hidden=selection==='commit';}
-function graphHome(){mode='history';$('history').hidden=false;workingReview.hidden=true;commitReview.hidden=true;document.body.dataset.view='history';$('historyNav').classList.add('active');$('changesNav').classList.remove('active');setPanel('commit');}
+function graphHome(){mode='history';$('history').hidden=false;workingReview.hidden=true;commitReview.hidden=true;document.body.dataset.view='history';$('changesNav').classList.remove('active');setPanel('commit');}
 reviewBack.onclick=graphHome;switchView.onclick=graphHome;
 const contextTab=tab;tab=function(value){contextTab(value);commitReview.hidden=true;if(value==='changes')setPanel('wip');else{setPanel('commit');const chosen=state?.history.find(c=>c.hash===activeCommit)||state?.history[0];if(chosen&&commitPanel.dataset.hash!==chosen.hash)selectCommit(chosen)}};
 const contextSelectChange=selectChange;selectChange=function(name,area){setPanel('wip');contextSelectChange(name,area)};

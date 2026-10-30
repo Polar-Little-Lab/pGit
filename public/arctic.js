@@ -12,7 +12,7 @@ const diffContent=document.querySelector('#changes .workspace > div:last-child')
 workingReview.append(diffContent);$('history').after(workingReview);
 const oldTab=tab;tab=function(value){oldTab(value);$('changes').hidden=false;workingReview.hidden=value!=='changes';document.body.dataset.view=value;};
 const previousSelectChange=selectChange;selectChange=function(name,area){previousSelectChange(name,area);tab('changes')};
-$('changesNav').onclick=()=>tab('changes');$('historyNav').onclick=()=>tab('history');
+$('changesNav').onclick=()=>tab('changes');
 const stageHeader=document.querySelector('#changes .files .bar');stageHeader.replaceChildren(el('strong','변경 사항'),el('span','WORKING DIRECTORY','panel-eyebrow'));
 const commitLabel=el('label','커밋 메시지');commitLabel.htmlFor='message';$('form').prepend(commitLabel);
 $('message').placeholder='변경 내용을 한 줄로 요약하세요';

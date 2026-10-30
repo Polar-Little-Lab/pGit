@@ -95,4 +95,4 @@ async function openMultiCherryPick(){
  }catch(error){if(body.isConnected){body.textContent=error.message;body.setAttribute('role','alert')}}
 }
 
-PgitIcons.label($('historyNav'),'history','커밋 이력');const changesCount=$('count');PgitIcons.label($('changesNav'),'changes','변경 사항');$('changesNav').append(changesCount);PgitIcons.label(reviewBack,'back','그래프로 돌아가기');
+const changesCount=$('count');PgitIcons.label($('changesNav'),'changes','변경 사항');$('changesNav').append(changesCount);PgitIcons.label(reviewBack,'back','그래프로 돌아가기');
