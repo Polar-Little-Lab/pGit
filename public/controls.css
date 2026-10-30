@@ -302,32 +302,33 @@ body dialog .review-thread-form textarea{min-height:80px;margin:8px 0}
 .review-thread-note{margin:10px 0;padding-left:12px;border-left:2px solid var(--border)}
 .review-thread>button{margin-right:8px}
 /* Worktree manager: compact navigation and one selected item's actions. */
-body .worktree-dialog{width:820px}
+body .worktree-dialog{width:760px}
 body .worktree-dialog[data-view=create]{width:480px}
 body .worktree-dialog>.body{padding:0;overflow:auto}
 .worktree-tools{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--border)}
-.worktree-tools input{flex:1;min-width:0;width:0}
+body .worktree-dialog .worktree-tools input{flex:1;min-width:0;width:0;height:32px;min-height:32px;margin:0;padding:0 10px}
+body .worktree-dialog .worktree-tools button{margin:0;display:inline-flex;align-items:center;justify-content:center;gap:6px}
 body .worktree-dialog button{height:32px;padding:0 10px;font-size:12px}
 body .worktree-dialog .close-control{width:28px;height:28px;padding:0}
 .worktree-tools button{flex-shrink:0}
-.worktree-layout{display:grid;grid-template-columns:minmax(220px, .9fr) minmax(0,1.1fr);min-height:260px;max-height:480px}
-.worktree-list{padding:6px;overflow:auto;background:var(--canvas);border-right:1px solid var(--border)}
-body .worktree-dialog .worktree-row{display:flex;flex-direction:column;align-items:stretch;width:100%;height:auto;gap:5px;padding:12px;text-align:left;background:transparent;border:1px solid transparent;border-radius:5px;margin:2px 0;color:var(--text)}
+.worktree-layout{display:grid;grid-template-columns:minmax(220px, .8fr) minmax(0,1.2fr);min-height:0;max-height:480px}
+.worktree-list{padding:8px;overflow:auto;background:var(--canvas);border-right:1px solid var(--border)}
+body .worktree-dialog .worktree-row{display:flex;flex-direction:column;align-items:stretch;width:100%;height:auto;gap:5px;padding:10px;text-align:left;background:transparent;border:1px solid transparent;border-radius:5px;margin:0 0 4px;color:var(--text)}
 body .worktree-dialog .worktree-row:hover{background:var(--control-hover)}
 body .worktree-dialog .worktree-row[aria-selected=true]{background:var(--control-selected);border-color:var(--control-border);box-shadow:inset 3px 0 var(--accent)}
-.worktree-row-heading{display:flex;align-items:center;gap:6px;min-width:0}
+.worktree-row-heading{min-height:20px;display:flex;align-items:center;gap:6px;min-width:0}
 .worktree-row-heading strong{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;flex:1}
 .worktree-folder{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);font-size:11px;padding-left:24px}
 .worktree-status{font-size:12px;color:var(--muted);margin:0}
 .worktree-row>.worktree-status{padding-left:24px;font-size:11px}
 .worktree-badge{font-size:10px;padding:2px 5px;border-radius:3px;background:var(--soft);color:var(--muted);white-space:nowrap}
-.worktree-detail{min-width:0;overflow:auto;padding:20px;display:flex;flex-direction:column;align-items:flex-start;gap:12px}
-.worktree-detail-heading{display:flex;gap:8px;align-items:center;max-width:100%;font-size:15px;overflow-wrap:anywhere}
+.worktree-detail{min-width:0;overflow:auto;padding:19px 20px 20px;display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.worktree-detail-heading{display:flex;gap:8px;align-items:center;min-height:20px;max-width:100%;font-size:13px;overflow-wrap:anywhere}
 .worktree-badges{display:flex;flex-wrap:wrap;gap:6px}.worktree-badges:empty{display:none}
 .worktree-field-label{font-size:11px;color:var(--muted);margin-top:4px}
 .worktree-path{font:12px/1.6 ui-monospace,monospace;overflow-wrap:anywhere;margin:-6px 0 0;max-width:100%}
 .worktree-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
-.worktree-detail>.worktree-actions{margin-top:6px}
+.worktree-detail>.worktree-actions{margin-top:4px}
 body .worktree-remove{margin-top:auto;color:var(--danger);background:transparent;border-color:transparent}
 .worktree-reason{font-size:11px;line-height:1.5;color:var(--muted);margin:-6px 0 0}
 .worktree-confirm{width:100%;border-top:1px solid var(--border);padding-top:12px;font-size:12px}
