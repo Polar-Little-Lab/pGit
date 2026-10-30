@@ -63,6 +63,12 @@ Git 저장소가 아닌 폴더입니다.|This folder is not a Git repository.
 등록된 worktree가 아닙니다.|This worktree is not registered.
 워크트리|Worktrees
 워크트리 관리|Manage worktrees
+자동 Fetch|Automatic fetch
+끄기|Off
+5분|5 minutes
+10분|10 minutes
+30분|30 minutes
+활성 프로젝트의 원격 브랜치와 이력을 갱신합니다. Pull이나 병합은 실행하지 않습니다.|Refresh remote branches and history for the active project. Does not pull or merge.
 원격 저장소|Remote repositories
 선택한 원격 저장소에 이슈를 게시합니다.|Post an issue to the selected remote repository.
 리뷰 · 이슈 · CI|Reviews · Issues · CI

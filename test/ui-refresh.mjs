@@ -31,10 +31,10 @@ try{
   if(route.request().postDataJSON().action!=='refreshState'){await route.continue();return}
   const response=await route.fetch();intercepted();await held;await route.fulfill({response});
  });
- await captured;
+ await page.bringToFront();await Promise.race([captured,new Promise((_,reject)=>setTimeout(()=>{release();reject(Error('Refresh response was not observed'))},15000))]);
  const mutation=page.evaluate(()=>mutate('branchCreate',{name:'user/wins',ref:'HEAD'}));
  await page.waitForFunction(()=>working);
  release();await mutation;await page.unroute('**/api');
  assert.equal(await page.evaluate(()=>state.branches.some(b=>b.name==='user/wins')),true);
  assert.deepEqual(errors,[]);console.log('Automatic refresh UI passed: external edits, same-status edits, staging, commit, checkout, modal pause and draft/search preservation.');
-}finally{await browser?.close();await new Promise(r=>server.close(r));await rm(root,{recursive:true,force:true})}
+}catch(error){console.error(error);throw error}finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await rm(root,{recursive:true,force:true})}

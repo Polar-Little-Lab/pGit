@@ -40,6 +40,13 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Automatic fetch":["自動Fetch", "自动 Fetch", "Fetch automático", "Fetch automatique"],
+"Off":["オフ", "关闭", "Desactivado", "Désactivé"],
+"5 minutes":["5分", "5分钟", "5 minutos", "5 minutes"],
+"10 minutes":["10分", "10分钟", "10 minutos", "10 minutes"],
+"30 minutes":["30分", "30分钟", "30 minutos", "30 minutes"],
+"Refresh remote branches and history for the active project. Does not pull or merge.":["アクティブなプロジェクトのリモートブランチと履歴を更新します。Pullやマージは実行しません。", "更新当前项目的远程分支和历史记录。不执行 Pull 或合并。", "Actualiza las ramas remotas y el historial del proyecto activo. No ejecuta pull ni fusiona.", "Actualise les branches distantes et l’historique du projet actif. Sans pull ni fusion."],
+
 "Post an issue to the selected remote repository.":["選択したリモートリポジトリにIssueを投稿します。","向选定的远程仓库发布议题。","Publica una incidencia en el repositorio remoto seleccionado.","Publie un ticket dans le dépôt distant sélectionné."],
 "Remote repositories":["リモートリポジトリ","远程仓库","Repositorios remotos","Dépôts distants"],
 "Reviews · Issues · CI":["レビュー · Issue · CI","审查 · 议题 · CI","Revisiones · Incidencias · CI","Revues · Tickets · CI"],

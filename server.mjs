@@ -1,6 +1,6 @@
 import http from 'node:http';
 import {historyEdit,historyEditActions,historyEditReads} from './history-edits.mjs';
-import {repositoryRevision} from './refresh.mjs';
+import {repositoryRevision,autoFetch} from './refresh.mjs';
 import {randomBytes} from 'node:crypto';
 import {readFile,realpath} from 'node:fs/promises';
 import * as git from './git.mjs';
@@ -50,6 +50,7 @@ const server=http.createServer(async(req,res)=>{
      case 'workingComparison':result=await workingComparison(root,data);break;
      case 'comparisonFiles':result=await comparisonFiles(root,data);break;
      case 'comparisonFile':result=await comparisonFile(root,data);break;
+     case 'autoFetch':result=await autoFetch(root,data.minutes);break;
      case 'refreshState':{const revision=await repositoryRevision(root);result={revision,state:revision===data.revision?null:await fullState(root,data.limit)};break;}
      case 'state':result=await fullState(root,data.limit);break;
      case 'diff':result=await git.diff(root,data.name,!!data.staged);break;

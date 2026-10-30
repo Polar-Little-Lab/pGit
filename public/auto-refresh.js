@@ -2,6 +2,8 @@
 // any outstanding refresh, so its older snapshot can never overwrite that action.
 (()=>{
  const request=api;
+ const fetchDeadlines=new Map();
+ let fetchInterval=null;
  let generation=0,pending=0,revision=null,root=null,timer=null,running=false;
  api=function(action,data={}){
   generation++;pending++;
@@ -20,6 +22,14 @@
   const version=generation,currentRoot=state.root;
   if(root!==currentRoot){root=currentRoot;revision=null}
   try{
+   const stored=localStorage.getItem('pgit.autoFetchMinutes'),minutes=stored===null?10:Number(stored),interval=[5,10,30].includes(minutes)?minutes:0;
+   if(fetchInterval!==interval){fetchInterval=interval;fetchDeadlines.clear()}
+   if(!fetchDeadlines.has(currentRoot))fetchDeadlines.set(currentRoot,Date.now()+interval*60000);
+   if(interval&&state.remotes?.length&&!state.operation&&Date.now()>=fetchDeadlines.get(currentRoot)){
+    fetchDeadlines.set(currentRoot,Date.now()+interval*60000);working=true;controls();
+    try{await request('autoFetch',{minutes:interval})}finally{working=false;controls()}
+    if(version!==generation||state?.root!==currentRoot||!eligible())return;
+   }
    const result=await request('refreshState',{revision,limit:historyLimit});
    if(version!==generation||state?.root!==currentRoot||!eligible())return;
    revision=result.revision;

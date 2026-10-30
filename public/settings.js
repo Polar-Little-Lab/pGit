@@ -19,13 +19,14 @@
  setTheme(theme,{persist:false});
  if(parent!==window){document.addEventListener('keydown',event=>{if((event.metaKey||event.ctrlKey)&&event.key===','){event.preventDefault();parent.postMessage({source:'pgit-pane',type:'settings'},location.origin)}});return;}
  const page=document.createElement('section');page.id='settingsPage';page.hidden=true;page.setAttribute('aria-labelledby','settingsTitle');
- page.innerHTML=`<aside class="settings-nav"><button type="button" data-close-settings>작업 공간으로 돌아가기</button><h1 id="settingsTitle">설정</h1><nav aria-label="설정 항목"><button type="button" data-settings-section="appearance">모양</button><button type="button" data-settings-section="language">언어</button></nav></aside><div class="settings-content"><section data-settings-panel="appearance" aria-labelledby="appearanceTitle"><h2 id="appearanceTitle" tabindex="-1">모양</h2><h3>테마</h3><div class="theme-gallery" role="group" aria-label="테마"></div></section><section data-settings-panel="language" aria-labelledby="languageTitle" hidden><h2 id="languageTitle" tabindex="-1">언어</h2><div class="language-options" role="group" aria-label="언어"></div></section></div>`;
+ page.innerHTML=`<aside class="settings-nav"><button type="button" data-close-settings>작업 공간으로 돌아가기</button><h1 id="settingsTitle">설정</h1><nav aria-label="설정 항목"><button type="button" data-settings-section="appearance">모양</button><button type="button" data-settings-section="language">언어</button><button type="button" data-settings-section="sync">동기화</button></nav></aside><div class="settings-content"><section data-settings-panel="appearance" aria-labelledby="appearanceTitle"><h2 id="appearanceTitle" tabindex="-1">모양</h2><h3>테마</h3><div class="theme-gallery" role="group" aria-label="테마"></div></section><section data-settings-panel="language" aria-labelledby="languageTitle" hidden><h2 id="languageTitle" tabindex="-1">언어</h2><div class="language-options" role="group" aria-label="언어"></div></section><section data-settings-panel="sync" aria-labelledby="syncTitle" hidden><h2 id="syncTitle" tabindex="-1">동기화</h2><h3>자동 Fetch</h3><div class="fetch-options" role="group" aria-label="자동 Fetch"></div><p class="settings-help">활성 프로젝트의 원격 브랜치와 이력을 갱신합니다. Pull이나 병합은 실행하지 않습니다.</p></section></div>`;
  for(const {id,name,english} of PgitI18n.languages){
   const choice=document.createElement('button');choice.type='button';choice.className='literal-data';choice.dataset.languageChoice=id;
   const native=document.createElement('strong');native.textContent=name;native.lang=id;
   const subtitle=document.createElement('span');subtitle.textContent=english;subtitle.lang='en';
   choice.append(native,subtitle);page.querySelector('.language-options').append(choice);
  }
+ for(const [value,label] of [[0,'끄기'],[5,'5분'],[10,'10분'],[30,'30분']]){const option=document.createElement('button');option.type='button';option.dataset.fetchMinutes=value;option.textContent=label;option.onclick=()=>{localStorage.setItem('pgit.autoFetchMinutes',String(value));sync()};page.querySelector('.fetch-options').append(option)}
  // Cards are data-driven so further themes do not turn settings into a larger modal.
  for(const {id,name,colors} of [...PgitThemes,{id:'system',name:'시스템 설정 사용'}]){
   const card=document.createElement('button');card.type='button';card.className='theme-card';card.dataset.themeChoice=id;
@@ -34,13 +35,13 @@
  }
  const container=document.querySelector('#projectPanels')||document.body;container.append(page);
  const siblings=new Map();let previousFocus=null,previousHash='';
- function sync(){page.querySelectorAll('[data-language-choice]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.languageChoice===window.PgitI18n.language)));page.querySelectorAll('[data-theme-choice]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.themeChoice===theme)))}
+ function sync(){const minutes=localStorage.getItem('pgit.autoFetchMinutes')??'10';page.querySelectorAll('[data-fetch-minutes]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.fetchMinutes===minutes)));page.querySelectorAll('[data-language-choice]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.languageChoice===window.PgitI18n.language)));page.querySelectorAll('[data-theme-choice]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.themeChoice===theme)))}
  function show(section='appearance',focus=true){
   if(page.hidden){previousFocus=document.activeElement;for(const child of container.children){if(child===page||child.tagName==='SCRIPT'||child.tagName==='DIALOG'||child.matches('header'))continue;siblings.set(child,child.inert);child.inert=true}}
   document.body.dataset.settings='open';page.hidden=false;button.setAttribute('aria-pressed','true');
-  page.querySelectorAll('[data-settings-panel]').forEach(panel=>panel.hidden=panel.dataset.settingsPanel!==section);
+  page.querySelectorAll('[data-settings-panel]').forEach(panel=>panel.hidden=false);
   page.querySelectorAll('[data-settings-section]').forEach(link=>link.setAttribute('aria-current',link.dataset.settingsSection===section?'page':'false'));
-  sync();if(focus)page.querySelector(`[data-settings-panel="${section}"] h2`).focus();
+  sync();const target=page.querySelector(`[data-settings-panel="${section}"]`);target.scrollIntoView({block:'start'});if(focus)target.querySelector('h2').focus({preventScroll:true});
  }
  function close({focus=true}={}){
   if(page.hidden)return;
@@ -57,12 +58,12 @@
  }
  page.querySelector('[data-close-settings]').onclick=()=>close();
  PgitIcons.label(page.querySelector('[data-close-settings]'),'back','작업 공간으로 돌아가기');
- for(const item of page.querySelectorAll('[data-settings-section]')){PgitIcons.label(item,item.dataset.settingsSection==='appearance'?'palette':'language',item.textContent);item.onclick=()=>open(item.dataset.settingsSection)}
+ for(const item of page.querySelectorAll('[data-settings-section]')){PgitIcons.label(item,item.dataset.settingsSection==='appearance'?'palette':item.dataset.settingsSection==='sync'?'fetch':'language',item.textContent);item.onclick=()=>open(item.dataset.settingsSection)}
  page.querySelectorAll('[data-language-choice]').forEach(b=>b.onclick=()=>{window.PgitI18n.setLanguage(b.dataset.languageChoice);sync()});
  const button=document.createElement('button');button.type='button';button.className='settings-button';button.setAttribute('aria-pressed','false');PgitIcons.label(button,'settings');button.setAttribute('aria-label','설정');button.dataset.tooltip='설정 · ⌘/Ctrl+,';button.onclick=()=>page.hidden?open():close();
  (document.querySelector('.project-bar')||document.querySelector('header'))?.append(button);
  Object.assign(window.PgitSettings,{open,close});
  document.addEventListener('keydown',event=>{if((event.metaKey||event.ctrlKey)&&event.key===','){event.preventDefault();open()}else if(event.key==='Escape'&&!page.hidden){event.preventDefault();close()}});
- window.addEventListener('popstate',()=>{if(location.hash.startsWith('#settings/'))show(location.hash.endsWith('/language')?'language':'appearance');else close()});
- sync();if(location.hash.startsWith('#settings/'))show(location.hash.endsWith('/language')?'language':'appearance',false);
+ window.addEventListener('popstate',()=>{if(location.hash.startsWith('#settings/'))show(location.hash.endsWith('/sync')?'sync':location.hash.endsWith('/language')?'language':'appearance');else close()});
+ sync();if(location.hash.startsWith('#settings/'))show(location.hash.endsWith('/sync')?'sync':location.hash.endsWith('/language')?'language':'appearance',false);
 })();
