@@ -1,0 +1,548 @@
+[
+  {
+    "key": "branchCreate",
+    "title": "브랜치 만들기",
+    "fields": [
+      "브랜치 이름",
+      "시작 커밋"
+    ],
+    "image": "guide-branchcreate"
+  },
+  {
+    "key": "branchRename",
+    "title": "브랜치 이름 변경",
+    "fields": [
+      "기존 브랜치",
+      "새 이름"
+    ],
+    "image": "guide-branchrename"
+  },
+  {
+    "key": "branchDelete",
+    "title": "브랜치 삭제",
+    "fields": [
+      "삭제할 브랜치"
+    ],
+    "image": "guide-branchdelete"
+  },
+  {
+    "key": "remoteAdd",
+    "title": "원격 추가",
+    "fields": [
+      "원격 이름",
+      "HTTPS / SSH URL"
+    ],
+    "image": "guide-remoteadd"
+  },
+  {
+    "key": "remoteRemove",
+    "title": "원격 제거",
+    "fields": [
+      "원격 이름"
+    ],
+    "image": "guide-remoteremove"
+  },
+  {
+    "key": "remoteList",
+    "title": "원격 주소 보기",
+    "fields": [],
+    "image": "guide-remotelist"
+  },
+  {
+    "key": "fetch",
+    "title": "Fetch",
+    "fields": [
+      "원격"
+    ],
+    "image": "guide-fetch"
+  },
+  {
+    "key": "pull",
+    "title": "Pull",
+    "fields": [
+      "Pull 방식"
+    ],
+    "image": "guide-pull"
+  },
+  {
+    "key": "push",
+    "title": "Push",
+    "fields": [
+      "원격"
+    ],
+    "image": "guide-push"
+  },
+  {
+    "key": "stashSave",
+    "title": "스태시 저장",
+    "fields": [
+      "설명"
+    ],
+    "image": "guide-stashsave"
+  },
+  {
+    "key": "stashApply",
+    "title": "스태시 적용",
+    "fields": [
+      "스태시"
+    ],
+    "image": "guide-stashapply"
+  },
+  {
+    "key": "stashPop",
+    "title": "스태시 적용 후 삭제",
+    "fields": [
+      "스태시"
+    ],
+    "image": "guide-stashpop"
+  },
+  {
+    "key": "stashDrop",
+    "title": "스태시 삭제",
+    "fields": [
+      "스태시"
+    ],
+    "image": "guide-stashdrop"
+  },
+  {
+    "key": "stashDiff",
+    "title": "스태시 변경 보기",
+    "fields": [
+      "스태시"
+    ],
+    "image": "guide-stashdiff"
+  },
+  {
+    "key": "tagCreate",
+    "title": "태그 만들기",
+    "fields": [
+      "태그 이름",
+      "대상 커밋",
+      "설명 (비우면 lightweight)"
+    ],
+    "image": "guide-tagcreate"
+  },
+  {
+    "key": "tagDelete",
+    "title": "로컬 태그 삭제",
+    "fields": [
+      "태그"
+    ],
+    "image": "guide-tagdelete"
+  },
+  {
+    "key": "mergePreview",
+    "title": "병합 전 충돌 검사",
+    "fields": [
+      "검사할 참조"
+    ],
+    "image": "guide-mergepreview"
+  },
+  {
+    "key": "merge",
+    "title": "병합",
+    "fields": [
+      "현재 브랜치에 합칠 참조"
+    ],
+    "image": "guide-merge"
+  },
+  {
+    "key": "rebase",
+    "title": "리베이스",
+    "fields": [
+      "기준 브랜치"
+    ],
+    "image": "guide-rebase"
+  },
+  {
+    "key": "cherryPick",
+    "title": "체리픽",
+    "fields": [
+      "커밋 SHA"
+    ],
+    "image": "guide-cherrypick"
+  },
+  {
+    "key": "revert",
+    "title": "되돌림 커밋",
+    "fields": [
+      "커밋 SHA"
+    ],
+    "image": "guide-revert"
+  },
+  {
+    "key": "continue",
+    "title": "작업 계속",
+    "fields": [],
+    "image": "guide-continue"
+  },
+  {
+    "key": "abort",
+    "title": "진행 중인 작업 중단",
+    "fields": [],
+    "image": "guide-abort"
+  },
+  {
+    "key": "resolve",
+    "title": "충돌 해결됨으로 표시",
+    "fields": [
+      "외부 편집기로 수정한 파일"
+    ],
+    "image": "guide-resolve"
+  },
+  {
+    "key": "undoCommit",
+    "title": "마지막 커밋 되돌리기",
+    "fields": [],
+    "image": "guide-undocommit"
+  },
+  {
+    "key": "fileHistory",
+    "title": "파일 이력",
+    "fields": [
+      "추적 파일"
+    ],
+    "image": "guide-filehistory"
+  },
+  {
+    "key": "blame",
+    "title": "줄별 작성 이력",
+    "fields": [
+      "추적 파일"
+    ],
+    "image": "guide-blame"
+  },
+  {
+    "key": "compare",
+    "title": "두 커밋 비교",
+    "fields": [
+      "이전 참조",
+      "이후 참조"
+    ],
+    "image": "guide-compare"
+  },
+  {
+    "key": "reflog",
+    "title": "참조 이동 기록",
+    "fields": [],
+    "image": "guide-reflog"
+  },
+  {
+    "key": "resetPreview",
+    "title": "커밋으로 Reset",
+    "fields": [
+      "대상 커밋"
+    ],
+    "image": "guide-resetpreview"
+  },
+  {
+    "key": "resetJournal",
+    "title": "Reset 실행 취소·다시 실행",
+    "fields": [],
+    "image": "guide-resetjournal"
+  },
+  {
+    "key": "discardPreview",
+    "title": "파일 변경 버리기",
+    "fields": [
+      "파일"
+    ],
+    "image": "guide-discardpreview"
+  },
+  {
+    "key": "recoveryList",
+    "title": "버린 변경 복구",
+    "fields": [],
+    "image": "guide-recoverylist"
+  },
+  {
+    "key": "hunks",
+    "title": "부분 스테이징",
+    "fields": [
+      "파일"
+    ],
+    "image": "guide-hunks"
+  },
+  {
+    "key": "readText",
+    "title": "파일 편집",
+    "fields": [
+      "파일"
+    ],
+    "image": "guide-readtext"
+  },
+  {
+    "key": "conflictRead",
+    "title": "충돌 편집기",
+    "fields": [
+      "충돌 파일"
+    ],
+    "image": "guide-conflictread"
+  },
+  {
+    "key": "diffSides",
+    "title": "좌우 파일 비교",
+    "fields": [
+      "파일"
+    ],
+    "image": "guide-diffsides"
+  },
+  {
+    "key": "ignoreFile",
+    "title": "파일 무시",
+    "fields": [
+      "추적하지 않는 파일 경로"
+    ],
+    "image": "guide-ignorefile"
+  },
+  {
+    "key": "rebasePlan",
+    "title": "인터랙티브 리베이스",
+    "fields": [
+      "편집할 커밋 바로 이전 참조"
+    ],
+    "image": "guide-rebaseplan"
+  },
+  {
+    "key": "amend",
+    "title": "마지막 커밋 수정",
+    "fields": [
+      "새 커밋 메시지"
+    ],
+    "image": "guide-amend"
+  },
+  {
+    "key": "searchHistory",
+    "title": "전체 이력 메시지 검색",
+    "fields": [
+      "검색어"
+    ],
+    "image": "guide-searchhistory"
+  },
+  {
+    "key": "submodules",
+    "title": "서브모듈 상태",
+    "fields": [],
+    "image": "guide-submodules"
+  },
+  {
+    "key": "submoduleUpdate",
+    "title": "서브모듈 초기화·갱신",
+    "fields": [],
+    "image": "guide-submoduleupdate"
+  },
+  {
+    "key": "lfsStatus",
+    "title": "Git LFS 상태",
+    "fields": [],
+    "image": "guide-lfsstatus"
+  },
+  {
+    "key": "lfsFetch",
+    "title": "Git LFS Fetch",
+    "fields": [],
+    "image": "guide-lfsfetch"
+  },
+  {
+    "key": "profileRead",
+    "title": "저장소 작성자 설정",
+    "fields": [],
+    "image": "guide-profileread"
+  },
+  {
+    "key": "githubPRs",
+    "title": "GitHub 풀 리퀘스트",
+    "fields": [
+      "원격"
+    ],
+    "image": "guide-githubprs"
+  },
+  {
+    "key": "githubIssues",
+    "title": "GitHub 이슈",
+    "fields": [
+      "원격"
+    ],
+    "image": "guide-githubissues"
+  },
+  {
+    "key": "githubRuns",
+    "title": "GitHub Actions",
+    "fields": [
+      "원격"
+    ],
+    "image": "guide-githubruns"
+  },
+  {
+    "key": "githubPRDiff",
+    "title": "PR Diff",
+    "fields": [
+      "원격",
+      "PR 번호"
+    ],
+    "image": "guide-githubprdiff"
+  },
+  {
+    "key": "githubPRChecks",
+    "title": "PR 검사 결과",
+    "fields": [
+      "원격",
+      "PR 번호"
+    ],
+    "image": "guide-githubprchecks"
+  },
+  {
+    "key": "githubPRCreate",
+    "title": "Draft PR 만들기",
+    "fields": [
+      "원격",
+      "제목",
+      "본문",
+      "기준 브랜치",
+      "이미 Push한 브랜치"
+    ],
+    "image": "guide-githubprcreate"
+  },
+  {
+    "key": "githubPRComment",
+    "title": "PR 댓글 게시",
+    "fields": [
+      "원격",
+      "PR 번호",
+      "댓글"
+    ],
+    "image": "guide-githubprcomment"
+  },
+  {
+    "key": "githubPRApprove",
+    "title": "PR 승인 리뷰",
+    "fields": [
+      "원격",
+      "PR 번호",
+      "리뷰"
+    ],
+    "image": "guide-githubprapprove"
+  },
+  {
+    "key": "githubPRRequestChanges",
+    "title": "PR 변경 요청",
+    "fields": [
+      "원격",
+      "PR 번호",
+      "리뷰"
+    ],
+    "image": "guide-githubprrequestchanges"
+  },
+  {
+    "key": "githubPRCheckout",
+    "title": "PR 체크아웃",
+    "fields": [
+      "원격",
+      "PR 번호"
+    ],
+    "image": "guide-githubprcheckout"
+  },
+  {
+    "key": "githubIssueCreate",
+    "title": "GitHub 이슈 만들기",
+    "fields": [
+      "원격",
+      "제목",
+      "본문"
+    ],
+    "image": "guide-githubissuecreate"
+  },
+  {
+    "key": "githubIssueComment",
+    "title": "이슈 댓글 게시",
+    "fields": [
+      "원격",
+      "이슈 번호",
+      "댓글"
+    ],
+    "image": "guide-githubissuecomment"
+  },
+  {
+    "key": "gitlabMRs",
+    "title": "GitLab Merge Requests",
+    "fields": [
+      "원격"
+    ],
+    "image": "guide-gitlabmrs"
+  },
+  {
+    "key": "gitlabIssues",
+    "title": "GitLab Issues",
+    "fields": [
+      "원격"
+    ],
+    "image": "guide-gitlabissues"
+  },
+  {
+    "key": "gitlabPipelines",
+    "title": "GitLab Pipelines",
+    "fields": [
+      "원격"
+    ],
+    "image": "guide-gitlabpipelines"
+  },
+  {
+    "key": "gitlabMRDiff",
+    "title": "MR Diff",
+    "fields": [
+      "원격",
+      "MR 번호"
+    ],
+    "image": "guide-gitlabmrdiff"
+  },
+  {
+    "key": "gitlabMRChecks",
+    "title": "MR 파이프라인",
+    "fields": [
+      "원격",
+      "MR 번호"
+    ],
+    "image": "guide-gitlabmrchecks"
+  },
+  {
+    "key": "gitlabMRCheckout",
+    "title": "MR 체크아웃",
+    "fields": [
+      "원격",
+      "MR 번호"
+    ],
+    "image": "guide-gitlabmrcheckout"
+  },
+  {
+    "key": "gitlabMRCreate",
+    "title": "Draft MR 만들기",
+    "fields": [
+      "원격",
+      "제목",
+      "본문",
+      "기준 브랜치",
+      "이미 Push한 브랜치"
+    ],
+    "image": "guide-gitlabmrcreate"
+  },
+  {
+    "key": "gitlabMRComment",
+    "title": "MR 댓글 게시",
+    "fields": [
+      "원격",
+      "MR 번호",
+      "댓글"
+    ],
+    "image": "guide-gitlabmrcomment"
+  },
+  {
+    "key": "gitlabIssueCreate",
+    "title": "GitLab 이슈 만들기",
+    "fields": [
+      "원격",
+      "제목",
+      "본문"
+    ],
+    "image": "guide-gitlabissuecreate"
+  }
+]
