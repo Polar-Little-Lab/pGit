@@ -40,6 +40,10 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"User guide":["使い方ガイド", "使用指南", "Guía de uso", "Guide d’utilisation"],
+"Search guide":["ガイドを検索", "搜索指南", "Buscar en la guía", "Rechercher dans le guide"],
+"Guide contents":["ガイドの目次", "指南目录", "Índice de la guía", "Sommaire du guide"],
+"No search results.":["検索結果はありません。", "没有搜索结果。", "No hay resultados.", "Aucun résultat."],
 "Large":["大きく","大","Grande","Grand"],
 "System monospace":["システム等幅","系统等宽","Monoespaciada del sistema","Chasse fixe système"],
 "Fonts and sizing":["フォントとサイズ", "字体与大小", "Fuentes y tamaños", "Polices et tailles"],

@@ -1,6 +1,10 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+사용 가이드|User guide
+가이드 검색|Search guide
+가이드 목차|Guide contents
+검색 결과가 없습니다.|No search results.
 크게|Large
 시스템 고정폭|System monospace
 글꼴 및 크기|Fonts and sizing

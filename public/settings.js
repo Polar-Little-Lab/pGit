@@ -89,7 +89,7 @@
  const button=document.createElement('button');button.type='button';button.className='settings-button';button.setAttribute('aria-pressed','false');PgitIcons.label(button,'settings');button.setAttribute('aria-label','설정');button.dataset.tooltip='설정 · ⌘/Ctrl+,';button.onclick=()=>page.hidden?open():close();
  (document.querySelector('.project-bar')||document.querySelector('header'))?.append(button);
  Object.assign(window.PgitSettings,{open,close});
- document.addEventListener('keydown',event=>{if((event.metaKey||event.ctrlKey)&&event.key===','){event.preventDefault();open()}else if(event.key==='Escape'&&!page.hidden){event.preventDefault();close()}});
+ document.addEventListener('keydown',event=>{if((event.metaKey||event.ctrlKey)&&event.key===','){event.preventDefault();open()}else if(event.key==='Escape'&&!page.hidden&&!document.querySelector('dialog[open]')){event.preventDefault();close()}});
  window.addEventListener('popstate',()=>{if(location.hash.startsWith('#settings/'))show(['appearance','typography','language','sync'].find(section=>location.hash==='#settings/'+section)||'appearance');else close()});
  sync();if(location.hash.startsWith('#settings/'))show(['appearance','typography','language','sync'].find(section=>location.hash==='#settings/'+section)||'appearance',false);
 })();

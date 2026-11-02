@@ -1,6 +1,7 @@
 // One 24px grid, rounded 1.75px strokes. All icons inherit the control's color.
 (()=>{
  const paths={
+  book:'M12 5c-3-2-6-2-10-1v15c4-1 7-1 10 1 3-2 6-2 10-1V4c-4-1-7-1-10 1v15',
   typography:'M3 5h12M9 5v15M5 20h8M15 12h7M18.5 12v8M16 20h5',
   right:'m9 5 7 7-7 7',
   review:'M4 3h16v13H9l-5 5V3zM8 7h8M8 11h5',
