@@ -23,9 +23,9 @@ try{
  await page.locator('#reset').click();await page.waitForFunction(()=>!document.querySelector('#reset').disabled);
  assert.equal(await localSection.getAttribute('open'),null);
  await localSection.locator(':scope>summary').click();
- const remoteSection=page.locator('.branch-section').filter({has:page.locator('.remote-group')});
- await remoteSection.locator(':scope>summary').click();assert.equal(await page.locator('.remote-group').isVisible(),false);
- await remoteSection.locator(':scope>summary').press('Enter');assert.equal(await page.locator('.remote-group').isVisible(),true);
+ const remoteSection=page.locator('.remote-site[data-remote=origin]');
+ await remoteSection.locator('.remote-site-toggle').click();assert.equal(await remoteSection.locator(':scope>.branch-folder-children').isVisible(),false);
+ await remoteSection.locator('.remote-site-toggle').press('Enter');assert.equal(await remoteSection.locator(':scope>.branch-folder-children').isVisible(),true);
  // Search, keyboard selection and Escape preserve the surrounding Git form.
  await page.locator('.current-branch').click();const picker=page.getByRole('combobox',{name:'전환할 브랜치',exact:true});assert.ok((await page.locator('#commandDialog').boundingBox()).height<420);await picker.click();await page.getByRole('searchbox',{name:'전환할 브랜치 검색'}).fill('aurora');await page.getByRole('searchbox',{name:'전환할 브랜치 검색'}).press('ArrowDown');await page.getByRole('option',{name:'feature/aurora',exact:true}).press('Enter');assert.equal(await page.locator('#command-name').inputValue(),'feature/aurora');await picker.click();await page.getByRole('searchbox',{name:'전환할 브랜치 검색'}).press('Escape');assert.equal(await page.locator('#commandDialog').isVisible(),true);assert.equal(await picker.getAttribute('aria-expanded'),'false');await page.locator('#commandDialog').getByRole('button',{name:'닫기',exact:true}).click();
  await page.locator('#changesNav').click();await page.getByRole('button',{name:'전체 스테이징',exact:true}).click();await page.waitForFunction(()=>document.querySelector('[data-area=staged] h2').textContent.includes('2'));assert.match(await git(root,['diff','--cached']),/changed/);await page.getByRole('button',{name:'전체 해제',exact:true}).click();await page.waitForFunction(()=>document.querySelector('[data-area=staged] h2').textContent.includes('0'));assert.equal(await git(root,['diff','--cached']),'');
