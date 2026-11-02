@@ -43,7 +43,7 @@ export async function worktreeOverview(root){
 }
 export async function fullState(root,limit){return {...await snapshot(root,limit),...await extras(root)}}
 export async function createRepository(kind,data){const target=text(data.path,'대상 절대 경로');if(!path.isAbsolute(target))throw Error('절대 경로가 필요합니다.');if(kind==='init'){await mkdir(target,{recursive:true});if(await git(target,['rev-parse','--show-toplevel']).then(()=>true,()=>false))throw Error('이미 Git 저장소 안에 있습니다.');await git(target,['init','-b','main'])}else {if(await exists(target))throw Error('복제 대상은 아직 존재하지 않는 폴더여야 합니다.');await git(path.dirname(target),['clone','--',remoteURL(data.url),target]);}return openRepo(target)}
-export const readOperations=new Set(['cherryPickPreview','worktreeOverview','mergePreview','stashDiff','fileHistory','blame','compare','reflog','remoteList','worktreeList','trackedFiles']);
+export const readOperations=new Set(['remoteTags','cherryPickPreview','worktreeOverview','mergePreview','stashDiff','fileHistory','blame','compare','reflog','remoteList','worktreeList','trackedFiles']);
 export async function operate(root,action,d={}){
  switch(action){
  case 'mergePreview':return mergePreview(root,d);
@@ -77,6 +77,11 @@ export async function operate(root,action,d={}){
  case 'trackedFiles':return (await git(root,['ls-files','-z'])).split('\0').filter(Boolean);
  case 'compare':return git(root,['diff','--stat','--patch','--no-ext-diff','--no-textconv',await ref(root,d.from),await ref(root,d.to),'--']);
  case 'reflog':return git(root,['reflog','-n','100','--date=iso']);
+ case 'remoteTags':{
+ const names=(await git(root,['remote'])).trim().split('\n');if(!names.includes(d.remote))throw Error('등록된 원격 저장소를 선택하세요.');
+ const raw=await git(root,['-c','credential.interactive=false','-c','core.askPass=/usr/bin/false','-c','core.sshCommand=ssh -o BatchMode=yes -o ConnectTimeout=10','ls-remote','--tags','--',d.remote]);
+ const tags=new Map();for(const line of raw.trim().split('\n')){const [hash,ref]=line.split('\t');if(!ref?.startsWith('refs/tags/'))continue;const name=ref.slice(10).replace(/\^\{\}$/,'');const item=tags.get(name)||{name};if(ref.endsWith('^{}'))item.target=hash;else item.hash=hash;tags.set(name,item)}return [...tags.values()].sort((a,b)=>a.name.localeCompare(b.name));
+ }
  case 'worktreeOverview':return worktreeOverview(root);
  case 'worktreeList':return git(root,['worktree','list']);
  case 'worktreeAdd':{await idle(root);const target=text(d.path,'절대 경로');if(!path.isAbsolute(target)||await exists(target))throw Error('존재하지 않는 절대 경로를 입력하세요.');await git(root,['worktree','add','-b',await branchName(root,d.name),'--',target,await ref(root,d.ref||'HEAD')]);break}

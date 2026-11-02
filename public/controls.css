@@ -395,3 +395,6 @@ body .worktree-dialog[data-view=detail]{width:460px}
 .remote-site .remote-site-link{padding-left:4px}
 .shell>aside .sidebar-worktrees+.branch-section{margin-top:12px}
 .remote-site:not(:has(>.remote-site-toggle)){padding-left:18px}
+
+.remote-tags{flex-basis:100%;min-width:0;margin:0 6px 6px 18px}.remote-tags>.nav{width:100%;font-size:11px}.remote-tag-list{padding-left:20px}.remote-tag{display:flex;gap:8px;justify-content:space-between;padding:5px 0;font-size:11px}.remote-tag>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.remote-tag code{color:var(--muted);font-size:10px}.remote-tag-list>.muted{font-size:11px}
+.remote-tags>.nav{display:flex;align-items:center;gap:6px}.remote-site:not(:has(>.remote-site-toggle))>.remote-tags{margin-left:0}
