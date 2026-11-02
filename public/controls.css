@@ -352,7 +352,7 @@ body dialog[data-dialog-kind=review]:has(.provider-review:not([data-review-view=
 .sidebar-integrations .remote-sites-heading .caption{margin:0;padding:0}
 .shell>aside .remote-sites-heading button{display:flex;align-items:center;justify-content:center;width:24px;height:24px;padding:3px;border:0;background:transparent}
 .remote-site{display:flex;align-items:center;min-width:0;margin:2px 4px;border-radius:4px}
-.remote-site:hover{background:var(--control-hover)}
+a.remote-site-link:hover,.shell>aside .remote-site>button:hover{background:var(--control-hover)}
 .remote-site-link{display:flex;align-items:center;gap:8px;min-width:0;flex:1;padding:8px;color:var(--text);text-decoration:none;border-radius:4px}
 .remote-site-text{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px;font-size:11px}
 .remote-site-text strong{font-size:12px;font-weight:600}
