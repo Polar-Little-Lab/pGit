@@ -7,7 +7,7 @@
  let generation=0,pending=0,revision=null,root=null,timer=null,running=false;
  api=function(action,data={}){
   generation++;pending++;
-  return request(action,data).finally(()=>pending--);
+  return request(action,data).then(result=>{if(['fetch','pull','push','remoteAdd','remoteRemove'].includes(action)&&typeof remoteTagLists!=='undefined')remoteTagLists.clear();return result}).finally(()=>pending--);
  };
  function eligible(){
   return state&&!working&&!pending&&!document.hidden&&!document.body.dataset.settings&&
@@ -19,7 +19,7 @@
   if(running)return;
   if(!eligible()){schedule();return}
   running=true;
-  const version=generation,currentRoot=state.root;
+  const version=generation,currentRoot=state.root;let fetched=false;
   if(root!==currentRoot){root=currentRoot;revision=null}
   try{
    const stored=localStorage.getItem('pgit.autoFetchMinutes'),minutes=stored===null?10:Number(stored),interval=[5,10,30].includes(minutes)?minutes:0;
@@ -27,7 +27,7 @@
    if(!fetchDeadlines.has(currentRoot))fetchDeadlines.set(currentRoot,Date.now()+interval*60000);
    if(interval&&state.remotes?.length&&!state.operation&&Date.now()>=fetchDeadlines.get(currentRoot)){
     fetchDeadlines.set(currentRoot,Date.now()+interval*60000);working=true;controls();
-    try{await request('autoFetch',{minutes:interval})}finally{working=false;controls()}
+    try{const result=await request('autoFetch',{minutes:interval});fetched=!result?.skipped}finally{working=false;controls()}
     if(version!==generation||state?.root!==currentRoot||!eligible())return;
    }
    const result=await request('refreshState',{revision,limit:historyLimit});
@@ -47,6 +47,7 @@
      if(caret&&caret[0]!==null&&replacement instanceof HTMLInputElement)replacement.setSelectionRange(...caret);
     }
    }
+   if(typeof refreshRemoteTags==='function'&&version===generation&&state?.root===currentRoot&&eligible())await refreshRemoteTags(request,fetched);
   }catch{
    // External Git operations can hold locks briefly. Retry without toast spam.
   }finally{running=false;schedule()}

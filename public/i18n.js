@@ -69,10 +69,7 @@ Git 저장소가 아닌 폴더입니다.|This folder is not a Git repository.
 10분|10 minutes
 30분|30 minutes
 활성 프로젝트의 원격 브랜치와 이력을 갱신합니다. Pull이나 병합은 실행하지 않습니다.|Refresh remote branches and history for the active project. Does not pull or merge.
-원격 태그 조회|Load remote tags
-원격 서버의 태그 목록 새로고침|Refresh tags from remote server
-조회 중…|Loading…
-조회 실패 · 다시 시도해 주세요.|Could not load. Try again.
+원격 태그를 갱신하지 못했습니다.|Could not refresh remote tags.
 원격 저장소|Remote repositories
 선택한 원격 저장소에 이슈를 게시합니다.|Post an issue to the selected remote repository.
 리뷰 · 이슈 · CI|Reviews · Issues · CI

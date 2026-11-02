@@ -40,6 +40,7 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Could not refresh remote tags.":["リモートタグを更新できませんでした。","无法刷新远程标签。","No se pudieron actualizar las etiquetas remotas.","Impossible d’actualiser les tags distants."],
 "Automatic fetch":["自動Fetch", "自动 Fetch", "Fetch automático", "Fetch automatique"],
 "Off":["オフ", "关闭", "Desactivado", "Désactivé"],
 "5 minutes":["5分", "5分钟", "5 minutos", "5 minutes"],

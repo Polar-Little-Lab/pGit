@@ -57,11 +57,33 @@ function renderRemoteSites(groups=[]){
 }
 
 const remoteTagLists=new Map();
+function remoteTagKey(root,remote){return JSON.stringify([root,remote.name,remote.url])}
 function appendRemoteTags(row,remote){
- const root=state.root,key=JSON.stringify([root,remote.name,remote.url]),cached=remoteTagLists.get(key);
- const box=el('div',undefined,'remote-tags'),button=el('button',cached?'태그 · '+cached.length:'원격 태그 조회','nav'),list=el('div',undefined,'remote-tag-list');
- button.prepend(PgitIcons.icon('tag'));button.title='원격 서버의 태그 목록 새로고침';box.append(button,list);box.hidden=row.querySelector('.remote-site-toggle')?.getAttribute('aria-expanded')==='false';row.append(box);
- function paint(tags){list.replaceChildren();if(!tags.length){list.append(el('span','태그 없음','muted'));return}for(const tag of tags){const item=el('div',undefined,'remote-tag literal-data');item.append(el('span',tag.name),el('code',(tag.target||tag.hash).slice(0,7)));item.title=tag.name+' · '+(tag.target||tag.hash);list.append(item)}}
- if(cached)paint(cached);
- button.onclick=async()=>{button.disabled=true;list.replaceChildren(el('span','조회 중…','muted'));try{const tags=await api('remoteTags',{remote:remote.name});if(state.root!==root)return;remoteTagLists.set(key,tags);button.textContent='태그 · '+tags.length;button.prepend(PgitIcons.icon('tag'));paint(tags)}catch(error){list.replaceChildren(el('span','조회 실패 · 다시 시도해 주세요.','muted'));button.title=error.message}finally{button.disabled=false}};
+ const key=remoteTagKey(state.root,remote),cached=remoteTagLists.get(key),tags=cached?.tags;
+ const box=el(tags?.length?'details':'section',undefined,'remote-tags branch-section'),heading=el(tags?.length?'summary':'div','TAGS',tags?.length?undefined:'branch-section-heading');
+ box.dataset.section='remote-tags:'+remote.name;
+ heading.append(el('span',tags?String(tags.length):cached?.error?'!':'…','folder-count'));
+ if(cached?.error)heading.title='원격 태그를 갱신하지 못했습니다.';
+ box.append(heading);
+ if(tags?.length){
+  box.open=branchFolderExpansion.get(state.root+'|section|'+box.dataset.section)??true;heading.addEventListener('click',rememberBranchSection);
+  const list=el('div',undefined,'branch-section-body');
+  for(const tag of tags){const item=el('div',undefined,'nav sidebar-ref tag-ref remote-tag');item.append(PgitIcons.icon('tag'),el('span',tag.name,'literal-data'));item.title=tag.name+' · '+(tag.target||tag.hash);list.append(item)}box.append(list);
+ }else box.classList.add('is-empty');
+ box.hidden=row.querySelector('.remote-site-toggle')?.getAttribute('aria-expanded')==='false';row.append(box);
+}
+async function refreshRemoteTags(request,force=false){
+ const root=state?.root;if(!root)return;
+ const minutes=Number(localStorage.getItem('pgit.autoFetchMinutes')??10),interval=[5,10,30].includes(minutes)?minutes*60000:Infinity;
+ for(const remote of state.remoteDetails||[]){
+  if(state?.root!==root||document.hidden||window.frameElement?.hidden)return;
+  const key=remoteTagKey(root,remote),previous=remoteTagLists.get(key);
+  if(previous&&!force&&Date.now()-previous.at<interval)continue;
+  remoteTagLists.set(key,{...previous,at:Date.now()});
+  try{const tags=await request('remoteTags',{remote:remote.name});remoteTagLists.set(key,{tags,at:Date.now()})}
+  catch{remoteTagLists.set(key,{tags:previous?.tags,error:true,at:Date.now()})}
+  if(state?.root!==root)return;
+  const row=[...integrations.querySelectorAll('.remote-site')].find(row=>row.dataset.remote===remote.name);
+  if(row){row.querySelector('.remote-tags')?.remove();appendRemoteTags(row,remote)}
+ }
 }
