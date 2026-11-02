@@ -20,9 +20,9 @@
  function setTypography(value,{persist=true}={}){
   for(const key of Object.keys(typographyDefaults))typography[key]=typographyChoices[key].includes(value[key])?value[key]:typographyDefaults[key];
   if(parent===window)localStorage.setItem('pgit.typography',JSON.stringify(typography));
-  const html=document.documentElement;html.dataset.uiSize=String(typography.uiSize);
-  html.style.setProperty('--ui-font-size',typography.uiSize+'px');html.style.setProperty('--code-font-size',typography.codeSize+'px');html.style.setProperty('--code-font',codeFonts[typography.font]);html.style.setProperty('--code-row-height',Math.round(typography.codeSize*typography.spacing)+'px');
-  if(parent===window){document.body.style.zoom=typography.zoom/100;document.body.style.height=10000/typography.zoom+'vh';document.querySelectorAll('iframe.project-frame').forEach(f=>f.contentWindow.postMessage({source:'pgit-typography',value:typography},location.origin))}
+  const html=document.documentElement;html.dataset.uiSize=String(typography.uiSize);const uiScale=typography.uiSize/12,scale=uiScale*typography.zoom/100;
+  html.style.setProperty('--ui-font-size','12px');html.style.setProperty('--code-font-size',typography.codeSize/uiScale+'px');html.style.setProperty('--code-font',codeFonts[typography.font]);html.style.setProperty('--code-row-height',Math.round(typography.codeSize*typography.spacing)/uiScale+'px');
+  if(parent===window){document.body.style.zoom=scale;document.body.style.height=100/scale+'vh';document.querySelectorAll('iframe.project-frame').forEach(f=>f.contentWindow.postMessage({source:'pgit-typography',value:typography},location.origin))}
   document.querySelectorAll('[data-type-key]').forEach(b=>b.setAttribute('aria-pressed',String(String(typography[b.dataset.typeKey])===b.dataset.typeValue)));
   document.querySelectorAll('.idea-diff').forEach(node=>node.pgitTypographyRefresh?.());
   window.dispatchEvent(new Event('resize'));if(persist&&parent===window&&typeof save==='function')save();
