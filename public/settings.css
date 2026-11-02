@@ -1,4 +1,4 @@
-#settingsPage{display:grid;grid-template-columns:180px minmax(0,1fr);width:100%;height:100%;min-height:0;background:var(--surface);color:var(--text);overflow:hidden}
+#settingsPage{display:grid;grid-template-columns:clamp(112px,24%,180px) minmax(0,1fr);width:100%;height:100%;min-height:0;background:var(--surface);color:var(--text);overflow:hidden}
 #settingsPage[hidden]{display:none}
 body[data-settings=open] #projectPanels>.project-frame,body[data-settings=open] #welcome,body[data-settings=open]>.shell,body[data-settings=open]>footer{display:none!important}
 body[data-settings=open]>#settingsPage{flex:1}
@@ -8,12 +8,12 @@ body[data-settings=open]>#settingsPage{flex:1}
 .settings-nav [data-close-settings]{font-size:11px;padding:0 4px}
 .settings-nav [aria-current=page]{background:var(--control-selected);color:var(--accent);font-weight:600}
 .settings-nav nav{display:grid;gap:4px}
-.settings-content{padding:22px 28px;overflow:auto;min-width:0}
+.settings-content{padding:22px clamp(12px,3%,28px);overflow:auto;min-width:0}
 .settings-content>section{width:100%;scroll-margin-top:22px;margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid var(--border)}
 .settings-content>section:last-child{border-bottom:0;margin-bottom:0}
 .settings-content h2{font-size:20px;letter-spacing:-.5px;margin:0 0 18px;outline:none}
 .settings-content h3{font-size:12px;color:var(--muted);font-weight:600;margin:0 0 8px}
-.theme-gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px}
+.theme-gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,145px),1fr));gap:10px}
 .theme-card{display:block;height:auto;padding:6px;border:1px solid var(--border);border-radius:8px;text-align:left;background:var(--surface);min-width:0}
 .theme-card[aria-pressed=true]{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
 .theme-card-label{display:flex;align-items:center;justify-content:space-between;padding:7px 3px 2px;font-size:12px}
@@ -33,9 +33,8 @@ body[data-settings=open]>#settingsPage{flex:1}
 .language-options button{height:auto;min-height:44px;padding:8px 12px;display:flex;align-items:center;justify-content:space-between;border:1px solid var(--border);border-radius:6px;background:var(--surface);font-size:13px;text-align:left}
 .language-options span{font-size:11px;color:var(--muted)}
 .language-options [aria-pressed=true]{border-color:var(--accent);background:var(--control-selected);box-shadow:inset 3px 0 var(--accent)}
-@media(max-width:760px){#settingsPage{grid-template-columns:160px minmax(0,1fr)}.settings-content{padding:18px 16px}.settings-nav{padding:16px 8px}.theme-gallery{grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}}
-.language-options{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));max-width:none}
-.language-options button{gap:12px;align-items:center;flex-direction:row}
+.language-options{grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));max-width:none}
+.language-options button{gap:4px 12px;align-items:center;flex-direction:row;flex-wrap:wrap;min-width:0}
 html:not([lang=ko]):not([lang=en]) .diff-controls button{height:auto;min-height:28px;white-space:normal;line-height:1.4}
 html:not([lang=ko]):not([lang=en]) .git-toolbar button{white-space:normal;line-height:1.3}
 /* Long translations keep their hit targets instead of squeezing into vertical text. */
@@ -46,10 +45,8 @@ html:not([lang=ko]):not([lang=en]) .workspace-toolbar .primary-tools button[data
 html:not([lang=ko]):not([lang=en]) .workspace-toolbar>button{flex-shrink:0}
 html[data-theme] .tab-count{background:var(--control-selected);color:var(--accent)}
 
-@media(max-width:560px){#settingsPage{grid-template-columns:132px minmax(0,1fr)}.settings-content{padding:16px 12px}.language-options{grid-template-columns:1fr}.language-options button{flex-wrap:wrap;gap:4px 10px}.theme-gallery{grid-template-columns:1fr}.settings-nav h1{margin-left:8px}}
 .fetch-options{display:flex;gap:6px;flex-wrap:wrap}.fetch-options button{height:34px;min-width:64px;padding:0 14px;border:1px solid var(--polar-border);background:var(--polar-surface);border-radius:5px}.fetch-options button[aria-pressed=true]{background:var(--polar-selected);border-color:var(--polar-accent);color:var(--polar-accent)}.settings-help{font-size:12px;line-height:1.6;color:var(--polar-muted);max-width:480px;margin-top:14px}
 
-@media(min-width:1101px){.language-options{grid-template-columns:repeat(3,minmax(0,1fr))}}
 
 .typography-settings{min-width:0}.typography-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 20px;padding:10px 0;border-bottom:1px solid var(--polar-border);font-size:var(--ui-font-size,12px)}.typography-options{display:flex;flex-wrap:wrap;gap:4px}.typography-options button,.typography-settings>button{min-height:32px;padding:5px 10px;border:1px solid var(--polar-border);background:var(--polar-surface);border-radius:4px}.typography-options button[aria-pressed=true]{background:var(--polar-selected);border-color:var(--polar-accent);color:var(--polar-accent)}.typography-preview{overflow:auto;padding:12px;border-radius:4px;background:var(--polar-soft);color:var(--polar-text);font-family:var(--code-font);font-size:var(--code-font-size);line-height:var(--code-row-height)}
 html .idea-diff .diff-canvas,html .code-editor{font-family:var(--code-font,monospace)!important;font-size:var(--code-font-size,12px)!important;line-height:var(--code-row-height,22px)!important}
@@ -65,3 +62,12 @@ html .idea-diff :is(.diff-line-number,.unified-gutter){font-family:var(--code-fo
 .working-review .bar #filename{flex:1 1 160px}
 .working-review .bar .file-actions{display:flex;flex:0 1 auto;min-width:0;max-width:100%;flex-wrap:wrap;gap:4px}
 .working-review .bar .file-actions button{flex-shrink:0}
+
+/* Columns follow usable content width, including UI scaling, instead of viewport width. */
+.language-options strong{white-space:nowrap;flex-shrink:0;word-break:keep-all}.language-options span{white-space:nowrap;flex-shrink:0}
+.theme-card-label{gap:6px;line-height:1.4}.theme-card-label strong{min-width:0;overflow-wrap:anywhere}.theme-card-label .pgit-icon{flex-shrink:0}
+.settings-nav{min-width:0;padding-inline:8px}.settings-nav button{height:auto;min-height:36px;line-height:1.4;overflow-wrap:anywhere}.settings-nav button .pgit-icon{flex-shrink:0}
+.typography-options{min-width:0;max-width:100%}.typography-options button,.typography-settings>button{height:auto;max-width:100%;line-height:1.4;overflow-wrap:anywhere;white-space:normal}.typography-row>span{line-height:1.5}
+.fetch-options button{height:auto;min-height:34px;line-height:1.4;padding-block:6px}.settings-content h2{overflow-wrap:anywhere}
+.settings-nav button{text-align:left}
+html[lang=ko] .settings-nav button{word-break:keep-all;overflow-wrap:normal}
