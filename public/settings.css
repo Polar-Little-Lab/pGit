@@ -71,3 +71,17 @@ html .idea-diff :is(.diff-line-number,.unified-gutter){font-family:var(--code-fo
 .fetch-options button{height:auto;min-height:34px;line-height:1.4;padding-block:6px}.settings-content h2{overflow-wrap:anywhere}
 .settings-nav button{text-align:left}
 html[lang=ko] .settings-nav button{word-break:keep-all;overflow-wrap:normal}
+
+/* Larger text keeps the workspace columns stable; it is not a page zoom. */
+html[data-ui-size="14"] :is(.nav,.branch-folder-name,.historyrow,.historyrow .cell-muted,.commit-file,.file-select,.change-path,.project-tab button,.settings-nav button,.typography-row,.language-options button){font-size:14px!important}
+html[data-ui-size="14"] :is(.shell>aside .nav,.commit-file,.file-select){min-height:34px!important;height:auto;line-height:1.4}
+html[data-ui-size="14"] :is(.settings-nav button,.typography-options button,.fetch-options button,dialog button,dialog input){font-size:14px;min-height:36px;height:auto;line-height:1.4}
+html[data-ui-size="14"] :is(.shell>aside,.settings-nav,.project-bar) .pgit-icon{width:18px;height:18px;flex-basis:18px;flex-shrink:0}
+html[data-ui-size="14"] .shell>aside :is(.remote-site-toggle,.worktree-sidebar-toggle) .pgit-icon{width:12px;height:12px;flex-basis:12px}
+html[data-ui-size="14"] .shell>aside :is(.branchitem,.remote-branch):before{width:14px;height:14px;flex-basis:14px}
+#history .filterbar{height:auto;min-height:48px;flex-shrink:0;flex-wrap:wrap;align-items:center}
+#history .filterbar input{min-width:120px;flex:1 1 180px;width:auto;max-width:100%}
+#history .filterbar .history-scope{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+html[data-ui-size="14"] .historyrow .subject-text{font-size:14px!important}
+html[data-ui-size="14"] .historyrow .cell-muted{font-size:12px!important}
+html[data-ui-size="14"] :is(.filterbar input,.commit-author strong,.commit-author small,.worktree-sidebar-item strong){font-size:14px}

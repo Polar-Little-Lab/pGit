@@ -15,22 +15,20 @@ try{
  await pane.locator('#message').press('Control+,');await page.locator('#settingsPage').waitFor();await page.keyboard.press('Escape');await page.locator('#settingsPage').waitFor({state:'hidden'});
  const pull=pane.locator('[data-repo-command=pull] .pgit-icon path'),push=pane.locator('[data-repo-command=push] .pgit-icon path');assert.notEqual(await pull.getAttribute('d'),await push.getAttribute('d'));
  await page.setViewportSize({width:1440,height:960});await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));await page.screenshot({path:'test-results/icons-workspace.png'});
- const metrics=[];
- for(const size of [12,14,16]){
-  await page.evaluate(size=>PgitSettings.setTypography({...PgitSettings.typography,uiSize:size,zoom:100}),size);
-  await page.locator('.settings-button').click();await page.locator('[data-settings-section=typography]').click();
-  metrics.push(await page.locator('[data-settings-section=typography]').evaluate(e=>{const row=e.getBoundingClientRect(),icon=e.querySelector('svg').getBoundingClientRect();return {height:row.height,icon:icon.width,padding:icon.left-row.left}}));
-  await page.evaluate(()=>PgitSettings.close());await page.screenshot({path:`test-results/ui-size-${size}.png`});
- }
- for(let i=1;i<metrics.length;i++){const ratio=[12,14,16][i]/12;for(const key of ['height','icon','padding'])assert.ok(Math.abs(metrics[i][key]/metrics[0][key]-ratio)<0.04,`${key} scales with UI text`)}
+ const sidebarWidth=await pane.locator('.shell>aside').evaluate(e=>e.getBoundingClientRect().width);
+ await page.evaluate(()=>PgitSettings.setTypography({...PgitSettings.typography,uiSize:16,zoom:150}));assert.equal(await page.evaluate(()=>PgitSettings.typography.uiSize),14);assert.equal(await page.evaluate(()=>document.body.style.zoom),'');
+ assert.equal(await pane.locator('.shell>aside').evaluate(e=>e.getBoundingClientRect().width),sidebarWidth);
+ await pane.locator('.branchitem.checked-out').click();const search=pane.getByRole('searchbox',{name:'Search commits'});await search.fill('base');await search.fill('');
+ assert.equal(await search.evaluate(e=>{const r=e.getBoundingClientRect(),p=e.closest('.filterbar').getBoundingClientRect();return r.top>=p.top&&r.bottom<=p.bottom}),true);
+ await page.screenshot({path:'test-results/history-large-text.png'});
  await page.locator('.settings-button').click();await page.locator('[data-settings-section=typography]').click();assert.equal(await page.locator('[data-settings-section=typography]').getAttribute('aria-current'),'page');assert.equal(await page.locator('#typographyTitle').evaluate(e=>e===document.activeElement),true);
- for(const [key,value] of [['uiSize','16'],['codeSize','20'],['font','menlo'],['spacing','2.2'],['zoom','150']])await page.locator(`[data-type-key="${key}"][data-type-value="${value}"]`).click();
- await page.waitForFunction(()=>document.querySelector('iframe').contentDocument.documentElement.style.getPropertyValue('--code-row-height')==='33px');
- assert.equal(await page.locator('.typography-preview').evaluate(e=>getComputedStyle(e).fontSize),'15px');assert.equal(await pane.locator('#changesNav').evaluate(e=>getComputedStyle(e).fontSize),'12px');
- assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('pgit.typography')).zoom),150);
+ for(const [key,value] of [['uiSize','14'],['codeSize','20'],['font','menlo'],['spacing','2.2']])await page.locator(`[data-type-key="${key}"][data-type-value="${value}"]`).click();
+ await page.waitForFunction(()=>document.querySelector('iframe').contentDocument.documentElement.style.getPropertyValue('--code-row-height')==='44px');
+ assert.equal(await page.locator('.typography-preview').evaluate(e=>getComputedStyle(e).fontSize),'20px');assert.equal(await pane.locator('#changesNav').evaluate(e=>getComputedStyle(e).fontSize),'14px');
+ assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('pgit.typography')).zoom),undefined);
  await page.locator('.typography-settings').scrollIntoViewIfNeeded();await page.screenshot({path:'test-results/settings-typography.png'});
  assert.ok(await page.locator('#settingsPage').evaluate(e=>e.scrollWidth<=e.clientWidth));
- await page.waitForFunction(()=>JSON.parse(localStorage.getItem('pgit.arctic.workspace.v1')).typography?.zoom===150);await page.reload();await page.locator('.settings-button').waitFor();await page.locator('[data-settings-section=typography][aria-current=page]').waitFor();assert.equal(await page.evaluate(()=>PgitSettings.typography.codeSize),20);assert.equal(await page.evaluate(()=>document.body.style.zoom),'2');
- await page.evaluate(()=>PgitSettings.open());await page.locator('.typography-settings>button').click();assert.equal(await page.evaluate(()=>PgitSettings.typography.zoom),100);assert.equal(await page.evaluate(()=>PgitSettings.typography.uiSize),12);
+ await page.waitForFunction(()=>JSON.parse(localStorage.getItem('pgit.arctic.workspace.v1')).typography?.codeSize===20&&JSON.parse(localStorage.getItem('pgit.arctic.workspace.v1')).typography?.spacing===2.2);await page.reload();await page.locator('.settings-button').waitFor();await page.locator('[data-settings-section=typography][aria-current=page]').waitFor();assert.equal(await page.evaluate(()=>PgitSettings.typography.codeSize),20);assert.equal(await page.evaluate(()=>document.body.style.zoom),'');
+ await page.evaluate(()=>PgitSettings.open());await page.locator('.typography-settings>button').click();assert.equal(await page.evaluate(()=>PgitSettings.typography.zoom),undefined);assert.equal(await page.evaluate(()=>PgitSettings.typography.uiSize),12);
  assert.deepEqual(errors,[]);console.log('Settings page UI passed: navigation, theme previews, language, draft preservation, responsive layout, history back and icon paths.');
 }finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await rm(root,{recursive:true,force:true})}

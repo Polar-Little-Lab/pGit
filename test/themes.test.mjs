@@ -9,5 +9,5 @@ test('all six palettes persist and meet normal-text contrast for core controls',
 });
 
 test('desktop workspace retains only valid typography preferences',()=>{
- const typography={uiSize:16,codeSize:20,font:'menlo',spacing:2.2,zoom:150};assert.deepEqual(normalizeWorkspace({typography}).typography,typography);assert.equal(normalizeWorkspace({typography:{uiSize:500,font:'arbitrary',zoom:0}}).typography,undefined);
+ const typography={uiSize:14,codeSize:20,font:'menlo',spacing:2.2};assert.deepEqual(normalizeWorkspace({typography}).typography,typography);assert.equal(normalizeWorkspace({typography:{uiSize:500,font:'arbitrary',zoom:0}}).typography,undefined);
 });

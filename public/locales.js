@@ -40,6 +40,7 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Large":["大きく","大","Grande","Grand"],
 "System monospace":["システム等幅","系统等宽","Monoespaciada del sistema","Chasse fixe système"],
 "Fonts and sizing":["フォントとサイズ", "字体与大小", "Fuentes y tamaños", "Polices et tailles"],
 "UI font size":["UI の文字サイズ", "界面字号", "Tamaño de texto de la interfaz", "Taille du texte de l’interface"],
