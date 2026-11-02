@@ -13,7 +13,24 @@
   document.querySelectorAll('[data-theme-choice]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.themeChoice===theme)));
   if(parent===window){document.querySelectorAll('iframe.project-frame').forEach(f=>f.contentWindow.postMessage({source:'pgit-theme',theme},location.origin));if(persist&&typeof save==='function')save()}
  }
- window.PgitSettings={setTheme,get theme(){return theme}};
+ const typographyDefaults={uiSize:12,codeSize:12,font:'system',spacing:1.833,zoom:100};
+ const typographyChoices={uiSize:[12,14,16],codeSize:[12,14,16,18,20],font:['system','menlo','monaco','consolas'],spacing:[1.5,1.833,2.2],zoom:[90,100,110,125,150]};
+ const codeFonts={system:'ui-monospace, SFMono-Regular, Menlo, monospace',menlo:'Menlo, ui-monospace, monospace',monaco:'Monaco, ui-monospace, monospace',consolas:'Consolas, Menlo, monospace'};
+ let typography={...typographyDefaults};try{typography={...typography,...JSON.parse(localStorage.getItem('pgit.typography')||'{}')}}catch{}
+ function setTypography(value,{persist=true}={}){
+  for(const key of Object.keys(typographyDefaults))typography[key]=typographyChoices[key].includes(value[key])?value[key]:typographyDefaults[key];
+  if(parent===window)localStorage.setItem('pgit.typography',JSON.stringify(typography));
+  const html=document.documentElement;html.dataset.uiSize=String(typography.uiSize);
+  html.style.setProperty('--ui-font-size',typography.uiSize+'px');html.style.setProperty('--code-font-size',typography.codeSize+'px');html.style.setProperty('--code-font',codeFonts[typography.font]);html.style.setProperty('--code-row-height',Math.round(typography.codeSize*typography.spacing)+'px');
+  if(parent===window){document.body.style.zoom=typography.zoom/100;document.body.style.height=10000/typography.zoom+'vh';document.querySelectorAll('iframe.project-frame').forEach(f=>f.contentWindow.postMessage({source:'pgit-typography',value:typography},location.origin))}
+  document.querySelectorAll('[data-type-key]').forEach(b=>b.setAttribute('aria-pressed',String(String(typography[b.dataset.typeKey])===b.dataset.typeValue)));
+  document.querySelectorAll('.idea-diff').forEach(node=>node.pgitTypographyRefresh?.());
+  window.dispatchEvent(new Event('resize'));if(persist&&parent===window&&typeof save==='function')save();
+ }
+ window.PgitSettings={setTheme,setTypography,get typography(){return {...typography}},get theme(){return theme}};
+ window.addEventListener('message',event=>{if(event.origin===location.origin&&event.source===parent&&event.data?.source==='pgit-typography')setTypography(event.data.value)});
+ setTypography(typography,{persist:false});
+
  system.addEventListener('change',()=>{if(theme==='system')setTheme(theme,{persist:false})});
  window.addEventListener('message',event=>{if(event.origin===location.origin&&event.source===parent&&event.data?.source==='pgit-theme')setTheme(event.data.theme,{persist:false})});
  setTheme(theme,{persist:false});
@@ -33,7 +50,15 @@
   const preview=document.createElement('span');preview.className='theme-preview preview-'+id;preview.setAttribute('aria-hidden','true');if(colors){for(const [key,color] of Object.entries({bg:colors.canvas,panel:colors.soft,line:colors.border,accent:colors.accent}))preview.style.setProperty('--preview-'+key,color)}preview.innerHTML='<span class="preview-tabs"></span><span class="preview-sidebar"><i></i><i></i><i></i></span><span class="preview-graph"><i></i><i></i><i></i><i></i></span><span class="preview-details"><i></i><i></i></span>';
   const label=document.createElement('span');label.className='theme-card-label';const text=document.createElement('strong');text.textContent=name;if(id!=='system')text.className='literal-data';label.append(text,PgitIcons.icon('check'));card.append(preview,label);card.onclick=()=>setTheme(id);page.querySelector('.theme-gallery').append(card);
  }
- const container=document.querySelector('#projectPanels')||document.body;container.append(page);
+ const typographyPanel=document.createElement('div');typographyPanel.className='typography-settings';
+ const typographyTitle=document.createElement('h3');typographyTitle.textContent='글꼴 및 크기';typographyPanel.append(typographyTitle);
+ for(const [key,label] of [['uiSize','UI 글자 크기'],['codeSize','코드 글자 크기'],['font','코드 글꼴'],['spacing','코드 줄 간격'],['zoom','화면 배율']]){
+  const row=document.createElement('div');row.className='typography-row';const title=document.createElement('span');title.textContent=label;const options=document.createElement('div');options.className='typography-options';options.setAttribute('role','group');options.setAttribute('aria-label',label);
+  for(const value of typographyChoices[key]){const b=document.createElement('button');b.type='button';b.dataset.typeKey=key;b.dataset.typeValue=value;b.textContent=key==='font'?({system:'시스템 고정폭',menlo:'Menlo',monaco:'Monaco',consolas:'Consolas'}[value]):key==='spacing'?({1.5:'촘촘하게',1.833:'기본',2.2:'넓게'}[value]):value+(key==='zoom'?'%':'px');b.onclick=()=>setTypography({...typography,[key]:value});options.append(b)}row.append(title,options);typographyPanel.append(row);
+ }
+ const preview=document.createElement('pre');preview.className='typography-preview literal-data';preview.textContent='// pGit · 코드 미리보기 · Preview\nconst branch = "main";\n+ const message = "변경 사항 · 日本語";';typographyPanel.append(preview);
+ const resetType=document.createElement('button');resetType.type='button';resetType.textContent='글꼴 및 크기 초기화';resetType.onclick=()=>setTypography(typographyDefaults);typographyPanel.append(resetType);page.querySelector('[data-settings-panel=appearance]').append(typographyPanel);
+ const container=document.querySelector('#projectPanels')||document.body;container.append(page);setTypography(typography,{persist:false});
  const siblings=new Map();let previousFocus=null,previousHash='';
  function sync(){const minutes=localStorage.getItem('pgit.autoFetchMinutes')??'10';page.querySelectorAll('[data-fetch-minutes]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.fetchMinutes===minutes)));page.querySelectorAll('[data-language-choice]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.languageChoice===window.PgitI18n.language)));page.querySelectorAll('[data-theme-choice]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.themeChoice===theme)))}
  function show(section='appearance',focus=true){

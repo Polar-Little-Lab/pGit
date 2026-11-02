@@ -40,6 +40,17 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"System monospace":["システム等幅","系统等宽","Monoespaciada del sistema","Chasse fixe système"],
+"Fonts and sizing":["フォントとサイズ", "字体与大小", "Fuentes y tamaños", "Polices et tailles"],
+"UI font size":["UI の文字サイズ", "界面字号", "Tamaño de texto de la interfaz", "Taille du texte de l’interface"],
+"Code font size":["コードの文字サイズ", "代码字号", "Tamaño de texto del código", "Taille du texte du code"],
+"Code font":["コードのフォント", "代码字体", "Fuente del código", "Police du code"],
+"Code line spacing":["コードの行間", "代码行距", "Interlineado del código", "Interligne du code"],
+"Display scale":["表示倍率", "显示缩放", "Escala de pantalla", "Échelle d’affichage"],
+"Compact":["狭い", "紧凑", "Compacto", "Compact"],
+"Default":["標準", "默认", "Predeterminado", "Par défaut"],
+"Spacious":["広い", "宽松", "Amplio", "Large"],
+"Reset fonts and sizing":["フォントとサイズをリセット", "重置字体与大小", "Restablecer fuentes y tamaños", "Réinitialiser les polices et tailles"],
 "Could not refresh remote tags.":["リモートタグを更新できませんでした。","无法刷新远程标签。","No se pudieron actualizar las etiquetas remotas.","Impossible d’actualiser les tags distants."],
 "Automatic fetch":["自動Fetch", "自动 Fetch", "Fetch automático", "Fetch automatique"],
 "Off":["オフ", "关闭", "Desactivado", "Désactivé"],

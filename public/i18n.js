@@ -1,6 +1,17 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+시스템 고정폭|System monospace
+글꼴 및 크기|Fonts and sizing
+UI 글자 크기|UI font size
+코드 글자 크기|Code font size
+코드 글꼴|Code font
+코드 줄 간격|Code line spacing
+화면 배율|Display scale
+촘촘하게|Compact
+기본|Default
+넓게|Spacious
+글꼴 및 크기 초기화|Reset fonts and sizing
 전체 이력 보기|Show all history
 
 이력 필터 해제|Clear history filter

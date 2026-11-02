@@ -7,3 +7,7 @@ test('all six palettes persist and meet normal-text contrast for core controls',
  assert.equal(themes.length,6);assert.equal(new Set(themes.map(t=>t.id)).size,6);
  for(const theme of themes){assert.equal(normalizeWorkspace({theme:theme.id}).theme,theme.id);for(const background of ['surface','canvas'])for(const foreground of ['text','muted'])assert.ok(contrast(theme.colors[foreground],theme.colors[background])>=4.5,`${theme.id}: ${foreground}/${background}`);assert.ok(contrast('#ffffff',theme.colors.primary)>=4.5,theme.id+' primary');assert.ok(contrast(theme.colors.accent,theme.colors.selected)>=4.5,theme.id+' selected')}
 });
+
+test('desktop workspace retains only valid typography preferences',()=>{
+ const typography={uiSize:16,codeSize:20,font:'menlo',spacing:2.2,zoom:150};assert.deepEqual(normalizeWorkspace({typography}).typography,typography);assert.equal(normalizeWorkspace({typography:{uiSize:500,font:'arbitrary',zoom:0}}).typography,undefined);
+});

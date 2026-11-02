@@ -50,3 +50,12 @@ html[data-theme] .tab-count{background:var(--control-selected);color:var(--accen
 .fetch-options{display:flex;gap:6px;flex-wrap:wrap}.fetch-options button{height:34px;min-width:64px;padding:0 14px;border:1px solid var(--polar-border);background:var(--polar-surface);border-radius:5px}.fetch-options button[aria-pressed=true]{background:var(--polar-selected);border-color:var(--polar-accent);color:var(--polar-accent)}.settings-help{font-size:12px;line-height:1.6;color:var(--polar-muted);max-width:480px;margin-top:14px}
 
 @media(min-width:1101px){.language-options{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+.typography-settings{margin-top:24px;border-top:1px solid var(--polar-border);padding-top:12px}.typography-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 20px;padding:10px 0;border-bottom:1px solid var(--polar-border);font-size:var(--ui-font-size,12px)}.typography-options{display:flex;flex-wrap:wrap;gap:4px}.typography-options button,.typography-settings>button{min-height:32px;padding:5px 10px;border:1px solid var(--polar-border);background:var(--polar-surface);border-radius:4px}.typography-options button[aria-pressed=true]{background:var(--polar-selected);border-color:var(--polar-accent);color:var(--polar-accent)}.typography-preview{overflow:auto;padding:12px;border-radius:4px;background:var(--polar-soft);color:var(--polar-text);font-family:var(--code-font);font-size:var(--code-font-size);line-height:var(--code-row-height)}
+html[data-ui-size]:not([data-ui-size="12"]) :is(button,input,textarea,select,.nav,.historyrow,.historyrow span,.file-path,.change-path,.settings-help,.settings-nav,.typography-row,.branch-folder-name){font-size:var(--ui-font-size)!important}
+html[data-ui-size]:not([data-ui-size="12"]) .workspace-toolbar{overflow-x:auto;flex-wrap:nowrap}html[data-ui-size]:not([data-ui-size="12"]) .workspace-toolbar button{flex-shrink:0;min-width:max-content}
+html .idea-diff .diff-canvas,html .code-editor{font-family:var(--code-font,monospace)!important;font-size:var(--code-font-size,12px)!important;line-height:var(--code-row-height,22px)!important}
+html .idea-diff :is(.diff-code-row,.diff-fold){height:var(--code-row-height,22px)!important;line-height:var(--code-row-height,22px)!important}
+html .idea-diff .diff-code-row code{font:inherit!important}
+
+html .idea-diff :is(.diff-line-number,.unified-gutter){font-family:var(--code-font,monospace)!important;font-size:var(--code-font-size,12px)!important;line-height:var(--code-row-height,22px)!important}
