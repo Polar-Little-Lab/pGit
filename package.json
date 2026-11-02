@@ -28,6 +28,7 @@
     "files": [
       "desktop/**/*",
       "docs/USER_GUIDE.md",
+      "docs/images/*.png",
       "git.mjs",
       "server.mjs",
       "package.json",
