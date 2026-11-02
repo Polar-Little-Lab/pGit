@@ -2,6 +2,7 @@ import {createHash} from 'node:crypto';
 import {lstat,readFile,realpath} from 'node:fs/promises';
 import path from 'node:path';
 import {git,parseStatus} from './git.mjs';
+import {worktreeOverview} from './operations.mjs';
 
 // Poll Git's view, not a recursive filesystem watcher (which also watches build output).
 // Include file metadata: porcelain alone cannot detect another edit to an already dirty file.
@@ -11,7 +12,7 @@ export async function repositoryRevision(root) {
   git(root,['for-each-ref','--format=%(refname)%00%(objectname)']),
   git(root,['rev-parse','--absolute-git-dir']),
   git(root,['config','--local','--list','-z']),
-  git(root,['worktree','list','--porcelain','-z'])
+  worktreeOverview(root).then(JSON.stringify)
  ]);
  const hash=createHash('sha256');
  for(const value of [root,status,refs,config,worktrees])hash.update(value).update('\0');

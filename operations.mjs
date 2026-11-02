@@ -22,7 +22,7 @@ export async function extras(root){
  const stashes=(await git(root,['stash','list','--format=%H%x09%gd%x09%gs'])).trim().split('\n').filter(Boolean).map(s=>{const [hash,name,...title]=s.split('\t');return {hash,name,title:title.join('\t')}});
  const upstream=await git(root,['rev-parse','--abbrev-ref','--symbolic-full-name','@{upstream}']).then(s=>s.trim(),()=>null);
  const counts=upstream?await git(root,['rev-list','--left-right','--count','HEAD...@{upstream}']).then(s=>s.trim().split(/\s+/).map(Number),()=>[0,0]):[0,0];
- const worktrees=await worktreeEntries(root);
+ const worktrees=await worktreeOverview(root);
  const remoteDetails=await Promise.all(remotes.map(async name=>({name,...remoteWebInfo(await git(root,['remote','get-url',name]).then(s=>s.trim(),()=>''))})));
  return {remotes,remoteDetails,refs,stashes,upstream,ahead:counts[0],behind:counts[1],operation,worktrees};
 }

@@ -1,6 +1,7 @@
 // One 24px grid, rounded 1.75px strokes. All icons inherit the control's color.
 (()=>{
  const paths={
+  right:'m9 5 7 7-7 7',
   review:'M4 3h16v13H9l-5 5V3zM8 7h8M8 11h5',
   tag:'M3 3h8l10 10-8 8L3 11zM7 7h.01',
   gitlab:'m12 21 9-7-3-11-3 7H9L6 3 3 14zM3 14l6-4 3 11 3-11 6 4',

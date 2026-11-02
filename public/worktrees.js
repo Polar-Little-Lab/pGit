@@ -11,9 +11,9 @@ const worktreeRefs=el('datalist');worktreeRefs.id='worktreeRefs';worktreeInputs.
 const createActions=el('div',undefined,'worktree-actions'),createCancel=el('button','취소'),createSubmit=el('button','만들기','primary');createCancel.type='button';createActions.append(createCancel,createSubmit);worktreeForm.append(createActions);
 worktreeBody.append(worktreeError,worktreeTools,worktreeLayout,worktreeForm);worktreeDialog.append(worktreeHeader,worktreeBody);document.body.append(worktreeDialog);
 let worktreeBusy=false,worktreeVersion=0,worktreeItems=[],worktreeSelected=null,worktreeDraftRoot=null,worktreePathEdited=false;
-function worktreeFail(error){worktreeError.textContent=error.message;worktreeError.hidden=false}
+function worktreeFail(error){if(!worktreeDialog.open)notify(error.message);worktreeError.textContent=error.message;worktreeError.hidden=false}
 function worktreeButtons(){for(const b of worktreeBody.querySelectorAll('button,input'))b.disabled=worktreeBusy||b.dataset.unavailable==='true';worktreeClose.disabled=worktreeBusy;worktreeDialog.setAttribute('aria-busy',String(worktreeBusy))}
-function worktreeMode(creating){worktreeForm.hidden=!creating;worktreeTools.hidden=creating;worktreeLayout.hidden=creating;worktreeDialog.dataset.view=creating?'create':'list';worktreeTitle.textContent=creating?'워크트리 만들기':'워크트리 관리';worktreeError.hidden=true}
+function worktreeMode(creating){worktreeTitle.classList.remove('literal-data');worktreeForm.hidden=!creating;worktreeTools.hidden=creating;worktreeLayout.hidden=creating;worktreeDialog.dataset.view=creating?'create':'list';worktreeTitle.textContent=creating?'워크트리 만들기':'워크트리 관리';worktreeError.hidden=true}
 worktreeDialog.addEventListener('cancel',e=>{if(worktreeBusy){e.preventDefault();return}if(!worktreeForm.hidden){e.preventDefault();worktreeMode(false);worktreeCreate.focus()}});
 async function refreshWorktrees(){if(worktreeBusy)return;const version=++worktreeVersion;worktreeBusy=true;worktreeButtons();worktreeError.hidden=true;
  try{const items=await api('worktreeOverview');if(version===worktreeVersion){worktreeItems=items;if(!items.some(i=>i.path===worktreeSelected))worktreeSelected=(items.find(i=>i.current)||items[0])?.path;drawWorktrees()}}catch(error){worktreeFail(error)}finally{worktreeBusy=false;worktreeButtons()}
@@ -35,7 +35,7 @@ function drawWorktrees(){
  drawWorktreeDetail(worktreeItems.find(i=>i.path===worktreeSelected));
 }
 worktreeList.onkeydown=e=>{if(!['ArrowDown','ArrowUp','Home','End'].includes(e.key))return;const rows=[...worktreeList.querySelectorAll('[role=option]')];if(!rows.length)return;e.preventDefault();let n=rows.indexOf(document.activeElement);n=e.key==='Home'?0:e.key==='End'?rows.length-1:Math.max(0,Math.min(rows.length-1,n+(e.key==='ArrowDown'?1:-1)));rows[n].click()};
-async function openWorktree(item){if(worktreeBusy||item.current||item.bare||item.error)return;if(embedded){sendShell({type:'open-worktree',path:item.path});worktreeDialog.close()}else{if($('message').value.trim()||$('commitDescription')?.value.trim()){worktreeFail(Error('커밋 초안을 정리한 뒤 작업 폴더를 전환하세요.'));return}if(await mutate('open',{path:item.path}))worktreeDialog.close()}}
+async function openWorktree(item){if(worktreeBusy||working||item.current||item.bare||item.error)return;if(embedded){sendShell({type:'open-worktree',path:item.path});worktreeDialog.close()}else{if($('message').value.trim()||$('commitDescription')?.value.trim()){worktreeFail(Error('커밋 초안을 정리한 뒤 작업 폴더를 전환하세요.'));return}if(await mutate('open',{path:item.path}))worktreeDialog.close()}}
 function drawWorktreeDetail(item){worktreeDetail.replaceChildren();delete worktreeDetail.dataset.worktreePath;if(!item)return;worktreeDetail.dataset.worktreePath=item.path;
  const heading=el('div',undefined,'worktree-detail-heading');heading.append(PgitIcons.icon('worktree'),el('strong',worktreeName(item),'literal-data'));worktreeDetail.append(heading);
  const badges=el('div',undefined,'worktree-badges');for(const [on,label] of [[item.current,'현재 프로젝트'],[item.main,'기본 작업 폴더'],[item.locked,'잠김']])if(on)badges.append(el('span',label,'worktree-badge'));worktreeDetail.append(badges);
@@ -56,6 +56,25 @@ worktreeSearch.oninput=drawWorktrees;
 worktreeInputs.path.oninput=()=>{worktreePathEdited=true};worktreeInputs.name.oninput=()=>{if(worktreePathEdited)return;const root=state.root.replace(/\/$/,''),name=worktreeInputs.name.value.trim().replace(/[^\p{L}\p{N}._-]+/gu,'-');worktreeInputs.path.value=name?root+'-'+name:''};
 worktreeCreate.onclick=()=>{worktreeMode(true);worktreeRefs.replaceChildren();for(const value of ['HEAD',...(state.branches||[]).map(b=>typeof b==='string'?b:b.name).filter(Boolean)]){const option=el('option');option.value=value;worktreeRefs.append(option)}worktreeInputs.name.focus()};createCancel.onclick=()=>{worktreeMode(false);worktreeCreate.focus()};worktreeRefresh.onclick=refreshWorktrees;
 worktreeForm.onsubmit=async event=>{event.preventDefault();const data=Object.fromEntries(new FormData(worktreeForm));if(await changeWorktree('worktreeAdd',data)){worktreeSelected=data.path;worktreeSearch.value='';worktreeMode(false);worktreeForm.reset();worktreeInputs.ref.value='HEAD';worktreePathEdited=false;drawWorktrees();worktreeList.querySelector('[aria-selected=true]')?.focus()}};
-function openWorktrees(){if(!state)return;if(worktreeDraftRoot!==state.root){worktreeForm.reset();worktreeInputs.ref.value='HEAD';worktreePathEdited=false;worktreeDraftRoot=state.root;worktreeSearch.value='';worktreeSelected=null}worktreeMode(false);if(!worktreeDialog.open)worktreeDialog.showModal();refreshWorktrees()}
-const worktreeNav=el('button','워크트리','nav');$('changesNav').after(worktreeNav);worktreeNav.onclick=openWorktrees;PgitIcons.label(worktreeNav,'worktree','워크트리');
+async function openWorktrees(selectedPath){if(!state)return;if(worktreeDraftRoot!==state.root){worktreeForm.reset();worktreeInputs.ref.value='HEAD';worktreePathEdited=false;worktreeDraftRoot=state.root;worktreeSearch.value='';worktreeSelected=null}worktreeMode(false);if(selectedPath){worktreeDialog.dataset.view='detail';worktreeTools.hidden=true;worktreeTitle.classList.add('literal-data');worktreeTitle.textContent=worktreeName(state.worktrees.find(item=>item.path===selectedPath))}if(!worktreeDialog.open)worktreeDialog.showModal();if(selectedPath){worktreeSelected=selectedPath;worktreeSearch.value=''}await refreshWorktrees()}
+const worktreeSidebar=el('section',undefined,'sidebar-worktrees');integrations.before(worktreeSidebar);
+let worktreeSidebarSignature='';
+function renderWorktreeSidebar(){
+ const items=state?.worktrees||[],signature=JSON.stringify([state?.root,items]);if(signature===worktreeSidebarSignature)return;worktreeSidebarSignature=signature;worktreeSidebar.replaceChildren();
+ const heading=el('div',undefined,'worktree-sidebar-heading'),toggle=el(items.length?'button':'span','워크트리','worktree-sidebar-toggle'),add=el('button'),manage=el('button'),list=el('div',undefined,'worktree-sidebar-list');
+ const key='pgit.worktree-sidebar:'+state?.root;let expanded=localStorage.getItem(key)!=='closed';list.id='worktreeSidebarList';
+ if(items.length){toggle.setAttribute('aria-controls',list.id);toggle.setAttribute('aria-expanded',String(expanded));toggle.prepend(PgitIcons.icon('right'));toggle.onclick=()=>{expanded=!expanded;list.hidden=!expanded;toggle.setAttribute('aria-expanded',String(expanded));localStorage.setItem(key,expanded?'open':'closed')}}
+ list.hidden=!expanded;PgitIcons.label(add,'plus');add.setAttribute('aria-label','워크트리 만들기');add.title='워크트리 만들기';add.onclick=async()=>{if(worktreeBusy||working)return;await openWorktrees();worktreeCreate.click()};
+ PgitIcons.label(manage,'settings');manage.setAttribute('aria-label','워크트리 관리');manage.title='워크트리 관리';manage.onclick=()=>openWorktrees();heading.append(toggle,add,manage);worktreeSidebar.append(heading,list);
+ for(const item of items){const row=el('div',undefined,'sidebar-worktree');row.dataset.worktreePath=item.path;row.classList.toggle('current',item.current);const open=el('button',undefined,'sidebar-worktree-open');
+ const text=el('span',undefined,'sidebar-worktree-text');text.append(el('strong',worktreeName(item),'literal-data'));const folder=item.path.split('/').pop();if(folder!==worktreeName(item))text.append(el('small',folder,'literal-data'));open.append(PgitIcons.icon('worktree'),text);open.title=item.path;
+ if(item.current){open.setAttribute('aria-current','location');const current=PgitIcons.icon('check');current.setAttribute('aria-hidden','false');current.setAttribute('aria-label','현재 프로젝트');open.append(current)}
+ if(item.changes)open.append(el('span',String(item.changes),'worktree-badge'));
+ if(item.locked){const lock=PgitIcons.icon('lock');lock.setAttribute('aria-hidden','false');lock.setAttribute('aria-label','잠김');open.append(lock)}
+ open.disabled=item.current||item.bare||!!item.error;open.onclick=()=>openWorktree(item);
+ const menu=el('button','⋯','sidebar-worktree-menu');menu.setAttribute('aria-label','워크트리 관리');menu.title=worktreeName(item);menu.onclick=()=>{if(worktreeBusy||working)return;openWorktrees(item.path)};row.oncontextmenu=e=>{e.preventDefault();menu.click()};row.append(open,menu);list.append(row);
+ }
+}
+const beforeWorktreeSidebarRender=render;render=function(){beforeWorktreeSidebarRender();renderWorktreeSidebar()};
+
 const worktreeOpenCommand=openCommand;openCommand=async function(key){if(key==='worktreeList'){panel.close();openWorktrees();return}return worktreeOpenCommand(key)};
