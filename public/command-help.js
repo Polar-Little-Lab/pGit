@@ -250,12 +250,12 @@ const catalog={
     "fr": "Compare les fichiers et le code entre deux commits."
   },
   "reflog": {
-    "ko": "HEAD와 브랜치가 가리키던 커밋의 이동 기록을 봅니다. Reset 전 위치 등을 찾을 때 사용합니다.",
-    "en": "View local HEAD and branch movement history, useful for finding positions before Reset.",
-    "ja": "HEAD とブランチの移動履歴を確認し、Reset 前の位置などを探します。",
-    "zh-CN": "查看本地 HEAD 和分支的移动记录，可用于查找 Reset 之前的位置。",
-    "es": "Consulta los movimientos locales de HEAD y ramas para localizar estados anteriores a un Reset.",
-    "fr": "Affiche les déplacements locaux de HEAD et des branches, utiles pour retrouver une position avant un Reset."
+    "ko": "커밋·브랜치 전환·Reset으로 작업 위치가 바뀐 로컬 기록을 봅니다. 이전 커밋을 찾아 복구할 때 참고하며, 조회만으로 파일이 복구되지는 않습니다.",
+    "en": "View local changes to your working position from commits, branch switches and Reset. Use this log to find earlier commits for recovery; viewing it does not restore files.",
+    "ja": "コミット・ブランチ切り替え・Reset による作業位置のローカル履歴です。復旧に使う過去のコミットを探せます。表示だけではファイルは復元されません。",
+    "zh-CN": "查看提交、切换分支和 Reset 引起的本地工作位置记录。可用于查找恢复所需的历史提交；仅查看不会恢复文件。",
+    "es": "Consulta el registro local de commits, cambios de rama y Reset para encontrar commits anteriores. Consultarlo no restaura archivos.",
+    "fr": "Affiche les changements locaux de position après un commit, un changement de branche ou un Reset. Retrouvez un ancien commit pour une récupération ; consulter ce journal ne restaure aucun fichier."
   },
   "worktreeList": {
     "ko": "같은 저장소의 작업 폴더들을 확인하고 열기·잠금·삭제를 관리합니다.",

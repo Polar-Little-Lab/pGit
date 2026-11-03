@@ -46,7 +46,7 @@
     "key": "remoteList",
     "title": "원격 주소 보기",
     "fields": [],
-    "image": "guide-remotelist"
+    "image": "guide-remotelist-result"
   },
   {
     "key": "fetch",
@@ -224,7 +224,7 @@
   },
   {
     "key": "reflog",
-    "title": "참조 이동 기록",
+    "title": "로컬 작업 기록 (Reflog)",
     "fields": [],
     "image": "guide-reflog"
   },

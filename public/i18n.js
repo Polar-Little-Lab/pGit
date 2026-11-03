@@ -633,7 +633,7 @@ GitLab 이슈 만들기|Create GitLab issue
 `;
 const en=Object.fromEntries(pairs.trim().split('\n').filter(line=>line.includes('|')).map(line=>line.split('|')));
 const reverse=Object.fromEntries(Object.entries(en).map(([key,value])=>[value,key]));
-const ko={'Stash 만들기':'스태시 저장','Stash 적용':'스태시 적용','Stash 적용 후 제거':'스태시 적용 후 삭제','Stash Pop':'스태시 적용 후 삭제','Stash 삭제':'스태시 삭제','Stash Diff':'스태시 변경 보기',Stash:'스태시','Cherry-pick':'체리픽',Revert:'되돌림 커밋',Blame:'줄별 작성 이력',Reflog:'참조 이동 기록',WORKSPACE:'작업 공간',LOCAL:'로컬 브랜치',REMOTE:'원격 브랜치',TAGS:'태그',STASHES:'스태시',COMMIT:'커밋',NEWPROJECT:'새 프로젝트','NEW PROJECT':'새 프로젝트','GitHub Pull Requests':'GitHub 풀 리퀘스트','GitHub Issues':'GitHub 이슈','Worktree 목록':'워크트리 목록','Worktree 만들기':'워크트리 만들기','Worktree 제거':'워크트리 제거','Worktree 잠금':'워크트리 잠금','Worktree 잠금 해제':'워크트리 잠금 해제','Submodule 상태':'서브모듈 상태','Submodule 초기화·갱신':'서브모듈 초기화·갱신','Git LFS 상태':'Git LFS 상태'};
+const ko={'Stash 만들기':'스태시 저장','Stash 적용':'스태시 적용','Stash 적용 후 제거':'스태시 적용 후 삭제','Stash Pop':'스태시 적용 후 삭제','Stash 삭제':'스태시 삭제','Stash Diff':'스태시 변경 보기',Stash:'스태시','Cherry-pick':'체리픽',Revert:'되돌림 커밋',Blame:'줄별 작성 이력',Reflog:'로컬 작업 기록 (Reflog)',WORKSPACE:'작업 공간',LOCAL:'로컬 브랜치',REMOTE:'원격 브랜치',TAGS:'태그',STASHES:'스태시',COMMIT:'커밋',NEWPROJECT:'새 프로젝트','NEW PROJECT':'새 프로젝트','GitHub Pull Requests':'GitHub 풀 리퀘스트','GitHub Issues':'GitHub 이슈','Worktree 목록':'워크트리 목록','Worktree 만들기':'워크트리 만들기','Worktree 제거':'워크트리 제거','Worktree 잠금':'워크트리 잠금','Worktree 잠금 해제':'워크트리 잠금 해제','Submodule 상태':'서브모듈 상태','Submodule 초기화·갱신':'서브모듈 초기화·갱신','Git LFS 상태':'Git LFS 상태'};
 const templates=[
  [/^브랜치: (.+)$/,name=>`Branch: ${name}`],[/^태그: (.+)$/,name=>`Tag: ${name}`],[/^커밋: (.+)$/,name=>`Commit: ${name}`],
  [/^선택한 커밋 · (\d+)$/,n=>`Selected commits · ${n}`],
