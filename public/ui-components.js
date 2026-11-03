@@ -61,7 +61,8 @@ window.PgitUI=(()=>{
   return {show,hide};
  }
  function message(text,{error=false}={}){const element=document.createElement('div');element.className='ui-list-message';element.setAttribute('role',error?'alert':'status');element.textContent=text;return element}
- return {dismissDialog,checkboxField,notification,message,selectionGroup,segments,closeButton,dialogHeader,dialogFrame,labeledField,externalLink,listItem};
+ function commandFormLayout(form,{inline=false}={}){form.classList.add('ui-command-form');form.classList.toggle('ui-command-inline',inline)}
+ return {commandFormLayout,dismissDialog,checkboxField,notification,message,selectionGroup,segments,closeButton,dialogHeader,dialogFrame,labeledField,externalLink,listItem};
 })();
 
 // One backdrop policy for native dialogs, including dynamically created views.

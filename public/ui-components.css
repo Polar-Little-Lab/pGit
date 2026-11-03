@@ -133,3 +133,17 @@ body dialog form.merge-form .merge-form-actions>button{height:3em;min-height:36p
 
 body dialog .merge-preview.command-error{display:flex;align-items:center;gap:12px}
 body dialog .merge-preview.command-error>span{flex:1;min-width:0}
+/* Keep simple commands next to their input; multi-field forms end in a full-width action. */
+body dialog form.ui-command-form>button.primary{width:100%;margin:16px 0 0;float:none;height:3em;min-height:36px;display:flex;align-items:center;justify-content:center}
+body dialog form.ui-command-inline{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:10px;align-items:start}
+body dialog form.ui-command-inline>*{grid-column:1/-1;min-width:0}
+body dialog form.ui-command-inline>:is(input,select,.frost-select){grid-column:1;margin:0;height:3em;min-height:36px}
+body dialog form.ui-command-inline>.frost-select .frost-select-trigger{height:3em;min-height:36px}
+body dialog form.ui-command-inline>button[type=submit]{grid-column:2;width:auto;min-width:80px;margin:0;height:3em;min-height:36px;padding:0 16px}
+body dialog form.ui-command-inline>.command-error{order:1;margin:10px 0 0}
+body dialog form.ui-command-form>.command-error:empty{display:none}
+body dialog form.ui-command-inline>.merge-preview{order:2;margin-top:16px}
+body dialog form.ui-command-inline>.merge-preview[hidden]{display:none}
+@media(max-width:520px){body dialog form.ui-command-inline{grid-template-columns:minmax(0,1fr)}body dialog form.ui-command-inline>button[type=submit]{grid-column:1;width:100%;margin-top:10px}}
+body dialog form.ui-command-inline>:is(input,select,.frost-select),body dialog form.ui-command-inline>.frost-select .frost-select-trigger,body dialog form.ui-command-inline>button[type=submit]{font-size:inherit}
+body dialog .dialog-actions>button.primary:only-child{width:100%;display:flex;align-items:center;justify-content:center}

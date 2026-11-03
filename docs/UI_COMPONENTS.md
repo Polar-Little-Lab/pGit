@@ -77,3 +77,5 @@ modes.setValue('commit');
 ### 알림
 
 `PgitUI.notification(host)`가 상단 진입(240ms), 표시(3초), 상단 퇴장(180ms)을 담당합니다. 작업 공간의 `notify()`는 셸로 전달되어 폴더 삭제 알림과 같은 표면을 사용하며, 독립 작업 공간도 같은 컴포넌트를 사용합니다. 새 알림은 이전 타이머와 애니메이션을 취소합니다. 모션 감소 설정에서는 이동 애니메이션을 생략하고 3초 표시를 유지합니다. 입력 오류와 작업 결과 목록은 사용자가 수정·검토할 수 있도록 본문에 유지합니다.
+
+Command forms use `PgitUI.commandFormLayout`: a single input shares a row with its submit button, stacking below it on narrow screens. Multi-field forms use a full-width primary action. Inspection results and errors span the form width below the action. Dedicated merge and worktree layouts retain their existing action groups.

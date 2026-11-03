@@ -29,9 +29,9 @@ const previewOpenCommand=openCommand;openCommand=async function(key){
  }
  run.classList.add('preview-run');
  input.addEventListener('change',()=>{version++;output.hidden=true;delete form.mergePreview;if(key==='merge'){submit.disabled=true;clearTimeout(timer);timer=setTimeout(()=>inspect(),150)}});
- async function inspect(event){event?.preventDefault();clearTimeout(timer);if(working)return;if(!input.value){run.disabled=true;return;}const request=++version,ref=input.value;run.disabled=true;if(key==='merge')submit.disabled=true;output.hidden=false;output.className='merge-preview';delete output.dataset.status;output.textContent='병합 가능 여부를 검사하는 중…';delete form.mergePreview;
+ async function inspect(event){event?.preventDefault();clearTimeout(timer);if(working)return;if(!input.value){run.disabled=true;return;}const request=++version,ref=input.value;run.disabled=true;if(key==='mergePreview')run.textContent='검사 중…';if(key==='merge')submit.disabled=true;output.hidden=false;output.className='merge-preview';delete output.dataset.status;output.textContent='병합 가능 여부를 검사하는 중…';delete form.mergePreview;
   try{const result=await api('mergePreview',{ref});if(!form.isConnected||request!==version)return;form.mergePreview=result;renderMergePreview(output,result,{showRefs:key!=='merge'});if(key==='merge')submit.disabled=result.dirty||['upToDate','unrelated'].includes(result.status)}catch(error){if(form.isConnected&&request===version){output.className='merge-preview command-error';output.replaceChildren(el('span',error.message));if(key==='merge'){output.append(run);submit.disabled=!!state.files.length}}}
-  finally{if(form.isConnected&&request===version)run.disabled=input.disabled}
+  finally{if(form.isConnected&&request===version){run.disabled=input.disabled;if(key==='mergePreview')run.textContent='검사'}}
  }
  if(key==='mergePreview')form.onsubmit=inspect;else{run.onclick=inspect;submit.disabled=true;await inspect()}
 };

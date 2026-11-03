@@ -1,6 +1,7 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+검사 중…|Checking…
 원격 주소|Remote URL
 최근 작업 이어가기|Continue recent work
 프로젝트를 시작하세요|Start a project
