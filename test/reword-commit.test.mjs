@@ -1,0 +1,12 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {mkdtemp,writeFile,readFile,rm} from 'node:fs/promises';import os from 'node:os';import path from 'node:path';import {git} from '../git.mjs';import {advanced} from '../advanced.mjs';
+test('reword root and merge preserves trees, topology, dirty index, other refs and guards stale HEAD',async t=>{
+ const root=await mkdtemp(path.join(os.tmpdir(),'pgit-reword-'));t.after(()=>rm(root,{recursive:true,force:true}));
+ await git(root,['init','-b','main']);await git(root,['config','user.name','Test']);await git(root,['config','user.email','test@example.invalid']);await writeFile(root+'/base','base');await git(root,['add','.']);await git(root,['commit','-m','root']);const base=(await git(root,['rev-parse','HEAD'])).trim();
+ await git(root,['checkout','-b','side']);await writeFile(root+'/side','side');await git(root,['add','.']);await git(root,['commit','-m','side']);const side=await git(root,['rev-parse','HEAD']);await git(root,['checkout','main']);await writeFile(root+'/main','main');await git(root,['add','.']);await git(root,['commit','-m','main']);await git(root,['merge','--no-ff','side','-m','merge']);
+ const trees=await git(root,['log','--format=%T']);await writeFile(root+'/base','staged');await git(root,['add','base']);await writeFile(root+'/base','unstaged');const index=await readFile(root+'/.git/index');
+ const info=await advanced(root,'rewordInfo',{target:base});assert.equal(info.count,4);await advanced(root,'rewordCommit',{...info,message:'new root\n\nDetails'});
+ assert.equal(await git(root,['log','--format=%T']),trees);assert.equal((await git(root,['show','-s','--format=%B','HEAD~2'])).trim(),'new root\n\nDetails');assert.equal((await git(root,['rev-list','--parents','-1','HEAD'])).trim().split(' ').length,3);assert.equal(await git(root,['rev-parse','side']),side);assert.deepEqual(await readFile(root+'/.git/index'),index);assert.equal(await readFile(root+'/base','utf8'),'unstaged');
+ await assert.rejects(advanced(root,'rewordCommit',{...info,message:'stale'}),/HEAD/);
+ const merge=await advanced(root,'rewordInfo',{target:'HEAD'});await advanced(root,'rewordCommit',{...merge,message:'new merge'});assert.equal((await git(root,['show','-s','--format=%s'])).trim(),'new merge');assert.equal((await git(root,['rev-list','--parents','-1','HEAD'])).trim().split(' ').length,3);
+ await assert.rejects(advanced(root,'rewordInfo',{target:side.trim()}),/현재 브랜치/);
+});

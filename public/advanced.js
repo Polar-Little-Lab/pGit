@@ -41,6 +41,7 @@ const beforeRecentRender=render;render=function(){beforeRecentRender();if(state)
 // Contextual Git actions preserve the graph as the main navigation surface.
 async function contextualCommand(key,values={}){
  if(working)return;
+ if(key==='amendMessage'&&values.head&&values.head!==state?.head)return showRewordCommit(values.head);
  if(key==='amendMessage'&&values.head){await openCommand(key);if(panel.querySelector('form')?.dataset.amendHead!==values.head){panel.close();notify('HEAD가 변경되었습니다.')}return}
  if(key==='branchSwitch'&&values.name){
   if(values.name===state?.branch)return;
@@ -52,7 +53,7 @@ async function contextualCommand(key,values={}){
   try{const result=await api(key,values);if(!body.isConnected||!advancedDialog.open)return;if(key==='mergePreview')renderMergePreview(output,result);else output.replaceChildren(el('pre',result,'command-output'))}catch(error){if(body.isConnected)output.replaceChildren(PgitUI.message(error.message,{error:true}))}return;
  }
  await openCommand(key);for(const [name,value] of Object.entries(values)){const input=$('command-'+name);if(input){if(input.selectReference)await input.selectReference(value);else if(input.dataset.commitPicker)await PgitCommitPicker.select(input,value);else{input.value=value;input.dispatchEvent(new Event('change',{bubbles:true}))}}}}
-function contextActions(title,items){const body=advancedFrame(title,'menu');for(const [key,values] of items){const b=el('button',commands[key][0],'command-option');if(['branchSwitch','branchDelete'].includes(key)&&values.name&&(state?.branch===values.name||state?.worktrees?.some(w=>w.branch==='refs/heads/'+values.name))){b.disabled=true}if(key==='amendMessage'&&values.head!==state?.head){b.disabled=true;b.title='현재 브랜치의 마지막 커밋만 수정할 수 있습니다.'}b.onclick=()=>{advancedDialog.close();contextualCommand(key,values)};body.append(b)}}
+function contextActions(title,items){const body=advancedFrame(title,'menu');for(const [key,values] of items){const b=el('button',commands[key][0],'command-option');if(['branchSwitch','branchDelete'].includes(key)&&values.name&&(state?.branch===values.name||state?.worktrees?.some(w=>w.branch==='refs/heads/'+values.name))){b.disabled=true}b.onclick=()=>{advancedDialog.close();contextualCommand(key,values)};body.append(b)}}
 $('branches').addEventListener('contextmenu',event=>{const button=event.target.closest('.branchitem');if(!button)return;event.preventDefault();const name=button.dataset.ref.slice('refs/heads/'.length);contextActions(name,[['mergePreview',{ref:name}],['branchSwitch',{name}],['branchCreate',{ref:name}],['branchRename',{name}],['merge',{ref:name}],['rebase',{ref:name}],['branchDelete',{name}]])});
 $('branches').addEventListener('dblclick',event=>{const button=event.target.closest('.branchitem');if(button)contextualCommand('branchSwitch',{name:button.dataset.ref.slice('refs/heads/'.length)})});
 $('history').addEventListener('contextmenu',event=>{const row=event.target.closest('.historyrow');if(!row)return;event.preventDefault();activeCommit=row.dataset.hash;contextActions(activeCommit.slice(0,7),[['amendMessage',{head:activeCommit}],['resetPreview',{ref:activeCommit}],['branchCreate',{ref:activeCommit}],['tagCreate',{ref:activeCommit}],['cherryPick',{ref:activeCommit}],['revert',{ref:activeCommit}],['compare',{to:activeCommit}],['rebasePlan',{base:activeCommit}]])});
@@ -73,4 +74,12 @@ async function showAmendSelection(){
  refresh.onclick=load;message.oninput=controls;
  form.onsubmit=async event=>{event.preventDefault();if(submit.disabled||working)return;busy=true;controls();const ok=await applyAdvanced('amend',{head:info.head,revision:info.revision,names:[...chosen],message:message.value});if(ok)advancedDialog.close();else{busy=false;controls()}};
  advancedDialog.addEventListener('close',()=>{version++;dispose()},{once:true});await load();
+}
+
+async function showRewordCommit(target){
+ let info;try{info=await api('rewordInfo',{target})}catch(e){notify(e.message);return}
+ const body=advancedFrame('커밋 메시지 수정','form'),form=el('form');PgitUI.commandFormLayout(form);
+ body.append(el('code',info.target.slice(0,8)),el('p','선택한 커밋과 이후 '+(info.count-1)+'개 커밋의 해시가 바뀝니다. 파일 내용과 스테이징 상태는 유지됩니다.'),el('p','이미 푸시한 이력은 원격 이력과 달라집니다. 변경되는 커밋의 기존 서명은 제거됩니다.','command-notice'));
+ const label=el('label','새 커밋 메시지'),message=el('textarea'),submit=el('button','메시지 수정','primary');message.id='reword-message';label.htmlFor=message.id;message.className='commit-message-input';message.rows=6;message.maxLength=4000;message.required=true;message.value=info.message;submit.type='submit';form.append(label,message,submit);body.append(form);
+ form.onsubmit=async event=>{event.preventDefault();if(working)return;submit.disabled=true;const ok=await applyAdvanced('rewordCommit',{target:info.target,head:info.head,message:message.value});if(ok)advancedDialog.close();else submit.disabled=false};message.focus();
 }

@@ -50,8 +50,8 @@ async function discardPartial(root,d){
  try{const file=path.join(temp,d.name);await mkdir(path.dirname(file),{recursive:true});await writeFile(file,preview.content);await runGit(temp,['apply',...(partial?[]:['--reverse']),'-'],{input:content});await discardContent(root,preview,await readFile(file,'utf8'))}
  finally{await rm(temp,{recursive:true,force:true})}
 }
-export const advancedActions=new Set(['discardHunk','discardLines','redoDiscard','discardPreview','discardFile','recoveryList','recoverFile','hunks','stageHunk','stageLines','readText','saveText','conflictRead','conflictSave','ignoreFile','ignoreCandidates','amendSelectionInfo','amend','amendMessage','rebasePlan','rebaseApply','searchHistory','worktreeLock','worktreeUnlock','submodules','submoduleUpdate','profileRead','profileSave','diffSides']);
-export const advancedReads=new Set(['amendSelectionInfo','ignoreCandidates','discardPreview','recoveryList','hunks','readText','conflictRead','rebasePlan','searchHistory','submodules','profileRead','diffSides']);
+export const advancedActions=new Set(['rewordInfo','rewordCommit','discardHunk','discardLines','redoDiscard','discardPreview','discardFile','recoveryList','recoverFile','hunks','stageHunk','stageLines','readText','saveText','conflictRead','conflictSave','ignoreFile','ignoreCandidates','amendSelectionInfo','amend','amendMessage','rebasePlan','rebaseApply','searchHistory','worktreeLock','worktreeUnlock','submodules','submoduleUpdate','profileRead','profileSave','diffSides']);
+export const advancedReads=new Set(['rewordInfo','amendSelectionInfo','ignoreCandidates','discardPreview','recoveryList','hunks','readText','conflictRead','rebasePlan','searchHistory','submodules','profileRead','diffSides']);
 export async function advanced(root,action,d={}){switch(action){
 case 'discardPreview':return discardPreview(root,d.name);
 case 'discardHunk':case 'discardLines':if(action==='discardLines'&&(!Array.isArray(d.lines)||!d.lines.length))throw Error('변경된 줄을 선택하세요.');await discardPartial(root,{...d,lines:action==='discardLines'?d.lines:undefined});break;
@@ -80,6 +80,8 @@ case 'ignoreFile':{
  const patterns=names.map(name=>'/'+name.replace(/[\\*?\[\]#! ]/g,'\\$&')).filter(pattern=>!existing.has(pattern));
  if(patterns.length)await writeFile(absolute,previous+(previous&&!previous.endsWith('\n')?'\n':'')+patterns.join('\n')+'\n');break
 }
+case 'rewordInfo':return rewordInfo(root,d);
+case 'rewordCommit':await rewordCommit(root,d);break;
 case 'amendSelectionInfo':return amendSelectionInfo(root);
 case 'amendMessage':case 'amend':{if(action==='amend'&&d.names){await amendSelection(root,d);break}if((await extras(root)).operation)throw Error('진행 중인 작업을 완료하세요.');if(typeof d.message!=='string'||!d.message.trim()||d.message.length>4000)throw Error('메시지를 입력하세요.');if(action==='amend'&&!(await git(root,['diff','--cached','--name-only'])).trim())throw Error('스테이징한 변경이 없습니다.');const expected=await commitRef(root,'HEAD');if(expected!==d.head)throw Error('HEAD가 변경되었습니다.');await git(root,['update-ref',`refs/pgit/backups/${Date.now()}`,expected]);await git(root,['commit','--amend',...(action==='amendMessage'?['--only']:[]),'-m',d.message]);break}
 case 'rebasePlan':return rebasePlan(root,d.base);
@@ -121,4 +123,31 @@ async function amendSelection(root,d){
   await git(root,['commit','--amend','-m',d.message],{env});
   await held.close();await rename(lock,index);ownsLock=false;
  }finally{await held.close().catch(()=>{});if(ownsLock)await rm(lock,{force:true});if(temp)await rm(temp,{recursive:true,force:true})}
+}
+
+async function rewordInfo(root,d){
+ if((await extras(root)).operation)throw Error('진행 중인 작업을 먼저 완료하세요.');
+ const head=await commitRef(root,'HEAD'),target=await commitRef(root,d.target);
+ try{await git(root,['merge-base','--is-ancestor',target,head])}catch{throw Error('현재 브랜치에 포함된 커밋만 수정할 수 있습니다.')}
+ const descendants=(await git(root,['rev-list','--reverse','--topo-order','--ancestry-path',target+'..'+head])).trim().split('\n').filter(Boolean);
+ return {head,target,count:descendants.length+1,message:(await git(root,['show','-s','--format=%B',target])).replace(/\n$/,''),descendants};
+}
+async function rewordCommit(root,d){
+ if(typeof d.message!=='string'||!d.message.trim()||d.message.length>4000||d.message.includes('\0'))throw Error('메시지를 입력하세요.');
+ if(await commitRef(root,'HEAD')!==d.head)throw Error('HEAD가 변경되었습니다.');
+ const plan=await rewordInfo(root,d);if(plan.head!==d.head)throw Error('HEAD가 변경되었습니다.');
+ const branch=(await git(root,['symbolic-ref','-q','HEAD']).catch(()=> 'HEAD')).trim();
+ const mapped=new Map();
+ for(const hash of [plan.target,...plan.descendants]){
+  const raw=await git(root,['cat-file','commit',hash]),split=raw.indexOf('\n\n');
+  if(split<0||raw.includes('\ufffd'))throw Error('UTF-8 커밋 메시지만 수정할 수 있습니다.');
+  const headers=raw.slice(0,split).split(/\n(?! )/).filter(h=>! /^(gpgsig(?:-sha256)?|mergetag) /.test(h));
+  if(headers.some(h=>h.startsWith('encoding ')&&!/^encoding utf-?8$/i.test(h)))throw Error('UTF-8 커밋 메시지만 수정할 수 있습니다.');
+  const updated=headers.map(h=>h.startsWith('parent ')?'parent '+(mapped.get(h.slice(7))||h.slice(7)):h).join('\n');
+  const message=hash===plan.target?d.message.replace(/\n*$/,'')+'\n':raw.slice(split+2);
+  mapped.set(hash,(await runGit(root,['hash-object','-t','commit','-w','--stdin'],{input:updated+'\n\n'+message})).trim());
+ }
+ if((await git(root,['symbolic-ref','-q','HEAD']).catch(()=> 'HEAD')).trim()!==branch)throw Error('HEAD가 변경되었습니다.');
+ await git(root,['update-ref','refs/pgit/backups/reword-'+randomUUID(),plan.head]);
+ await git(root,['update-ref','-m','pgit: reword commit',branch,mapped.get(plan.head),plan.head]);
 }
