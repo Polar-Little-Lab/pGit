@@ -146,7 +146,7 @@ const catalog={
     "fr": "Ajoute une étiquette locale de version au commit sélectionné."
   },
   "tagDelete": {
-    "ko": "로컬 태그를 삭제합니다. 태그가 가리키던 커밋과 서버의 태그는 유지됩니다.",
+    "ko": "로컬 태그를 삭제합니다. 태그가 가리키던 커밋과 원격 저장소의 태그는 유지됩니다.",
     "en": "Delete a local tag while retaining its commit and the server’s tag.",
     "ja": "ローカルタグを削除します。対象コミットとサーバーのタグは保持されます。",
     "zh-CN": "删除本地标签，保留其指向的提交及服务器上的标签。",
