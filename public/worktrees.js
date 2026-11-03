@@ -20,7 +20,7 @@ let worktreeBusy=false,worktreeVersion=0,worktreeItems=[],worktreeSelected=null,
 function worktreeFail(error){if(!worktreeDialog.open)notify(error.message);worktreeError.textContent=error.message;worktreeError.hidden=false}
 function worktreeButtons(){for(const b of worktreeBody.querySelectorAll('button,input,select'))b.disabled=worktreeBusy||b.dataset.unavailable==='true';worktreeClose.disabled=worktreeBusy;worktreeDialog.setAttribute('aria-busy',String(worktreeBusy))}
 function worktreeMode(creating){PgitCommandHelp.mount(worktreeBody,creating?'worktreeAdd':'worktreeList');worktreeTitle.classList.remove('literal-data');worktreeForm.hidden=!creating;worktreeTools.hidden=creating;worktreeLayout.hidden=creating;worktreeDialog.dataset.view=creating?'create':'list';worktreeTitle.textContent=creating?'워크트리 만들기':'워크트리 관리';worktreeError.hidden=true}
-worktreeDialog.addEventListener('cancel',e=>{if(worktreeBusy){e.preventDefault();return}if(!worktreeForm.hidden){e.preventDefault();worktreeMode(false);worktreeCreate.focus()}});
+worktreeDialog.addEventListener('cancel',e=>{if(worktreeBusy)e.preventDefault()});
 async function refreshWorktrees(){if(worktreeBusy)return;const version=++worktreeVersion;worktreeBusy=true;worktreeButtons();worktreeError.hidden=true;
  try{const items=await api('worktreeOverview');if(version===worktreeVersion){worktreeItems=items;if(!items.some(i=>i.path===worktreeSelected))worktreeSelected=(items.find(i=>i.current)||items[0])?.path;drawWorktrees()}}catch(error){worktreeFail(error)}finally{worktreeBusy=false;worktreeButtons()}
 }
