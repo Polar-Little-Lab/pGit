@@ -27,7 +27,9 @@ export async function stageAll(root,value){
 // Resolve aliases before selection so forms always submit an immutable commit hash.
 export async function commitChoice(root,ref){
  if(typeof ref!=='string'||!ref||ref.startsWith('-')||ref.includes('\0'))throw Error('잘못된 커밋입니다.');
- const hash=(await git(root,['rev-parse','--verify','--end-of-options',ref+'^{commit}'])).trim();
+ let hash;
+ try{hash=(await git(root,['rev-parse','--verify','--quiet','--end-of-options',ref+'^{commit}'])).trim()}
+ catch(error){if(error.code===1)throw Error('해당 참조의 커밋을 찾을 수 없습니다. 브랜치·태그 이름이나 HEAD~2 같은 참조를 확인하세요.');throw error}
  const [author,date,title]=(await git(root,['show','-s','--format=%an%x00%aI%x00%s',hash,'--'])).trimEnd().split('\0');
  return {hash,author,date,title};
 }

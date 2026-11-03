@@ -40,6 +40,7 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"No commit was found for this reference. Check the branch or tag name, or a reference such as HEAD~2.": ["この参照のコミットが見つかりません。ブランチ名・タグ名、または HEAD~2 などの参照を確認してください。", "未找到此引用的提交。请检查分支名、标签名或 HEAD~2 等引用。", "No se encontró ningún commit para esta referencia. Comprueba el nombre de la rama o etiqueta, o una referencia como HEAD~2.", "Aucun commit trouvé pour cette référence. Vérifiez le nom de branche ou de tag, ou une référence comme HEAD~2."],
 "Choose starting point": ["開始点を選択", "选择起点", "Elegir punto de partida", "Choisir le point de départ"],
 "Starting branch": ["開始ブランチ", "起始分支", "Rama de partida", "Branche de départ"],
 "Enter a reference": ["参照を入力", "输入引用", "Introducir referencia", "Saisir une référence"],

@@ -459,6 +459,7 @@ body .merge-editor .merge-take{position:sticky;right:2px;flex-shrink:0;margin-le
 .reference-workflow [hidden]{display:none!important}
 .reference-field{display:flex;flex-direction:column;gap:8px;min-width:0}
 .reference-field>label{font-size:.9em;color:var(--muted)}
+body dialog .reference-field>input:not([type=checkbox]){flex:0 0 auto;min-height:max(36px,2.5em);height:auto;line-height:1.4;padding:8px 10px;margin:0}
 .reference-modes{display:flex;padding:3px;gap:3px;background:var(--soft);border-radius:7px}
 body .reference-modes button{flex:1;min-width:0;border:0;background:transparent;color:var(--muted);padding:8px;white-space:normal}
 body .reference-modes button[aria-pressed=true]{background:var(--surface);color:var(--accent);box-shadow:0 1px 3px #0002}

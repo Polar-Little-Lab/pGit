@@ -1,6 +1,7 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+해당 참조의 커밋을 찾을 수 없습니다. 브랜치·태그 이름이나 HEAD~2 같은 참조를 확인하세요.|No commit was found for this reference. Check the branch or tag name, or a reference such as HEAD~2.
 시작점 선택|Choose starting point
 기준 브랜치|Starting branch
 참조 직접 입력|Enter a reference
