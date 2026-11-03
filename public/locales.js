@@ -40,6 +40,8 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Choose a project folder.": ["プロジェクトのフォルダーを選択してください。","请选择项目文件夹。","Selecciona una carpeta de proyecto.","Choisissez un dossier de projet."],
+"Enter the remote repository address.": ["リモートリポジトリのアドレスを入力してください。","请输入远程仓库地址。","Introduce la dirección del repositorio remoto.","Saisissez l’adresse du dépôt distant."],
 "Folder missing": ["フォルダーがありません","文件夹不存在","Carpeta no encontrada","Dossier introuvable"],
 "Open from another location": ["別の場所から開く","从其他位置打开","Abrir desde otra ubicación","Ouvrir depuis un autre emplacement"],
 "Closed the tab because the {0} folder could not be found.": ["{0} フォルダーが見つからないため、タブを閉じました。","找不到 {0} 文件夹，已关闭标签页。","Se cerró la pestaña porque no se encontró la carpeta {0}.","L’onglet a été fermé car le dossier {0} est introuvable."],

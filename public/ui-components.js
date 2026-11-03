@@ -12,7 +12,7 @@ window.PgitUI=(()=>{
   return selectionGroup(element,{label,value,onChange,items:items.map(([value,label])=>{const button=document.createElement('button');button.textContent=label;if(dataKey)button.dataset[dataKey]=value;return {value,button}})});
  }
  function closeButton(dialog,label='닫기'){
-  const button=PgitIcons.close(document.createElement('button'),label);button.onclick=()=>dialog.close();return button;
+  const button=PgitIcons.close(document.createElement('button'),label);button.onclick=()=>{if(!dialog.pgitCanClose||dialog.pgitCanClose())dialog.close()};return button;
  }
  function dialogHeader(dialog,text,{className='bar',titleTag='strong',titleId}={}){
   const element=document.createElement('div');element.className=className;
@@ -22,6 +22,13 @@ window.PgitUI=(()=>{
  function labeledField(text,control,className='reference-field'){
   const element=document.createElement('div');element.className=className;
   const label=document.createElement('label');label.textContent=text;control.id=control.id||'field-'+crypto.randomUUID();label.htmlFor=control.id;element.append(label,control);return element;
+ }
+ function dialogFrame(dialog,{title,body,container=dialog,actions,canClose,...headerOptions}){
+  const header=dialogHeader(dialog,title,headerOptions);dialog.classList.add('ui-dialog');container.classList.add('ui-dialog-layout');body.classList.add('ui-dialog-content');
+  dialog.pgitCanClose=canClose;
+  if(!dialog.dataset.uiCloseGuard){dialog.dataset.uiCloseGuard='true';dialog.addEventListener('cancel',event=>{if(dialog.pgitCanClose&&!dialog.pgitCanClose())event.preventDefault()})}
+  if(actions)actions.classList.add('ui-dialog-actions');container.replaceChildren(header.element,body,...(actions?[actions]:[]));if(container!==dialog)dialog.replaceChildren(container);
+  return header;
  }
  function externalLink(element,href){
   try{const url=new URL(href);if(url.protocol!=='https:'||url.username||url.password)return false;element.href=url.href;element.target='_blank';element.rel='noopener noreferrer';return true}catch{return false}
@@ -36,5 +43,5 @@ window.PgitUI=(()=>{
   const actions=document.createElement('div');actions.className='ui-list-actions';element.append(main,actions);return {element,main,actions};
  }
  function message(text,{error=false}={}){const element=document.createElement('div');element.className='ui-list-message';element.setAttribute('role',error?'alert':'status');element.textContent=text;return element}
- return {message,selectionGroup,segments,closeButton,dialogHeader,labeledField,externalLink,listItem};
+ return {message,selectionGroup,segments,closeButton,dialogHeader,dialogFrame,labeledField,externalLink,listItem};
 })();

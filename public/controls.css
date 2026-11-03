@@ -92,7 +92,7 @@ body :is(.command-body,.dialog-actions,.path-field)>button{height:36px;font-size
 body :is(.command-option,.frost-select-option){border-radius:var(--control-radius);font-size:12px}
 body .frost-select-trigger{border-color:var(--control-border);border-radius:var(--control-radius);background:var(--control-bg)}
 body .frost-select-option[aria-selected=true]{background:var(--control-selected);color:var(--polar-accent)}
-body .project-options{display:flex;width:100%;height:36px;margin-bottom:20px}
+body .project-options{display:flex;width:100%;margin-bottom:20px}
 body .project-options>button{font-size:12px}
 body input[type=checkbox]{accent-color:var(--polar-accent)}
 
@@ -175,7 +175,7 @@ body #projectDialog #projectError{margin:10px 0 0;max-height:none}
 body dialog .dialog-heading{margin-bottom:14px;gap:12px}
 body dialog .dialog-heading h2{font-size:17px;line-height:1.4;margin:0;letter-spacing:0}
 body dialog .dialog-heading .eyebrow{display:none}
-body dialog .project-options{margin-bottom:14px;height:32px}
+body dialog .project-options{margin-bottom:14px}
 body dialog .dialog-actions{margin-top:16px;gap:8px}
 body #projectDialog label{margin:10px 0 5px}
 body #projectHelp{margin:8px 0 0;font-size:11px}

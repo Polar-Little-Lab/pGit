@@ -1,6 +1,8 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+프로젝트 폴더를 선택하세요.|Choose a project folder.
+원격 저장소 주소를 입력하세요.|Enter the remote repository address.
 폴더 없음|Folder missing
 다른 위치에서 열기|Open from another location
 {0} 폴더를 찾을 수 없어 탭을 닫았습니다.|Closed the tab because the {0} folder could not be found.

@@ -5,7 +5,7 @@ Object.assign(commands,{
 });
 categories.push(['고급 편집',['resetPreview','resetJournal','discardPreview','recoveryList','hunks','readText','diffSides','conflictRead','ignoreFile','rebasePlan','amend','searchHistory']],['확장 · 설정',['worktreeLock','worktreeUnlock','submodules','submoduleUpdate','lfsStatus','lfsFetch','profileRead']]);
 const advancedDialog=el('dialog');advancedDialog.className='advanced-dialog';advancedDialog.setAttribute('aria-label','고급 Git 편집');document.body.append(advancedDialog);
-function advancedFrame(title,kind='compact'){advancedDialog.dataset.dialogKind=kind;advancedDialog.replaceChildren();const {element:bar}=PgitUI.dialogHeader(advancedDialog,title);const body=el('div',undefined,'advanced-body');advancedDialog.append(bar,body);if(!advancedDialog.open)advancedDialog.showModal();return body}
+function advancedFrame(title,kind='compact'){advancedDialog.dataset.dialogKind=kind;advancedDialog.replaceChildren();const body=el('div',undefined,'advanced-body');PgitUI.dialogFrame(advancedDialog,{title,body,canClose:()=>!working});if(!advancedDialog.open)advancedDialog.showModal();return body}
 async function applyAdvanced(action,data){if(working)return false;working=true;controls();try{state=await api(action,data);render();notify('변경을 적용했습니다.');return true}catch(e){notify(e.message);const error=el('p',e.message,'command-error');error.setAttribute('role','alert');advancedDialog.querySelector('.advanced-body')?.prepend(error);try{state=await api('state',{limit:historyLimit});render()}catch{}return false}finally{working=false;controls()}}
 async function openAdvanced(key,data){panel.close();try{
 if(key==='resetPreview'){

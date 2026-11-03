@@ -5,6 +5,7 @@ try{
  browser=await chromium.launch({headless:true,...(process.env.PGIT_BROWSER_PATH?{executablePath:process.env.PGIT_BROWSER_PATH}:{})});const page=await browser.newPage({viewport:{width:1280,height:800}});page.setDefaultTimeout(15000);const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.addInitScript(root=>{window.pgitDesktop={chooseFolder:async()=>root,loadWorkspace:async()=>null,saveWorkspace:async()=>{}}},root);
  await page.goto(await ready);await page.getByRole('button',{name:'새 프로젝트 탭',exact:true}).click();
+ assert.equal(await page.locator('#cancelProject').count(),0);assert.equal(await page.locator('#projectForm').getAttribute('novalidate'),'');await page.locator('#submitProject').click();await page.locator('#projectError').getByText('프로젝트 폴더를 선택하세요.',{exact:true}).waitFor();
  await page.getByRole('button',{name:'찾아보기',exact:true}).click();assert.equal(await page.locator('#projectPath').inputValue(),root);
  await page.getByRole('button',{name:'복제',exact:true}).click();assert.equal(await page.locator('#projectPath').inputValue(),'');await page.locator('#cloneUrl').fill(root);await page.locator('#projectPath').fill(parent+'/clone');
  await page.getByRole('button',{name:'로컬 열기',exact:true}).click();assert.equal(await page.locator('#projectPath').inputValue(),root);
@@ -13,8 +14,9 @@ try{
   await page.setViewportSize(size);
   for(const mode of ['open','clone','init']){
    await page.locator(`[data-project-mode=${mode}]`).click();await page.locator('#projectPath').focus();
-   const layout=await page.locator('#projectDialog').evaluate(dialog=>{const bounds=dialog.getBoundingClientRect(),form=dialog.querySelector('form'),input=dialog.querySelector('#projectPath'),buttons=[...dialog.querySelectorAll('[data-project-mode]')];return {fits:bounds.top>=0&&bounds.bottom<=innerHeight&&bounds.left>=0&&bounds.right<=innerWidth,overflow:form.scrollWidth>form.clientWidth,offset:getComputedStyle(input).outlineOffset,corners:buttons.map(b=>getComputedStyle(b).borderRadius),submitVisible:dialog.querySelector('#submitProject').getBoundingClientRect().bottom<=innerHeight}});
-   assert.equal(layout.fits,true);assert.equal(layout.overflow,false);assert.equal(layout.offset,'-2px');assert.deepEqual(layout.corners,['4px','4px','4px']);assert.equal(layout.submitVisible,true);
+   for(const uiSize of [12,14]){await page.evaluate(uiSize=>PgitSettings.setTypography({uiSize}),uiSize);
+   const layout=await page.locator('#projectDialog').evaluate(dialog=>{const bounds=dialog.getBoundingClientRect(),form=dialog.querySelector('form'),input=dialog.querySelector('#projectPath'),buttons=[...dialog.querySelectorAll('[data-project-mode]')];return {fits:bounds.top>=0&&bounds.bottom<=innerHeight&&bounds.left>=0&&bounds.right<=innerWidth,overflow:form.scrollWidth>form.clientWidth,offset:getComputedStyle(input).outlineOffset,corners:buttons.map(b=>getComputedStyle(b).borderRadius),segmentsFit:buttons.every(b=>{const outer=b.parentElement.getBoundingClientRect(),r=b.getBoundingClientRect();return r.top>=outer.top&&r.bottom<=outer.bottom&&r.left>=outer.left&&r.right<=outer.right}),submitVisible:dialog.querySelector('#submitProject').getBoundingClientRect().bottom<=innerHeight}});
+   assert.equal(layout.fits,true);assert.equal(layout.overflow,false);assert.equal(layout.offset,'-2px');assert.deepEqual(layout.corners,['4px','4px','4px']);assert.equal(layout.submitVisible,true);assert.equal(layout.segmentsFit,true);}
   }
  }
  await page.setViewportSize({width:1280,height:800});await page.locator('[data-project-mode=open]').click();await page.locator('#projectPath').fill('relative/path');await page.locator('#submitProject').click();await page.locator('#projectError').getByText('폴더의 절대 경로를 입력하세요.',{exact:true}).waitFor();assert.equal(await page.locator('#projectPath').getAttribute('aria-invalid'),'true');

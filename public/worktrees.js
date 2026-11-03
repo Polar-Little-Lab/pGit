@@ -1,6 +1,6 @@
 // One selection, one set of actions. Creation replaces the manager rather than nesting dialogs.
 const worktreeDialog=el('dialog');worktreeDialog.className='worktree-dialog';worktreeDialog.setAttribute('aria-label','워크트리 관리');
-const {element:worktreeHeader,title:worktreeTitle,close:worktreeClose}=PgitUI.dialogHeader(worktreeDialog,'워크트리 관리');
+let worktreeTitle,worktreeClose;
 const worktreeBody=el('div',undefined,'body'),worktreeTools=el('div',undefined,'worktree-tools'),worktreeCreate=el('button','워크트리 만들기','primary'),worktreeRefresh=el('button');PgitIcons.label(worktreeCreate,'plus','워크트리 만들기');PgitIcons.label(worktreeRefresh,'refresh');worktreeRefresh.setAttribute('aria-label','새로고침');worktreeRefresh.title='새로고침';
 const worktreeSearch=el('input');worktreeSearch.type='search';worktreeSearch.placeholder='브랜치 또는 폴더 검색';worktreeSearch.setAttribute('aria-label','브랜치 또는 폴더 검색');worktreeTools.append(worktreeSearch,worktreeRefresh,worktreeCreate);
 const worktreeError=el('p',undefined,'command-error');worktreeError.setAttribute('role','alert');worktreeError.hidden=true;
@@ -15,7 +15,7 @@ let worktreeParent=null;
 function suggestedWorktreePath(){const root=state.root.replace(/[\\/]+$/,''),name=worktreeInputs.name.value.trim().replace(/[^\p{L}\p{N}._-]+/gu,'-');return name?(worktreeParent?worktreeParent.replace(/[\\/]+$/,'')+(worktreeParent.includes('\\')?'\\':'/')+PgitPaths.basename(root):root)+'-'+name:''}
 worktreeLocation.onclick=async()=>{const draftRoot=state.root;worktreeLocation.disabled=true;try{const chosen=await PgitFolderPicker.choose({title:'워크트리 위치 선택',defaultPath:worktreeParent||state.root});if(chosen&&state.root===draftRoot&&worktreeDialog.open){worktreeParent=chosen;worktreePathEdited=false;updateWorktreePath(suggestedWorktreePath())}}catch(error){worktreeFail(error)}finally{worktreeLocation.disabled=false}};
 const createActions=el('div',undefined,'worktree-actions'),createCancel=el('button','취소'),createSubmit=el('button','만들기','primary');createCancel.type='button';createActions.append(createCancel,createSubmit);worktreeForm.append(createActions);
-worktreeBody.append(worktreeError,worktreeTools,worktreeLayout,worktreeForm);worktreeDialog.append(worktreeHeader,worktreeBody);document.body.append(worktreeDialog);
+worktreeBody.append(worktreeError,worktreeTools,worktreeLayout,worktreeForm);({title:worktreeTitle,close:worktreeClose}=PgitUI.dialogFrame(worktreeDialog,{title:'워크트리 관리',body:worktreeBody,canClose:()=>!worktreeBusy}));document.body.append(worktreeDialog);
 let worktreeBusy=false,worktreeVersion=0,worktreeItems=[],worktreeSelected=null,worktreeDraftRoot=null,worktreePathEdited=false;
 function worktreeFail(error){if(!worktreeDialog.open)notify(error.message);worktreeError.textContent=error.message;worktreeError.hidden=false}
 function worktreeButtons(){for(const b of worktreeBody.querySelectorAll('button,input,select'))b.disabled=worktreeBusy||b.dataset.unavailable==='true';worktreeClose.disabled=worktreeBusy;worktreeDialog.setAttribute('aria-busy',String(worktreeBusy))}
