@@ -26,5 +26,14 @@ window.PgitUI=(()=>{
  function externalLink(element,href){
   try{const url=new URL(href);if(url.protocol!=='https:'||url.username||url.password)return false;element.href=url.href;element.target='_blank';element.rel='noopener noreferrer';return true}catch{return false}
  }
- return {selectionGroup,segments,closeButton,dialogHeader,labeledField,externalLink};
+ function listItem({title,meta='',href,className=''}){
+  const element=document.createElement('article');element.className='ui-list-item '+className;
+  const anchor=document.createElement('a'),linked=externalLink(anchor,href);
+  const main=linked?anchor:document.createElement('div');main.className='ui-list-main';
+  const heading=document.createElement('strong');heading.className='ui-list-title literal-data';heading.textContent=title;main.append(heading);
+  if(meta){const detail=document.createElement('p');detail.className='ui-list-meta literal-data';detail.textContent=meta;main.append(detail)}
+  if(linked){const icon=document.createElement('span');icon.className='ui-list-external';icon.textContent='↗';icon.setAttribute('aria-hidden','true');main.append(icon)}
+  const actions=document.createElement('div');actions.className='ui-list-actions';element.append(main,actions);return {element,main,actions};
+ }
+ return {selectionGroup,segments,closeButton,dialogHeader,labeledField,externalLink,listItem};
 })();

@@ -47,7 +47,7 @@ async function showProviderReview(provider,number,remote='origin',initialTab='ov
      };fileList.append(button);if(fileList.children.length===1)button.click();
     }else if(key==='checks'){
      if(item.legacy&&seenChecks.has(item.name))continue;if(item.legacy)seenChecks.add(item.name);
-     const row=el('article',undefined,'review-item');row.append(el('strong',item.name||'#'+item.id+' · '+(item.ref||''),'literal-data'),el('p',[item.status,item.conclusion,item.sha?.slice(0,10)].filter(Boolean).join(' · '),'literal-data'));list.append(row);
+     const {element:row}=PgitUI.listItem({title:item.name||'#'+item.id+' · '+(item.ref||''),meta:[item.status,item.conclusion,item.sha?.slice(0,10)].filter(Boolean).join(' · ')});list.classList.add('ui-item-list');list.append(row);
     }else{
      const row=el('article',undefined,'review-item');row.append(el('strong',item.user?.login||item.author?.username||'','literal-data'),el('time',[item.created_at,item.reviewState].filter(Boolean).join(' · '),'literal-data'),el('div',item.body||'','review-description literal-data'));list.append(row);
     }

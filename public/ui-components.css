@@ -1,0 +1,16 @@
+/* Shared list density: one outline per collection, one divider per item.
+   Scope paragraph/control resets here so generic modal rules cannot add spacing. */
+:root{--ui-list-padding-y:8px;--ui-list-padding-x:12px;--ui-list-gap:4px}
+.ui-item-list{border:1px solid var(--border);border-radius:var(--control-radius,4px);background:var(--surface);overflow:hidden}
+.ui-item-list:empty{display:none}
+body dialog .ui-list-item{margin:0;padding:0;border:0;border-bottom:1px solid var(--border);border-radius:0;background:var(--surface);font-size:var(--ui-font-size,12px)}
+body dialog .ui-list-item:last-child{border-bottom:0}
+body dialog .ui-list-main{position:relative;display:flex;flex-direction:column;gap:var(--ui-list-gap);min-width:0;min-height:48px;padding:var(--ui-list-padding-y) calc(var(--ui-list-padding-x) + 20px) var(--ui-list-padding-y) var(--ui-list-padding-x);color:var(--text);text-decoration:none;overflow-wrap:anywhere;line-height:1.5}
+body dialog a.ui-list-main:hover{background:var(--soft);color:var(--accent)}
+body dialog a.ui-list-main:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+body dialog .ui-list-title{font-size:inherit;line-height:1.5;font-weight:600}
+body dialog .ui-list-item .ui-list-meta{margin:0;padding:0;color:var(--muted);font-size:.92em;line-height:1.5}
+.ui-list-external{position:absolute;right:var(--ui-list-padding-x);top:var(--ui-list-padding-y);color:var(--muted)}
+body dialog .ui-list-actions{display:flex;flex-wrap:wrap;gap:6px;padding:0 var(--ui-list-padding-x) var(--ui-list-padding-y)}
+body dialog .ui-list-actions:empty{display:none}
+body dialog .ui-list-actions>button{height:auto;min-height:28px;padding:3px 8px;margin:0;font-size:inherit;line-height:1.5}

@@ -501,9 +501,5 @@ body #projectDialog .path-field.folder-picker-field{flex-wrap:nowrap}
 body #projectDialog .path-field.folder-picker-field input{flex-basis:0;width:0}
 .provider-tabs{margin-bottom:12px;flex-shrink:0}
 body .provider-tabs button{min-height:36px;height:auto;line-height:1.5}
-.provider-item-link{display:block;position:relative;padding:10px 32px 10px 10px;margin:-4px -4px 8px;border-radius:6px;color:var(--text);text-decoration:none;overflow-wrap:anywhere}
-a.provider-item-link:hover{background:var(--soft);color:var(--accent)}
-.provider-item-link strong{font-weight:600}
-.provider-item-link p{margin:4px 0 0;color:var(--muted);font-size:.9em}
-.provider-item-external{position:absolute;right:10px;top:10px;color:var(--muted)}
-a.provider-item-link:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+body .worktree-dialog .body>.command-help{padding:12px 18px 0;margin:0}
