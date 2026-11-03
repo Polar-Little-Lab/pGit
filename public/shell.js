@@ -50,7 +50,7 @@ function setProjectMode(mode){
  byId('pathLabel').textContent=mode==='open'?'프로젝트 폴더':'새 프로젝트의 절대 경로';
  byId('projectTitle').textContent=mode==='open'?'프로젝트 열기':mode==='clone'?'저장소 복제':'새 저장소 만들기';
  byId('projectHelp').textContent=mode==='open'?'':PgitCommandHelp.text(mode);if(mode==='open')delete byId('projectHelp').dataset.commandHelp;else byId('projectHelp').dataset.commandHelp=mode;
- byId('projectHelp').hidden=mode==='open';byId('browseProject').hidden=mode==='clone'||!window.pgitDesktop;
+ byId('projectHelp').hidden=mode==='open';byId('browseProject').hidden=!PgitFolderPicker.available();
  projectBusy();
 }
 function showProjectDialog(mode='open'){if(opening)return;recoveryPath=null;setProjectMode(mode);byId('projectError').textContent='';byId('projectDialog').showModal();byId(mode==='clone'?'cloneUrl':'projectPath').focus()}
@@ -90,7 +90,7 @@ window.addEventListener('message',event=>{if(event.origin!==location.origin||eve
 for(const b of document.querySelectorAll('[data-project-mode]'))b.onclick=()=>setProjectMode(b.dataset.projectMode);
 byId('addProject').onclick=()=>showProjectDialog();byId('welcomeOpen').onclick=()=>showProjectDialog();byId('welcomeClone').onclick=()=>showProjectDialog('clone');PgitIcons.label(byId('homeButton'),'folder');byId('homeButton').onclick=()=>selectProject(null);
 byId('closeProjectDialog').onclick=byId('cancelProject').onclick=()=>{if(!opening)byId('projectDialog').close()};byId('projectDialog').addEventListener('cancel',event=>{if(opening)event.preventDefault()});byId('keepTab').onclick=()=>byId('closeTabDialog').close();byId('discardTab').onclick=()=>{byId('closeTabDialog').close();if(pendingClose)removeProject(pendingClose);pendingClose=null};
-byId('browseProject').onclick=async()=>{const mode=projectMode;try{const path=await PgitFolderPicker.choose({title:'프로젝트 폴더',defaultPath:byId('projectPath').value});if(path&&mode===projectMode&&!opening){byId('projectPath').value=path;clearProjectError();byId('projectPath').focus()}}catch(e){byId('projectError').textContent=e.message}};
+byId('browseProject').onclick=async()=>{const mode=projectMode;byId('browseProject').disabled=true;try{const path=await PgitFolderPicker.choose({title:'프로젝트 폴더',defaultPath:byId('projectPath').value});if(path&&mode===projectMode&&!opening){byId('projectPath').value=mode==='clone'?PgitFolderPicker.childPath(path,PgitFolderPicker.repositoryName(byId('cloneUrl').value)||'project'):path;byId('projectPath').title=byId('projectPath').value;clearProjectError();byId('projectPath').focus()}}catch(e){byId('projectError').textContent=e.message}finally{byId('browseProject').disabled=opening}};
 byId('projectForm').onsubmit=e=>{e.preventDefault();const path=byId('projectPath').value.trim();if(!PgitPaths.isAbsolute(path)){byId('projectError').textContent='폴더의 절대 경로를 입력하세요.';byId('projectPath').setAttribute('aria-invalid','true');byId('projectPath').focus();return}openProject(path,projectMode,{url:byId('cloneUrl').value.trim()})};
 document.addEventListener('keydown',e=>{if(document.querySelector('dialog[open]'))return;if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='t'){e.preventDefault();showProjectDialog()}if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='w'&&activeId){e.preventDefault();requestClose(projects.find(p=>p.id===activeId))}});
 
@@ -124,7 +124,7 @@ setInterval(checkProjectFolders,3000);window.addEventListener('focus',checkProje
 async function restore(){let saved;try{saved=window.pgitDesktop?await window.pgitDesktop.loadWorkspace():JSON.parse(localStorage.getItem(sessionKey)||'null')}catch{}if(saved?.typography)window.PgitSettings.setTypography(saved.typography,{persist:false});if(saved?.theme)window.PgitSettings.setTheme(saved.theme,{persist:false});if(saved?.language)window.PgitI18n.setLanguage(saved.language,{persist:false});if(saved&&Array.isArray(saved.recents))recents=saved.recents.filter(p=>typeof p==='string'&&PgitPaths.isAbsolute(p)).slice(0,18);for(const path of saved?.missingPaths||[])if(typeof path==='string'&&recents.includes(path))missingPaths.add(path);renderRecents();if(saved&&Array.isArray(saved.projects)){for(const item of saved.projects.slice(0,50)){if(missingPaths.has(item.path)||typeof item.path!=='string'||!PgitPaths.isAbsolute(item.path)||projects.some(p=>p.path===item.path))continue;const p=createPane(item.path,item.name);p.initial={action:'open',path:item.path}}selectProject(projects.find(p=>p.path===saved.activePath)?.id||projects[0]?.id||null)}}
 const settingsRoute=location.hash;restore().then(()=>{if(settingsRoute.startsWith('#settings/'))window.PgitSettings.open(['appearance','typography','language','sync'].find(section=>settingsRoute==='#settings/'+section)||'appearance')});
 
-PgitIcons.label(byId('addProject'),'plus');PgitIcons.close(byId('closeProjectDialog'));PgitIcons.label(byId('browseProject'),'folder','찾아보기');
+PgitIcons.label(byId('addProject'),'plus');PgitIcons.close(byId('closeProjectDialog'));PgitFolderPicker.button(byId('browseProject'));byId('browseProject').parentElement.classList.add('folder-picker-field');
 
 const closeDraftDialog=PgitIcons.close(document.createElement('button'));closeDraftDialog.onclick=()=>byId('closeTabDialog').close();byId('closeTabDialog').querySelector('.dialog-heading').append(closeDraftDialog);
 

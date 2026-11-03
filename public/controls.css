@@ -478,10 +478,9 @@ body .commit-list-options>button[aria-selected=true]{background:var(--selection,
 .commit-list-options .select-empty{padding:12px;margin:0}
 .worktree-form label:last-of-type{display:flex;flex-direction:column;gap:8px}
 body .worktree-form input[readonly]{background:var(--soft);min-height:36px;flex-shrink:0;cursor:default}
-body .worktree-form .worktree-location-button{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;height:36px}
 .worktree-form label>small{font-size:.85em;color:var(--muted);line-height:1.5}
 .worktree-path-preview{display:block;max-width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:6px;background:var(--soft);font-size:.9em;line-height:1.5;overflow-wrap:anywhere;user-select:text}
-.worktree-location-button[hidden],.worktree-path-preview[hidden]{display:none!important}
+.worktree-path-preview[hidden]{display:none!important}
 body dialog .command-body .commit-message-input{display:block;width:100%;min-height:140px;max-height:280px;resize:vertical;padding:10px 12px;line-height:1.5;white-space:pre-wrap}
 .amend-summary{margin-top:12px;font-size:.9em;line-height:1.5;color:var(--muted);overflow-wrap:anywhere;max-height:120px;overflow:auto}
 .amend-summary strong{display:block;margin-bottom:4px;font-weight:500}
@@ -490,6 +489,13 @@ body #commandDialog[data-dialog-kind=palette] .command-option{display:flex;flex-
 body #commandDialog[data-dialog-kind=palette] .command-option>strong{font-size:1em;font-weight:600;line-height:1.4}
 body #commandDialog[data-dialog-kind=palette] .command-help{margin:0;font-size:.9em;line-height:1.5;color:var(--muted);font-weight:400}
 body dialog :is(.command-body,.advanced-body,.body)>.command-help{margin:0 0 14px;line-height:1.6;color:var(--muted);font-size:.9em;overflow-wrap:anywhere;flex-shrink:0}
-.folder-picker-field{display:flex;align-items:center;gap:8px;min-width:0;margin-bottom:12px}
-body dialog .folder-picker-field input{flex:1;min-width:0;margin:0}
-body dialog .folder-picker-field button{flex-shrink:0;margin:0;white-space:nowrap}
+/* A single folder-picker control in the shell and every workspace dialog. */
+body dialog .folder-picker-field{display:flex;align-items:center;gap:8px;min-width:0;margin:0 0 12px;font-size:var(--ui-font-size,12px)}
+body dialog .folder-picker-field>:is(input,output){flex:1;min-width:0;margin:0;min-height:36px;min-height:2.75em;border-radius:var(--control-radius);font-size:inherit;line-height:1.5}
+body dialog .folder-picker-field>.folder-picker-button{display:inline-flex;align-items:center;justify-content:center;gap:.5em;flex:none;align-self:center;width:auto;height:auto;min-height:36px;min-height:2.75em;padding:.5em .9em;margin:0;border:1px solid var(--border);border-radius:var(--control-radius);background:var(--surface);color:var(--text);font-size:inherit;line-height:1.5;white-space:nowrap}
+body dialog .folder-picker-field>.folder-picker-button:hover{background:var(--soft)}
+body dialog .folder-picker-button .pgit-icon{width:1.25em;height:1.25em;flex:none}
+body dialog .folder-picker-field>output{padding:.5em .75em}
+body #projectDialog .path-field.folder-picker-field{flex-wrap:nowrap}
+
+body #projectDialog .path-field.folder-picker-field input{flex-basis:0;width:0}
