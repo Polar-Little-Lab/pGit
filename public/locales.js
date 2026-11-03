@@ -40,6 +40,9 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Enter a search query of 256 characters or fewer.": ["検索語は256文字以内で入力してください。","请输入不超过256个字符的搜索词。","Introduce una búsqueda de hasta 256 caracteres.","Saisissez une recherche de 256 caractères maximum."],
+"Search commit messages": ["コミットメッセージを検索","搜索提交消息","Buscar mensajes de commit","Rechercher des messages de commit"],
+"Search commit messages across this file’s history": ["ファイルの全履歴からコミットメッセージを検索","搜索此文件全部历史中的提交消息","Buscar mensajes en todo el historial del archivo","Rechercher dans tout l’historique du fichier"],
 "Choose a project folder.": ["プロジェクトのフォルダーを選択してください。","请选择项目文件夹。","Selecciona una carpeta de proyecto.","Choisissez un dossier de projet."],
 "Enter the remote repository address.": ["リモートリポジトリのアドレスを入力してください。","请输入远程仓库地址。","Introduce la dirección del repositorio remoto.","Saisissez l’adresse du dépôt distant."],
 "Folder missing": ["フォルダーがありません","文件夹不存在","Carpeta no encontrada","Dossier introuvable"],

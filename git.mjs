@@ -1,5 +1,5 @@
 import {gitEnvironment,gitLaunchError,missingRepository,repositoryExists} from './git-runtime.mjs';
-import {execFile} from 'node:child_process';
+import {execFile,spawn} from 'node:child_process';
 import {promisify} from 'node:util';
 import {realpath,readFile,lstat} from 'node:fs/promises';
 import path from 'node:path';
@@ -46,4 +46,19 @@ export async function amendInfo(root){
  const message=(await git(root,['show','-s','--format=%B',head,'--'])).replace(/\n$/,'');
  const files=(await git(root,['diff','--cached','--name-only','-z'])).split('\0').filter(Boolean);
  return {head,message,files};
+}
+
+// Stream rename-aware history: Git's --skip/--grep can omit the rename needed
+// to follow older names. Keep memory bounded and stop after one matching page.
+export function fileHistoryPage(root,{name,revision,query,offset,size=50}){
+ return new Promise((resolve,reject)=>{
+  const child=spawn('git',['--no-pager','log','--follow','--no-show-signature','-z','--format=%H%x00%an%x00%aI%x00%s%x00%P',revision,'--',name],{cwd:root,windowsHide:true,env:{...gitEnvironment(),GIT_OPTIONAL_LOCKS:'0',GIT_LITERAL_PATHSPECS:'1'}});
+  let buffer='',fields=[],matched=0,done=false,stderr='';const commits=[],needle=query.toLowerCase();
+  const finish=(error)=>{if(done)return;done=true;clearTimeout(timer);child.kill();if(error)reject(error);else resolve({name,revision,commits:commits.slice(0,size),hasMore:commits.length>size,offset,pageSize:size})};
+  const timer=setTimeout(()=>finish(Error('Git history search timed out.')),30000);
+  child.stdout.setEncoding('utf8');child.stderr.setEncoding('utf8');child.stderr.on('data',chunk=>{stderr=(stderr+chunk).slice(-4096)});
+  child.on('error',async error=>finish(await gitLaunchError(error,root)));
+  child.stdout.on('data',chunk=>{if(done)return;buffer+=chunk;let end;while(!done&&(end=buffer.indexOf('\0'))>=0){fields.push(buffer.slice(0,end));buffer=buffer.slice(end+1);if(fields.length===5){const [hash,author,date,title,parents]=fields;fields=[];if(!needle||title.toLowerCase().includes(needle)){if(matched++>=offset)commits.push({hash,author,date,title,parents:parents.split(' ').filter(Boolean)});if(commits.length>size)finish()}}}});
+  child.on('close',code=>{if(!done)finish(code?Error(stderr||'Git history failed.'):null)});
+ });
 }

@@ -1,6 +1,8 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+검색어는 256자 이하로 입력하세요.|Enter a search query of 256 characters or fewer.
+이 파일의 전체 이력에서 커밋 메시지 검색|Search commit messages across this file’s history
 프로젝트 폴더를 선택하세요.|Choose a project folder.
 원격 저장소 주소를 입력하세요.|Enter the remote repository address.
 폴더 없음|Folder missing

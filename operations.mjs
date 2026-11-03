@@ -2,7 +2,7 @@ import {backgroundGitEnvironment} from './git-runtime.mjs';
 import {remoteWebInfo} from './provider-remotes.mjs';
 import {cherryPickPlan} from './multi-commit.mjs';
 import {mergePreview} from './merge-preview.mjs';
-import {git, snapshot, openRepo, parseStatus} from './git.mjs';
+import {git, fileHistoryPage, snapshot, openRepo, parseStatus} from './git.mjs';
 import {access, mkdir, realpath, readdir, rm, readFile, lstat} from 'node:fs/promises';
 import path from 'node:path';
 
@@ -44,7 +44,7 @@ export async function worktreeOverview(root){
 }
 export async function fullState(root,limit){return {...await snapshot(root,limit),...await extras(root)}}
 export async function createRepository(kind,data){const target=text(data.path,'대상 절대 경로');if(!path.isAbsolute(target))throw Error('절대 경로가 필요합니다.');if(kind==='init'){await mkdir(target,{recursive:true});if(await git(target,['rev-parse','--show-toplevel']).then(()=>true,()=>false))throw Error('이미 Git 저장소 안에 있습니다.');await git(target,['init','-b','main'])}else {if(await exists(target))throw Error('복제 대상은 아직 존재하지 않는 폴더여야 합니다.');await git(path.dirname(target),['clone','--',remoteURL(data.url),target]);}return openRepo(target)}
-export const readOperations=new Set(['remoteTags','cherryPickPreview','worktreeOverview','mergePreview','stashDiff','fileHistory','blame','compare','reflog','remoteList','worktreeList','trackedFiles']);
+export const readOperations=new Set(['remoteTags','cherryPickPreview','worktreeOverview','mergePreview','stashDiff','fileHistory','fileHistoryPage','blame','compare','reflog','remoteList','worktreeList','trackedFiles']);
 export async function operate(root,action,d={}){
  switch(action){
  case 'mergePreview':return mergePreview(root,d);
@@ -74,6 +74,13 @@ export async function operate(root,action,d={}){
  case 'continue':case 'abort':{const op=(await extras(root)).operation;if(!op)throw Error('진행 중인 작업이 없습니다.');await git(root,op==='merge'&&action==='continue'?['commit','--no-edit']:[op,action==='continue'?'--continue':'--abort']);if(op==='rebase'&&!(await extras(root)).operation){const dir=(await git(root,['rev-parse','--absolute-git-dir'])).trim();for(const entry of await readdir(dir,{withFileTypes:true}))if(entry.isDirectory()&&/^pgit-rebase-[a-zA-Z0-9]+$/.test(entry.name))await rm(path.join(dir,entry.name),{recursive:true,force:true})}break}
  case 'resolve':{const files=(await snapshot(root)).files;if(!files.some(f=>f.name===d.name&&f.conflict))throw Error('충돌 파일을 선택하세요.');const file=path.resolve(root,d.name);const stat=await lstat(file).catch(e=>{if(e.code==='ENOENT')return null;throw e});if(stat?.isFile()&&/^([<|=>])\1{6}/m.test(await readFile(file,'utf8')))throw Error('충돌 마커가 남아 있습니다. 충돌 편집기에서 해결하세요.');await git(root,['add','--',d.name]);break}
  case 'undoCommit':await idle(root);await clean(root);await git(root,['reset','--soft',await ref(root,'HEAD~1')]);break;
+ case 'fileHistoryPage':{
+  const name=d.name;if(typeof name!=='string'||!name||name.includes('\0')||name.length>4096)throw Error('추적 중인 파일을 선택하세요.');
+  const tracked=(await git(root,['--literal-pathspecs','ls-files','-z','--',name])).split('\0');if(!tracked.includes(name))throw Error('추적 중인 파일을 선택하세요.');
+  const offset=d.offset??0;if(!Number.isSafeInteger(offset)||offset<0)throw Error('잘못된 참조');
+  const query=typeof d.query==='string'?d.query.trim():'';if(query.includes('\0')||query.length>256)throw Error('검색어는 256자 이하로 입력하세요.');
+  return fileHistoryPage(root,{name,revision:await ref(root,d.revision||'HEAD'),query,offset});
+ }
  case 'fileHistory':case 'blame':{const name=text(d.name,'파일 경로');const files=(await git(root,['ls-files','-z'])).split('\0');if(!files.includes(name))throw Error('추적 중인 파일을 선택하세요.');return action==='blame'?git(root,['blame','--date=short','--',name]):git(root,['log','--follow','-n','100','--format=%h %aI %an%n%s','--',name]);}
  case 'trackedFiles':return (await git(root,['ls-files','-z'])).split('\0').filter(Boolean);
  case 'compare':return git(root,['diff','--stat','--patch','--no-ext-diff','--no-textconv',await ref(root,d.from),await ref(root,d.to),'--']);
