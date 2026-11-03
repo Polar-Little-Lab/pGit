@@ -44,14 +44,14 @@ worktreeList.onkeydown=e=>{if(!['ArrowDown','ArrowUp','Home','End'].includes(e.k
 async function openWorktree(item){if(worktreeBusy||working||item.current||item.bare||item.error)return;if(embedded){sendShell({type:'open-worktree',path:item.path});worktreeDialog.close()}else{if($('message').value.trim()||$('commitDescription')?.value.trim()){worktreeFail(Error('커밋 초안을 정리한 뒤 작업 폴더를 전환하세요.'));return}if(await mutate('open',{path:item.path}))worktreeDialog.close()}}
 function drawWorktreeDetail(item){worktreeDetail.replaceChildren();delete worktreeDetail.dataset.worktreePath;if(!item)return;worktreeDetail.dataset.worktreePath=item.path;
  const heading=el('div',undefined,'worktree-detail-heading');heading.append(PgitIcons.icon('worktree'),el('strong',worktreeName(item),'literal-data'));worktreeDetail.append(heading);
- const badges=el('div',undefined,'worktree-badges');for(const [on,label] of [[item.current,'현재 프로젝트'],[item.main,'기본 작업 폴더'],[item.locked,'잠김']])if(on)badges.append(el('span',label,'worktree-badge'));worktreeDetail.append(badges);
+ const badges=el('div',undefined,'worktree-badges');for(const [on,label] of [[item.main,'기본 작업 폴더'],[item.locked,'잠김']])if(on)badges.append(el('span',label,'worktree-badge'));worktreeDetail.append(badges);
  const location=el('p',item.path,'literal-data worktree-path');worktreeDetail.append(el('span','작업 폴더','worktree-field-label'),location,el('p',worktreeStatus(item),'worktree-status'));
  if(item.error)worktreeDetail.append(el('p',item.error,'command-error'));if(item.lockReason)worktreeDetail.append(el('p',item.lockReason,'literal-data worktree-path'));
  const actions=el('div',undefined,'worktree-actions');
  function action(label,icon,fn,unavailable=false){const b=el('button');b.type='button';b.dataset.unavailable=String(unavailable);b.disabled=unavailable;b.onclick=fn;PgitIcons.label(b,icon,label);actions.append(b);return b}
- const open=action(embedded?'프로젝트 탭으로 열기':'작업 폴더 열기','folder',()=>openWorktree(item),item.current||item.bare||!!item.error);open.className='primary';
+ if(!item.current){const open=action(embedded?'프로젝트 탭으로 열기':'작업 폴더 열기','folder',()=>openWorktree(item),item.bare||!!item.error);open.className='primary'}
  if(!item.main&&!item.bare)action(item.locked?'잠금 해제':'잠금',item.locked?'unlock':'lock',async()=>{if(await changeWorktree(item.locked?'worktreeUnlock':'worktreeLock',{path:item.path}))worktreeDetail.querySelector('.worktree-actions button:not(.primary)')?.focus()});
- worktreeDetail.append(actions);
+ if(actions.childElementCount)worktreeDetail.append(actions);
  if(item.main||item.current||item.bare)return;
  const remove=el('button','삭제','worktree-remove');PgitIcons.label(remove,'trash','삭제');remove.dataset.unavailable=String(item.locked||!!item.error||item.changes!==0);remove.disabled=remove.dataset.unavailable==='true';
  const reason=item.locked?'잠금을 해제한 뒤 삭제하세요.':item.changes!==0||item.error?'변경이 없고 잠금이 해제된 작업 폴더만 삭제할 수 있습니다.':'';
