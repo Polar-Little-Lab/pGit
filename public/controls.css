@@ -476,3 +476,9 @@ body .commit-list-options>button{display:flex;align-items:center;gap:10px;width:
 body .commit-list-options>button:hover{background:var(--soft)}
 body .commit-list-options>button[aria-selected=true]{background:var(--selection,var(--soft));box-shadow:inset 3px 0 var(--accent)}
 .commit-list-options .select-empty{padding:12px;margin:0}
+.worktree-form label:last-of-type{display:flex;flex-direction:column;gap:8px}
+body .worktree-form input[readonly]{background:var(--soft);min-height:36px;flex-shrink:0;cursor:default}
+body .worktree-form .worktree-location-button{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;height:36px}
+.worktree-form label>small{font-size:.85em;color:var(--muted);line-height:1.5}
+.worktree-path-preview{display:block;max-width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:6px;background:var(--soft);font-size:.9em;line-height:1.5;overflow-wrap:anywhere;user-select:text}
+.worktree-location-button[hidden],.worktree-path-preview[hidden]{display:none!important}

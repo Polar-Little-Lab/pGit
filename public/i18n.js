@@ -1,6 +1,9 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+위치 선택|Choose location
+워크트리 위치 선택|Choose worktree location
+선택한 위치 안에 새 작업 폴더를 만듭니다.|A new working folder will be created inside this location.
 해당 참조의 커밋을 찾을 수 없습니다. 브랜치·태그 이름이나 HEAD~2 같은 참조를 확인하세요.|No commit was found for this reference. Check the branch or tag name, or a reference such as HEAD~2.
 시작점 선택|Choose starting point
 기준 브랜치|Starting branch

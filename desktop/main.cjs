@@ -10,7 +10,7 @@ app.on('second-instance',()=>{if(window){window.show();window.focus()}});
 app.whenReady().then(async()=>{try{
 process.env=runtimeEnvironment();
 const backend=await import('../server.mjs');server=backend.server;url=await backend.ready;
-ipcMain.handle('choose-folder',async event=>{trusted(event);const result=await dialog.showOpenDialog(window,{properties:['openDirectory'],title:'Git 저장소 선택'});return result.canceled?null:result.filePaths[0]});
+ipcMain.handle('choose-folder',async(event,options={})=>{trusted(event);const title=typeof options?.title==='string'?options.title.slice(0,120):'Git 저장소 선택',defaultPath=typeof options?.defaultPath==='string'&&path.isAbsolute(options.defaultPath)?options.defaultPath:undefined;const result=await dialog.showOpenDialog(window,{properties:['openDirectory','createDirectory'],title,defaultPath});return result.canceled?null:result.filePaths[0]});
 const store=path.join(app.getPath('userData'),'arctic-workspace.json');
 function trusted(event){requireTrustedSender(event,window.webContents,url)}
 ipcMain.handle('workspace-load',async event=>{trusted(event);return readWorkspace(store)});

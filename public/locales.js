@@ -40,6 +40,9 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Choose location": ["場所を選択", "选择位置", "Elegir ubicación", "Choisir un emplacement"],
+"Choose worktree location": ["ワークツリーの場所を選択", "选择工作树位置", "Elegir ubicación del worktree", "Choisir l’emplacement du worktree"],
+"A new working folder will be created inside this location.": ["選択した場所に新しい作業フォルダーを作成します。", "将在所选位置内创建新的工作文件夹。", "Se creará una nueva carpeta de trabajo en esta ubicación.", "Un nouveau dossier de travail sera créé à cet emplacement."],
 "No commit was found for this reference. Check the branch or tag name, or a reference such as HEAD~2.": ["この参照のコミットが見つかりません。ブランチ名・タグ名、または HEAD~2 などの参照を確認してください。", "未找到此引用的提交。请检查分支名、标签名或 HEAD~2 等引用。", "No se encontró ningún commit para esta referencia. Comprueba el nombre de la rama o etiqueta, o una referencia como HEAD~2.", "Aucun commit trouvé pour cette référence. Vérifiez le nom de branche ou de tag, ou une référence comme HEAD~2."],
 "Choose starting point": ["開始点を選択", "选择起点", "Elegir punto de partida", "Choisir le point de départ"],
 "Starting branch": ["開始ブランチ", "起始分支", "Rama de partida", "Branche de départ"],
