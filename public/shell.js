@@ -15,7 +15,17 @@ function notice(message){const host=byId('shellNotice');host.classList.remove('m
 
 function persisted(){return {typography:window.PgitSettings?.typography,theme:window.PgitSettings?.theme||'light',language:window.PgitI18n?.language||'ko',projects:projects.filter(p=>p.path).map(p=>({path:p.path,name:p.name})),activePath:projects.find(p=>p.id===activeId)?.path||null,recents:recents.slice(0,18),recentDetails:Object.fromEntries(recents.filter(path=>recentDetails[path]).map(path=>[path,recentDetails[path]])),missingPaths:[...missingPaths].filter(path=>recents.includes(path))}}
 function save(){clearTimeout(saveTimer);saveTimer=setTimeout(()=>{const data=persisted();try{localStorage.setItem(sessionKey,JSON.stringify(data))}catch{}window.pgitDesktop?.saveWorkspace(data).catch(()=>notice('프로젝트 목록을 저장하지 못했습니다.'));},150)}
+for(const host of document.querySelectorAll('[data-home-icon]'))host.append(PgitIcons.icon(host.dataset.homeIcon));
+function renderResume(){
+ const path=recents.filter(p=>!missingPaths.has(p)).sort((a,b)=>(recentDetails[b]?.openedAt||0)-(recentDetails[a]?.openedAt||0))[0];
+ byId('resumeTitle').textContent=path?PgitPaths.basename(path):'프로젝트를 시작하세요';byId('resumeTitle').classList.toggle('literal-data',!!path);
+ byId('resumeLabel').textContent=path?'최근 작업 이어가기':'프로젝트';
+ byId('resumePath').textContent=path||'프로젝트를 열거나 원격 저장소를 복제하세요.';byId('resumePath').classList.toggle('literal-data',!!path);byId('resumePath').title=path||'';
+ const branch=byId('resumeBranch');branch.replaceChildren();const name=path&&recentDetails[path]?.branch;if(name){branch.append(PgitIcons.icon('branch'),document.createTextNode(name));branch.title=name}branch.hidden=!name;
+ byId('resumeProject').onclick=()=>path?openProject(path):showProjectDialog();
+}
 function renderRecents(){
+ renderResume();
  const host=byId('recentProjects');host.replaceChildren();const query=byId('projectSearch').value.trim().toLocaleLowerCase();
  const visible=recents.filter(path=>path.toLocaleLowerCase().includes(query)).sort((a,b)=>Number(!!recentDetails[b]?.pinned)-Number(!!recentDetails[a]?.pinned));
  byId('recentCount').textContent=String(visible.length);

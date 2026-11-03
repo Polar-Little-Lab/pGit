@@ -1,6 +1,11 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+최근 작업 이어가기|Continue recent work
+프로젝트를 시작하세요|Start a project
+내 컴퓨터의 Git 저장소|A Git repository on this computer
+원격 저장소를 내 컴퓨터로|Bring a remote repository here
+폴더에서 Git 기록 시작|Start Git history in a folder
 프로젝트를 열거나 원격 저장소를 복제하세요.|Open a project or clone a remote repository.
 프로젝트 검색|Search projects
 이름 또는 경로로 검색|Search by name or path

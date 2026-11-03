@@ -40,6 +40,11 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Continue recent work":["最近の作業を続ける", "继续最近的工作", "Continuar el trabajo reciente", "Reprendre le travail récent"],
+"Start a project":["プロジェクトを始める", "开始一个项目", "Inicia un proyecto", "Démarrer un projet"],
+"A Git repository on this computer":["このコンピューターの Git リポジトリ", "此电脑上的 Git 仓库", "Un repositorio Git en este equipo", "Un dépôt Git sur cet ordinateur"],
+"Bring a remote repository here":["リモートリポジトリをこのコンピューターへ", "将远程仓库克隆到此电脑", "Trae un repositorio remoto aquí", "Cloner un dépôt distant ici"],
+"Start Git history in a folder":["フォルダーで Git の履歴を開始", "在文件夹中开始 Git 历史", "Inicia el historial Git en una carpeta", "Démarrer un historique Git dans un dossier"],
 "Open a project or clone a remote repository.":["プロジェクトを開くか、リモートリポジトリを複製してください。", "打开项目或克隆远程仓库。", "Abre un proyecto o clona un repositorio remoto.", "Ouvrez un projet ou clonez un dépôt distant."],
 "Search projects":["プロジェクトを検索", "搜索项目", "Buscar proyectos", "Rechercher des projets"],
 "Search by name or path":["名前またはパスで検索", "按名称或路径搜索", "Buscar por nombre o ruta", "Rechercher par nom ou chemin"],
