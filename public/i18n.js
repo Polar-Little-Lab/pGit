@@ -1,6 +1,9 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+선택한 변경 추가|Add selected changes
+스테이징된 변경만|Staged changes only
+작업 폴더 변경|Working directory changes
 커밋 메시지 수정|Edit commit message
 마지막 커밋에 변경 추가|Add changes to last commit
 스테이징된 변경은 포함하지 않습니다.|Staged changes are not included.

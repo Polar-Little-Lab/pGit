@@ -1,6 +1,7 @@
+import {repositoryRevision} from './refresh.mjs';
 import {gitLaunchError,gitEnvironment,gitScriptCommand,shellQuote} from './git-runtime.mjs';
 import {spawn} from 'node:child_process';
-import {readFile,writeFile,lstat,realpath,mkdtemp,rm,mkdir,readdir} from 'node:fs/promises';
+import {readFile,writeFile,copyFile,open,rename,lstat,realpath,mkdtemp,rm,mkdir,readdir} from 'node:fs/promises';
 import {createHash,randomUUID} from 'node:crypto';
 import path from 'node:path';
 import os from 'node:os';
@@ -49,8 +50,8 @@ async function discardPartial(root,d){
  try{const file=path.join(temp,d.name);await mkdir(path.dirname(file),{recursive:true});await writeFile(file,preview.content);await runGit(temp,['apply',...(partial?[]:['--reverse']),'-'],{input:content});await discardContent(root,preview,await readFile(file,'utf8'))}
  finally{await rm(temp,{recursive:true,force:true})}
 }
-export const advancedActions=new Set(['discardHunk','discardLines','redoDiscard','discardPreview','discardFile','recoveryList','recoverFile','hunks','stageHunk','stageLines','readText','saveText','conflictRead','conflictSave','ignoreFile','ignoreCandidates','amend','amendMessage','rebasePlan','rebaseApply','searchHistory','worktreeLock','worktreeUnlock','submodules','submoduleUpdate','profileRead','profileSave','diffSides']);
-export const advancedReads=new Set(['ignoreCandidates','discardPreview','recoveryList','hunks','readText','conflictRead','rebasePlan','searchHistory','submodules','profileRead','diffSides']);
+export const advancedActions=new Set(['discardHunk','discardLines','redoDiscard','discardPreview','discardFile','recoveryList','recoverFile','hunks','stageHunk','stageLines','readText','saveText','conflictRead','conflictSave','ignoreFile','ignoreCandidates','amendSelectionInfo','amend','amendMessage','rebasePlan','rebaseApply','searchHistory','worktreeLock','worktreeUnlock','submodules','submoduleUpdate','profileRead','profileSave','diffSides']);
+export const advancedReads=new Set(['amendSelectionInfo','ignoreCandidates','discardPreview','recoveryList','hunks','readText','conflictRead','rebasePlan','searchHistory','submodules','profileRead','diffSides']);
 export async function advanced(root,action,d={}){switch(action){
 case 'discardPreview':return discardPreview(root,d.name);
 case 'discardHunk':case 'discardLines':if(action==='discardLines'&&(!Array.isArray(d.lines)||!d.lines.length))throw Error('변경된 줄을 선택하세요.');await discardPartial(root,{...d,lines:action==='discardLines'?d.lines:undefined});break;
@@ -79,7 +80,8 @@ case 'ignoreFile':{
  const patterns=names.map(name=>'/'+name.replace(/[\\*?\[\]#! ]/g,'\\$&')).filter(pattern=>!existing.has(pattern));
  if(patterns.length)await writeFile(absolute,previous+(previous&&!previous.endsWith('\n')?'\n':'')+patterns.join('\n')+'\n');break
 }
-case 'amendMessage':case 'amend':{if((await extras(root)).operation)throw Error('진행 중인 작업을 완료하세요.');if(typeof d.message!=='string'||!d.message.trim()||d.message.length>4000)throw Error('메시지를 입력하세요.');if(action==='amend'&&!(await git(root,['diff','--cached','--name-only'])).trim())throw Error('스테이징한 변경이 없습니다.');const expected=await commitRef(root,'HEAD');if(expected!==d.head)throw Error('HEAD가 변경되었습니다.');await git(root,['update-ref',`refs/pgit/backups/${Date.now()}`,expected]);await git(root,['commit','--amend',...(action==='amendMessage'?['--only']:[]),'-m',d.message]);break}
+case 'amendSelectionInfo':return amendSelectionInfo(root);
+case 'amendMessage':case 'amend':{if(action==='amend'&&d.names){await amendSelection(root,d);break}if((await extras(root)).operation)throw Error('진행 중인 작업을 완료하세요.');if(typeof d.message!=='string'||!d.message.trim()||d.message.length>4000)throw Error('메시지를 입력하세요.');if(action==='amend'&&!(await git(root,['diff','--cached','--name-only'])).trim())throw Error('스테이징한 변경이 없습니다.');const expected=await commitRef(root,'HEAD');if(expected!==d.head)throw Error('HEAD가 변경되었습니다.');await git(root,['update-ref',`refs/pgit/backups/${Date.now()}`,expected]);await git(root,['commit','--amend',...(action==='amendMessage'?['--only']:[]),'-m',d.message]);break}
 case 'rebasePlan':return rebasePlan(root,d.base);
 case 'rebaseApply':{await ready(root);const plan=await rebasePlan(root,d.base);if(plan.head!==d.head)throw Error('HEAD가 변경되었습니다. 계획을 다시 여세요.');if(!Array.isArray(d.commits)||d.commits.length!==plan.commits.length||!d.commits.length)throw Error('잘못된 커밋 목록');const expected=new Set(plan.commits.map(c=>c.hash));let preceding=false;for(const c of d.commits){if(!expected.delete(c.hash)||!['pick','reword','drop','squash','fixup'].includes(c.action))throw Error('잘못된 리베이스 계획');if(['squash','fixup'].includes(c.action)&&!preceding)throw Error('Squash/Fixup 앞에는 유지할 커밋이 필요합니다.');if(c.action==='reword'&&(typeof c.message!=='string'||!c.message.trim()||c.message.length>4000||c.message.includes('\0')))throw Error('커밋 메시지를 1~4,000자로 입력하세요.');if(['pick','reword'].includes(c.action))preceding=true}if(!preceding)throw Error('하나 이상의 커밋을 유지하세요.');await git(root,['update-ref',`refs/pgit/backups/${Date.now()}`,plan.head]);const temp=await mkdtemp(path.join((await git(root,['rev-parse','--absolute-git-dir'])).trim(),'pgit-rebase-'));let finished=false;try{const todo=path.join(temp,'todo');const steps=[];for(const [i,c] of d.commits.entries()){steps.push(`${c.action==='reword'?'pick':c.action} ${c.hash}`);if(c.action==='reword'){const messageFile=path.join(temp,'message-'+i);await writeFile(messageFile,c.message+'\n',{mode:0o600});steps.push('exec '+gitScriptCommand('reword-commit.cjs')+' '+shellQuote(process.platform==='win32'?messageFile.replace(/\\/g,'/'):messageFile))}}await writeFile(todo,steps.join('\n')+'\n');const editor=gitScriptCommand('sequence-editor.cjs');await runGit(root,['rebase','--interactive',plan.base],{env:{GIT_SEQUENCE_EDITOR:editor,PGIT_TODO:todo,ELECTRON_RUN_AS_NODE:'1'}});finished=true}finally{if(finished)await rm(temp,{recursive:true,force:true})}break}
 case 'searchHistory':{const q=typeof d.query==='string'?d.query.trim():'';if(!q||q.length>200)throw Error('검색어를 1~200자로 입력하세요.');return git(root,['log','--all','-n','200','--regexp-ignore-case','--fixed-strings',`--grep=${q}`,'--format=%h %aI %an%n%s'])}
@@ -90,3 +92,33 @@ case 'profileRead':return {name:await git(root,['config','user.name']).then(s=>s
 case 'profileSave':{for(const key of ['name','email'])if(typeof d[key]!=='string'||!d[key].trim()||/[\r\n\0]/.test(d[key]))throw Error('이름과 이메일을 입력하세요.');await git(root,['config','--local','user.name',d.name]);await git(root,['config','--local','user.email',d.email]);await git(root,['config','--local','commit.gpgsign',d.sign?'true':'false']);break}
 case 'diffSides':{await known(root,d.name);const f=await textFile(root,d.name);const base=await git(root,['show',`HEAD:${d.name}`]).catch(()=> '');return {base,content:f.content}}
 default:throw Error('지원하지 않는 고급 작업입니다.');}return null;}
+
+async function amendSelectionInfo(root){
+ const state=await snapshot(root);if(!state.head)throw Error('커밋이 없습니다.');
+ return {head:state.head,message:(await git(root,['show','-s','--format=%B','HEAD'])).replace(/\n$/,''),files:state.files,revision:await repositoryRevision(root)};
+}
+async function amendSelection(root,d){
+ if((await extras(root)).operation)throw Error('진행 중인 작업을 완료하세요.');
+ if(typeof d.message!=='string'||!d.message.trim()||d.message.length>4000)throw Error('메시지를 입력하세요.');
+ const info=await amendSelectionInfo(root);if(info.head!==d.head)throw Error('HEAD가 변경되었습니다.');if(info.revision!==d.revision)throw Error('파일 상태가 변경되었습니다. 새로고침하세요.');
+ if(!Array.isArray(d.names)||!d.names.length||new Set(d.names).size!==d.names.length||d.names.some(n=>typeof n!=='string'||!info.files.some(f=>f.name===n)))throw Error('파일을 선택하세요.');
+ if(info.files.some(f=>f.conflict))throw Error('충돌을 먼저 해결하세요.');
+ const chosen=info.files.filter(f=>d.names.includes(f.name)),paths=[...new Set(chosen.flatMap(f=>[f.name,...(f.original?[f.original]:[])]))];
+ const index=path.resolve(root,(await git(root,['rev-parse','--git-path','index'])).trim()),lock=index+'.lock';
+ const held=await open(lock,'wx');let temp,ownsLock=true;
+ try{
+  if(await repositoryRevision(root)!==d.revision)throw Error('파일 상태가 변경되었습니다. 새로고침하세요.');
+  temp=await mkdtemp(path.join(path.dirname(index),'pgit-amend-'));const next=path.join(temp,'next'),restored=path.join(temp,'restored');const env={GIT_INDEX_FILE:next};
+  await copyFile(index,restored);await git(root,['read-tree',d.head],{env});
+  const staged=chosen.filter(f=>f.index!==' '&&f.index!=='?').flatMap(f=>[f.name,...(f.original?[f.original]:[])]);
+  if(staged.length){const patch=await git(root,['diff','--cached','--binary','--full-index','--no-renames',d.head,'--',...staged]);if(patch)await runGit(root,['apply','--cached','--binary','-'],{input:patch,env})}
+  const unstaged=chosen.filter(f=>f.index===' '||f.index==='?').map(f=>f.name);if(unstaged.length)await git(root,['add','-A','--',...unstaged],{env});
+  if(await repositoryRevision(root)!==d.revision)throw Error('파일 상태가 변경되었습니다. 새로고침하세요.');
+  const tree=(await git(root,['write-tree'],{env})).trim();
+  await git(root,['reset',tree,'--',...paths],{env:{GIT_INDEX_FILE:restored}});
+  await writeFile(lock,await readFile(restored));
+  await git(root,['update-ref',`refs/pgit/backups/${Date.now()}`,d.head]);
+  await git(root,['commit','--amend','-m',d.message],{env});
+  await held.close();await rename(lock,index);ownsLock=false;
+ }finally{await held.close().catch(()=>{});if(ownsLock)await rm(lock,{force:true});if(temp)await rm(temp,{recursive:true,force:true})}
+}

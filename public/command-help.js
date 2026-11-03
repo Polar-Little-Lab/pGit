@@ -370,12 +370,12 @@ const catalog={
     "fr": "Modifie uniquement le message du dernier commit. Les fichiers et changements indexés sont conservés ; le hash change."
   },
   "amend": {
-    "ko": "스테이징된 변경을 마지막 커밋에 추가합니다. 메시지도 수정할 수 있으며 커밋 해시가 바뀝니다.",
-    "en": "Edit the last commit’s message, including staged changes; its hash changes.",
-    "ja": "最後のコミットのメッセージを編集します。ステージ済み変更も含まれ、ハッシュが変わります。",
-    "zh-CN": "修改最后一个提交的消息，同时包含暂存的更改，提交哈希会改变。",
-    "es": "Edita el mensaje del último commit e incluye cambios preparados; cambia su hash.",
-    "fr": "Modifie le message du dernier commit en incluant les changements indexés ; son hash change."
+    "ko": "선택한 파일의 변경을 마지막 커밋에 추가합니다. 스테이징된 파일은 스테이징된 부분만 포함합니다. 메시지도 수정할 수 있습니다.",
+    "en": "Add selected file changes to the last commit. For staged files, only staged changes are included. You can also edit the message.",
+    "ja": "選択したファイルの変更を最後のコミットに追加します。ステージ済みファイルはステージ済みの部分だけを含めます。メッセージも編集できます。",
+    "zh-CN": "将所选文件的更改添加到最后一次提交。已暂存的文件仅包含暂存部分。也可以修改提交消息。",
+    "es": "Añade los cambios de los archivos seleccionados al último commit. Los archivos preparados solo incluyen los cambios preparados. También puedes editar el mensaje.",
+    "fr": "Ajoute les changements des fichiers sélectionnés au dernier commit. Pour les fichiers indexés, seuls les changements indexés sont inclus. Vous pouvez aussi modifier le message."
   },
   "searchHistory": {
     "ko": "저장소 전체 이력에서 커밋 메시지에 검색어가 포함된 커밋을 찾습니다.",

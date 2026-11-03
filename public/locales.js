@@ -40,6 +40,9 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Add selected changes":["選択した変更を追加", "添加所选更改", "Añadir cambios seleccionados", "Ajouter les changements sélectionnés"],
+"Staged changes only":["ステージ済み変更のみ", "仅暂存更改", "Solo cambios preparados", "Changements indexés uniquement"],
+"Working directory changes":["作業フォルダーの変更", "工作目录更改", "Cambios del directorio de trabajo", "Changements du dossier de travail"],
 "Edit commit message":["コミットメッセージを編集", "修改提交消息", "Editar mensaje del commit", "Modifier le message du commit"],
 "Add changes to last commit":["最後のコミットに変更を追加", "向最后一个提交添加更改", "Añadir cambios al último commit", "Ajouter des changements au dernier commit"],
 "Staged changes are not included.":["ステージ済み変更は含まれません。", "不包含暂存的更改。", "No se incluyen los cambios preparados.", "Les changements indexés ne sont pas inclus."],
