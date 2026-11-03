@@ -44,7 +44,7 @@ export async function worktreeOverview(root){
 }
 export async function fullState(root,limit){return {...await snapshot(root,limit),...await extras(root)}}
 export async function createRepository(kind,data){const target=text(data.path,'대상 절대 경로');if(!path.isAbsolute(target))throw Error('절대 경로가 필요합니다.');if(kind==='init'){await mkdir(target,{recursive:true});if(await git(target,['rev-parse','--show-toplevel']).then(()=>true,()=>false))throw Error('이미 Git 저장소 안에 있습니다.');await git(target,['init','-b','main'])}else {if(await exists(target))throw Error('복제 대상은 아직 존재하지 않는 폴더여야 합니다.');await git(path.dirname(target),['clone','--',remoteURL(data.url),target]);}return openRepo(target)}
-export const readOperations=new Set(['remoteTags','cherryPickPreview','worktreeOverview','mergePreview','stashDiff','fileHistory','fileHistoryPage','blame','compare','reflog','remoteList','worktreeList','trackedFiles']);
+export const readOperations=new Set(['remoteTags','cherryPickPreview','worktreeOverview','mergePreview','stashDiff','fileHistory','fileHistoryPage','blameView','blame','compare','reflog','remoteList','worktreeList','trackedFiles']);
 export async function operate(root,action,d={}){
  switch(action){
  case 'mergePreview':return mergePreview(root,d);
@@ -80,6 +80,18 @@ export async function operate(root,action,d={}){
   const offset=d.offset??0;if(!Number.isSafeInteger(offset)||offset<0)throw Error('잘못된 참조');
   const query=typeof d.query==='string'?d.query.trim():'';if(query.includes('\0')||query.length>256)throw Error('검색어는 256자 이하로 입력하세요.');
   return fileHistoryPage(root,{name,revision:await ref(root,d.revision||'HEAD'),query,offset});
+ }
+ case 'blameView':{
+  const name=d.name;if(typeof name!=='string'||!name||name.includes('\0'))throw Error('추적 중인 파일을 선택하세요.');
+  const revision=await ref(root,'HEAD'),object=revision+':'+name;
+  const size=Number((await git(root,['cat-file','-s',object])).trim());if(size>1024*1024)throw Error('1MB가 넘는 파일은 미리보기를 생략합니다.');
+  const content=await git(root,['show',object]);if(content.includes('\0'))throw Error('바이너리 파일입니다. 미리보기를 제공하지 않습니다.');
+  if(content.split('\n').length>20000)throw Error('파일이 너무 커서 줄별 이력을 표시할 수 없습니다.');
+  const raw=await git(root,['blame','--line-porcelain',revision,'--',name]),lines=[];let item;
+  for(const line of raw.split('\n')){const header=line.match(/^([a-f0-9]{40,64}) (\d+) (\d+)(?: \d+)?$/);if(header){item={hash:header[1],originalLine:Number(header[2]),line:Number(header[3])};continue}if(!item)continue;
+   if(line.startsWith('author '))item.author=line.slice(7);else if(line.startsWith('author-time '))item.date=new Date(Number(line.slice(12))*1000).toISOString();else if(line.startsWith('summary '))item.title=line.slice(8);else if(line.startsWith('filename ')){const value=line.slice(9);item.name=value.startsWith('"')?JSON.parse(value):value}else if(line.startsWith('\t')){lines.push({...item,content:line.slice(1)});item=null}
+  }
+  return {name,revision,lines};
  }
  case 'fileHistory':case 'blame':{const name=text(d.name,'파일 경로');const files=(await git(root,['ls-files','-z'])).split('\0');if(!files.includes(name))throw Error('추적 중인 파일을 선택하세요.');return action==='blame'?git(root,['blame','--date=short','--',name]):git(root,['log','--follow','-n','100','--format=%h %aI %an%n%s','--',name]);}
  case 'trackedFiles':return (await git(root,['ls-files','-z'])).split('\0').filter(Boolean);

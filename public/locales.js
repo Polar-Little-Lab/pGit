@@ -40,6 +40,10 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"This file has too many lines to display authorship.":["行数が多すぎるため作成履歴を表示できません。","文件行数过多，无法显示逐行历史。","El archivo tiene demasiadas líneas para mostrar la autoría.","Ce fichier contient trop de lignes pour afficher les auteurs."],
+"Committed file snapshot":["コミット済みファイルの状態","已提交的文件版本","Versión confirmada del archivo","Version commitée du fichier"],
+"Go":["移動","跳转","Ir","Aller"],
+"Line number":["行番号","行号","Número de línea","Numéro de ligne"],
 "Enter a search query of 256 characters or fewer.": ["検索語は256文字以内で入力してください。","请输入不超过256个字符的搜索词。","Introduce una búsqueda de hasta 256 caracteres.","Saisissez une recherche de 256 caractères maximum."],
 "Search commit messages": ["コミットメッセージを検索","搜索提交消息","Buscar mensajes de commit","Rechercher des messages de commit"],
 "Search commit messages across this file’s history": ["ファイルの全履歴からコミットメッセージを検索","搜索此文件全部历史中的提交消息","Buscar mensajes en todo el historial del archivo","Rechercher dans tout l’historique du fichier"],

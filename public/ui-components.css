@@ -67,3 +67,22 @@ body button.refresh-control>.pgit-icon{display:block;flex:none;width:1.4em;heigh
 body button.refresh-control::before,body button.refresh-control::after{content:none}
 body button.icon-control.refresh-control[hidden]{display:none}
 .file-history-toolbar{--refresh-control-size:max(36px,3em)}
+body dialog.blame-dialog[data-dialog-kind=list]{width:min(1500px,calc(100vw - 24px));height:90vh}
+.blame-toolbar{display:flex;align-items:center;gap:8px;flex-shrink:0;flex-wrap:wrap}
+.blame-toolbar>strong{flex:1;min-width:120px;overflow-wrap:anywhere}
+body dialog .blame-toolbar>label{display:flex;align-items:center;gap:6px;margin:0;white-space:nowrap}
+body dialog .blame-toolbar input{width:7em;margin:0}
+body dialog .blame-toolbar>button{margin:0}
+.blame-status{color:var(--muted);font-size:.9em;flex-shrink:0}
+.blame-viewport{flex:1;min-height:0;overflow:auto;border:1px solid var(--border);border-radius:6px;background:var(--surface);overscroll-behavior:contain}
+.blame-canvas{position:relative;font-family:var(--code-font,monospace);font-size:var(--code-font-size,12px)}
+.blame-row{position:absolute;left:0;right:0;display:flex;align-items:stretch;white-space:pre}
+body dialog .blame-row>.blame-author{position:sticky;left:0;z-index:2;display:flex;align-items:center;gap:8px;flex:0 0 278px;width:278px;height:var(--blame-row-height);min-height:0;margin:0;padding:0 10px;border:0;border-right:1px solid var(--border);border-radius:0;background:var(--canvas);color:var(--muted);font-size:var(--ui-font-size,12px);line-height:1;text-align:left}
+.blame-author-name{min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis}
+.blame-author time,.blame-author code{flex:none;font-size:.85em}
+.blame-line-number{position:sticky;left:278px;z-index:1;flex:0 0 52px;width:52px;box-sizing:border-box;text-align:right;padding-right:12px;color:var(--muted);background:var(--canvas);border-right:1px solid var(--border);line-height:var(--blame-row-height)}
+.blame-code{padding:0 12px;line-height:var(--blame-row-height);font:inherit;line-height:var(--blame-row-height);white-space:pre;tab-size:4}
+.blame-row:hover{background:var(--soft)}
+body dialog .blame-row>.blame-author:is(:hover,:focus-visible){background:var(--selected);color:var(--text)}
+.blame-viewport.idea-diff{display:block}
+.blame-canvas{flex:none}
