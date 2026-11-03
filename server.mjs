@@ -58,6 +58,7 @@ const server=http.createServer(async(req,res)=>{
      case 'state':result=await fullState(root,data.limit);break;
      case 'diff':result=await git.diff(root,data.name,!!data.staged);break;
      case 'commitCandidates':result=await git.commitCandidates(root,data.ref);break;
+     case 'amendInfo':result=await git.amendInfo(root);break;
      case 'commitChoice':result=await git.commitChoice(root,data.ref);break;
      case 'commitDiff':result=await git.commitDiff(root,data.hash);break;
      case 'stage':await git.stage(root,data.name,!!data.value);result=await fullState(root,data.limit);break;

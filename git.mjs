@@ -40,3 +40,10 @@ export async function commitCandidates(root,ref){
  const commits=raw.trimEnd().split('\n').filter(Boolean).map(line=>{const [hash,parents,author,date,title]=line.split('\0');return {hash,parents:parents?parents.split(' '):[],author,date,title}});
  return {source:source.hash,target:target.hash,commits:commits.slice(0,500),limited:commits.length>500};
 }
+
+export async function amendInfo(root){
+ const {hash:head}=await commitChoice(root,'HEAD');
+ const message=(await git(root,['show','-s','--format=%B',head,'--'])).replace(/\n$/,'');
+ const files=(await git(root,['diff','--cached','--name-only','-z'])).split('\0').filter(Boolean);
+ return {head,message,files};
+}

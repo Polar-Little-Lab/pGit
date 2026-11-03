@@ -24,7 +24,7 @@ try{
   await close();await page.evaluate(key=>openCommand(key),key);
   for(const [name,value] of Object.entries(values)){const input=page.locator('#command-'+name);if(await input.count()){if(await input.evaluate(e=>!!e.selectReference))await page.evaluate(async({name,value})=>document.getElementById('command-'+name).selectReference(value),{name,value});else if(await input.evaluate(e=>!!e.dataset.commitPicker))await page.evaluate(async({name,value})=>PgitCommitPicker.select(document.getElementById('command-'+name),value),{name,value});else if(await input.evaluate(e=>e.tagName==='SELECT'))await input.selectOption(value,{force:true});else await input.fill(value)}}
   const fields=await page.locator('#commandDialog form label').allTextContents();const title=await page.locator('#commandDialog .bar strong').innerText();
-  const targets=page.locator('#commandDialog form').locator('input:visible,.frost-select-trigger:visible');await shot(key.toLowerCase(),[...await targets.all(),page.locator('#commandDialog form button[type=submit]')]);manifest.push({key,title,fields,image:`guide-${key.toLowerCase()}`});
+  const targets=page.locator('#commandDialog form').locator('input:visible,textarea:visible,.frost-select-trigger:visible');await shot(key.toLowerCase(),[...await targets.all(),page.locator('#commandDialog form button[type=submit]')]);manifest.push({key,title,fields,image:`guide-${key.toLowerCase()}`});
  }
  async function submit(){await page.locator('#commandDialog form button[type=submit]').click();await page.locator('#commandDialog').waitFor({state:'hidden'});await page.locator('#toast').waitFor({state:'hidden'})}
  if(!process.env.PGIT_GUIDE_TAIL){

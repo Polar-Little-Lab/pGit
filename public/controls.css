@@ -482,3 +482,6 @@ body .worktree-form .worktree-location-button{align-self:flex-start;display:inli
 .worktree-form label>small{font-size:.85em;color:var(--muted);line-height:1.5}
 .worktree-path-preview{display:block;max-width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:6px;background:var(--soft);font-size:.9em;line-height:1.5;overflow-wrap:anywhere;user-select:text}
 .worktree-location-button[hidden],.worktree-path-preview[hidden]{display:none!important}
+body dialog .command-body .commit-message-input{display:block;width:100%;min-height:140px;max-height:280px;resize:vertical;padding:10px 12px;line-height:1.5;white-space:pre-wrap}
+.amend-summary{margin-top:12px;font-size:.9em;line-height:1.5;color:var(--muted);overflow-wrap:anywhere;max-height:120px;overflow:auto}
+.amend-summary strong{display:block;margin-bottom:4px;font-weight:500}

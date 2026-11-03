@@ -1,6 +1,8 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+함께 반영할 파일|Files included in this amendment
+스테이징된 변경 없음 · 메시지만 수정|No staged changes · Message only
 위치 선택|Choose location
 워크트리 위치 선택|Choose worktree location
 선택한 위치 안에 새 작업 폴더를 만듭니다.|A new working folder will be created inside this location.

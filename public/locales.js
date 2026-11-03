@@ -40,6 +40,8 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Files included in this amendment": ["この修正に含めるファイル", "本次修订包含的文件", "Archivos incluidos en esta modificación", "Fichiers inclus dans cette modification"],
+"No staged changes \u00b7 Message only": ["ステージ済み変更なし · メッセージのみ変更", "没有暂存更改 · 仅修改消息", "Sin cambios preparados · Solo mensaje", "Aucune modification indexée · Message uniquement"],
 "Choose location": ["場所を選択", "选择位置", "Elegir ubicación", "Choisir un emplacement"],
 "Choose worktree location": ["ワークツリーの場所を選択", "选择工作树位置", "Elegir ubicación del worktree", "Choisir l’emplacement du worktree"],
 "A new working folder will be created inside this location.": ["選択した場所に新しい作業フォルダーを作成します。", "将在所选位置内创建新的工作文件夹。", "Se creará una nueva carpeta de trabajo en esta ubicación.", "Un nouveau dossier de travail sera créé à cet emplacement."],
