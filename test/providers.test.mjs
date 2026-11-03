@@ -34,3 +34,8 @@ test('GitHub chooses the requested remote instead of silently using origin',asyn
  let calls=0;const run=async(binary,args)=>{calls++;assert.equal(binary,'gh');assert.equal(args.at(-1),'github.com/team/repo');return {stdout:'[]'}};
  assert.equal(await provider(root,'githubPRs',{remote:'upstream'},run),'[]');await assert.rejects(provider(root,'githubPRs',{remote:'missing'},run),/원격/);assert.equal(calls,1);
 });
+test('GitHub issue detail includes conversation and validates the selected number',()=>{
+ assert.deepEqual(githubArgs('githubIssueView',{number:12}),['issue','view','12','--json','number,title,body,author,state,url,createdAt,comments']);
+ assert.throws(()=>githubArgs('githubIssueView',{number:'--web'}));
+ assert.ok(githubArgs('githubIssueComment',{number:12,body:'first\nsecond'}).includes('first\nsecond'));
+});

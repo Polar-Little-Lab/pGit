@@ -40,6 +40,9 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Open on GitHub":["GitHub で開く","在 GitHub 中打开","Abrir en GitHub","Ouvrir sur GitHub"],
+"Post comment":["コメントを投稿","发表评论","Publicar comentario","Publier le commentaire"],
+"Comment posted":["コメントを投稿しました","评论已发布","Comentario publicado","Commentaire publié"],
 "Checking…":["検査中…","正在检查…","Comprobando…","Vérification…"],
 "Remote URL":["リモート URL","远程地址","URL remota","URL distante"],
 "Continue recent work":["最近の作業を続ける", "继续最近的工作", "Continuar el trabajo reciente", "Reprendre le travail récent"],

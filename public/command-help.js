@@ -594,7 +594,7 @@ const catalog={
     "fr": "Crée et publie une issue avec titre et description dans le dépôt GitLab."
   },
   "githubIssueComment": {
-    "ko": "선택한 GitHub 이슈에 입력한 댓글을 게시합니다.",
+    "ko": "GitHub 이슈를 선택하고 본문과 기존 댓글을 확인한 뒤 댓글을 작성합니다.",
     "en": "Post your comment to a selected GitHub issue.",
     "ja": "選択した GitHub Issue にコメントを投稿します。",
     "zh-CN": "向所选 GitHub 议题发布输入的评论。",

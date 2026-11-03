@@ -1,6 +1,9 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+GitHub에서 열기|Open on GitHub
+댓글 게시|Post comment
+댓글 게시 완료|Comment posted
 검사 중…|Checking…
 원격 주소|Remote URL
 최근 작업 이어가기|Continue recent work

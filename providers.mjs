@@ -5,10 +5,11 @@ import {execFile} from 'node:child_process';import {promisify} from 'node:util';
 const exec=promisify(execFile);
 const string=(v,label,max=4000)=>{if(typeof v!=='string'||!v.trim()||v.length>max||v.includes('\0'))throw Error(label+'을 입력하세요.');return v.trim()};
 const number=v=>{if(!/^[1-9]\d*$/.test(String(v)))throw Error('올바른 번호를 입력하세요.');return String(v)};
-export const providerActions=new Set(['githubPRs','githubIssues','githubRuns','githubPRDiff','githubPRChecks','githubPRCreate','githubPRComment','githubPRApprove','githubPRRequestChanges','githubPRCheckout','githubIssueCreate','githubIssueComment']);
+export const providerActions=new Set(['githubIssueView','githubPRs','githubIssues','githubRuns','githubPRDiff','githubPRChecks','githubPRCreate','githubPRComment','githubPRApprove','githubPRRequestChanges','githubPRCheckout','githubIssueCreate','githubIssueComment']);
 export function githubArgs(action,d={}){switch(action){
 case 'githubPRs':return ['pr','list','--limit','50','--json','number,title,author,headRefName,baseRefName,isDraft,url,reviewDecision,updatedAt'];
-case 'githubIssues':return ['issue','list','--limit','50','--json','number,title,labels,assignees,url,updatedAt'];
+case 'githubIssueView':return ['issue','view',number(d.number),'--json','number,title,body,author,state,url,createdAt,comments'];
+case 'githubIssues':return ['issue','list','--limit','50','--json','number,title,state,labels,assignees,url,updatedAt'];
 case 'githubRuns':return ['run','list','--limit','30','--json','databaseId,displayTitle,headBranch,status,conclusion,url'];
 case 'githubPRDiff':return ['pr','diff',number(d.number),'--color','never'];
 case 'githubPRChecks':return ['pr','checks',number(d.number),'--json','name,state,link'];

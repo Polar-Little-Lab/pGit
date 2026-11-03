@@ -12,7 +12,12 @@ function providerItem(item,title,meta,provider,action,remote){
  const number=provider==='github'?(item.number||item.databaseId):(item.iid||item.id);
  const section=action.endsWith('Issues')?'issues':action==='githubPRs'?'pull':action==='gitlabMRs'?'-/merge_requests':action==='githubRuns'?'actions/runs':'-/pipelines';
  const href=item.web_url||item.url||(project&&Number.isInteger(number)?project.replace(/\/$/,'')+'/'+(provider==='gitlab'&&section==='issues'?'-/issues':section)+'/'+number:'');
- return PgitUI.listItem({title,meta,href,className:'provider-row'}).element;
+ const entry=PgitUI.listItem({title,meta,href,className:'provider-row'});
+ if(action==='githubIssues'){
+  const button=el('button',undefined,'ui-list-main');button.type='button';button.append(...entry.main.childNodes);button.querySelector('.ui-list-external')?.remove();button.onclick=()=>showGitHubIssue(item.number,remote);entry.main.replaceWith(button);
+  const link=el('a','GitHub에서 열기');if(PgitUI.externalLink(link,href))entry.actions.append(link);
+ }
+ return entry.element;
 }
 
 async function checkoutProvider(key,number,remote){
@@ -25,11 +30,12 @@ function providerRemoteSelect(body,remote,onChange){
  for(const name of state.remotes){const option=el('option',name);option.value=name;select.append(option)}select.value=remote||'';select.onchange=()=>onChange(select.value);toolbar.append(select);body.append(toolbar);
 }
 const providerOpenCommand=openCommand;openCommand=async function(key){
+ if(key==='githubIssueComment'&&state&&!working){panel.close();return showGitHub('githubIssues')}
  if(state&&!working&&['githubPRs','githubIssues','githubRuns','gitlabMRs','gitlabIssues','gitlabPipelines'].includes(key)){panel.close();return key.startsWith('github')?showGitHub(key):showGitLab(key)}
  return providerOpenCommand(key);
 };
 let githubViewRequest=0;
-async function showGitHub(action,remote){if(!state)return notify('먼저 저장소를 여세요.');remote=remote||(state.remotes.includes('origin')?'origin':state.remotes[0]);const request=++githubViewRequest,root=state.root;const body=providerListFrame(action,remote,value=>showGitHub(action,value));const list=el('div',undefined,'ui-item-list');body.append(list);if(!remote){list.append(PgitUI.message('원격 저장소가 없습니다.'));return}list.append(PgitUI.message('불러오는 중…'));try{const result=JSON.parse(await api(action,{remote}));if(request!==githubViewRequest||state.root!==root||!body.isConnected)return;list.replaceChildren();for(const item of result){const row=providerItem(item,(item.number?'#'+item.number+' · ':'')+(item.title||item.displayTitle),item.headRefName?item.headRefName+' → '+item.baseRefName:item.status?item.status+' · '+(item.conclusion||''):item.updatedAt||'','github',action,remote);if(action==='githubPRs'){const detail=el('button','상세 보기');detail.onclick=()=>showProviderReview('github',item.number,remote);row.querySelector('.ui-list-actions').append(detail)}if(action==='githubPRs')for(const [key,label] of [['githubPRDiff','Diff'],['githubPRChecks','검사'],['githubPRCheckout','체크아웃']]){const b=el('button',label);b.onclick=async()=>{if(key==='githubPRDiff'||key==='githubPRChecks')return showProviderReview('github',item.number,remote,key==='githubPRDiff'?'files':'checks');return checkoutProvider(key,item.number,remote)};row.querySelector('.ui-list-actions').append(b)}list.append(row)}if(!result.length)list.append(PgitUI.message('표시할 항목이 없습니다.'))}catch(e){if(request===githubViewRequest&&body.isConnected)list.replaceChildren(PgitUI.message(e.message,{error:true}))}}
+async function showGitHub(action,remote){if(!state)return notify('먼저 저장소를 여세요.');remote=remote||(state.remotes.includes('origin')?'origin':state.remotes[0]);const request=++githubViewRequest,root=state.root;const body=providerListFrame(action,remote,value=>showGitHub(action,value));const list=el('div',undefined,'ui-item-list');body.append(list);if(!remote){list.append(PgitUI.message('원격 저장소가 없습니다.'));return}list.append(PgitUI.message('불러오는 중…'));try{const result=JSON.parse(await api(action,{remote}));if(request!==githubViewRequest||state.root!==root||!body.isConnected)return;list.replaceChildren();for(const item of result){const row=providerItem(item,(item.number?'#'+item.number+' · ':'')+(item.title||item.displayTitle),item.headRefName?item.headRefName+' → '+item.baseRefName:item.status?item.status+' · '+(item.conclusion||''):[item.state,item.updatedAt].filter(Boolean).join(' · '),'github',action,remote);if(action==='githubPRs'){const detail=el('button','상세 보기');detail.onclick=()=>showProviderReview('github',item.number,remote);row.querySelector('.ui-list-actions').append(detail)}if(action==='githubPRs')for(const [key,label] of [['githubPRDiff','Diff'],['githubPRChecks','검사'],['githubPRCheckout','체크아웃']]){const b=el('button',label);b.onclick=async()=>{if(key==='githubPRDiff'||key==='githubPRChecks')return showProviderReview('github',item.number,remote,key==='githubPRDiff'?'files':'checks');return checkoutProvider(key,item.number,remote)};row.querySelector('.ui-list-actions').append(b)}list.append(row)}if(!result.length)list.append(PgitUI.message('표시할 항목이 없습니다.'))}catch(e){if(request===githubViewRequest&&body.isConnected)list.replaceChildren(PgitUI.message(e.message,{error:true}))}}
 
 const beforeProviderApi=api;api=async function(action,data={}){const result=await beforeProviderApi(action,data);if(action==='githubPRCheckout'||action==='gitlabMRCheckout'){state=await beforeProviderApi('state',{limit:historyLimit});scope=null;activeCommit=null;render()}return result};
 
@@ -102,4 +108,41 @@ async function refreshRemoteTags(request,force=false){
   const row=[...integrations.querySelectorAll('.remote-site')].find(row=>row.dataset.remote===remote.name);
   if(row){row.querySelector('.remote-tags')?.remove();appendRemoteTags(row,remote)}
  }
+}
+
+// Issue bodies and comments are external content; keep them as literal text.
+const issueDrafts=new Map();
+async function showGitHubIssue(number,remote){
+ if(!state||working)return;
+ const root=state.root,key=JSON.stringify([root,remote,number]);
+ const body=advancedFrame('GitHub · #'+number+' · '+remote,'issue');body.classList.add('issue-detail');
+ const alive=()=>body.isConnected&&advancedDialog.open&&state?.root===root;
+ const toolbar=el('div',undefined,'review-toolbar'),back=el('button','목록으로'),refresh=PgitIcons.refresh();
+ back.onclick=()=>showGitHub('githubIssues',remote);toolbar.append(back,refresh);
+ const conversation=el('section',undefined,'issue-conversation');conversation.setAttribute('aria-live','polite');
+ const form=el('form',undefined,'issue-composer'),label=el('label','댓글'),input=el('textarea');input.id='issue-comment-body';label.htmlFor=input.id;input.rows=5;input.maxLength=4000;input.required=true;input.value=issueDrafts.get(key)||'';
+ const error=el('p',undefined,'command-error');error.setAttribute('role','alert');const submit=el('button','댓글 게시','primary');submit.type='submit';submit.disabled=!input.value.trim();
+ input.oninput=()=>{issueDrafts.set(key,input.value);submit.disabled=!input.value.trim();error.textContent=''};
+ form.append(label,input,error,submit);body.append(toolbar,conversation,form);form.hidden=true;
+ function commentCard(comment){const card=el('article',undefined,'issue-comment');const meta=el('div',undefined,'issue-comment-meta literal-data');meta.textContent=[comment.author?.login,comment.createdAt&&new Date(comment.createdAt).toLocaleString()].filter(Boolean).join(' · ');card.append(meta,el('div',comment.body||'','issue-text literal-data'));return card}
+ let loading=false;
+ async function load(){
+  if(loading)return;loading=true;refresh.disabled=true;submit.disabled=true;
+  if(!conversation.childNodes.length)conversation.append(PgitUI.message('불러오는 중…'));
+  try{const issue=JSON.parse(await api('githubIssueView',{number,remote}));if(!alive())return;
+   conversation.replaceChildren();const heading=el('header',undefined,'issue-heading');heading.append(el('span','#'+issue.number+' · '+issue.state,'literal-data'),el('h2',issue.title,'literal-data'));
+   const link=el('a','GitHub에서 열기');if(PgitUI.externalLink(link,issue.url))heading.append(link);conversation.append(heading,commentCard(issue));
+   const comments=issue.comments||[];conversation.append(el('h3',PgitI18n.t('댓글')+' · '+comments.length));for(const comment of comments)conversation.append(commentCard(comment));
+   form.hidden=false;
+  }catch(e){if(alive()){error.textContent=e.message;if(form.hidden){conversation.replaceChildren(PgitUI.message(e.message,{error:true}));}}}finally{loading=false;if(alive()){refresh.disabled=working;submit.disabled=working||!input.value.trim()}}
+ }
+ refresh.onclick=()=>{error.textContent='';load()};
+ form.onsubmit=async event=>{
+  event.preventDefault();if(working||loading||!input.value.trim()||!alive())return;
+  const text=input.value;working=true;controls();input.disabled=true;submit.disabled=true;back.disabled=true;refresh.disabled=true;error.textContent='';
+  try{await api('githubIssueComment',{number,remote,body:text});issueDrafts.delete(key);input.value='';conversation.append(commentCard({body:text}));notify('댓글 게시 완료');await load()}
+  catch(e){if(alive())error.textContent=e.message}
+  finally{working=false;controls();if(alive()){input.disabled=false;submit.disabled=!input.value.trim();back.disabled=false;refresh.disabled=false}}
+ };
+ await load();
 }
