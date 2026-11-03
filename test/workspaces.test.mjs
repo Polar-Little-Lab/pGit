@@ -41,3 +41,9 @@ test('theme preference only persists supported choices',()=>{
  for(const theme of ['light','glacier','snow','dark','aurora','midnight','system'])assert.equal(store.normalizeWorkspace({theme}).theme,theme);
  assert.equal(store.normalizeWorkspace({theme:'invalid'}).theme,undefined);
 });
+
+test('missing recent folders survive desktop persistence without unrelated paths',()=>{
+ const result=store.normalizeWorkspace({projects:[],recents:['/missing'],missingPaths:['/missing','/missing','relative']});
+ assert.deepEqual(result.missingPaths,['/missing']);
+ assert.deepEqual(result.projects,[]);
+});

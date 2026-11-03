@@ -40,6 +40,9 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Folder missing": ["フォルダーがありません","文件夹不存在","Carpeta no encontrada","Dossier introuvable"],
+"Open from another location": ["別の場所から開く","从其他位置打开","Abrir desde otra ubicación","Ouvrir depuis un autre emplacement"],
+"Closed the tab because the {0} folder could not be found.": ["{0} フォルダーが見つからないため、タブを閉じました。","找不到 {0} 文件夹，已关闭标签页。","Se cerró la pestaña porque no se encontró la carpeta {0}.","L’onglet a été fermé car le dossier {0} est introuvable."],
 "Remote repository address": ["リモートリポジトリのアドレス","远程仓库地址","Dirección del repositorio remoto","Adresse du dépôt distant"],
 "Repository folder not found. Check whether it was moved or deleted, then reopen the project.": ["リポジトリのフォルダーが見つかりません。移動または削除されていないか確認し、プロジェクトを開き直してください。","找不到仓库文件夹。请检查它是否已移动或删除，然后重新打开项目。","No se encuentra la carpeta del repositorio. Comprueba si se movió o eliminó y vuelve a abrir el proyecto.","Dossier du dépôt introuvable. Vérifiez s’il a été déplacé ou supprimé, puis rouvrez le projet."],
 "Git executable not found. Check your Git installation and executable path, then restart the app.": ["Gitの実行ファイルが見つかりません。インストールと実行パスを確認し、アプリを再起動してください。","找不到 Git 可执行文件。请检查 Git 安装和执行路径，然后重启应用。","No se encuentra el ejecutable de Git. Comprueba su instalación y ruta, y reinicia la aplicación.","Exécutable Git introuvable. Vérifiez son installation et son chemin, puis redémarrez l’application."],

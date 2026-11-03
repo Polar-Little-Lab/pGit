@@ -5,7 +5,8 @@ function normalizeWorkspace(value){
  if(!value||typeof value!=='object')return {projects:[],activePath:null,recents:[]};
  const paths=[...new Set((Array.isArray(value.projects)?value.projects:[]).map(p=>p?.path).filter(path))].slice(0,50);
  const typography={};for(const [key,choices] of Object.entries({uiSize:[12,14,16],codeSize:[12,14,16,18,20],font:['system','menlo','monaco','consolas'],spacing:[1.5,1.833,2.2]}))if(choices.includes(value.typography?.[key]))typography[key]=value.typography[key];
- return {...(Object.keys(typography).length?{typography}:{}),...(['light','glacier','snow','dark','aurora','midnight','system'].includes(value.theme)?{theme:value.theme}:{}),...(['ko','en','ja','zh-CN','es','fr'].includes(value.language)?{language:value.language}:{}),projects:paths.map(p=>({path:p,name:pathsUtil.basename(p)})),activePath:paths.includes(value.activePath)?value.activePath:null,recents:[...new Set((Array.isArray(value.recents)?value.recents:[]).filter(path))].slice(0,18)};
+ const missingPaths=[...new Set((Array.isArray(value.missingPaths)?value.missingPaths:[]).filter(path))].slice(0,18);
+ return {...(missingPaths.length?{missingPaths}:{}),...(Object.keys(typography).length?{typography}:{}),...(['light','glacier','snow','dark','aurora','midnight','system'].includes(value.theme)?{theme:value.theme}:{}),...(['ko','en','ja','zh-CN','es','fr'].includes(value.language)?{language:value.language}:{}),projects:paths.map(p=>({path:p,name:pathsUtil.basename(p)})),activePath:paths.includes(value.activePath)?value.activePath:null,recents:[...new Set((Array.isArray(value.recents)?value.recents:[]).filter(path))].slice(0,18)};
 }
 async function readWorkspace(file){try{return normalizeWorkspace(JSON.parse(await fs.readFile(file,'utf8')))}catch{return normalizeWorkspace(null)}}
 let pending=Promise.resolve();

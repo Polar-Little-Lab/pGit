@@ -1,6 +1,9 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+폴더 없음|Folder missing
+다른 위치에서 열기|Open from another location
+{0} 폴더를 찾을 수 없어 탭을 닫았습니다.|Closed the tab because the {0} folder could not be found.
 원격 저장소 주소|Remote repository address
 저장소 폴더를 찾을 수 없습니다. 폴더가 이동되거나 삭제되었는지 확인하고 프로젝트를 다시 여세요.|Repository folder not found. Check whether it was moved or deleted, then reopen the project.
 Git 실행 파일을 찾을 수 없습니다. Git 설치와 실행 경로를 확인한 뒤 앱을 다시 시작하세요.|Git executable not found. Check your Git installation and executable path, then restart the app.

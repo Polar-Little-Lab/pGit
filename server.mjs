@@ -1,3 +1,4 @@
+import {repositoryExists} from './git-runtime.mjs';
 import http from 'node:http';
 import {historyEdit,historyEditActions,historyEditReads} from './history-edits.mjs';
 import {repositoryRevision,autoFetch} from './refresh.mjs';
@@ -37,7 +38,8 @@ const server=http.createServer(async(req,res)=>{
   busyWorkspaces.add(workspaceId);
   let result;
   try{
-   if(action==='resolveRepo'){result=await git.openRepo(data.path)}
+   if(action==='repositoryPresence'){result=root?await repositoryExists(root):true}
+   else if(action==='resolveRepo'){result=await git.openRepo(data.path)}
    else if(action==='closeWorkspace'){workspaces.delete(workspaceId);result=true}
    else {
     if(['open','init','clone'].includes(action)){
@@ -69,7 +71,7 @@ const server=http.createServer(async(req,res)=>{
    }
   }finally{busyWorkspaces.delete(workspaceId);if(lockedRoot)busyRoots.delete(lockedRoot)}
   res.setHeader('Content-Type','application/json');res.end(JSON.stringify({result}));
- }catch(e){res.writeHead(400,{'Content-Type':'application/json'});res.end(JSON.stringify({error:e.stderr||e.message}));}
+ }catch(e){res.writeHead(400,{'Content-Type':'application/json'});res.end(JSON.stringify({error:e.stderr||e.message,...(e.code==='REPOSITORY_MISSING'?{code:e.code,repositoryPath:e.repositoryPath}:{})}));}
 });
 export {server};
 export const ready=new Promise((resolve,reject)=>{server.once('error',reject);server.listen(0,'127.0.0.1',()=>{const url=`http://127.0.0.1:${server.address().port}/`;console.log(`pGit: ${url}`);resolve(url)});});

@@ -15,3 +15,9 @@ test('missing working folder and missing Git have distinct actionable errors',as
   }
  }finally{await rm(root,{recursive:true,force:true})}
 });
+
+test('unavailable volumes do not report repository deletion',{skip:process.platform!=='darwin'},async()=>{
+ const {repositoryExists}=await import('../git-runtime.mjs');
+ await assert.rejects(repositoryExists('/Volumes/pgit-nonexistent-test-volume/repository'),error=>error.code==='ENOENT');
+ await assert.rejects(git('/Volumes/pgit-nonexistent-test-volume/repository',['status']),error=>error.code!=='REPOSITORY_MISSING');
+});
