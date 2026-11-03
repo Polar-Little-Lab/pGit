@@ -124,9 +124,12 @@ body dialog .merge-preview p{margin:8px 0 0}
 .merge-preview details{margin-top:12px;color:var(--muted)}
 .merge-preview details>code{display:block;overflow-wrap:anywhere;margin-top:8px}
 .merge-preview[data-status=conflicts] .merge-result-heading,.merge-preview[data-status=unrelated] .merge-result-heading{color:var(--danger)}
-body dialog .merge-form-actions{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:16px;margin-top:16px;border-top:1px solid var(--border)}
+body dialog .merge-form-actions{display:flex;justify-content:flex-end;align-items:center;gap:12px;padding-top:16px;margin-top:16px;border-top:1px solid var(--border)}
 body dialog .merge-form-actions>button{margin:0;float:none}
 body dialog .merge-form-actions>.primary{min-width:100px}
 body dialog .merge-form>.command-error:empty{display:none}
 @media(max-width:560px){body dialog .merge-form .merge-branch-flow{grid-template-columns:minmax(0,1fr);gap:8px}.merge-branch-flow>.pgit-icon{transform:rotate(90deg)}.merge-form-actions{flex-wrap:wrap}}
 body dialog form.merge-form .merge-form-actions>button{height:3em;min-height:36px;margin:0;float:none;display:inline-flex;align-items:center;justify-content:center;padding:0 12px}
+
+body dialog .merge-preview.command-error{display:flex;align-items:center;gap:12px}
+body dialog .merge-preview.command-error>span{flex:1;min-width:0}

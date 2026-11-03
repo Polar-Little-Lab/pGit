@@ -15,22 +15,22 @@ const previewOpenCommand=openCommand;openCommand=async function(key){
  await previewOpenCommand(key);if(!['merge','mergePreview'].includes(key))return;
  const form=panel.querySelector('form'),input=form?.querySelector('[name=ref]');if(!form||!input)return;
  const output=el('section');output.hidden=true;output.setAttribute('aria-live','polite');
- const submit=form.querySelector('[type=submit]'),run=key==='mergePreview'?submit:el('button','병합 전 충돌 검사');
+ const submit=form.querySelector('[type=submit]'),run=key==='mergePreview'?submit:PgitIcons.refresh();
  let version=0,timer;panel.addEventListener('close',()=>{clearTimeout(timer);version++},{once:true});
  if(key==='mergePreview'){run.textContent='검사';form.append(output)}else{
   form.classList.add('merge-form');submit.textContent='병합';run.type='button';
   const flow=el('div',undefined,'merge-branch-flow'),source=el('section',undefined,'merge-branch-card'),target=el('section',undefined,'merge-branch-card merge-destination');
   const label=form.querySelector('label');label.textContent='가져올 브랜치';const control=input.closest('.frost-select')||input;
   control.querySelector?.('[role=combobox]')?.setAttribute('aria-label','가져올 브랜치');source.append(label,control);const name=el('strong',state.branch,'literal-data');name.prepend(PgitIcons.icon('branch'));target.append(el('span','현재 브랜치'),name,el('small','변경을 받는 브랜치'));flow.append(source,PgitIcons.icon('right'),target);
-  const footer=el('div',undefined,'merge-form-actions');footer.append(run,submit);const help=form.querySelector('[data-command-help]');help.after(flow);form.append(output,footer);
+  const footer=el('div',undefined,'merge-form-actions');footer.append(submit);const help=form.querySelector('[data-command-help]');help.after(flow);form.append(output,footer);
   const originalSubmit=form.onsubmit;form.onsubmit=event=>{if(submit.disabled){event.preventDefault();return}return originalSubmit(event)};
   // Do not initially offer merging the current branch into itself.
   const current=[...input.options].find(o=>o.value===state.branch);if(current){current.disabled=true;if(input.value===state.branch){const choice=[...input.options].find(o=>!o.disabled);input.value=choice?.value||'';input.dispatchEvent(new Event('change',{bubbles:true}))}}
  }
  run.classList.add('preview-run');
  input.addEventListener('change',()=>{version++;output.hidden=true;delete form.mergePreview;if(key==='merge'){submit.disabled=true;clearTimeout(timer);timer=setTimeout(()=>inspect(),150)}});
- async function inspect(event){event?.preventDefault();clearTimeout(timer);if(working)return;if(!input.value){run.disabled=true;return;}const request=++version,ref=input.value;run.disabled=true;if(key==='merge')submit.disabled=true;output.hidden=false;output.className='merge-preview';output.textContent='병합 가능 여부를 검사하는 중…';delete form.mergePreview;
-  try{const result=await api('mergePreview',{ref});if(!form.isConnected||request!==version)return;form.mergePreview=result;renderMergePreview(output,result,{showRefs:key!=='merge'});if(key==='merge')submit.disabled=result.dirty||['upToDate','unrelated'].includes(result.status)}catch(error){if(form.isConnected&&request===version){output.className='merge-preview command-error';output.textContent=error.message;if(key==='merge')submit.disabled=!!state.files.length}}
+ async function inspect(event){event?.preventDefault();clearTimeout(timer);if(working)return;if(!input.value){run.disabled=true;return;}const request=++version,ref=input.value;run.disabled=true;if(key==='merge')submit.disabled=true;output.hidden=false;output.className='merge-preview';delete output.dataset.status;output.textContent='병합 가능 여부를 검사하는 중…';delete form.mergePreview;
+  try{const result=await api('mergePreview',{ref});if(!form.isConnected||request!==version)return;form.mergePreview=result;renderMergePreview(output,result,{showRefs:key!=='merge'});if(key==='merge')submit.disabled=result.dirty||['upToDate','unrelated'].includes(result.status)}catch(error){if(form.isConnected&&request===version){output.className='merge-preview command-error';output.replaceChildren(el('span',error.message));if(key==='merge'){output.append(run);submit.disabled=!!state.files.length}}}
   finally{if(form.isConnected&&request===version)run.disabled=input.disabled}
  }
  if(key==='mergePreview')form.onsubmit=inspect;else{run.onclick=inspect;submit.disabled=true;await inspect()}
