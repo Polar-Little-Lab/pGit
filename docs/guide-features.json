@@ -158,7 +158,7 @@
     "key": "cherryPick",
     "title": "체리픽",
     "fields": [
-      "커밋 SHA"
+      "대상 커밋"
     ],
     "image": "guide-cherrypick"
   },
@@ -166,7 +166,7 @@
     "key": "revert",
     "title": "되돌림 커밋",
     "fields": [
-      "커밋 SHA"
+      "대상 커밋"
     ],
     "image": "guide-revert"
   },
