@@ -80,7 +80,7 @@ case 'ignoreFile':{
  const patterns=names.map(name=>'/'+name.replace(/[\\*?\[\]#! ]/g,'\\$&')).filter(pattern=>!existing.has(pattern));
  if(patterns.length)await writeFile(absolute,previous+(previous&&!previous.endsWith('\n')?'\n':'')+patterns.join('\n')+'\n');break
 }
-case 'rebaseCandidates':return (await git(root,['log','--first-parent','-n','101','--format=%H%x00%s%x00%an%x00%aI'])).trim().split('\n').filter(Boolean).map(line=>{const [hash,title,author,date]=line.split('\0');return {hash,title,author,date}});
+case 'rebaseCandidates':return rebaseCandidates(root);
 case 'rewordInfo':return rewordInfo(root,d);
 case 'rewordCommit':await rewordCommit(root,d);break;
 case 'amendSelectionInfo':return amendSelectionInfo(root);
@@ -151,4 +151,10 @@ async function rewordCommit(root,d){
  if((await git(root,['symbolic-ref','-q','HEAD']).catch(()=> 'HEAD')).trim()!==branch)throw Error('HEAD가 변경되었습니다.');
  await git(root,['update-ref','refs/pgit/backups/reword-'+randomUUID(),plan.head]);
  await git(root,['update-ref','-m','pgit: reword commit',branch,mapped.get(plan.head),plan.head]);
+}
+
+async function rebaseCandidates(root){
+ const commits=(await git(root,['log','--topo-order','-n','101','--format=%H%x00%s%x00%an%x00%aI%x00%P'])).trim().split('\n').filter(Boolean).map(line=>{const [hash,title,author,date,parents]=line.split('\0');return {hash,title,author,date,parents:parents?parents.split(' '):[]}});
+ const eligible=new Map();let current=commits[0],count=0;while(current){eligible.set(current.hash,count++);if(current.parents.length!==1)break;current=commits.find(c=>c.hash===current.parents[0])}
+ return commits.map(c=>({...c,count:eligible.get(c.hash)||0,reason:c.hash===commits[0].hash?'현재 마지막 커밋 · 이후 커밋 없음':!eligible.has(c.hash)?'이후 범위에 병합 커밋 포함':''}));
 }
