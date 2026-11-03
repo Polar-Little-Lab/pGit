@@ -37,8 +37,13 @@ async function showRemoteAddresses(){
  PgitCommandHelp.mount(body,'remoteList');list.append(PgitUI.message('불러오는 중…'));body.append(list);PgitUI.dialogFrame(panel,{title:commands.remoteList[0],body,canClose:()=>!working});if(!panel.open)panel.showModal();
  const valid=()=>panel.open&&body.isConnected&&state?.root===root;
  try{const result=await api('remoteList');if(!valid())return;list.replaceChildren();const groups=new Map();
-  for(const line of result.trim().split('\n').filter(Boolean)){const match=line.match(/^(\S+)\s+(.+)\s+\((fetch|push)\)$/);if(!match)continue;const [,name,url,kind]=match;if(!groups.has(name))groups.set(name,[]);groups.get(name).push(kind+' · '+url)}
-  for(const [name,addresses] of groups)list.append(PgitUI.listItem({title:name,meta:addresses.join('\n')}).element);
+  for(const line of result.trim().split('\n').filter(Boolean)){const match=line.match(/^(\S+)\s+(.+)\s+\((fetch|push)\)$/);if(!match)continue;const [,name,url,kind]=match;if(!groups.has(name))groups.set(name,[]);groups.get(name).push({kind,url})}
+  for(const [name,addresses] of groups){
+   const fetchUrls=[...new Set(addresses.filter(a=>a.kind==='fetch').map(a=>a.url))],pushUrls=[...new Set(addresses.filter(a=>a.kind==='push').map(a=>a.url))];
+   const same=fetchUrls.length>0&&fetchUrls.length===pushUrls.length&&fetchUrls.every(url=>pushUrls.includes(url));
+   const lines=same?fetchUrls.map(url=>PgitI18n.t('원격 주소')+' · '+url):addresses.map(({kind,url})=>kind+' · '+url);
+   list.append(PgitUI.listItem({title:name,meta:lines.join('\n')}).element);
+  }
   if(!groups.size)list.append(PgitUI.message('원격 저장소가 없습니다.'));
  }catch(error){if(valid())list.replaceChildren(PgitUI.message(error.message,{error:true}))}
 }

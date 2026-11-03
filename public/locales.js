@@ -40,6 +40,7 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Remote URL":["リモート URL","远程地址","URL remota","URL distante"],
 "Continue recent work":["最近の作業を続ける", "继续最近的工作", "Continuar el trabajo reciente", "Reprendre le travail récent"],
 "Start a project":["プロジェクトを始める", "开始一个项目", "Inicia un proyecto", "Démarrer un projet"],
 "A Git repository on this computer":["このコンピューターの Git リポジトリ", "此电脑上的 Git 仓库", "Un repositorio Git en este equipo", "Un dépôt Git sur cet ordinateur"],

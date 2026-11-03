@@ -1,6 +1,7 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+원격 주소|Remote URL
 최근 작업 이어가기|Continue recent work
 프로젝트를 시작하세요|Start a project
 내 컴퓨터의 Git 저장소|A Git repository on this computer
