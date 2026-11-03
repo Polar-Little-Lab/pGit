@@ -1,6 +1,12 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+커밋 메시지 수정|Edit commit message
+마지막 커밋에 변경 추가|Add changes to last commit
+스테이징된 변경은 포함하지 않습니다.|Staged changes are not included.
+메시지 수정|Update message
+변경 추가|Add changes
+현재 브랜치의 마지막 커밋만 수정할 수 있습니다.|Only the current branch’s last commit can be edited here.
 GitHub에서 열기|Open on GitHub
 댓글 게시|Post comment
 댓글 게시 완료|Comment posted

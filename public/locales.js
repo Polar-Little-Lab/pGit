@@ -40,6 +40,12 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Edit commit message":["コミットメッセージを編集", "修改提交消息", "Editar mensaje del commit", "Modifier le message du commit"],
+"Add changes to last commit":["最後のコミットに変更を追加", "向最后一个提交添加更改", "Añadir cambios al último commit", "Ajouter des changements au dernier commit"],
+"Staged changes are not included.":["ステージ済み変更は含まれません。", "不包含暂存的更改。", "No se incluyen los cambios preparados.", "Les changements indexés ne sont pas inclus."],
+"Update message":["メッセージを更新", "更新消息", "Actualizar mensaje", "Modifier le message"],
+"Add changes":["変更を追加", "添加更改", "Añadir cambios", "Ajouter les changements"],
+"Only the current branch’s last commit can be edited here.":["ここでは現在のブランチの最後のコミットのみ編集できます。", "此处只能修改当前分支的最后一个提交。", "Aquí solo puedes editar el último commit de la rama actual.", "Seul le dernier commit de la branche actuelle peut être modifié ici."],
 "Open on GitHub":["GitHub で開く","在 GitHub 中打开","Abrir en GitHub","Ouvrir sur GitHub"],
 "Post comment":["コメントを投稿","发表评论","Publicar comentario","Publier le commentaire"],
 "Comment posted":["コメントを投稿しました","评论已发布","Comentario publicado","Commentaire publié"],

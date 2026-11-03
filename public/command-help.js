@@ -361,8 +361,16 @@ const catalog={
     "es": "Planifica y aplica reordenar, renombrar, combinar u omitir commits; se reescribe el historial.",
     "fr": "Planifie et applique la réorganisation, le renommage, la fusion ou la suppression de commits ; l’historique est réécrit."
   },
+  "amendMessage": {
+    "ko": "마지막 커밋의 메시지만 수정합니다. 파일 내용과 스테이징된 변경은 유지되며 커밋 해시는 바뀝니다.",
+    "en": "Change only the last commit message. File contents and staged changes are preserved; the commit hash changes.",
+    "ja": "最後のコミットメッセージのみ変更します。ファイルとステージ済み変更は保持され、ハッシュが変わります。",
+    "zh-CN": "仅修改最后一个提交的消息。文件和暂存更改保持不变，提交哈希会改变。",
+    "es": "Cambia solo el mensaje del último commit. Conserva archivos y cambios preparados; cambia el hash.",
+    "fr": "Modifie uniquement le message du dernier commit. Les fichiers et changements indexés sont conservés ; le hash change."
+  },
   "amend": {
-    "ko": "마지막 커밋의 기존 메시지를 수정합니다. 스테이징된 변경도 함께 포함되며 커밋 해시가 바뀝니다.",
+    "ko": "스테이징된 변경을 마지막 커밋에 추가합니다. 메시지도 수정할 수 있으며 커밋 해시가 바뀝니다.",
     "en": "Edit the last commit’s message, including staged changes; its hash changes.",
     "ja": "最後のコミットのメッセージを編集します。ステージ済み変更も含まれ、ハッシュが変わります。",
     "zh-CN": "修改最后一个提交的消息，同时包含暂存的更改，提交哈希会改变。",
