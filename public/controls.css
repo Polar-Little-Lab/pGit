@@ -329,7 +329,7 @@ body .worktree-dialog .worktree-row[aria-selected=true]{background:var(--control
 .worktree-path{font:12px/1.6 ui-monospace,monospace;overflow-wrap:anywhere;margin:-6px 0 0;max-width:100%}
 .worktree-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
 .worktree-detail>.worktree-actions{margin-top:4px}
-body .worktree-remove{margin-top:auto;color:var(--danger);background:transparent;border-color:transparent}
+body .worktree-remove{margin:0;color:var(--danger);background:transparent;border-color:transparent}
 .worktree-reason{font-size:11px;line-height:1.5;color:var(--muted);margin:-6px 0 0}
 .worktree-confirm{width:100%;border-top:1px solid var(--border);padding-top:12px;font-size:12px}
 .worktree-confirm p{margin:0 0 12px;line-height:1.5}.worktree-confirm button+button{margin-left:8px;color:var(--danger)}
