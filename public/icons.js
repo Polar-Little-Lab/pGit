@@ -34,6 +34,8 @@
  function icon(name){const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.classList.add('pgit-icon');svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('aria-hidden','true');svg.setAttribute('focusable','false');const path=document.createElementNS(svg.namespaceURI,'path');path.setAttribute('d',paths[name]||paths.changes);svg.append(path);return svg}
  function label(button,name,text){button.replaceChildren(icon(name));if(text!==undefined){const span=document.createElement('span');span.textContent=text;button.append(span)}button.classList.add('icon-control')}
  function close(button,name=button.getAttribute('aria-label')||'닫기'){label(button,'close');button.classList.add('close-control');button.type='button';button.setAttribute('aria-label',name);button.title=name;return button}
- window.PgitIcons={icon,label,close};
+ function refresh(button=document.createElement('button'),name='새로고침'){label(button,'refresh');button.classList.add('refresh-control');button.type='button';button.setAttribute('aria-label',name);button.title=name;return button}
+ window.PgitIcons={icon,label,close,refresh};
+ const refreshRepository=document.getElementById('reset');if(refreshRepository)refresh(refreshRepository,'저장소 새로고침');
  for(const id of ['closePicker','closeOpen','closeDetails','closeProjectDialog']){const button=document.getElementById(id);if(button)close(button)}
 })();

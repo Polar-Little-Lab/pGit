@@ -61,3 +61,9 @@ body dialog .file-history-detail-heading>button{flex:none;margin:0}
 body dialog .file-history-detail-heading>strong{min-width:0;overflow-wrap:anywhere}
 body dialog .single-file-comparison .compare-files,body dialog .single-file-comparison .compare-bar>button{display:none}
 body dialog .single-file-comparison .compare-area{grid-template-columns:minmax(0,1fr)}
+/* Refresh actions share one square hit target and centered icon in every view. */
+body button.icon-control.refresh-control,body dialog button.icon-control.refresh-control{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;gap:0;width:var(--refresh-control-size,max(32px,2.75em));height:var(--refresh-control-size,max(32px,2.75em));min-width:var(--refresh-control-size,max(32px,2.75em));min-height:var(--refresh-control-size,max(32px,2.75em));padding:0;margin:0;line-height:1;box-sizing:border-box;vertical-align:middle}
+body button.refresh-control>.pgit-icon{display:block;flex:none;width:1.4em;height:1.4em;margin:0}
+body button.refresh-control::before,body button.refresh-control::after{content:none}
+body button.icon-control.refresh-control[hidden]{display:none}
+.file-history-toolbar{--refresh-control-size:max(36px,3em)}

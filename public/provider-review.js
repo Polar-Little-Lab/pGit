@@ -15,7 +15,7 @@ async function showProviderReview(provider,number,remote='origin',initialTab='ov
  if(!state)return;const root=state.root,version=++reviewView;
  const body=advancedFrame((provider==='github'?'Pull Request':'Merge Request')+' #'+number,'review');body.classList.add('provider-review');
  const alive=()=>body.isConnected&&advancedDialog.open&&version===reviewView&&state?.root===root;
- const toolbar=el('div',undefined,'review-toolbar'),back=el('button','목록으로'),refresh=el('button','새로고침');
+ const toolbar=el('div',undefined,'review-toolbar'),back=el('button','목록으로'),refresh=PgitIcons.refresh();
  back.onclick=()=>provider==='github'?showGitHub('githubPRs',remote):showGitLab('gitlabMRs',remote);refresh.onclick=()=>showProviderReview(provider,number,remote);toolbar.append(back,refresh);
  const header=el('section',undefined,'review-heading'),tabs=el('div',undefined,'review-tabs'),content=el('section',undefined,'review-content');content.setAttribute('aria-live','polite');body.append(toolbar,header,tabs,content);header.textContent='불러오는 중…';
  let detail,tabVersion=0,currentTab='overview';

@@ -1,7 +1,7 @@
 // One selection, one set of actions. Creation replaces the manager rather than nesting dialogs.
 const worktreeDialog=el('dialog');worktreeDialog.className='worktree-dialog';worktreeDialog.setAttribute('aria-label','워크트리 관리');
 let worktreeTitle,worktreeClose;
-const worktreeBody=el('div',undefined,'body'),worktreeTools=el('div',undefined,'worktree-tools'),worktreeCreate=el('button','워크트리 만들기','primary'),worktreeRefresh=el('button');PgitIcons.label(worktreeCreate,'plus','워크트리 만들기');PgitIcons.label(worktreeRefresh,'refresh');worktreeRefresh.setAttribute('aria-label','새로고침');worktreeRefresh.title='새로고침';
+const worktreeBody=el('div',undefined,'body'),worktreeTools=el('div',undefined,'worktree-tools'),worktreeCreate=el('button','워크트리 만들기','primary'),worktreeRefresh=PgitIcons.refresh();PgitIcons.label(worktreeCreate,'plus','워크트리 만들기');
 const worktreeSearch=el('input');worktreeSearch.type='search';worktreeSearch.placeholder='브랜치 또는 폴더 검색';worktreeSearch.setAttribute('aria-label','브랜치 또는 폴더 검색');worktreeTools.append(worktreeSearch,worktreeRefresh,worktreeCreate);
 const worktreeError=el('p',undefined,'command-error');worktreeError.setAttribute('role','alert');worktreeError.hidden=true;
 const worktreeLayout=el('div',undefined,'worktree-layout'),worktreeList=el('div',undefined,'worktree-list'),worktreeDetail=el('section',undefined,'worktree-detail');worktreeList.setAttribute('role','listbox');worktreeList.setAttribute('aria-label','워크트리');worktreeLayout.append(worktreeList,worktreeDetail);
