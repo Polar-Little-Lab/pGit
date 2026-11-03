@@ -7,3 +7,8 @@
 #shellNotice.missing-notice button{height:auto;min-height:32px;flex-shrink:0;padding:4px 12px}
 .recent-project[data-missing=true]{border-style:dashed}
 @media(max-width:600px){#shellNotice.missing-notice{flex-wrap:wrap}}
+/* Keep background and text as a matched theme pair; never white on a light text token. */
+#shellNotice{top:64px;bottom:auto;max-width:calc(100vw - 32px);width:max-content;background:var(--surface);color:var(--text);border:1px solid var(--border);border-left:4px solid var(--accent);box-shadow:0 8px 28px #0003;line-height:1.5;z-index:1000;overflow-wrap:anywhere}
+#shellNotice button{background:var(--soft);color:var(--text);border-color:var(--border)}
+#shellNotice button:hover{background:var(--control-selected,var(--soft));color:var(--text)}
+#shellNotice button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}

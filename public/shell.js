@@ -6,7 +6,22 @@ const missingPaths=new Set();
 let recoveryPath=null;
 let projects=[],activeId=null,recents=[],projectMode='open',opening=false,pendingClose=null,saveTimer;
 const sessionKey='pgit.arctic.workspace.v1';
-function notice(message){byId('shellNotice').classList.remove('missing-notice');byId('shellNotice').textContent=message;byId('shellNotice').hidden=false;clearTimeout(notice.timer);notice.timer=setTimeout(()=>byId('shellNotice').hidden=true,4500)}
+let noticeVersion=0,noticeAnimation=null;
+function hideNotice(){
+ const host=byId('shellNotice'),version=++noticeVersion;clearTimeout(notice.timer);noticeAnimation?.cancel();
+ if(host.hidden)return;
+ const duration=matchMedia('(prefers-reduced-motion: reduce)').matches?0:180;
+ noticeAnimation=host.animate([{transform:'translate(-50%, 0)'},{transform:'translate(-50%, calc(-100% - 80px))'}],{duration,easing:'cubic-bezier(.4,0,1,1)',fill:'forwards'});
+ noticeAnimation.finished.then(()=>{if(version===noticeVersion){host.hidden=true;noticeAnimation.cancel();noticeAnimation=null}}).catch(()=>{});
+}
+function showNotice(duration=3000){
+ const host=byId('shellNotice'),version=++noticeVersion;clearTimeout(notice.timer);noticeAnimation?.cancel();host.hidden=false;
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ noticeAnimation=host.animate([{transform:'translate(-50%, calc(-100% - 80px))'},{transform:'translate(-50%, 0)'}],{duration:reduced?0:240,easing:'cubic-bezier(.16,1,.3,1)'});
+ noticeAnimation.finished.then(()=>{if(version===noticeVersion)notice.timer=setTimeout(hideNotice,duration)}).catch(()=>{});
+}
+function notice(message){const host=byId('shellNotice');host.classList.remove('missing-notice');host.textContent=message;showNotice()}
+
 function persisted(){return {typography:window.PgitSettings?.typography,theme:window.PgitSettings?.theme||'light',language:window.PgitI18n?.language||'ko',projects:projects.filter(p=>p.path).map(p=>({path:p.path,name:p.name})),activePath:projects.find(p=>p.id===activeId)?.path||null,recents:recents.slice(0,18),missingPaths:[...missingPaths].filter(path=>recents.includes(path))}}
 function save(){clearTimeout(saveTimer);saveTimer=setTimeout(()=>{const data=persisted();try{localStorage.setItem(sessionKey,JSON.stringify(data))}catch{}window.pgitDesktop?.saveWorkspace(data).catch(()=>notice('프로젝트 목록을 저장하지 못했습니다.'));},150)}
 function renderRecents(){const host=byId('recentProjects');host.replaceChildren();byId('recentCount').textContent=recents.length?`${recents.length}개 저장소`:'';for(const path of recents){const b=document.createElement('button');b.className='recent-project';b.title=path;const icon=document.createElement('span');icon.className='repo-symbol';icon.textContent='⑂';const text=document.createElement('span');const name=document.createElement('strong');name.textContent=PgitPaths.basename(path);const location=document.createElement('small');location.textContent=path;text.append(name,location);if(missingPaths.has(path)){const status=document.createElement('small');status.textContent='폴더 없음';text.append(status);b.dataset.missing='true'}b.append(icon,text);b.onclick=()=>missingPaths.has(path)?reopenMissing(path):openProject(path);host.append(b)}if(!recents.length){const empty=document.createElement('div');empty.className='recent-empty';empty.textContent='첫 프로젝트를 열어 보세요. 최근 작업한 저장소가 여기에 모입니다.';host.append(empty)}}
@@ -85,10 +100,10 @@ async function reopenMissing(path){
  }else{projectDrafts.open.path='';showProjectDialog('open');recoveryPath=path;byId('projectPath').value=''}
 }
 function missingNotice(path){
- notice('');const host=byId('shellNotice');host.classList.add('missing-notice');
+ const host=byId('shellNotice');host.classList.add('missing-notice');
  const text=document.createElement('span');text.textContent=window.PgitI18n.t('{0} 폴더를 찾을 수 없어 탭을 닫았습니다.').replace('{0}',PgitPaths.basename(path));
- const action=document.createElement('button');action.textContent='다른 위치에서 열기';action.onclick=()=>{host.hidden=true;reopenMissing(path)};host.replaceChildren(text,action);
- clearTimeout(notice.timer);notice.timer=setTimeout(()=>host.hidden=true,3000);
+ const action=document.createElement('button');action.textContent='다른 위치에서 열기';action.onclick=()=>{hideNotice();reopenMissing(path)};host.replaceChildren(text,action);
+ showNotice();
 }
 async function closeMissingProject(p){
  if(p.closing)return;if(pendingClose===p){byId('closeTabDialog').close();pendingClose=null}p.closing=true;p.busy=false;missingPaths.add(p.path);if(!recents.includes(p.path))recents=[p.path,...recents].slice(0,18);
