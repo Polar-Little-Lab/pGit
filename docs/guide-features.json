@@ -333,18 +333,6 @@
     "image": "guide-submoduleupdate"
   },
   {
-    "key": "lfsStatus",
-    "title": "Git LFS 상태",
-    "fields": [],
-    "image": "guide-lfsstatus"
-  },
-  {
-    "key": "lfsFetch",
-    "title": "Git LFS Fetch",
-    "fields": [],
-    "image": "guide-lfsfetch"
-  },
-  {
     "key": "profileRead",
     "title": "저장소 작성자 설정",
     "fields": [],

@@ -45,7 +45,7 @@ Windows 설치 파일의 교차 빌드와 macOS 테스트를 확인했습니다.
 | 통합 | Merge·Rebase·Cherry-pick·Revert, 충돌 상태·계속·중단, Base/Ours/Theirs와 결과 편집 |
 | 이력 편집 | 선형 이력의 Interactive Rebase: 순서 변경·Pick·Drop·Squash·Fixup, 마지막 커밋 soft undo |
 | 탐색·보관 | 파일 History·Blame, Reflog·참조 비교, 태그, Stash 생성·Diff·Apply·Pop·Drop |
-| 확장 | Worktree 생성·조회·제거·Lock/Unlock, Submodule 상태·초기화/갱신, LFS 상태/Fetch |
+| 확장 | Worktree 생성·조회·제거·Lock/Unlock, Submodule 상태·초기화/갱신 |
 | 설정 | 저장소별 작성자·이메일·기존 Git 키를 사용하는 서명 설정 |
 | GitLab | 자체 호스팅·하위 그룹·원격 선택, MR/Issues/Pipelines 목록, MR Diff·파이프라인·Checkout, Draft MR·댓글·이슈 생성 |
 | 복구 | 추적 텍스트 파일의 미스테이징 변경 버리기·복구 목록, 외부 수정 감지 |
@@ -61,7 +61,7 @@ GitLab 기능은 `glab` 설치와 `glab auth login --hostname gitlab.example.com
 
 Pull은 fast-forward only(기본), Merge, Rebase를 선택할 수 있습니다. 충돌은 기존 계속/중단 흐름에서 처리합니다.
 
-GitHub 기능은 사용자 PC의 `gh` 설치와 `gh auth login`이 필요합니다. `origin`의 GitHub 또는 Enterprise 저장소를 대상으로 기존 로그인 정보를 사용합니다. 이 앱이 토큰을 수집하지 않습니다. LFS 기능은 Git LFS 설치가 필요합니다. Git hook과 SSH/credential helper·서명 설정은 기존 Git 설정을 사용합니다.
+GitHub 기능은 사용자 PC의 `gh` 설치와 `gh auth login`이 필요합니다. `origin`의 GitHub 또는 Enterprise 저장소를 대상으로 기존 로그인 정보를 사용합니다. 이 앱이 토큰을 수집하지 않습니다. Git hook과 SSH/credential helper·서명 설정은 기존 Git 설정을 사용합니다.
 
 ## 동작 한계
 

@@ -409,22 +409,6 @@ const catalog={
     "es": "Descarga submódulos y los actualiza a los commits registrados en el repositorio principal.",
     "fr": "Télécharge les sous-modules et les met aux commits enregistrés dans le dépôt parent."
   },
-  "lfsStatus": {
-    "ko": "Git LFS로 관리하는 대용량 파일의 현재 상태를 확인합니다.",
-    "en": "View the status of large files managed by Git LFS.",
-    "ja": "Git LFS で管理する大容量ファイルの状態を確認します。",
-    "zh-CN": "查看由 Git LFS 管理的大文件的当前状态。",
-    "es": "Consulta el estado de los archivos grandes gestionados por Git LFS.",
-    "fr": "Affiche l’état des fichiers volumineux gérés par Git LFS."
-  },
-  "lfsFetch": {
-    "ko": "현재 저장소에 필요한 Git LFS 파일 데이터를 원격에서 내려받습니다.",
-    "en": "Download Git LFS file data from the remote for this repository.",
-    "ja": "このリポジトリの Git LFS ファイルデータをリモートから取得します。",
-    "zh-CN": "从远程下载此仓库所需的 Git LFS 文件数据。",
-    "es": "Descarga del remoto los datos de archivos Git LFS para este repositorio.",
-    "fr": "Télécharge depuis le dépôt distant les données Git LFS de ce dépôt."
-  },
   "profileRead": {
     "ko": "이 저장소에서 앞으로 만들 커밋의 작성자 이름·이메일·서명 사용 여부를 설정합니다.",
     "en": "Set the author name, email and signing preference for future commits in this repository.",

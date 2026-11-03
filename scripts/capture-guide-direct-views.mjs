@@ -5,7 +5,7 @@ try{
  browser=await chromium.launch({headless:true,executablePath:process.env.PGIT_BROWSER_PATH});const page=await browser.newPage({viewport:{width:1200,height:800}});await page.goto((await ready)+'workspace');await page.evaluate(root=>mutate('open',{path:root}),root);
  await writeFile(root+'/notes.txt','Draft notes\n');await page.evaluate(()=>openAdvanced('discardPreview',{name:'notes.txt'}));await page.getByRole('button',{name:'파일 변경 버리기',exact:true}).click();await page.locator('.advanced-dialog').waitFor({state:'hidden'});
  await page.evaluate(()=>openAdvanced('resetPreview',{ref:'HEAD~1'}));await page.getByRole('button',{name:'Reset 실행',exact:true}).click();await page.locator('.advanced-dialog').waitFor({state:'hidden'});
- for(const key of ['reflog','resetJournal','recoveryList','submodules','lfsStatus','githubPRs','githubIssues','githubRuns','gitlabMRs','gitlabIssues','gitlabPipelines']){
+ for(const key of ['reflog','resetJournal','recoveryList','submodules','githubPRs','githubIssues','githubRuns','gitlabMRs','gitlabIssues','gitlabPipelines']){
   if(process.env.PGIT_GUIDE_PROVIDERS_ONLY&&!key.startsWith('github')&&!key.startsWith('gitlab'))continue;
   await page.evaluate(()=>document.querySelectorAll('dialog[open]').forEach(d=>d.close()));await page.evaluate(key=>openCommand(key),key);const dialog=page.locator('dialog[open]');await dialog.waitFor();
   await dialog.evaluate(d=>{const target=d.querySelector('.command-output,.ui-list-message,.advanced-body button')||d.querySelector('.advanced-body');if(target){target.style.outline='2px solid #dc2525';target.style.outlineOffset='3px'}});

@@ -15,17 +15,17 @@
 | 충돌·통합 | Merge/Rebase/Cherry-pick/Revert, 진행 상태·Continue/Abort, Base/Ours/Theirs·결과 편집·저장/스테이징 |
 | 이력 편집 | 선형 Interactive Rebase 순서/Pick/Drop/Squash/Fixup, Amend, HEAD 백업 참조, 마지막 커밋 soft undo |
 | 조회·보관 | File History/Blame/Reflog/Compare, Stash/Tag, 전체 이력 메시지 검색 |
-| 확장 | Worktree CRUD/Lock, Submodule status/init/update, LFS status/fetch, 작성자·서명 설정, 최근 저장소 |
+| 확장 | Worktree CRUD/Lock, Submodule status/init/update, 작성자·서명 설정, 최근 저장소 |
 | GitHub | gh 기반 PR/Issue/Actions 목록, PR Diff/Checks/Checkout, Draft PR/Review/Comment, Issue 생성/댓글 |
 
-GitHub는 사용자 기기의 `gh` 설치/로그인이 필요하며 OAuth UI는 아직 없습니다. LFS는 Git LFS 설치가 필요합니다. 서명·SSH·hook·credential helper는 기존 Git 설정을 사용합니다.
+GitHub는 사용자 기기의 `gh` 설치/로그인이 필요하며 OAuth UI는 아직 없습니다. 서명·SSH·hook·credential helper는 기존 Git 설정을 사용합니다.
 
 ## 남은 로컬 작업
 
 - 그래프 가상화, 다중 커밋 선택/Cherry-pick, 브랜치 Hide/Solo.
 - 복구 가능한 변경 폐기, 이미지/Markdown 미리보기, 확장된 Diff 설정.
 - Merge-preserving rebase·Reword, 모든 작업의 undo/redo journal, 안전한 force-with-lease UI.
-- Gitflow 전체 흐름, 내장 터미널, 다중 프로필, 고급 Submodule/LFS 관리.
+- Gitflow 전체 흐름, 내장 터미널, 다중 프로필, 고급 Submodule 관리.
 - 즐겨찾기·프로젝트 그룹, 딥링크, 단축키 설정, 파일 감시 자동 갱신.
 - Windows/Linux 패키지, macOS 공증 및 수동 실기기 QA.
 

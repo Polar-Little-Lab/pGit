@@ -49,8 +49,8 @@ async function discardPartial(root,d){
  try{const file=path.join(temp,d.name);await mkdir(path.dirname(file),{recursive:true});await writeFile(file,preview.content);await runGit(temp,['apply',...(partial?[]:['--reverse']),'-'],{input:content});await discardContent(root,preview,await readFile(file,'utf8'))}
  finally{await rm(temp,{recursive:true,force:true})}
 }
-export const advancedActions=new Set(['discardHunk','discardLines','redoDiscard','discardPreview','discardFile','recoveryList','recoverFile','hunks','stageHunk','stageLines','readText','saveText','conflictRead','conflictSave','ignoreFile','ignoreCandidates','amend','rebasePlan','rebaseApply','searchHistory','worktreeLock','worktreeUnlock','submodules','submoduleUpdate','lfsStatus','lfsFetch','profileRead','profileSave','diffSides']);
-export const advancedReads=new Set(['ignoreCandidates','discardPreview','recoveryList','hunks','readText','conflictRead','rebasePlan','searchHistory','submodules','lfsStatus','profileRead','diffSides']);
+export const advancedActions=new Set(['discardHunk','discardLines','redoDiscard','discardPreview','discardFile','recoveryList','recoverFile','hunks','stageHunk','stageLines','readText','saveText','conflictRead','conflictSave','ignoreFile','ignoreCandidates','amend','rebasePlan','rebaseApply','searchHistory','worktreeLock','worktreeUnlock','submodules','submoduleUpdate','profileRead','profileSave','diffSides']);
+export const advancedReads=new Set(['ignoreCandidates','discardPreview','recoveryList','hunks','readText','conflictRead','rebasePlan','searchHistory','submodules','profileRead','diffSides']);
 export async function advanced(root,action,d={}){switch(action){
 case 'discardPreview':return discardPreview(root,d.name);
 case 'discardHunk':case 'discardLines':if(action==='discardLines'&&(!Array.isArray(d.lines)||!d.lines.length))throw Error('변경된 줄을 선택하세요.');await discardPartial(root,{...d,lines:action==='discardLines'?d.lines:undefined});break;
@@ -86,8 +86,6 @@ case 'searchHistory':{const q=typeof d.query==='string'?d.query.trim():'';if(!q|
 case 'worktreeLock':case 'worktreeUnlock':{const w=(await extras(root)).worktrees.find(w=>w.path===d.path);if(!w)throw Error('등록된 worktree가 아닙니다.');await git(root,['worktree',action==='worktreeLock'?'lock':'unlock','--',w.path]);break}
 case 'submodules':return git(root,['submodule','status','--recursive']);
 case 'submoduleUpdate':await runGit(root,['submodule','update','--init','--recursive']);break;
-case 'lfsStatus':return git(root,['lfs','status']);
-case 'lfsFetch':await runGit(root,['lfs','fetch']);break;
 case 'profileRead':return {name:await git(root,['config','user.name']).then(s=>s.trim(),()=>''),email:await git(root,['config','user.email']).then(s=>s.trim(),()=>''),sign:await git(root,['config','commit.gpgsign']).then(s=>s.trim()==='true',()=>false)};
 case 'profileSave':{for(const key of ['name','email'])if(typeof d[key]!=='string'||!d[key].trim()||/[\r\n\0]/.test(d[key]))throw Error('이름과 이메일을 입력하세요.');await git(root,['config','--local','user.name',d.name]);await git(root,['config','--local','user.email',d.email]);await git(root,['config','--local','commit.gpgsign',d.sign?'true':'false']);break}
 case 'diffSides':{await known(root,d.name);const f=await textFile(root,d.name);const base=await git(root,['show',`HEAD:${d.name}`]).catch(()=> '');return {base,content:f.content}}

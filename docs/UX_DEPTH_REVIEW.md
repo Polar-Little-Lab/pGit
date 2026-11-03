@@ -4,7 +4,7 @@
 
 ## 이번 변경
 
-- Reflog, 서브모듈 상태, LFS 상태는 조회 결과를 바로 연다.
+- Reflog, 서브모듈 상태는 조회 결과를 바로 연다.
 - Reset 실행 취소·다시 실행, 버린 변경 복구는 기록 목록을 바로 연다. 실제 복구는 목록에서 확인한 뒤 실행한다.
 - GitHub PR·이슈·Actions, GitLab MR·이슈·Pipelines는 결과 목록을 바로 연다. 여러 원격은 결과 화면 안에서 선택한다.
 - PR/MR 목록의 체크아웃은 선택된 원격·번호를 전달한다. 다시 번호를 입력하지 않는다.
@@ -77,8 +77,6 @@
 | `worktreeUnlock` | Worktree 잠금 해제 | 입력·선택·확인 |
 | `submodules` | Submodule 상태 | 직접 결과·편집 |
 | `submoduleUpdate` | Submodule 초기화·갱신 | 입력·선택·확인 |
-| `lfsStatus` | Git LFS 상태 | 직접 결과·편집 |
-| `lfsFetch` | Git LFS Fetch | 입력·선택·확인 |
 | `profileRead` | 저장소 작성자 설정 | 직접 결과·편집 |
 | `githubPRs` | GitHub Pull Requests | 직접 결과·편집 |
 | `githubIssues` | GitHub Issues | 직접 결과·편집 |

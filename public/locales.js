@@ -578,7 +578,6 @@ const messages={
  "Search query": ["検索語", "搜索词", "Consulta de búsqueda", "Termes de recherche"],
  "Submodule status": ["サブモジュールの状態", "子模块状态", "Estado de submódulos", "État des sous-modules"],
  "Initialize / update submodules": ["サブモジュールを初期化・更新", "初始化 / 更新子模块", "Inicializar / actualizar submódulos", "Initialiser / mettre à jour les sous-modules"],
- "Git LFS status": ["Git LFS の状態", "Git LFS 状态", "Estado de Git LFS", "État de Git LFS"],
  "Repository author settings": ["リポジトリの作成者設定", "仓库作者设置", "Ajustes del autor del repositorio", "Paramètres de l’auteur du dépôt"],
  "Advanced Git editor": ["高度な Git エディター", "高级 Git 编辑器", "Editor Git avanzado", "Éditeur Git avancé"],
  "Show working directory": ["作業ディレクトリを表示", "显示工作目录", "Mostrar directorio de trabajo", "Afficher le répertoire de travail"],
