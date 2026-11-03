@@ -4,8 +4,8 @@ githubPRs:['GitHub Pull Requests',[]],githubIssues:['GitHub Issues',[]],githubRu
 const integrations=el('section',undefined,'sidebar-integrations');$('branches').previousElementSibling.before(integrations);
 
 
-function providerTabs(definitions,active,onSelect){
- return PgitUI.segments({items:definitions,value:active,label:'리뷰 · 이슈 · CI',onChange:onSelect,className:'reference-modes provider-tabs',dataKey:'providerTab'}).element;
+function providerListFrame(action,remote,onRemote){
+ const body=advancedFrame(PgitI18n.t(commands[action][0])+(remote?' · '+remote:''),'list');body.dataset.providerAction=action;PgitCommandHelp.mount(body,action);providerRemoteSelect(body,remote,onRemote);return body;
 }
 function providerItem(item,title,meta,provider,action,remote){
  const project=state.remoteDetails?.find(r=>r.name===remote)?.url;
@@ -29,7 +29,7 @@ const providerOpenCommand=openCommand;openCommand=async function(key){
  return providerOpenCommand(key);
 };
 let githubViewRequest=0;
-async function showGitHub(action,remote){if(!state)return notify('먼저 저장소를 여세요.');remote=remote||(state.remotes.includes('origin')?'origin':state.remotes[0]);const request=++githubViewRequest,root=state.root;const body=advancedFrame('GitHub'+(remote?' · '+remote:''),'list');PgitCommandHelp.mount(body,action);providerRemoteSelect(body,remote,value=>showGitHub(action,value));const tabs=providerTabs([['githubPRs','Pull Requests'],['githubIssues','Issues'],['githubRuns','Actions']],action,key=>showGitHub(key,remote));body.append(tabs);const list=el('div',undefined,'ui-item-list');body.append(list);if(!remote){list.append(PgitUI.message('원격 저장소가 없습니다.'));return}list.append(PgitUI.message('불러오는 중…'));try{const result=JSON.parse(await api(action,{remote}));if(request!==githubViewRequest||state.root!==root||!body.isConnected)return;list.replaceChildren();for(const item of result){const row=providerItem(item,(item.number?'#'+item.number+' · ':'')+(item.title||item.displayTitle),item.headRefName?item.headRefName+' → '+item.baseRefName:item.status?item.status+' · '+(item.conclusion||''):item.updatedAt||'','github',action,remote);if(action==='githubPRs'){const detail=el('button','상세 보기');detail.onclick=()=>showProviderReview('github',item.number,remote);row.querySelector('.ui-list-actions').append(detail)}if(action==='githubPRs')for(const [key,label] of [['githubPRDiff','Diff'],['githubPRChecks','검사'],['githubPRCheckout','체크아웃']]){const b=el('button',label);b.onclick=async()=>{if(key==='githubPRDiff'||key==='githubPRChecks')return showProviderReview('github',item.number,remote,key==='githubPRDiff'?'files':'checks');return checkoutProvider(key,item.number,remote)};row.querySelector('.ui-list-actions').append(b)}list.append(row)}if(!result.length)list.append(PgitUI.message('표시할 항목이 없습니다.'))}catch(e){if(request===githubViewRequest&&body.isConnected)list.replaceChildren(PgitUI.message(e.message,{error:true}))}}
+async function showGitHub(action,remote){if(!state)return notify('먼저 저장소를 여세요.');remote=remote||(state.remotes.includes('origin')?'origin':state.remotes[0]);const request=++githubViewRequest,root=state.root;const body=providerListFrame(action,remote,value=>showGitHub(action,value));const list=el('div',undefined,'ui-item-list');body.append(list);if(!remote){list.append(PgitUI.message('원격 저장소가 없습니다.'));return}list.append(PgitUI.message('불러오는 중…'));try{const result=JSON.parse(await api(action,{remote}));if(request!==githubViewRequest||state.root!==root||!body.isConnected)return;list.replaceChildren();for(const item of result){const row=providerItem(item,(item.number?'#'+item.number+' · ':'')+(item.title||item.displayTitle),item.headRefName?item.headRefName+' → '+item.baseRefName:item.status?item.status+' · '+(item.conclusion||''):item.updatedAt||'','github',action,remote);if(action==='githubPRs'){const detail=el('button','상세 보기');detail.onclick=()=>showProviderReview('github',item.number,remote);row.querySelector('.ui-list-actions').append(detail)}if(action==='githubPRs')for(const [key,label] of [['githubPRDiff','Diff'],['githubPRChecks','검사'],['githubPRCheckout','체크아웃']]){const b=el('button',label);b.onclick=async()=>{if(key==='githubPRDiff'||key==='githubPRChecks')return showProviderReview('github',item.number,remote,key==='githubPRDiff'?'files':'checks');return checkoutProvider(key,item.number,remote)};row.querySelector('.ui-list-actions').append(b)}list.append(row)}if(!result.length)list.append(PgitUI.message('표시할 항목이 없습니다.'))}catch(e){if(request===githubViewRequest&&body.isConnected)list.replaceChildren(PgitUI.message(e.message,{error:true}))}}
 
 const beforeProviderApi=api;api=async function(action,data={}){const result=await beforeProviderApi(action,data);if(action==='githubPRCheckout'||action==='gitlabMRCheckout'){state=await beforeProviderApi('state',{limit:historyLimit});scope=null;activeCommit=null;render()}return result};
 
@@ -47,10 +47,8 @@ let gitlabViewRequest=0;
 async function showGitLab(action='gitlabMRs',remote){
  if(!state)return notify('먼저 저장소를 여세요.');
  const request=++gitlabViewRequest,root=state.root;remote=remote||(state.remotes.includes('origin')?'origin':state.remotes[0]);
- const body=advancedFrame('GitLab · '+PgitPaths.basename(root),'list');PgitCommandHelp.mount(body,action);
- providerRemoteSelect(body,remote,value=>showGitLab(action,value));
- const tabs=providerTabs([['gitlabMRs','Merge Requests'],['gitlabIssues','Issues'],['gitlabPipelines','Pipelines']],action,key=>showGitLab(key,remote));
- body.append(tabs);const list=el('div',undefined,'ui-item-list');list.setAttribute('aria-live','polite');body.append(list);
+ const body=providerListFrame(action,remote,value=>showGitLab(action,value));
+ const list=el('div',undefined,'ui-item-list');list.setAttribute('aria-live','polite');body.append(list);
  if(!remote){list.replaceChildren(PgitUI.message('원격 저장소가 없습니다.'));return}
  if(action!=='gitlabPipelines'){const create=el('button',action==='gitlabMRs'?'Draft MR 만들기':'GitLab 이슈 만들기');create.onclick=()=>command(action==='gitlabMRs'?'gitlabMRCreate':'gitlabIssueCreate');body.append(create)}
  async function command(key,number){advancedDialog.close();await openCommand(key);const field=$('command-remote');if(field){field.value=remote;field.dispatchEvent(new Event('change',{bubbles:true}))}if(number)$('command-number').value=number}
@@ -63,12 +61,6 @@ async function showGitLab(action='gitlabMRs',remote){
 
 // Every entry represents a configured Git remote, not an authenticated account.
 for(const [key,definition] of Object.entries(commands))if(key.startsWith('github'))definition[1].unshift(['remote','원격','remotes']);
-function showRemoteTools(remote){
- if(remote.provider==='github')return showGitHub('githubPRs',remote.name);
- if(remote.provider==='gitlab')return showGitLab('gitlabMRs',remote.name);
- const body=advancedFrame(remote.name+' · '+remote.host,'menu');
- for(const [provider,label] of [['github','GitHub'],['gitlab','GitLab']]){const button=el('button',label,'command-option');PgitIcons.label(button,provider,label);button.onclick=()=>provider==='github'?showGitHub('githubPRs',remote.name):showGitLab('gitlabMRs',remote.name);body.append(button)}
-}
 function renderRemoteSites(groups=[]){
  const remotes=[...(state?.remoteDetails||[])];for(const group of groups){const name=group.querySelector('.branch-folder-name').textContent;if(!remotes.some(r=>r.name===name))remotes.push({name})}remotes.sort((a,b)=>(a.name==='origin'?-1:b.name==='origin'?1:a.name.localeCompare(b.name)));integrations.replaceChildren();
  const heading=el('div',undefined,'remote-sites-heading'),title=el('span','원격 저장소','caption'),add=el('button');add.type='button';PgitIcons.label(add,'plus');add.setAttribute('aria-label','원격 추가');add.title='원격 추가';add.onclick=()=>openCommand('remoteAdd');heading.append(title,add);integrations.append(heading);
@@ -76,7 +68,7 @@ function renderRemoteSites(groups=[]){
  if(count){const toggle=el('button',undefined,'remote-site-toggle');PgitIcons.label(toggle,'right');toggle.setAttribute('aria-label',remote.name);const key=(state?.root||'')+'|remote|'+remote.name;let expanded=branchFolderExpansion.get(key)??true;toggle.setAttribute('aria-expanded',String(expanded));children.hidden=!expanded;toggle.onclick=()=>{expanded=!expanded;children.hidden=!expanded;const tags=row.querySelector('.remote-tags');if(tags)tags.hidden=!expanded;toggle.setAttribute('aria-expanded',String(expanded));branchFolderExpansion.set(key,expanded)};row.append(toggle)}
  const link=el(remote.url?'a':'span',undefined,'remote-site-link');link.append(PgitIcons.icon(remote.provider||'folder'));const text=el('span',undefined,'remote-site-text');text.append(el('strong',remote.name,'literal-data'));if(remote.host)text.append(el('small',remote.host,'literal-data remote-site-host'));text.append(el('span',remote.project||'웹 주소 없음',remote.project?'literal-data':'remote-site-unavailable'));link.append(text);
  if(remote.url){PgitUI.externalLink(link,remote.url);link.title=remote.url;const external=el('span','↗','remote-site-external');external.setAttribute('aria-hidden','true');link.append(external)}row.append(link);
- if(remote.url){const tools=el('button');PgitIcons.label(tools,'review');tools.setAttribute('aria-label','리뷰 · 이슈 · CI');tools.title='리뷰 · 이슈 · CI';tools.onclick=()=>showRemoteTools(remote);row.append(tools)}if(count){row.append(el('span',String(count),'remote-site-count folder-count'),children)}appendRemoteTags(row,remote);integrations.append(row)}
+ if(count){row.append(el('span',String(count),'remote-site-count folder-count'),children)}appendRemoteTags(row,remote);integrations.append(row)}
  if(!remotes.length)integrations.append(el('p','원격 저장소가 없습니다.','remote-sites-empty'));
 }
 

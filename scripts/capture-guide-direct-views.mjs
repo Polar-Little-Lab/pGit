@@ -6,9 +6,10 @@ try{
  await writeFile(root+'/notes.txt','Draft notes\n');await page.evaluate(()=>openAdvanced('discardPreview',{name:'notes.txt'}));await page.getByRole('button',{name:'파일 변경 버리기',exact:true}).click();await page.locator('.advanced-dialog').waitFor({state:'hidden'});
  await page.evaluate(()=>openAdvanced('resetPreview',{ref:'HEAD~1'}));await page.getByRole('button',{name:'Reset 실행',exact:true}).click();await page.locator('.advanced-dialog').waitFor({state:'hidden'});
  for(const key of ['reflog','resetJournal','recoveryList','submodules','lfsStatus','githubPRs','githubIssues','githubRuns','gitlabMRs','gitlabIssues','gitlabPipelines']){
+  if(process.env.PGIT_GUIDE_PROVIDERS_ONLY&&!key.startsWith('github')&&!key.startsWith('gitlab'))continue;
   await page.evaluate(()=>document.querySelectorAll('dialog[open]').forEach(d=>d.close()));await page.evaluate(key=>openCommand(key),key);const dialog=page.locator('dialog[open]');await dialog.waitFor();
   await dialog.evaluate(d=>{const target=d.querySelector('.command-output,.ui-list-message,.advanced-body button')||d.querySelector('.advanced-body');if(target){target.style.outline='2px solid #dc2525';target.style.outlineOffset='3px'}});
   await dialog.screenshot({path:'docs/images/guide-'+key.toLowerCase()+'.png'});
  }
- console.log('Captured 11 direct result screens from the app; local Git data and genuine no-remote states.');
+ console.log('Captured '+(process.env.PGIT_GUIDE_PROVIDERS_ONLY?6:11)+' direct result screens from the app; local Git data and genuine no-remote states.');
 }finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await rm(root,{recursive:true,force:true})}
