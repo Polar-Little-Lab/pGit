@@ -30,6 +30,7 @@ function providerRemoteSelect(body,remote,onChange){
  for(const name of state.remotes){const option=el('option',name);option.value=name;select.append(option)}select.value=remote||'';select.onchange=()=>onChange(select.value);toolbar.append(select);body.append(toolbar);
 }
 const providerOpenCommand=openCommand;openCommand=async function(key){
+ if(state&&!working&&providerIntent[key]){panel.close();return showProviderPicker(key)}
  if(key==='githubIssueComment'&&state&&!working){panel.close();return showGitHub('githubIssues')}
  if(state&&!working&&['githubPRs','githubIssues','githubRuns','gitlabMRs','gitlabIssues','gitlabPipelines'].includes(key)){panel.close();return key.startsWith('github')?showGitHub(key):showGitLab(key)}
  return providerOpenCommand(key);
@@ -145,4 +146,23 @@ async function showGitHubIssue(number,remote){
   finally{working=false;controls();if(alive()){input.disabled=false;submit.disabled=!input.value.trim();back.disabled=false;refresh.disabled=false}}
  };
  await load();
+}
+
+const providerIntent={
+ githubPRComment:['github','submit','comment'],githubPRApprove:['github','submit','approve'],githubPRRequestChanges:['github','submit','request_changes'],githubPRDiff:['github','files'],githubPRChecks:['github','checks'],githubPRCheckout:['github','overview'],
+ gitlabMRComment:['gitlab','submit','comment'],gitlabMRDiff:['gitlab','files'],gitlabMRChecks:['gitlab','checks'],gitlabMRCheckout:['gitlab','overview']
+};
+async function showProviderPicker(action,remote){
+ if(!state||working)return;const root=state.root,[provider,tab,kind]=providerIntent[action];remote=remote||(state.remotes.includes('origin')?'origin':state.remotes[0]);
+ const body=providerListFrame(action,remote,value=>showProviderPicker(action,value)),toolbar=el('div',undefined,'git-toolbar provider-picker-toolbar'),search=el('input'),refresh=PgitIcons.refresh(),list=el('div',undefined,'ui-item-list');
+ search.type='search';search.placeholder='제목, 번호, 브랜치 검색';search.setAttribute('aria-label','제목, 번호, 브랜치 검색');toolbar.append(search,refresh);body.append(toolbar,list);let version=0;
+ const alive=()=>body.isConnected&&advancedDialog.open&&state?.root===root;
+ function filter(){const query=search.value.trim().toLowerCase();for(const row of list.querySelectorAll('.provider-row'))row.hidden=!row.textContent.toLowerCase().includes(query)}search.oninput=filter;
+ async function load(){const request=++version;refresh.disabled=true;list.replaceChildren(PgitUI.message('불러오는 중…'));try{
+  if(!remote){list.replaceChildren(PgitUI.message('원격 저장소가 없습니다.'));return}
+  const items=JSON.parse(await api(provider==='github'?'githubPRs':'gitlabMRs',{remote}));if(!alive()||request!==version)return;list.replaceChildren();
+  for(const item of items){const number=item.number||item.iid,entry=PgitUI.listItem({title:'#'+number+' · '+item.title,meta:provider==='github'?item.headRefName+' → '+item.baseRefName:item.source_branch+' → '+item.target_branch,className:'provider-row'}),button=el('button',undefined,'ui-list-main');button.type='button';button.append(...entry.main.childNodes);button.onclick=()=>showProviderReview(provider,number,remote,tab,{kind,action});entry.main.replaceWith(button);list.append(entry.element)}
+  if(!items.length)list.append(PgitUI.message('표시할 항목이 없습니다.'));filter();
+ }catch(e){if(alive()&&request===version)list.replaceChildren(PgitUI.message(e.message,{error:true}))}finally{if(alive())refresh.disabled=false}}
+ refresh.onclick=load;await load();
 }
