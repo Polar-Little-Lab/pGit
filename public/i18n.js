@@ -1,6 +1,8 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+폴더 이름|Folder name
+폴더 이름을 확인하세요.|Check the folder name.
 함께 반영할 파일|Files included in this amendment
 스테이징된 변경 없음 · 메시지만 수정|No staged changes · Message only
 위치 선택|Choose location
