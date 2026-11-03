@@ -40,6 +40,9 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Remote repository address": ["リモートリポジトリのアドレス","远程仓库地址","Dirección del repositorio remoto","Adresse du dépôt distant"],
+"Repository folder not found. Check whether it was moved or deleted, then reopen the project.": ["リポジトリのフォルダーが見つかりません。移動または削除されていないか確認し、プロジェクトを開き直してください。","找不到仓库文件夹。请检查它是否已移动或删除，然后重新打开项目。","No se encuentra la carpeta del repositorio. Comprueba si se movió o eliminó y vuelve a abrir el proyecto.","Dossier du dépôt introuvable. Vérifiez s’il a été déplacé ou supprimé, puis rouvrez le projet."],
+"Git executable not found. Check your Git installation and executable path, then restart the app.": ["Gitの実行ファイルが見つかりません。インストールと実行パスを確認し、アプリを再起動してください。","找不到 Git 可执行文件。请检查 Git 安装和执行路径，然后重启应用。","No se encuentra el ejecutable de Git. Comprueba su instalación y ruta, y reinicia la aplicación.","Exécutable Git introuvable. Vérifiez son installation et son chemin, puis redémarrez l’application."],
   "Folder name": ["フォルダー名","文件夹名称","Nombre de carpeta","Nom du dossier"],
   "Check the folder name.": ["フォルダー名を確認してください。","请检查文件夹名称。","Comprueba el nombre de la carpeta.","Vérifiez le nom du dossier."],
 "Create repository": ["リポジトリを作成", "创建仓库", "Crear repositorio", "Créer un dépôt"],
