@@ -154,3 +154,14 @@ body dialog .issue-detail{max-width:100%;overflow:auto}.issue-heading{padding:8p
 body .advanced-dialog[data-dialog-kind=issue]{width:760px;max-width:calc(100vw - 32px);max-height:90vh}
 body dialog .issue-heading{display:block;height:auto;background:transparent;padding:8px 0 20px}
 body dialog .issue-detail .review-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.syntax-editor{position:relative;height:clamp(200px,50vh,520px);min-height:120px;border:1px solid var(--border);border-radius:6px;overflow:hidden;background:var(--surface)}
+body dialog .syntax-editor>:is(pre,textarea.code-editor){position:absolute;inset:0;display:block;box-sizing:border-box;width:100%;height:100%;min-height:0;max-height:none;margin:0;border:0;border-radius:0;padding:12px;font:var(--code-font-size,13px)/var(--code-row-height,24px) var(--code-font,ui-monospace,monospace);font-variant-ligatures:none;letter-spacing:normal;tab-size:4;white-space:pre;overflow-wrap:normal;word-break:normal;text-align:left}
+body dialog .syntax-editor>pre{pointer-events:none;overflow:hidden;color:var(--text);background:transparent}
+body dialog .syntax-editor>textarea.code-editor{resize:none;overflow:auto;background:transparent;color:transparent;caret-color:var(--text);-webkit-text-fill-color:transparent}
+body dialog .syntax-editor>textarea::selection{background:var(--control-selected,var(--soft));-webkit-text-fill-color:var(--text);color:var(--text)}
+.syntax-editor:focus-within{outline:2px solid var(--accent);outline-offset:-2px}
+.syntax-editor .syntax-keyword,.syntax-editor .syntax-type{color:var(--syntax-keyword,#a05c29)}
+.syntax-editor .syntax-string{color:var(--syntax-string,#487c42)}.syntax-editor .syntax-number{color:var(--syntax-number,#398b98)}.syntax-editor .syntax-identifier{color:var(--syntax-identifier,#88578f)}.syntax-editor .syntax-comment{color:var(--muted)}
+html[data-appearance=dark] .syntax-editor :is(.syntax-keyword,.syntax-type){color:#e1ac79}html[data-appearance=dark] .syntax-editor .syntax-string{color:#aad28e}html[data-appearance=dark] .syntax-editor .syntax-number{color:#85c8e1}html[data-appearance=dark] .syntax-editor .syntax-identifier{color:#cf9bd3}
+/* The transparent input must stay above the painted code in every theme. */
+body dialog .syntax-editor>textarea.code-editor{background:transparent!important;color:transparent!important}
