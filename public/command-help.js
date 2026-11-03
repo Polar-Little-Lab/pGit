@@ -42,12 +42,12 @@ const catalog={
     "fr": "Renomme une branche locale sans modifier ses commits."
   },
   "branchDelete": {
-    "ko": "병합된 로컬 브랜치의 이름을 삭제합니다. 원격 브랜치는 유지됩니다.",
-    "en": "Delete a merged local branch; the remote branch is retained.",
-    "ja": "マージ済みのローカルブランチを削除します。リモートブランチは保持されます。",
-    "zh-CN": "删除已合并的本地分支，保留远程分支。",
-    "es": "Elimina una rama local fusionada; conserva la rama remota.",
-    "fr": "Supprime une branche locale fusionnée ; la branche distante est conservée."
+    "ko": "선택한 로컬 브랜치를 삭제합니다. 원격 브랜치는 유지됩니다.",
+    "en": "Delete the selected local branch. The remote branch is retained.",
+    "ja": "選択したローカルブランチを削除します。リモートブランチは保持されます。",
+    "zh-CN": "删除所选本地分支，保留远程分支。",
+    "es": "Elimina la rama local seleccionada; conserva la rama remota.",
+    "fr": "Supprime la branche locale sélectionnée ; la branche distante est conservée."
   },
   "remoteAdd": {
     "ko": "원격 저장소의 이름과 주소를 등록해 Fetch·Push 대상으로 사용합니다.",
