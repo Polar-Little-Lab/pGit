@@ -22,7 +22,7 @@ function renderResume(){
  byId('resumeLabel').textContent=path?'최근 작업 이어가기':'프로젝트';
  byId('resumePath').textContent=path||'프로젝트를 열거나 원격 저장소를 복제하세요.';byId('resumePath').classList.toggle('literal-data',!!path);byId('resumePath').title=path||'';
  const branch=byId('resumeBranch');branch.replaceChildren();const name=path&&recentDetails[path]?.branch;if(name){branch.append(PgitIcons.icon('branch'),document.createTextNode(name));branch.title=name}branch.hidden=!name;
- byId('resumeProject').onclick=()=>path?openProject(path):showProjectDialog();
+ byId('resumeProject').onclick=()=>path?openProject(path):chooseProject();
 }
 function renderRecents(){
  renderResume();
@@ -72,10 +72,17 @@ function setProjectMode(mode){
  byId('projectHelp').hidden=mode==='open';byId('browseProject').hidden=!PgitFolderPicker.available();
  projectBusy();
 }
+let choosingProject=false;
+async function chooseProject(){
+ if(opening||choosingProject)return;
+ if(!PgitFolderPicker.available()){showProjectDialog('open');return}
+ choosingProject=true;recoveryPath=null;
+ try{const path=await PgitFolderPicker.choose({title:'프로젝트 폴더'});if(path)await openProject(path,'open',{},true)}catch(error){notice(projectErrorMessage(error))}finally{choosingProject=false}
+}
 function showProjectDialog(mode='open'){if(opening)return;recoveryPath=null;setProjectMode(mode);byId('projectError').textContent='';byId('projectDialog').showModal();byId(mode==='clone'?'cloneUrl':'projectPath').focus()}
 function createPane(path,name){const id=crypto.randomUUID();const frame=document.createElement('iframe');frame.className='project-frame';frame.id='panel-'+id;frame.title=(name||'새 프로젝트')+' 작업 공간';frame.setAttribute('role','tabpanel');frame.setAttribute('aria-labelledby','tab-'+id);frame.src='/workspace?session='+id;frame.hidden=true;const p={id,path,name:name||PgitPaths.basename(path)||'새 프로젝트',frame,busy:true,ready:false,count:0,draft:''};projects.push(p);byId('projectPanels').append(frame);return p}
 function send(p,message){p.frame.contentWindow.postMessage({source:'pgit-shell',...message},location.origin)}
-async function openProject(path,action='open',extra={}){
+async function openProject(path,action='open',extra={},direct=false){
  if(opening)return;
  const previousId=activeId;let created=null;
  opening=true;clearProjectError();projectBusy();
@@ -95,6 +102,7 @@ async function openProject(path,action='open',extra={}){
  }catch(error){
   if(error.code==='REPOSITORY_MISSING'){if(!created){missingPaths.add(path);renderRecents();save();missingNotice(path)}return}
   if(created){created.busy=false;await removeProject(created);selectProject(previousId)}
+  if(direct){notice(projectErrorMessage(error));return}
   opening=false;setProjectMode(action);byId('projectPath').value=path;
   if(!byId('projectDialog').open)byId('projectDialog').showModal();
   byId('projectError').textContent=projectErrorMessage(error);
@@ -105,13 +113,13 @@ async function openProject(path,action='open',extra={}){
 
 async function removeProject(p){if(p.busy)return;const index=projects.indexOf(p);try{await fetch('/api',{method:'POST',headers:{'Content-Type':'application/json','X-Pgit-Token':shellToken},body:JSON.stringify({action:'closeWorkspace',workspaceId:p.id})})}catch{}p.frame.remove();projects=projects.filter(x=>x!==p);if(activeId===p.id)selectProject(projects[Math.min(index,projects.length-1)]?.id||null);else{renderTabs();save()}byId('addProject').focus()}
 function requestClose(p){if(p.busy)return notice('진행 중인 Git 작업이 끝난 뒤 탭을 닫아 주세요.');if(p.draft.trim()){pendingClose=p;byId('closeTabDialog').showModal()}else removeProject(p)}
-window.addEventListener('message',event=>{if(event.origin!==location.origin||event.data?.source!=='pgit-pane')return;const p=projects.find(p=>p.frame.contentWindow===event.source);if(!p||p.closing)return;const m=event.data;if(m.type==='notification'&&typeof m.message==='string'){notice(m.message);return}if(m.type==='repository-missing'){closeMissingProject(p);return}if(m.type==='ready'){p.ready=true;p.frame.contentWindow.postMessage({source:'pgit-theme',theme:window.PgitSettings.theme},location.origin);p.frame.contentWindow.postMessage({source:'pgit-language',language:window.PgitI18n.language},location.origin);send(p,{type:'open',...(p.initial||{action:'open',path:p.path})})}else if(m.type==='state'){p.busy=!!m.busy;p.count=m.count||0;p.draft=typeof m.draft==='string'?m.draft:'';if(m.path){const details=recentDetails[m.path]||{};recentDetails[m.path]={...details,...(typeof m.branch==='string'?{branch:m.branch}:{}),...(!p.openedAtRecorded&&!m.busy?{openedAt:Date.now()}: {})};if(!m.busy)p.openedAtRecorded=true;missingPaths.delete(m.path);p.path=m.path;p.name=PgitPaths.basename(m.path);p.frame.title=p.name+' 작업 공간';recents=[p.path,...recents.filter(r=>r!==p.path)].slice(0,18);renderRecents()}renderTabs();save();if(m.path&&!m.busy)p.resolveOpen?.()}else if(m.type==='open-error'){p.busy=false;renderTabs();if(p.rejectOpen)p.rejectOpen(Error(m.message||'저장소를 열지 못했습니다.'));else notice(m.message||'저장소를 열지 못했습니다.')}else if(m.type==='open-worktree'&&typeof m.path==='string'&&PgitPaths.isAbsolute(m.path))openProject(m.path);else if(m.type==='settings')window.PgitSettings.open();else if(m.type==='add-project')showProjectDialog();else if(m.type==='shortcut'){if(m.command==='new')showProjectDialog();if(m.command==='close')requestClose(p);if(m.command==='next'){const index=projects.indexOf(p);selectProject(projects[(index+1)%projects.length]?.id,true)}}});
+window.addEventListener('message',event=>{if(event.origin!==location.origin||event.data?.source!=='pgit-pane')return;const p=projects.find(p=>p.frame.contentWindow===event.source);if(!p||p.closing)return;const m=event.data;if(m.type==='notification'&&typeof m.message==='string'){notice(m.message);return}if(m.type==='repository-missing'){closeMissingProject(p);return}if(m.type==='ready'){p.ready=true;p.frame.contentWindow.postMessage({source:'pgit-theme',theme:window.PgitSettings.theme},location.origin);p.frame.contentWindow.postMessage({source:'pgit-language',language:window.PgitI18n.language},location.origin);send(p,{type:'open',...(p.initial||{action:'open',path:p.path})})}else if(m.type==='state'){p.busy=!!m.busy;p.count=m.count||0;p.draft=typeof m.draft==='string'?m.draft:'';if(m.path){const details=recentDetails[m.path]||{};recentDetails[m.path]={...details,...(typeof m.branch==='string'?{branch:m.branch}:{}),...(!p.openedAtRecorded&&!m.busy?{openedAt:Date.now()}: {})};if(!m.busy)p.openedAtRecorded=true;missingPaths.delete(m.path);p.path=m.path;p.name=PgitPaths.basename(m.path);p.frame.title=p.name+' 작업 공간';recents=[p.path,...recents.filter(r=>r!==p.path)].slice(0,18);renderRecents()}renderTabs();save();if(m.path&&!m.busy)p.resolveOpen?.()}else if(m.type==='open-error'){p.busy=false;renderTabs();if(p.rejectOpen)p.rejectOpen(Error(m.message||'저장소를 열지 못했습니다.'));else notice(m.message||'저장소를 열지 못했습니다.')}else if(m.type==='open-worktree'&&typeof m.path==='string'&&PgitPaths.isAbsolute(m.path))openProject(m.path);else if(m.type==='settings')window.PgitSettings.open();else if(m.type==='add-project')chooseProject();else if(m.type==='shortcut'){if(m.command==='new')chooseProject();if(m.command==='close')requestClose(p);if(m.command==='next'){const index=projects.indexOf(p);selectProject(projects[(index+1)%projects.length]?.id,true)}}});
 const projectModes=PgitUI.selectionGroup(document.querySelector('.project-options'),{label:'프로젝트 추가 방식',value:projectMode,items:[...document.querySelectorAll('[data-project-mode]')].map(button=>({button,value:button.dataset.projectMode})),onChange:setProjectMode});
-byId('addProject').onclick=()=>showProjectDialog();byId('welcomeOpen').onclick=()=>showProjectDialog();byId('welcomeClone').onclick=()=>showProjectDialog('clone');PgitIcons.label(byId('homeButton'),'folder');byId('homeButton').onclick=()=>selectProject(null);
+byId('addProject').onclick=()=>chooseProject();byId('welcomeOpen').onclick=()=>chooseProject();byId('welcomeClone').onclick=()=>showProjectDialog('clone');PgitIcons.label(byId('homeButton'),'folder');byId('homeButton').onclick=()=>selectProject(null);
 byId('keepTab').onclick=()=>byId('closeTabDialog').close();byId('discardTab').onclick=()=>{byId('closeTabDialog').close();if(pendingClose)removeProject(pendingClose);pendingClose=null};
 byId('browseProject').onclick=async()=>{const mode=projectMode;byId('browseProject').disabled=true;try{const path=await PgitFolderPicker.choose({title:'프로젝트 폴더',defaultPath:byId('projectPath').value});if(path&&mode===projectMode&&!opening){byId('projectPath').value=mode==='clone'?PgitFolderPicker.childPath(path,PgitFolderPicker.repositoryName(byId('cloneUrl').value)||'project'):path;byId('projectPath').title=byId('projectPath').value;clearProjectError();byId('projectPath').focus()}}catch(e){byId('projectError').textContent=e.message}finally{byId('browseProject').disabled=opening}};
 byId('projectForm').onsubmit=e=>{e.preventDefault();const path=byId('projectPath').value.trim();if(!path){byId('projectError').textContent='프로젝트 폴더를 선택하세요.';byId('projectPath').setAttribute('aria-invalid','true');byId('projectPath').focus();return}if(projectMode==='clone'&&!byId('cloneUrl').value.trim()){byId('projectError').textContent='원격 저장소 주소를 입력하세요.';byId('cloneUrl').setAttribute('aria-invalid','true');byId('cloneUrl').focus();return}if(!PgitPaths.isAbsolute(path)){byId('projectError').textContent='폴더의 절대 경로를 입력하세요.';byId('projectPath').setAttribute('aria-invalid','true');byId('projectPath').focus();return}openProject(path,projectMode,{url:byId('cloneUrl').value.trim()})};
-document.addEventListener('keydown',e=>{if(document.querySelector('dialog[open]'))return;if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='t'){e.preventDefault();showProjectDialog()}if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='w'&&activeId){e.preventDefault();requestClose(projects.find(p=>p.id===activeId))}});
+document.addEventListener('keydown',e=>{if(document.querySelector('dialog[open]'))return;if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='t'){e.preventDefault();chooseProject()}if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='w'&&activeId){e.preventDefault();requestClose(projects.find(p=>p.id===activeId))}});
 
 async function reopenMissing(path){
  if(window.PgitFolderPicker.available()){
