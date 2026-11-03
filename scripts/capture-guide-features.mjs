@@ -33,7 +33,7 @@ try{
  await form('branchRename',{name:'feature/draft',newName:'feature/ready'});await submit();await shot('branchrename-result',[page.locator('[data-ref="refs/heads/feature/ready"]')],false);
  await form('branchDelete',{name:'feature/ready'});await submit();assert.equal((await git(root,['branch','--list','feature/ready'])).trim(),'');await shot('branchdelete-result',[page.locator('#branches')],false);
  const definitions=await page.evaluate(()=>Object.keys(commands));
- const covered=new Set(['init','clone','branchCreate','branchRename','branchDelete','branchSwitch','worktreeList','worktreeAdd','worktreeRemove','worktreeLock','worktreeUnlock']);
+ const covered=new Set(['profileRead','init','clone','branchCreate','branchRename','branchDelete','branchSwitch','worktreeList','worktreeAdd','worktreeRemove','worktreeLock','worktreeUnlock']);
  const examples={remoteAdd:{name:'upstream',url:'https://github.com/octocat/Hello-World.git'},tagCreate:{name:'v1.1',ref:'HEAD',message:'First release'},amend:{message:'feat: refine Arctic notes'},searchHistory:{query:'notes'},rebasePlan:{base:'HEAD~2'},ignoreFile:{name:'local.log'},cherryPick:{ref:'HEAD~1'},revert:{ref:'HEAD'},resetPreview:{ref:'HEAD~1'},compare:{from:'HEAD~1',to:'HEAD'}};
  await writeFile(root+'/local.log','local output\n');
  for(const key of definitions){if(covered.has(key))continue;const values=examples[key]||{};await form(key,values);}
