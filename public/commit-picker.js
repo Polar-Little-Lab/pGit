@@ -3,7 +3,7 @@
 window.PgitCommitPicker=(()=>{
  function option(commit,refs=[]){
   const item=document.createElement('option');item.value=commit.hash;
-  item.dataset.title=commit.title;
+  item.dataset.title=commit.title;item.dataset.selectedLabel=commit.hash.slice(0,8);
   item.dataset.description=[commit.hash.slice(0,8),commit.author,commit.date.slice(0,10),...refs].filter(Boolean).join(' · ');
   item.textContent=commit.title+' · '+item.dataset.description;return item;
  }
