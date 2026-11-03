@@ -568,7 +568,6 @@ PR 번호|PR number
 체크아웃|Check out
 표시할 항목이 없습니다.|No items to display.
 작업 폴더가 깨끗한 경우에만 전환합니다.|Switch only when the working directory is clean.
-현재 pGit은 일반 삭제만 지원합니다. 병합되지 않은 커밋이 있으면 삭제가 거부될 수 있습니다. 사용 중인 브랜치는 먼저 다른 브랜치로 전환하세요.|pGit currently supports normal deletion only. Git may refuse to delete a branch with unmerged commits. Switch away from a branch in use before deleting it.
 원격 설정과 해당 원격 추적 참조를 제거합니다.|Remove the remote configuration and its tracking references.
 추적 브랜치에서 fast-forward만 허용합니다. 분기되었다면 먼저 병합하거나 리베이스하세요.|Only fast-forward pulls are allowed. Merge or rebase diverged branches first.
 현재 브랜치를 원격의 같은 이름 브랜치로 전송합니다. 강제 Push는 하지 않습니다.|Push the current branch to the same branch name on the remote. No force push.

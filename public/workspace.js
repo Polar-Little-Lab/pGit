@@ -3,7 +3,7 @@ const commands={
  branchCreate:['브랜치 만들기',[['name','브랜치 이름'],['ref','시작 커밋','commits',false,'HEAD']]],
  branchSwitch:['브랜치 전환',[['name','전환할 브랜치','branches']],'작업 폴더가 깨끗한 경우에만 전환합니다.'],
  branchRename:['브랜치 이름 변경',[['name','기존 브랜치','branches'],['newName','새 이름']]],
- branchDelete:['브랜치 삭제',[['name','삭제할 브랜치','branches']],'현재 pGit은 일반 삭제만 지원합니다. 병합되지 않은 커밋이 있으면 삭제가 거부될 수 있습니다. 사용 중인 브랜치는 먼저 다른 브랜치로 전환하세요.'],
+ branchDelete:['브랜치 삭제',[['name','삭제할 브랜치','branches']]],
  remoteAdd:['원격 추가',[['name','원격 이름','origin'],['url','원격 저장소 주소']]],
  remoteRemove:['원격 제거',[['name','원격 이름','remotes']],'원격 설정과 해당 원격 추적 참조를 제거합니다.'],
  remoteList:['원격 주소 보기',[]],fetch:['Fetch',[['remote','원격','remotes']]],pull:['Pull',[['strategy','Pull 방식','pullStrategies']]],push:['Push',[['remote','원격','remotes']],'현재 브랜치를 원격의 같은 이름 브랜치로 전송합니다. 강제 Push는 하지 않습니다.'],
