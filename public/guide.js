@@ -8,17 +8,6 @@
  const layout=make('div',null,'guide-layout'),nav=make('nav',null,'guide-nav'),body=make('article',null,'guide-content literal-data');nav.setAttribute('aria-label','가이드 목차');nav.lang='ko';body.lang='ko';layout.append(nav,body);dialog.append(header,search,layout);document.body.append(dialog);
  const imageDialog=make('dialog',null,'guide-image-viewer'),{element:imageHeader,title:imageTitle,close:imageClose}=PgitUI.dialogHeader(imageDialog,'',{className:'guide-header',titleTag:'h2',titleId:'guideImageTitle'}),imageBody=make('div',null,'guide-image-scroll'),largeImage=make('img');imageBody.append(largeImage);imageDialog.append(imageHeader,imageBody);document.body.append(imageDialog);let imageTrigger;
  imageDialog.addEventListener('close',()=>imageTrigger?.focus());
- // Only a click that starts and ends on the backdrop dismisses a read-only view.
- // Text selection or dragging an image out of the window must not close it.
- for(const view of [dialog,imageDialog]){
-  let pressedOutside=false;
-  const outside=event=>{const r=view.getBoundingClientRect();return event.target===view&&(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)};
-  view.addEventListener('pointerdown',event=>{pressedOutside=event.button===0&&outside(event)});
-  view.addEventListener('pointercancel',()=>{pressedOutside=false});
-  view.addEventListener('click',event=>{const dismiss=pressedOutside&&outside(event);pressedOutside=false;if(dismiss)view.close()});
-  view.addEventListener('close',()=>{pressedOutside=false});
- }
-
  function figure(alt,src){const figure=make('figure'),open=make('button'),img=make('img'),caption=make('figcaption',alt);open.type='button';open.className='guide-image-button';open.setAttribute('aria-label',alt+' · 크게 보기');img.src='/guide/'+src;img.alt=alt;img.loading='lazy';open.append(img);open.onclick=()=>{imageTrigger=open;imageTitle.textContent=alt;largeImage.src=img.src;largeImage.alt=alt;imageDialog.showModal();imageBody.scrollTop=imageBody.scrollLeft=0};figure.append(open,caption);return figure}
  let loaded=false,sections=[],previousFocus;
  function inline(node,text){for(const [i,part] of text.split('`').entries())node.append(i%2?make('code',part):document.createTextNode(part))}

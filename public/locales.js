@@ -40,6 +40,13 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"The selected files have changed. Select them again.":["選択したファイルの状態が変わりました。再度選択してください。","所选文件的状态已更改，请重新选择。","Los archivos seleccionados han cambiado. Vuelve a seleccionarlos.","Les fichiers sélectionnés ont changé. Sélectionnez-les à nouveau."],
+"Select files to ignore.":["無視するファイルを選択してください。","请选择要忽略的文件。","Selecciona los archivos que deseas ignorar.","Sélectionnez les fichiers à ignorer."],
+"There are no files to ignore.":["無視するファイルがありません。","没有可忽略的文件。","No hay archivos para ignorar.","Aucun fichier à ignorer."],
+"Selected files":["選択したファイル","所选文件","Archivos seleccionados","Fichiers sélectionnés"],
+"Add to ignore list":["無視リストに追加","添加到忽略列表","Añadir a la lista de exclusión","Ajouter à la liste des exclusions"],
+"Select all":["すべて選択","全选","Seleccionar todo","Tout sélectionner"],
+"Search files or folders":["ファイルやフォルダーを検索","搜索文件或文件夹","Buscar archivos o carpetas","Rechercher des fichiers ou dossiers"],
 "This file has too many lines to display authorship.":["行数が多すぎるため作成履歴を表示できません。","文件行数过多，无法显示逐行历史。","El archivo tiene demasiadas líneas para mostrar la autoría.","Ce fichier contient trop de lignes pour afficher les auteurs."],
 "Committed file snapshot":["コミット済みファイルの状態","已提交的文件版本","Versión confirmada del archivo","Version commitée du fichier"],
 "Go":["移動","跳转","Ir","Aller"],

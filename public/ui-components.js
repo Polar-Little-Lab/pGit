@@ -11,6 +11,8 @@ window.PgitUI=(()=>{
   const element=document.createElement('div');element.className=className;
   return selectionGroup(element,{label,value,onChange,items:items.map(([value,label])=>{const button=document.createElement('button');button.textContent=label;if(dataKey)button.dataset[dataKey]=value;return {value,button}})});
  }
+ function dismissDialog(dialog){if(!dialog?.open||dialog.pgitCanClose&&!dialog.pgitCanClose())return;const cancel=new Event('cancel',{cancelable:true});if(dialog.dispatchEvent(cancel))dialog.close()}
+ function checkboxField(text,input=document.createElement('input')){input.type='checkbox';const element=document.createElement('label'),caption=document.createElement('span');element.className='ui-check-field';caption.textContent=text;element.append(input,caption);return {element,input}}
  function closeButton(dialog,label='닫기'){
   const button=PgitIcons.close(document.createElement('button'),label);button.onclick=()=>{if(!dialog.pgitCanClose||dialog.pgitCanClose())dialog.close()};return button;
  }
@@ -59,5 +61,12 @@ window.PgitUI=(()=>{
   return {show,hide};
  }
  function message(text,{error=false}={}){const element=document.createElement('div');element.className='ui-list-message';element.setAttribute('role',error?'alert':'status');element.textContent=text;return element}
- return {notification,message,selectionGroup,segments,closeButton,dialogHeader,dialogFrame,labeledField,externalLink,listItem};
+ return {dismissDialog,checkboxField,notification,message,selectionGroup,segments,closeButton,dialogHeader,dialogFrame,labeledField,externalLink,listItem};
+})();
+
+// One backdrop policy for native dialogs, including dynamically created views.
+(()=>{let pressed=null;const outside=(event,dialog)=>{if(event.target!==dialog||!dialog.open)return false;const r=dialog.getBoundingClientRect();return event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom};
+ document.addEventListener('pointerdown',event=>{const dialog=event.target.closest?.('dialog');pressed=event.button===0&&dialog&&outside(event,dialog)?dialog:null},true);
+ document.addEventListener('pointercancel',()=>pressed=null,true);
+ document.addEventListener('click',event=>{const dialog=pressed;pressed=null;if(!dialog||!outside(event,dialog))return;PgitUI.dismissDialog(dialog)},true);
 })();

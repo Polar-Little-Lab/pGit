@@ -1,6 +1,13 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+선택한 파일 상태가 변경되었습니다. 다시 선택하세요.|The selected files have changed. Select them again.
+무시할 파일을 선택하세요.|Select files to ignore.
+무시할 파일이 없습니다.|There are no files to ignore.
+선택한 파일|Selected files
+무시 목록에 추가|Add to ignore list
+전체 선택|Select all
+파일 또는 폴더 검색|Search files or folders
 파일이 너무 커서 줄별 이력을 표시할 수 없습니다.|This file has too many lines to display authorship.
 커밋된 파일 기준|Committed file snapshot
 이동|Go

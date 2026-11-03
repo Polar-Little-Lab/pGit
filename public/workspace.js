@@ -19,13 +19,6 @@ const commands={
 };
 const categories=[['저장소',['init','clone','remoteAdd','remoteList','remoteRemove']],['브랜치',['branchCreate','branchSwitch','branchRename','branchDelete']],['동기화',['fetch','pull','push']],['커밋',['mergePreview','merge','rebase','cherryPick','revert','compare','undoCommit','reflog']],['보관',['stashSave','stashDiff','stashApply','stashPop','stashDrop','tagCreate','tagDelete']],['파일 · Worktree',['fileHistory','blame','resolve','worktreeList','worktreeAdd','worktreeRemove']]];
 const panel=el('dialog');panel.id='commandDialog';panel.setAttribute('aria-label','Git 작업');document.body.append(panel);
-// Dismiss the command palette only when the pointer starts and ends outside it.
-let paletteBackdropPressed=false;
-function outsideCommandPalette(event){const rect=panel.getBoundingClientRect();return panel.dataset.dialogKind==='palette'&&event.target===panel&&(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)}
-panel.addEventListener('pointerdown',event=>{paletteBackdropPressed=event.button===0&&outsideCommandPalette(event)});
-panel.addEventListener('pointercancel',()=>{paletteBackdropPressed=false});
-panel.addEventListener('click',event=>{const dismiss=paletteBackdropPressed&&outsideCommandPalette(event);paletteBackdropPressed=false;if(dismiss)panel.close()});
-panel.addEventListener('close',()=>{paletteBackdropPressed=false});
 const toolbar=el('div',undefined,'git-toolbar');const paletteButton=el('button','작업 검색 ⌘K');paletteButton.onclick=showCommands;toolbar.append(paletteButton);
 for(const key of ['fetch','pull','push','branchCreate','stashSave']){const b=el('button',commands[key][0]);b.dataset.repoCommand=key;b.onclick=()=>openCommand(key);toolbar.append(b)}
 const syncLabel=el('span',undefined,'cell-muted');syncLabel.id='syncLabel';toolbar.append(syncLabel);document.querySelector('main').prepend(toolbar);

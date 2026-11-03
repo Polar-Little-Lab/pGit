@@ -94,3 +94,19 @@ body dialog.blame-dialog form.blame-toolbar{--refresh-control-size:max(36px,3em)
 body dialog.blame-dialog form.blame-toolbar>label{display:flex;align-items:center;margin:0;padding:0;min-height:0;height:auto;line-height:1.5;font-size:var(--ui-font-size,12px)}
 body dialog.blame-dialog form.blame-toolbar input,body dialog.blame-dialog form.blame-toolbar>button{height:var(--refresh-control-size);min-height:var(--refresh-control-size);margin:0;box-sizing:border-box;font-size:var(--ui-font-size,12px);line-height:1.5}
 body dialog.blame-dialog form.blame-toolbar>button{display:inline-flex;align-items:center;justify-content:center}
+.remote-site-header{display:flex;align-items:center;flex:0 0 100%;width:100%;min-width:0;border-radius:4px}
+.remote-site-header .remote-site-link:hover,.shell>aside .remote-site-header>button:hover{background:transparent}
+body dialog label.ui-check-field{display:flex;align-items:center;gap:.65em;min-height:38px;margin:10px 0;padding:8px 10px;line-height:1.5;cursor:pointer;border-radius:5px}
+body dialog label.ui-check-field:hover{background:var(--soft)}
+body dialog label.ui-check-field>input[type=checkbox]{flex:none;width:1.25em;height:1.25em;min-height:0;padding:0;margin:0;accent-color:var(--accent)}
+body dialog label.ui-check-field>span{min-width:0;overflow-wrap:anywhere}
+body dialog .ignore-picker{display:flex;flex-direction:column;gap:10px;max-height:75vh}
+body dialog .ignore-picker>input{flex:none;margin:0}
+body dialog .ignore-picker>label.ui-check-field{margin:0}
+.ignore-tree{min-height:100px;max-height:45vh;overflow:auto;border:1px solid var(--border);border-radius:6px}
+.ignore-row{display:flex;align-items:center;gap:4px;min-width:0;padding-right:10px}
+.ignore-row:hover{background:var(--soft)}
+body dialog .ignore-row label.ui-check-field{flex:1;min-width:0;margin:0;padding:6px;min-height:34px;background:transparent}
+body dialog button.ignore-toggle,.ignore-toggle-spacer{display:inline-flex;align-items:center;justify-content:center;width:26px;min-width:26px;height:26px;min-height:0;flex:none;padding:0;margin:0;border:0;background:transparent}
+.ignore-toggle[aria-expanded=true] svg{transform:rotate(90deg)}
+.ignore-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;flex:none}

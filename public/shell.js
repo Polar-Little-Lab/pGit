@@ -123,4 +123,4 @@ for(const id of ['projectPath','cloneUrl'])byId(id).addEventListener('input',cle
 if(window.pgitDesktop?.platform==='win32')byId('projectPath').placeholder=String.raw`C:\Users\you\Projects\project`;
 
 // Shell chrome is outside each workspace dialog (iframe events do not bubble here).
-document.addEventListener('click',()=>{for(const project of projects)send(project,{type:'dismiss-palette'})});
+document.addEventListener('click',()=>{for(const project of projects)send(project,{type:'dismiss-dialog'})});
