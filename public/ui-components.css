@@ -176,3 +176,21 @@ body .advanced-dialog[data-dialog-kind=amend]{width:1060px;max-width:calc(100vw 
 body dialog .organizer-commit{height:auto;min-height:72px;line-height:1.4}body dialog .organizer-commit[hidden]{display:none}
 
 .organizer-context{padding:12px 16px;background:var(--soft);border-radius:8px;overflow-wrap:anywhere}.organizer-context div{margin-top:6px;color:var(--muted)}.organizer-range-note{font-size:11px}.organizer-commit:disabled{opacity:.65;cursor:default}
+body .advanced-dialog[data-dialog-kind=organizer]{width:1000px}
+body dialog .advanced-body.organizer-v2{display:flex;flex-direction:column;gap:12px;height:min(720px,calc(100dvh - 120px));overflow:hidden}
+.organizer-v2 .organizer-context{font-size:12px;padding:8px 12px;flex-shrink:0}
+body dialog .organizer-v2>p{margin:0;flex-shrink:0}
+.organizer-stage{display:flex;flex-direction:column;gap:12px;min-height:0;flex:1;overflow:hidden}
+.organizer-stage>input{width:100%;flex-shrink:0}.organizer-stage>button{align-self:flex-start;flex-shrink:0}
+.organizer-v2 .organizer-history,.organizer-v2 .organizer-rows{max-height:none;min-height:0;flex:1;overflow:auto}
+.organizer-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:12px;border-top:1px solid var(--border);flex-shrink:0}
+body dialog .organizer-footer button.primary{margin:0;min-height:36px;height:auto}
+.organizer-v2 .organizer-row{padding:0;margin:0;border:0;border-radius:0}.organizer-v2 .organizer-group{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:8px}
+body dialog .organizer-v2 .organizer-row-heading{display:flex;align-items:center;gap:12px;width:100%;height:auto;min-height:56px;text-align:left;border:0;border-radius:0;padding:12px;background:var(--surface)}
+.organizer-v2 .organizer-row-heading strong{flex:1;min-width:0;overflow-wrap:anywhere}.organizer-v2 .organizer-row-heading small{color:var(--muted)}
+body dialog .organizer-v2 .is-active>.organizer-row-heading{background:var(--soft);box-shadow:inset 3px 0 var(--accent)}
+.organizer-v2 .organizer-actions{padding:0 12px 12px;margin:0}.organizer-v2 .organizer-row textarea{width:calc(100% - 24px);margin:0 12px 12px}
+.organizer-v2 .is-combined{margin-left:20px;border-left:3px solid var(--border)}
+@media(max-width:650px){body dialog .organizer-v2 .organizer-row-heading{flex-wrap:wrap}.organizer-v2 .organizer-row-heading strong{flex-basis:65%}.organizer-footer{font-size:12px}}
+
+body dialog .organizer-footer{height:auto;min-height:52px;font-size:14px;padding:12px 0 0;background:var(--surface)}
