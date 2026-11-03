@@ -14,7 +14,7 @@ try{
   for(const mode of ['open','clone','init']){
    await page.locator(`[data-project-mode=${mode}]`).click();await page.locator('#projectPath').focus();
    const layout=await page.locator('#projectDialog').evaluate(dialog=>{const bounds=dialog.getBoundingClientRect(),form=dialog.querySelector('form'),input=dialog.querySelector('#projectPath'),buttons=[...dialog.querySelectorAll('[data-project-mode]')];return {fits:bounds.top>=0&&bounds.bottom<=innerHeight&&bounds.left>=0&&bounds.right<=innerWidth,overflow:form.scrollWidth>form.clientWidth,offset:getComputedStyle(input).outlineOffset,corners:buttons.map(b=>getComputedStyle(b).borderRadius),submitVisible:dialog.querySelector('#submitProject').getBoundingClientRect().bottom<=innerHeight}});
-   assert.equal(layout.fits,true);assert.equal(layout.overflow,false);assert.equal(layout.offset,'-2px');assert.deepEqual(layout.corners,['0px','0px','0px']);assert.equal(layout.submitVisible,true);
+   assert.equal(layout.fits,true);assert.equal(layout.overflow,false);assert.equal(layout.offset,'-2px');assert.deepEqual(layout.corners,['4px','4px','4px']);assert.equal(layout.submitVisible,true);
   }
  }
  await page.setViewportSize({width:1280,height:800});await page.locator('[data-project-mode=open]').click();await page.locator('#projectPath').fill('relative/path');await page.locator('#submitProject').click();await page.locator('#projectError').getByText('폴더의 절대 경로를 입력하세요.',{exact:true}).waitFor();assert.equal(await page.locator('#projectPath').getAttribute('aria-invalid'),'true');

@@ -35,5 +35,6 @@ window.PgitUI=(()=>{
   if(linked){const icon=document.createElement('span');icon.className='ui-list-external';icon.textContent='↗';icon.setAttribute('aria-hidden','true');main.append(icon)}
   const actions=document.createElement('div');actions.className='ui-list-actions';element.append(main,actions);return {element,main,actions};
  }
- return {selectionGroup,segments,closeButton,dialogHeader,labeledField,externalLink,listItem};
+ function message(text,{error=false}={}){const element=document.createElement('div');element.className='ui-list-message';element.setAttribute('role',error?'alert':'status');element.textContent=text;return element}
+ return {message,selectionGroup,segments,closeButton,dialogHeader,labeledField,externalLink,listItem};
 })();

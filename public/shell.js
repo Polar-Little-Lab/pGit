@@ -1,6 +1,7 @@
 if(window.pgitDesktop)document.documentElement.dataset.platform=window.pgitDesktop.platform;
 if(window.pgitDesktop)document.body.classList.add('desktop');
 const byId=id=>document.getElementById(id);
+const projectHeader=PgitUI.dialogHeader(byId('projectDialog'),'프로젝트 열기',{className:'bar dialog-heading',titleTag:'h2',titleId:'projectTitle'});projectHeader.close.id='closeProjectDialog';projectHeader.close.setAttribute('aria-label','프로젝트 창 닫기');byId('projectDialog').querySelector('.dialog-heading').replaceWith(projectHeader.element);
 let draggedProject=null;
 const missingPaths=new Set();
 let recoveryPath=null;

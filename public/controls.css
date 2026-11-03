@@ -159,10 +159,10 @@ body #closeTabDialog{width:460px;padding:18px}
 body #projectDialog{width:460px;padding:0}
 body #projectDialog>form{display:flex;flex-direction:column;min-height:0;overflow:hidden;max-height:calc(100vh - 32px)}
 body #projectDialog .dialog-heading{flex-shrink:0;padding:14px 18px;margin:0}
-body #projectDialog .project-fields{min-height:0;overflow:auto;padding:0 18px 14px}
+body #projectDialog .project-fields{min-height:0;overflow:auto;padding:14px 18px}
 body #projectDialog .dialog-actions{flex-shrink:0;margin:0;padding:12px 18px;border-top:1px solid var(--border);background:var(--canvas)}
-body #projectDialog .project-options{height:34px;margin:0 0 16px}
-body #projectDialog .project-options>button{flex:1;min-width:0;border-radius:0;box-shadow:none;font-size:12px}
+body #projectDialog .project-options{margin:0 0 16px}
+
 body #projectDialog .path-field{align-items:center}
 body #projectDialog .path-field input{flex:1;width:0}
 body #projectDialog .path-field button{flex-shrink:0}
@@ -460,9 +460,6 @@ body .merge-editor .merge-take{position:sticky;right:2px;flex-shrink:0;margin-le
 .reference-field{display:flex;flex-direction:column;gap:8px;min-width:0}
 .reference-field>label{font-size:.9em;color:var(--muted)}
 body dialog .reference-field>input:not([type=checkbox]){flex:0 0 auto;min-height:max(36px,2.5em);height:auto;line-height:1.4;padding:8px 10px;margin:0}
-.reference-modes{display:flex;padding:3px;gap:3px;background:var(--soft);border-radius:7px}
-body .reference-modes button{flex:1;min-width:0;border:0;background:transparent;color:var(--muted);padding:8px;white-space:normal}
-body .reference-modes button[aria-pressed=true]{background:var(--surface);color:var(--accent);box-shadow:0 1px 3px #0002}
 .reference-preview{display:flex;flex-direction:column;gap:5px;overflow-wrap:anywhere}
 .reference-preview:empty{display:none}
 .reference-preview small,.reference-status{color:var(--muted);font-size:.85em}

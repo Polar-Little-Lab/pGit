@@ -14,3 +14,12 @@ body dialog .ui-list-item .ui-list-meta{margin:0;padding:0;color:var(--muted);fo
 body dialog .ui-list-actions{display:flex;flex-wrap:wrap;gap:6px;padding:0 var(--ui-list-padding-x) var(--ui-list-padding-y)}
 body dialog .ui-list-actions:empty{display:none}
 body dialog .ui-list-actions>button{height:auto;min-height:28px;padding:3px 8px;margin:0;font-size:inherit;line-height:1.5}
+/* Selection groups and list states use the same spacing in shell and workspace. */
+body .reference-modes{display:flex;padding:3px;gap:3px;background:var(--soft);border-radius:7px}
+body .reference-modes>button{flex:1;min-width:0;min-height:36px;height:auto;margin:0;border:0;border-radius:4px;background:transparent;color:var(--muted);padding:8px;font-size:var(--ui-font-size,12px);line-height:1.5;white-space:normal}
+body .reference-modes>button[aria-pressed=true]{background:var(--surface);color:var(--accent);box-shadow:0 1px 3px #0002}
+body dialog .ui-list-message{display:flex;align-items:center;justify-content:center;min-height:72px;padding:18px 16px;color:var(--muted);font-size:var(--ui-font-size,12px);line-height:1.6;overflow-wrap:anywhere;text-align:center}
+body dialog .ui-list-message[role=alert]{color:var(--danger);text-align:left;justify-content:flex-start}
+body dialog .ui-list-meta{white-space:pre-line}
+body #projectDialog .dialog-heading{background:var(--canvas);border-bottom:1px solid var(--border)}
+body #projectDialog .dialog-heading h2{font-size:var(--ui-font-size,12px);font-weight:650;line-height:1.5}
