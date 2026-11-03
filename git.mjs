@@ -23,3 +23,11 @@ export async function stageAll(root,value){
  else if(await git(root,['rev-parse','--verify','HEAD']).then(()=>true,()=>false))await git(root,['reset','-q','HEAD','--','.']);
  else await git(root,['rm','-r','--cached','--ignore-unmatch','--','.']);
 }
+
+// Resolve aliases before selection so forms always submit an immutable commit hash.
+export async function commitChoice(root,ref){
+ if(typeof ref!=='string'||!ref||ref.startsWith('-')||ref.includes('\0'))throw Error('잘못된 커밋입니다.');
+ const hash=(await git(root,['rev-parse','--verify','--end-of-options',ref+'^{commit}'])).trim();
+ const [author,date,title]=(await git(root,['show','-s','--format=%an%x00%aI%x00%s',hash,'--'])).trimEnd().split('\0');
+ return {hash,author,date,title};
+}

@@ -10,7 +10,7 @@ import {provider,providerActions} from './providers.mjs';
 import {comparisonFiles,comparisonFile,workingComparison} from './comparison.mjs';
 const token=randomBytes(32).toString('hex');
 const workspaces=new Map(), busyWorkspaces=new Set(), busyRoots=new Set();
-const assets=new Set(['guide.js','provider-review.js','theme-catalog.js','tooltips.js','icons.js','settings.css','history-tools.js','history-model.js','auto-refresh.js','worktrees.js','merge-preview.js','conflict-model.js','conflict-editor.js','settings.js','themes.css','controls.css','check.svg','chevron.svg','branch.svg','changes.js','workspace.js','workspace.css','logo.svg','logo.png','advanced.js','providers.js','diff-layout.js','comparison.js','comparison.css','shell.js','arctic.js','arctic.css','shell.css','frost.css','graph-workspace.js','frost-select.js','workflow-tools.js','locales.js','i18n.js','code-syntax.js','diff-viewer.js']);
+const assets=new Set(['commit-picker.js','guide.js','provider-review.js','theme-catalog.js','tooltips.js','icons.js','settings.css','history-tools.js','history-model.js','auto-refresh.js','worktrees.js','merge-preview.js','conflict-model.js','conflict-editor.js','settings.js','themes.css','controls.css','check.svg','chevron.svg','branch.svg','changes.js','workspace.js','workspace.css','logo.svg','logo.png','advanced.js','providers.js','diff-layout.js','comparison.js','comparison.css','shell.js','arctic.js','arctic.css','shell.css','frost.css','graph-workspace.js','frost-select.js','workflow-tools.js','locales.js','i18n.js','code-syntax.js','diff-viewer.js']);
 const server=http.createServer(async(req,res)=>{
  res.setHeader('Cache-Control','no-store');res.setHeader('X-Content-Type-Options','nosniff');
  const host=`127.0.0.1:${server.address().port}`;
@@ -57,6 +57,7 @@ const server=http.createServer(async(req,res)=>{
      case 'refreshState':{const revision=await repositoryRevision(root);result={revision,state:revision===data.revision?null:await fullState(root,data.limit)};break;}
      case 'state':result=await fullState(root,data.limit);break;
      case 'diff':result=await git.diff(root,data.name,!!data.staged);break;
+     case 'commitChoice':result=await git.commitChoice(root,data.ref);break;
      case 'commitDiff':result=await git.commitDiff(root,data.hash);break;
      case 'stage':await git.stage(root,data.name,!!data.value);result=await fullState(root,data.limit);break;
      case 'stageAll':await git.stageAll(root,data.value);result=await fullState(root,data.limit);break;
