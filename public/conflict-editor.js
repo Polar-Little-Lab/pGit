@@ -1,21 +1,43 @@
-function mountConflictChoices(body,editor,save){
- const controls=el('div',undefined,'conflict-tools'),count=el('strong'),undo=el('button','선택 되돌리기');undo.type='button';controls.append(count,undo);
- const list=el('div',undefined,'conflict-blocks'),resultLabel=el('label','최종 결과');resultLabel.htmlFor='conflictResult';editor.id='conflictResult';
- body.prepend(controls,list,resultLabel);let snapshots=[];
+function mountConflictEditor(body,result,data){
+ let session=PgitConflict.create(result.content),active=0,snapshots=[],sync=true;
+ const dialog=body.closest('dialog');dialog.classList.add('merge-editor-dialog');dialog.addEventListener('close',()=>dialog.classList.remove('merge-editor-dialog'),{once:true});
+ body.classList.add('merge-editor');
+ const button=(label,action)=>{const b=el('button',label);b.type='button';b.onclick=action;return b};
+ const tools=el('div',undefined,'merge-toolbar'),position=el('span'),status=el('span',undefined,'merge-status');status.setAttribute('role','status');
+ const previous=button('이전 충돌',()=>navigate(-1)),next=button('다음 충돌',()=>navigate(1)),undo=button('선택 되돌리기',()=>{if(snapshots.length){session=snapshots.pop();draw()}});
+ const syncButton=button('스크롤 동기화',()=>{sync=!sync;syncButton.setAttribute('aria-pressed',String(sync))});syncButton.setAttribute('aria-pressed','true');
+ tools.append(previous,next,position,undo,syncButton);
+ const grid=el('div',undefined,'merge-columns');
+ function pane(title,subtitle){const section=el('section',undefined,'merge-pane'),header=el('header',undefined,'merge-pane-heading');header.append(el('strong',title),el('span',subtitle,'literal-data'));section.append(header);grid.append(section);return section}
+ const left=pane('현재 변경','Ours · '+(session.blocks[0]?.leftLabel||'HEAD')),center=pane('병합 결과',''),right=pane('병합할 변경','Theirs · '+(session.blocks[0]?.rightLabel||'MERGE_HEAD'));
+ const leftCode=el('div',undefined,'merge-source literal-data'),rightCode=el('div',undefined,'merge-source literal-data');leftCode.tabIndex=rightCode.tabIndex=0;leftCode.setAttribute('aria-label','현재 변경 코드');rightCode.setAttribute('aria-label','병합할 변경 코드');left.append(leftCode);right.append(rightCode);
+ const area=el('div',undefined,'merge-result-area'),numbers=el('div',undefined,'merge-line-numbers'),editor=el('textarea');editor.id='conflictResult';editor.className='merge-result literal-data';editor.wrap='off';editor.spellcheck=false;editor.setAttribute('aria-label','병합 결과 편집');area.append(numbers,editor);center.append(area);
+ const choices=el('div',undefined,'merge-choices');const ours=button('왼쪽 사용',()=>choose('ours')),theirs=button('오른쪽 사용',()=>choose('theirs')),both=button('양쪽 사용',()=>choose('both')),manual=button('현재 충돌 해결',()=>{remember();session.blocks[active].resolved=true;draw();navigate(1,true)});choices.append(ours,both,theirs,manual);
+ const footer=el('div',undefined,'merge-footer'),save=button('결과 저장·스테이징',async()=>{if(save.disabled)return;body.inert=true;try{if(await applyAdvanced('conflictSave',{...data,content:session.content,revision:result.revision})){dialog.close();notify('충돌 해결 결과를 저장하고 스테이징했습니다.')}}finally{body.inert=false;draw()}});save.classList.add('primary');footer.append(status,save);
+ const base=el('details',undefined,'merge-base');base.append(el('summary','공통 조상'),el('pre',result.base,'literal-data'));
+ body.replaceChildren(tools,choices,grid,base,footer);
+ const original=PgitConflict.parse(result.content);
+ function projection(choice){const text=result[choice];let cursor=0;const ranges=original.map(b=>{const found=b[choice]?text.indexOf(b[choice],cursor):cursor,start=found<0?cursor:found;cursor=start+b[choice].length;return {start,end:cursor}});return {text,ranges}}
+ const projections=[projection('ours'),projection('theirs')];
+ function source(host,projection){host.replaceChildren();let offset=0;const tokens=PgitCode.syntaxLines(projection.text,data.name);projection.text.split('\n').forEach((line,i)=>{const row=el('div',undefined,'merge-code-line');const index=projection.ranges.findIndex(b=>offset>=b.start&&offset<Math.max(b.end,b.start+1));row.append(el('span',String(i+1),'merge-number'));const code=el('code');for(const token of tokens[i]||[])code.append(el('span',token.text,token.kind?'syntax-'+token.kind:undefined));if(!line)code.append(document.createTextNode(' '));row.append(code);if(index>=0){row.dataset.block=index;row.classList.add('merge-change');row.onclick=()=>{active=index;draw();reveal()};if(offset===projection.ranges[index].start){const take=button(host===leftCode?'→':'←',()=>{active=index;choose(host===leftCode?'ours':'theirs')});take.className='merge-take';take.setAttribute('aria-label',host===leftCode?'이 충돌의 현재 변경 사용':'이 충돌의 병합할 변경 사용');take.onclick=e=>{e.stopPropagation();active=index;choose(host===leftCode?'ours':'theirs')};row.append(take)}}host.append(row);offset+=line.length+1})}
+ source(leftCode,projections[0]);source(rightCode,projections[1]);
+ function remember(){snapshots.push(structuredClone(session));if(snapshots.length>100)snapshots.shift()}
+ function choose(choice){remember();session=PgitConflict.choose(session,active,choice);draw();navigate(1,true)}
+ function navigate(direction,unresolved=false){const n=session.blocks.length;if(!n)return;for(let i=1;i<=n;i++){const candidate=(active+direction*i+n*2)%n;if(!unresolved||!session.blocks[candidate].resolved){active=candidate;break}}draw();reveal()}
+ function reveal(){const b=session.blocks[active];if(!b)return;const line=session.content.slice(0,b.start).split('\n').length-1,lh=parseFloat(getComputedStyle(editor).lineHeight);editor.scrollTop=Math.max(0,line*lh-editor.clientHeight*.25);numbers.scrollTop=editor.scrollTop;for(const host of [leftCode,rightCode]){const row=host.querySelector('[data-block="'+active+'"]');if(row)host.scrollTop=Math.max(0,row.offsetTop-host.offsetTop-host.clientHeight*.25)}}
  function draw(){
-  list.replaceChildren();undo.disabled=!snapshots.length;
-  let blocks;try{blocks=PgitConflict.parse(editor.value)}catch(error){count.textContent=error.message;save.disabled=true;return}
-  count.textContent=blocks.length?`남은 충돌 ${blocks.length}개`:'모든 충돌을 선택했습니다.';save.disabled=!!blocks.length;
-  blocks.forEach((block,index)=>{
-   const card=el('section',undefined,'conflict-block'),header=el('div',undefined,'conflict-block-header');header.append(el('strong',`충돌 ${index+1}`));
-   for(const [choice,label] of [['ours','왼쪽 사용'],['theirs','오른쪽 사용'],['both','양쪽 사용']]){
-    const button=el('button',label);button.type='button';button.onclick=()=>{snapshots.push(editor.value);editor.value=PgitConflict.resolve(editor.value,index,choice);draw()};header.append(button);
-   }
-   const sides=el('div',undefined,'conflict-block-sides');
-   for(const [label,text] of [[block.leftLabel,block.ours],[block.rightLabel,block.theirs]]){const side=el('div');side.append(el('code',label,'literal-data'),el('pre',text||'∅'));sides.append(side)}
-   card.append(header,sides);if(block.base!==null){const base=el('details');base.append(el('summary','공통 조상'),el('pre',block.base||'∅'));card.append(base)}list.append(card);
-  });
+  active=Math.min(active,Math.max(0,session.blocks.length-1));const remaining=session.blocks.filter(b=>!b.resolved).length;
+  position.textContent=session.blocks.length?`${active+1} / ${session.blocks.length}`:'0 / 0';status.textContent=remaining?`남은 충돌 ${remaining}개`:'저장 대기 · 아직 스테이징되지 않았습니다.';
+  let markers=false;try{markers=PgitConflict.parse(session.content).length>0}catch{markers=true}
+  if(markers)status.textContent='충돌 마커가 남아 있습니다.';
+  save.disabled=remaining>0||markers;undo.disabled=!snapshots.length;previous.disabled=next.disabled=!session.blocks.length;
+  for(const b of [ours,both,theirs,manual])b.disabled=!session.blocks.length;for(const b of [ours,both,theirs]){b.disabled||=!!session.blocks[active]?.manualOnly;b.title=session.blocks[active]?.manualOnly?'여러 충돌을 직접 편집했습니다. 결과를 확인하거나 되돌리세요.':'';}manual.disabled=!session.blocks.length||!!session.blocks[active]?.resolved;
+  const top=editor.scrollTop;const display=session.content.replace(/\r\n/g,'\n');if(editor.value!==display)editor.value=display;
+  numbers.replaceChildren();let offset=0;session.content.split('\n').forEach((line,i)=>{const b=session.blocks.find(b=>offset>=b.start&&offset<Math.max(b.end,b.start+1));const row=el('div',String(i+1));if(b){row.className=b.resolved?'resolved':'pending';if(b.id===active)row.classList.add('active')}numbers.append(row);offset+=line.length+1});editor.scrollTop=top;numbers.scrollTop=top;const lh=parseFloat(getComputedStyle(editor).lineHeight);editor.style.backgroundImage=session.blocks.map(b=>{const start=8+(session.content.slice(0,b.start).split('\n').length-1)*lh;const end=start+Math.max(1,session.content.slice(b.start,b.end).replace(/\n$/,'').split('\n').length)*lh;const color=b.resolved?'rgba(54,144,105,.10)':'rgba(70,136,180,.14)';return `linear-gradient(to bottom,transparent ${start}px,${color} ${start}px,${color} ${end}px,transparent ${end}px)`}).join(',');
+  for(const host of [leftCode,rightCode])for(const row of host.querySelectorAll('[data-block]')){const b=session.blocks[Number(row.dataset.block)];const take=row.querySelector('button');if(take)take.disabled=!!b.manualOnly;row.classList.toggle('resolved',b.resolved);row.classList.toggle('active',b.id===active)}
  }
- undo.onclick=()=>{if(snapshots.length){editor.value=snapshots.pop();draw()}};
- editor.addEventListener('input',()=>{snapshots=[];draw()});draw();
+ editor.addEventListener('input',()=>{remember();session=PgitConflict.edit(session,result.content.includes('\r\n')?editor.value.replace(/\r?\n/g,'\r\n'):editor.value);draw()});
+ editor.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key==='z'){e.preventDefault();undo.click()}if(e.altKey&&['ArrowUp','ArrowDown'].includes(e.key)){e.preventDefault();navigate(e.key==='ArrowUp'?-1:1)}});
+ let syncing=false;for(const host of [leftCode,editor,rightCode])host.addEventListener('scroll',()=>{if(host===editor)numbers.scrollTop=editor.scrollTop;if(!sync||syncing)return;syncing=true;for(const other of [leftCode,editor,rightCode])if(other!==host){const ratio=host.scrollTop/Math.max(1,host.scrollHeight-host.clientHeight);other.scrollTop=ratio*Math.max(0,other.scrollHeight-other.clientHeight);other.scrollLeft=host.scrollLeft}numbers.scrollTop=editor.scrollTop;requestAnimationFrame(()=>syncing=false)});
+ const resize=new ResizeObserver(()=>draw());resize.observe(area);dialog.addEventListener('close',()=>resize.disconnect(),{once:true});draw();requestAnimationFrame(reveal);
 }

@@ -1,6 +1,22 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+여러 충돌을 직접 편집했습니다. 결과를 확인하거나 되돌리세요.|Multiple conflicts were edited together. Review the result or undo.
+충돌 편집기 열기|Open conflict editor
+현재 변경|Current changes
+병합 결과|Merge result
+병합할 변경|Incoming changes
+현재 변경 코드|Current changes code
+병합할 변경 코드|Incoming changes code
+병합 결과 편집|Edit merge result
+이전 충돌|Previous conflict
+다음 충돌|Next conflict
+현재 충돌 해결|Mark current conflict resolved
+결과 저장·스테이징|Save result and stage
+저장 대기 · 아직 스테이징되지 않았습니다.|Ready to save · Not staged yet.
+충돌 마커가 남아 있습니다.|Conflict markers remain.
+충돌 해결 결과를 저장하고 스테이징했습니다.|Saved and staged the merge result.
+
 사용 가이드|User guide
 가이드 검색|Search guide
 가이드 목차|Guide contents

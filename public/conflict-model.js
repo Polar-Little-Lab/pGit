@@ -32,5 +32,25 @@
   const content=choice==='both'?block.ours+block.theirs:block[choice];
   return text.slice(0,block.start)+content+text.slice(block.end);
  }
- scope.PgitConflict={parse,resolve};
+ function create(text){
+  const parsed=parse(text),blocks=[];let content='',cursor=0;
+  for(const [id,b] of parsed.entries()){content+=text.slice(cursor,b.start);const start=content.length;content+=b.base??b.ours;blocks.push({...b,id,start,end:content.length,resolved:false});cursor=b.end}
+  content+=text.slice(cursor);return {content,blocks};
+ }
+ function replace(session,index,value,resolved=true){
+  const block=session.blocks[index];if(!block)throw Error('충돌 선택이 유효하지 않습니다.');
+  const delta=value.length-(block.end-block.start),end=block.start+value.length;
+  return {content:session.content.slice(0,block.start)+value+session.content.slice(block.end),blocks:session.blocks.map((b,i)=>i===index?{...b,end,resolved}:i>index?{...b,start:b.start+delta,end:b.end+delta}:{...b})};
+ }
+ function choose(session,index,choice){const b=session.blocks[index];if(b?.manualOnly)throw Error('여러 충돌을 직접 편집했습니다. 결과를 확인하거나 되돌리세요.');if(!b||!['ours','theirs','both'].includes(choice))throw Error('충돌 선택이 유효하지 않습니다.');return replace(session,index,choice==='both'?b.ours+b.theirs:b[choice])}
+ function edit(session,content){
+  const old=session.content;let start=0;while(start<old.length&&start<content.length&&old[start]===content[start])start++;
+  let end=old.length,next=content.length;while(end>start&&next>start&&old[end-1]===content[next-1]){end--;next--}
+  const delta=content.length-old.length;const touched=session.blocks.filter(b=>!(b.end<=start&&b.start!==b.end)&&!(b.start>=end&&b.start!==b.end));
+  return {content,blocks:session.blocks.map(b=>{
+   if(b.end<=start&&b.start!==b.end)return {...b};if(b.start>=end&&b.start!==b.end)return {...b,start:b.start+delta,end:b.end+delta};
+   return {...b,start:Math.min(b.start,start),end:Math.max(next,b.end+delta),resolved:false,manualOnly:b.manualOnly||touched.length>1};
+  })};
+ }
+ scope.PgitConflict={parse,resolve,create,choose,edit};
 })(globalThis);

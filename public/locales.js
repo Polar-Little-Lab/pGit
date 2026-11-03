@@ -40,6 +40,21 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Multiple conflicts were edited together. Review the result or undo.":["複数の競合をまとめて編集しました。結果を確認するか元に戻してください。","已同时编辑多个冲突。请检查结果或撤销。","Se editaron varios conflictos juntos. Revisa el resultado o deshaz los cambios.","Plusieurs conflits ont été modifiés ensemble. Vérifiez le résultat ou annulez."],
+"Open conflict editor":["競合エディターを開く", "打开冲突编辑器", "Abrir editor de conflictos", "Ouvrir l’éditeur de conflits"],
+"Current changes":["現在の変更", "当前更改", "Cambios actuales", "Modifications actuelles"],
+"Merge result":["マージ結果", "合并结果", "Resultado de fusión", "Résultat de fusion"],
+"Incoming changes":["取り込む変更", "传入更改", "Cambios entrantes", "Modifications entrantes"],
+"Current changes code":["現在の変更のコード", "当前更改代码", "Código actual", "Code actuel"],
+"Incoming changes code":["取り込む変更のコード", "传入更改代码", "Código entrante", "Code entrant"],
+"Edit merge result":["マージ結果を編集", "编辑合并结果", "Editar resultado de fusión", "Modifier le résultat de fusion"],
+"Previous conflict":["前の競合", "上一个冲突", "Conflicto anterior", "Conflit précédent"],
+"Next conflict":["次の競合", "下一个冲突", "Conflicto siguiente", "Conflit suivant"],
+"Mark current conflict resolved":["現在の競合を解決済みにする", "标记当前冲突已解决", "Marcar conflicto actual como resuelto", "Marquer le conflit actuel comme résolu"],
+"Save result and stage":["結果を保存してステージ", "保存结果并暂存", "Guardar resultado y preparar", "Enregistrer et indexer le résultat"],
+"Ready to save · Not staged yet.":["保存待ち · まだステージされていません。", "等待保存 · 尚未暂存。", "Listo para guardar · Aún sin preparar.", "Prêt à enregistrer · Pas encore indexé."],
+"Conflict markers remain.":["競合マーカーが残っています。", "仍有冲突标记。", "Quedan marcadores de conflicto.", "Des marqueurs de conflit subsistent."],
+"Saved and staged the merge result.":["マージ結果を保存してステージしました。", "已保存并暂存合并结果。", "Resultado de fusión guardado y preparado.", "Résultat de fusion enregistré et indexé."],
 "User guide":["使い方ガイド", "使用指南", "Guía de uso", "Guide d’utilisation"],
 "Search guide":["ガイドを検索", "搜索指南", "Buscar en la guía", "Rechercher dans le guide"],
 "Guide contents":["ガイドの目次", "指南目录", "Índice de la guía", "Sommaire du guide"],
