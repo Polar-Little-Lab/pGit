@@ -42,6 +42,22 @@ window.PgitUI=(()=>{
   if(linked){const icon=document.createElement('span');icon.className='ui-list-external';icon.textContent='↗';icon.setAttribute('aria-hidden','true');main.append(icon)}
   const actions=document.createElement('div');actions.className='ui-list-actions';element.append(main,actions);return {element,main,actions};
  }
+ function notification(host){
+  let version=0,animation=null,timer;
+  host.classList.add('ui-notification');host.hidden=true;host.setAttribute('role','status');host.setAttribute('aria-live','polite');host.setAttribute('popover','manual');
+  const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function hide(){
+   const current=++version;clearTimeout(timer);animation?.cancel();if(host.hidden)return;
+   animation=host.animate([{transform:'translate(-50%, 0)'},{transform:'translate(-50%, calc(-100% - 80px))'}],{duration:reduced()?0:180,easing:'cubic-bezier(.4,0,1,1)',fill:'forwards'});
+   animation.finished.then(()=>{if(current===version){host.hidden=true;host.hidePopover?.();animation.cancel();animation=null}}).catch(()=>{});
+  }
+  function show(){
+   const current=++version;clearTimeout(timer);animation?.cancel();host.hidden=false;host.showPopover?.();
+   animation=host.animate([{transform:'translate(-50%, calc(-100% - 80px))'},{transform:'translate(-50%, 0)'}],{duration:reduced()?0:240,easing:'cubic-bezier(.16,1,.3,1)'});
+   animation.finished.then(()=>{if(current===version)timer=setTimeout(hide,3000)}).catch(()=>{});
+  }
+  return {show,hide};
+ }
  function message(text,{error=false}={}){const element=document.createElement('div');element.className='ui-list-message';element.setAttribute('role',error?'alert':'status');element.textContent=text;return element}
- return {message,selectionGroup,segments,closeButton,dialogHeader,dialogFrame,labeledField,externalLink,listItem};
+ return {notification,message,selectionGroup,segments,closeButton,dialogHeader,dialogFrame,labeledField,externalLink,listItem};
 })();

@@ -29,3 +29,8 @@ body #projectDialog .dialog-heading h2{font-size:var(--ui-font-size,12px);font-w
 .ui-dialog-layout>.bar{flex-shrink:0}
 .ui-dialog-content{min-height:0;overflow:auto}
 .ui-dialog-actions{display:flex;justify-content:flex-end;gap:8px;flex-shrink:0}
+
+/* One notification surface for both the shell and standalone workspaces. */
+#shellNotice.ui-notification,#toast.ui-notification{position:fixed;inset:64px auto auto 50%;margin:0;transform:translateX(-50%);display:block;width:max-content;max-width:calc(100vw - 32px);max-height:calc(100vh - 96px);overflow:auto;padding:12px 20px;border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;background:var(--surface);color:var(--text);box-shadow:0 8px 28px #0003;line-height:1.5;z-index:1000;overflow-wrap:anywhere}
+#shellNotice.ui-notification.missing-notice{display:flex}
+#shellNotice.ui-notification[hidden],#toast[hidden]{display:none!important}
