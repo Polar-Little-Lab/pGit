@@ -1,3 +1,4 @@
+import {backgroundGitEnvironment} from './git-runtime.mjs';
 import {remoteWebInfo} from './provider-remotes.mjs';
 import {cherryPickPlan} from './multi-commit.mjs';
 import {mergePreview} from './merge-preview.mjs';
@@ -29,7 +30,7 @@ export async function extras(root){
 export async function worktreeEntries(root){
  return (await git(root,['worktree','list','--porcelain','-z'])).split('\0\0').filter(Boolean).map((block,index)=>{
   const fields=block.split('\0'),value=key=>fields.find(x=>x.startsWith(key+' '))?.slice(key.length+1);
-  return {path:value('worktree'),branch:value('branch')||null,head:value('HEAD')||null,main:index===0,detached:fields.includes('detached'),bare:fields.includes('bare'),locked:fields.some(x=>x==='locked'||x.startsWith('locked ')),lockReason:value('locked')||'',prunable:fields.some(x=>x==='prunable'||x.startsWith('prunable '))};
+  return {path:path.resolve(value('worktree')),branch:value('branch')||null,head:value('HEAD')||null,main:index===0,detached:fields.includes('detached'),bare:fields.includes('bare'),locked:fields.some(x=>x==='locked'||x.startsWith('locked ')),lockReason:value('locked')||'',prunable:fields.some(x=>x==='prunable'||x.startsWith('prunable '))};
  });
 }
 export async function worktreeOverview(root){
@@ -79,7 +80,7 @@ export async function operate(root,action,d={}){
  case 'reflog':return git(root,['reflog','-n','100','--date=iso']);
  case 'remoteTags':{
  const names=(await git(root,['remote'])).trim().split('\n');if(!names.includes(d.remote))throw Error('등록된 원격 저장소를 선택하세요.');
- const raw=await git(root,['-c','credential.interactive=false','-c','core.askPass=/usr/bin/false','-c','core.sshCommand=ssh -o BatchMode=yes -o ConnectTimeout=10','ls-remote','--tags','--',d.remote]);
+ const raw=await git(root,['-c','credential.interactive=false','-c','core.sshCommand=ssh -o BatchMode=yes -o ConnectTimeout=10','ls-remote','--tags','--',d.remote],{env:backgroundGitEnvironment()});
  const tags=new Map();for(const line of raw.trim().split('\n')){const [hash,ref]=line.split('\t');if(!ref?.startsWith('refs/tags/'))continue;const name=ref.slice(10).replace(/\^\{\}$/,'');const item=tags.get(name)||{name};if(ref.endsWith('^{}'))item.target=hash;else item.hash=hash;tags.set(name,item)}return [...tags.values()].sort((a,b)=>a.name.localeCompare(b.name));
  }
  case 'worktreeOverview':return worktreeOverview(root);

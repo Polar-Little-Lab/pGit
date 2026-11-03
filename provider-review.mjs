@@ -59,7 +59,7 @@ export async function reviewProvider(root,action,d,execute=exec){
  let repo;if(d.provider==='gitlab')repo=parseGitLabRemote(url);else{const parts=parseGitHubRemote(url).split('/');repo={host:parts.shift(),project:parts.join('/')}}
  const repoId=d.provider+':'+repo.host+'/'+repo.project;
  if(action!=='reviewDetail'&&d.repoId!==repoId)throw Error('원격 주소가 변경되었습니다. 상세 화면을 다시 여세요.');
- async function request(key,extra={}){const [binary,args]=reviewRequest(d.provider,repo,key,{...d,...extra});try{const {stdout}=await execute(binary,args,{cwd:root,timeout:120000,maxBuffer:8*1024*1024,env:{...process.env,GH_PROMPT_DISABLED:'1',GH_PAGER:'cat',GITLAB_HOST:repo.host,GLAB_SEND_TELEMETRY:'false',NO_COLOR:'1'}});return JSON.parse(stdout)}catch(e){if(e.code==='ENOENT')throw Error(`${binary} CLI를 설치하고 ${repo.host}에 로그인하세요.`);throw Error(e.stderr||e.message)}}
+ async function request(key,extra={}){const [binary,args]=reviewRequest(d.provider,repo,key,{...d,...extra});try{const {stdout}=await execute(binary,args,{cwd:root,windowsHide:true,timeout:120000,maxBuffer:8*1024*1024,env:{...process.env,GH_PROMPT_DISABLED:'1',GH_PAGER:'cat',GITLAB_HOST:repo.host,GLAB_SEND_TELEMETRY:'false',NO_COLOR:'1'}});return JSON.parse(stdout)}catch(e){if(e.code==='ENOENT')throw Error(`${binary} CLI를 설치하고 ${repo.host}에 로그인하세요.`);throw Error(e.stderr||e.message)}}
  const detail=()=>request('reviewDetail').then(item=>({...normalizeReview(d.provider,item),repoId}));
  if(action==='reviewDetail')return detail();
  const check=async()=>{const current=await detail();if(current.head!==sha(d.head)||d.base&&current.base!==d.base||d.start&&current.start!==d.start)throw Error('원격 커밋이 변경되었습니다. 상세 화면을 새로고침하세요.');return current};

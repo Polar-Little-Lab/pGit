@@ -1,10 +1,20 @@
 # pGit · 0.4.0 — Arctic workspace
 
-프로젝트 탭, 커밋 그래프, 오른쪽 스테이징·커밋 패널을 갖춘 macOS Git 클라이언트입니다. Polar Frost 디자인 시스템의 얼음색 표면과 차분한 북극 테마를 사용합니다. AI 기능은 포함하지 않습니다. 로고는 Polar 제품군 A안: 공통 북극곰 얼굴과 pGit 분기 심볼입니다.
+프로젝트 탭, 커밋 그래프, 오른쪽 스테이징·커밋 패널을 갖춘 macOS·Windows Git 클라이언트입니다. Polar Frost 디자인 시스템의 얼음색 표면과 차분한 북극 테마를 사용합니다. AI 기능은 포함하지 않습니다. 로고는 Polar 제품군 A안: 공통 북극곰 얼굴과 pGit 분기 심볼입니다.
 
 [macOS 미리보기 다운로드](https://github.com/Polar-Little-Lab/pGit/releases)
 
 Apple Silicon은 `macos-arm64`, Intel은 `macos-x64` 파일을 받으세요. Node.js는 앱에 포함되어 있으며 Git은 별도 설치가 필요합니다(`xcode-select --install`). Ad-hoc 서명된 미리보기이며 Apple 공증은 받지 않았습니다. 수동 macOS 실기기 QA는 아직 남아 있습니다.
+
+## Windows 10·11
+
+Windows 10·11 **64비트(x64)** 설치 파일은 `pGit-0.4.0-windows-x64-setup.exe`입니다. 설치 위치를 선택할 수 있으며 Node.js는 앱에 포함됩니다. Git for Windows를 별도로 설치한 뒤 pGit을 실행하세요. GitHub·GitLab의 API 기능은 각각 `gh`·`glab` 설치 및 로그인이 필요합니다.
+
+드라이브 경로(`C:\Users\you\Projects\repo`)와 UNC 공유 폴더 경로를 지원하며, Git 저장소 접근 권한은 현재 사용자의 권한을 따릅니다. 단축키는 Windows에서 Ctrl을 사용합니다. Git 작업은 기존 SSH·인증 도우미 설정을 사용합니다.
+
+개발 빌드: `npm ci` → `npm run dist:win`. 결과는 `dist/`에 생성됩니다. 현재 설치 파일에는 배포용 코드 서명 인증서가 적용되지 않았습니다.
+
+Windows 설치 파일의 교차 빌드와 macOS 테스트를 확인했습니다. Windows CI 및 Windows 10·11 실기기용 수동 실행 워크플로를 추가했지만, **Windows 10·11 실기기 실행 검증은 아직 완료하지 않았습니다.** GitHub의 Windows Server 러너 검증과 Windows 클라이언트 실기기 검증을 구분합니다.
 
 ## 작업 흐름
 

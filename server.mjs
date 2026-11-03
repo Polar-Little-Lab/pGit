@@ -18,6 +18,7 @@ const server=http.createServer(async(req,res)=>{
  try{
   const pathname=new URL(req.url,`http://${host}`).pathname;
   if(req.method==='GET'&&/^\/guide\/images\/[a-z0-9-]+\.png$/.test(pathname)){res.setHeader('Content-Type','image/png');return res.end(await readFile(new URL('./docs/'+pathname.slice(7),import.meta.url)))}
+  if(req.method==='GET'&&pathname==='/path-utils.js'){res.setHeader('Content-Type','text/javascript');return res.end(await readFile(new URL('./path-utils.cjs',import.meta.url)))}
   if(req.method==='GET'&&pathname==='/guide.md'){res.setHeader('Content-Type','text/markdown; charset=utf-8');return res.end(await readFile(new URL('./docs/USER_GUIDE.md',import.meta.url),'utf8'))}
   if(req.method==='GET'&&assets.has(pathname.slice(1))){res.setHeader('Content-Type',pathname.endsWith('.js')?'text/javascript':pathname.endsWith('.css')?'text/css':pathname.endsWith('.png')?'image/png':'image/svg+xml');return res.end(await readFile(new URL('./public'+pathname,import.meta.url)))}
   if(req.method==='GET'&&['/','/workspace'].includes(pathname)){

@@ -22,7 +22,7 @@ let gitlabViewRequest=0;
 async function showGitLab(action='gitlabMRs',remote){
  if(!state)return notify('먼저 저장소를 여세요.');
  const request=++gitlabViewRequest,root=state.root;remote=remote||(state.remotes.includes('origin')?'origin':state.remotes[0]);
- const body=advancedFrame('GitLab · '+root.split('/').pop(),'list');
+ const body=advancedFrame('GitLab · '+PgitPaths.basename(root),'list');
  const tabs=el('div',undefined,'git-toolbar'),select=el('select');select.setAttribute('aria-label','원격');
  for(const name of state.remotes){const option=el('option',name);option.value=name;select.append(option)}select.value=remote||'';select.onchange=()=>showGitLab(action,select.value);tabs.append(select);
  for(const [key,label] of [['gitlabMRs','Merge Requests'],['gitlabIssues','Issues'],['gitlabPipelines','Pipelines']]){const b=el('button',label,key===action?'active':'');b.setAttribute('aria-pressed',String(key===action));b.onclick=()=>showGitLab(key,remote);tabs.append(b)}
