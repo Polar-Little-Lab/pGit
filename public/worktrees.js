@@ -1,6 +1,6 @@
 // One selection, one set of actions. Creation replaces the manager rather than nesting dialogs.
 const worktreeDialog=el('dialog');worktreeDialog.className='worktree-dialog';worktreeDialog.setAttribute('aria-label','워크트리 관리');
-const worktreeHeader=el('div',undefined,'bar'),worktreeTitle=el('strong','워크트리 관리'),worktreeClose=el('button','닫기');PgitIcons.close(worktreeClose);worktreeClose.onclick=()=>worktreeDialog.close();worktreeHeader.append(worktreeTitle,worktreeClose);
+const {element:worktreeHeader,title:worktreeTitle,close:worktreeClose}=PgitUI.dialogHeader(worktreeDialog,'워크트리 관리');
 const worktreeBody=el('div',undefined,'body'),worktreeTools=el('div',undefined,'worktree-tools'),worktreeCreate=el('button','워크트리 만들기','primary'),worktreeRefresh=el('button');PgitIcons.label(worktreeCreate,'plus','워크트리 만들기');PgitIcons.label(worktreeRefresh,'refresh');worktreeRefresh.setAttribute('aria-label','새로고침');worktreeRefresh.title='새로고침';
 const worktreeSearch=el('input');worktreeSearch.type='search';worktreeSearch.placeholder='브랜치 또는 폴더 검색';worktreeSearch.setAttribute('aria-label','브랜치 또는 폴더 검색');worktreeTools.append(worktreeSearch,worktreeRefresh,worktreeCreate);
 const worktreeError=el('p',undefined,'command-error');worktreeError.setAttribute('role','alert');worktreeError.hidden=true;

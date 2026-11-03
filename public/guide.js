@@ -3,10 +3,10 @@
  const make=(tag,text,cls)=>{const e=document.createElement(tag);if(text)e.textContent=text;if(cls)e.className=cls;return e};
  const button=make('button',null,'guide-button icon-control');button.type='button';PgitIcons.label(button,'book');button.setAttribute('aria-label','사용 가이드');button.dataset.tooltip='사용 가이드';button.setAttribute('aria-haspopup','dialog');document.querySelector('.settings-button')?.before(button);
  const dialog=make('dialog',null,'user-guide');dialog.setAttribute('aria-labelledby','guideTitle');
- const header=make('div',null,'guide-header'),title=make('h2','사용 가이드');title.id='guideTitle';const close=make('button');close.type='button';PgitIcons.close(close);close.onclick=()=>dialog.close();header.append(title,close);
+ const {element:header,title,close}=PgitUI.dialogHeader(dialog,'사용 가이드',{className:'guide-header',titleTag:'h2',titleId:'guideTitle'});
  const search=make('input');search.type='search';search.setAttribute('aria-label','가이드 검색');search.placeholder='가이드 검색';
  const layout=make('div',null,'guide-layout'),nav=make('nav',null,'guide-nav'),body=make('article',null,'guide-content literal-data');nav.setAttribute('aria-label','가이드 목차');nav.lang='ko';body.lang='ko';layout.append(nav,body);dialog.append(header,search,layout);document.body.append(dialog);
- const imageDialog=make('dialog',null,'guide-image-viewer'),imageHeader=make('div',null,'guide-header'),imageTitle=make('h2'),imageClose=make('button'),imageBody=make('div',null,'guide-image-scroll'),largeImage=make('img');imageTitle.id='guideImageTitle';imageDialog.setAttribute('aria-labelledby',imageTitle.id);PgitIcons.close(imageClose);imageClose.onclick=()=>imageDialog.close();imageHeader.append(imageTitle,imageClose);imageBody.append(largeImage);imageDialog.append(imageHeader,imageBody);document.body.append(imageDialog);let imageTrigger;
+ const imageDialog=make('dialog',null,'guide-image-viewer'),{element:imageHeader,title:imageTitle,close:imageClose}=PgitUI.dialogHeader(imageDialog,'',{className:'guide-header',titleTag:'h2',titleId:'guideImageTitle'}),imageBody=make('div',null,'guide-image-scroll'),largeImage=make('img');imageBody.append(largeImage);imageDialog.append(imageHeader,imageBody);document.body.append(imageDialog);let imageTrigger;
  imageDialog.addEventListener('close',()=>imageTrigger?.focus());
  // Only a click that starts and ends on the backdrop dismisses a read-only view.
  // Text selection or dragging an image out of the window must not close it.

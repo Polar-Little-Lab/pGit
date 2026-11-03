@@ -24,10 +24,10 @@ async function showProviderReview(provider,number,remote='origin',initialTab='ov
  const draftKey=[root,detail.repoId,number].join('|');
  header.replaceChildren(el('h2',detail.title,'literal-data'),el('p',`${detail.author||''} · ${detail.source||''} → ${detail.target||''}`,'literal-data'),el('p',`${detail.state}${detail.draft?' · Draft':''} · ${detail.head?.slice(0,10)||''} · ${detail.mergeStatus||''}`,'literal-data'));
  const definitions=[['overview','개요'],['files','변경 파일'],['checks','검사 결과'],['comments','댓글'],['submit','리뷰 작성'],['threads','리뷰 스레드'],['merge','병합 실행']];
- for(const [key,label] of definitions){const button=el('button',label);button.dataset.reviewTab=key;button.onclick=()=>draw(key);tabs.append(button)}
+ const tabControl=PgitUI.selectionGroup(tabs,{label:'리뷰 · 이슈 · CI',value:initialTab,onChange:draw,items:definitions.map(([value,label])=>{const button=el('button',label);button.dataset.reviewTab=value;return {value,button}})});
  async function draw(key){
   currentTab=key;body.dataset.reviewView=key;const request=++tabVersion,valid=()=>alive()&&request===tabVersion;
-  tabs.querySelectorAll('button').forEach(b=>{b.classList.toggle('active',b.dataset.reviewTab===key);b.setAttribute('aria-pressed',String(b.dataset.reviewTab===key))});content.replaceChildren();
+  tabControl.setValue(key);content.replaceChildren();
   if(key==='overview'){content.append(el('div',detail.description||'설명이 없습니다.',detail.description?'review-description literal-data':'review-description'));return}
   if(key==='submit'){renderForm();return}
   if(key==='merge'){await renderMerge(valid);return}

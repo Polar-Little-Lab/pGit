@@ -5,17 +5,15 @@ const integrations=el('section',undefined,'sidebar-integrations');$('branches').
 
 
 function providerTabs(definitions,active,onSelect){
- const tabs=el('div',undefined,'reference-modes provider-tabs');tabs.setAttribute('role','group');tabs.setAttribute('aria-label','리뷰 · 이슈 · CI');
- for(const [key,label] of definitions){const button=el('button',label);button.type='button';button.dataset.providerTab=key;button.setAttribute('aria-pressed',String(key===active));button.onclick=()=>onSelect(key);tabs.append(button)}return tabs;
+ return PgitUI.segments({items:definitions,value:active,label:'리뷰 · 이슈 · CI',onChange:onSelect,className:'reference-modes provider-tabs',dataKey:'providerTab'}).element;
 }
 function providerItem(item,title,meta,provider,action,remote){
  const project=state.remoteDetails?.find(r=>r.name===remote)?.url;
  const number=provider==='github'?(item.number||item.databaseId):(item.iid||item.id);
  const section=action.endsWith('Issues')?'issues':action==='githubPRs'?'pull':action==='gitlabMRs'?'-/merge_requests':action==='githubRuns'?'actions/runs':'-/pipelines';
- let href=item.web_url||item.url||(project&&Number.isInteger(number)?project.replace(/\/$/,'')+'/'+(provider==='gitlab'&&section==='issues'?'-/issues':section)+'/'+number:'');
- try{const url=new URL(href);if(url.protocol!=='https:'||url.username||url.password)href=''}catch{href=''}
- const link=el(href?'a':'div',undefined,'provider-item-link');link.append(el('strong',title,'literal-data'),el('p',meta,'literal-data'));
- if(href){link.href=href;link.target='_blank';link.rel='noopener noreferrer';link.title=href;const external=el('span','↗','provider-item-external');external.setAttribute('aria-hidden','true');link.append(external)}return link;
+ const href=item.web_url||item.url||(project&&Number.isInteger(number)?project.replace(/\/$/,'')+'/'+(provider==='gitlab'&&section==='issues'?'-/issues':section)+'/'+number:'');
+ const candidate=el('a',undefined,'provider-item-link'),valid=PgitUI.externalLink(candidate,href),link=valid?candidate:el('div',undefined,'provider-item-link');link.append(el('strong',title,'literal-data'),el('p',meta,'literal-data'));
+ if(valid){link.title=href;const external=el('span','↗','provider-item-external');external.setAttribute('aria-hidden','true');link.append(external)}return link;
 }
 
 let githubViewRequest=0;
@@ -66,7 +64,7 @@ function renderRemoteSites(groups=[]){
  for(const remote of remotes){const row=el('div',undefined,'remote-site');row.dataset.remote=remote.name;const group=groups.find(g=>g.querySelector('.branch-folder-name').textContent===remote.name),children=group?.querySelector(':scope>.branch-folder-children'),count=group?.querySelectorAll('.remote-branch').length||0;
  if(count){const toggle=el('button',undefined,'remote-site-toggle');PgitIcons.label(toggle,'right');toggle.setAttribute('aria-label',remote.name);const key=(state?.root||'')+'|remote|'+remote.name;let expanded=branchFolderExpansion.get(key)??true;toggle.setAttribute('aria-expanded',String(expanded));children.hidden=!expanded;toggle.onclick=()=>{expanded=!expanded;children.hidden=!expanded;const tags=row.querySelector('.remote-tags');if(tags)tags.hidden=!expanded;toggle.setAttribute('aria-expanded',String(expanded));branchFolderExpansion.set(key,expanded)};row.append(toggle)}
  const link=el(remote.url?'a':'span',undefined,'remote-site-link');link.append(PgitIcons.icon(remote.provider||'folder'));const text=el('span',undefined,'remote-site-text');text.append(el('strong',remote.name,'literal-data'));if(remote.host)text.append(el('small',remote.host,'literal-data remote-site-host'));text.append(el('span',remote.project||'웹 주소 없음',remote.project?'literal-data':'remote-site-unavailable'));link.append(text);
- if(remote.url){link.href=remote.url;link.target='_blank';link.rel='noopener noreferrer';link.title=remote.url;const external=el('span','↗','remote-site-external');external.setAttribute('aria-hidden','true');link.append(external)}row.append(link);
+ if(remote.url){PgitUI.externalLink(link,remote.url);link.title=remote.url;const external=el('span','↗','remote-site-external');external.setAttribute('aria-hidden','true');link.append(external)}row.append(link);
  if(remote.url){const tools=el('button');PgitIcons.label(tools,'review');tools.setAttribute('aria-label','리뷰 · 이슈 · CI');tools.title='리뷰 · 이슈 · CI';tools.onclick=()=>showRemoteTools(remote);row.append(tools)}if(count){row.append(el('span',String(count),'remote-site-count folder-count'),children)}appendRemoteTags(row,remote);integrations.append(row)}
  if(!remotes.length)integrations.append(el('p','원격 저장소가 없습니다.','remote-sites-empty'));
 }
