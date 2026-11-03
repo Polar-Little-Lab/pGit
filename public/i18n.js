@@ -1,6 +1,21 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+시작점 선택|Choose starting point
+기준 브랜치|Starting branch
+참조 직접 입력|Enter a reference
+직접 입력|Enter manually
+참조 확인|Check reference
+적용할 브랜치|Apply to branch
+가져올 브랜치|Source branch
+브랜치를 선택하세요|Choose a branch
+브랜치를 선택하면 가져올 커밋이 표시됩니다.|Choose a source branch to see its commits.
+현재 브랜치에 없는 커밋|Commits not in the current branch history
+최근 500개 · 현재 브랜치에 없는 커밋|Latest 500 commits outside the current branch history
+가져올 커밋이 없습니다.|No commits to bring over.
+선택한 커밋|Selected commit
+메시지·작성자·해시 검색|Search message, author or hash
+작업 대상 브랜치가 변경되었습니다. 다시 열어주세요.|The target branch changed. Reopen this action.
 변경 내용 확인|Review changes
 여러 충돌을 직접 편집했습니다. 결과를 확인하거나 되돌리세요.|Multiple conflicts were edited together. Review the result or undo.
 충돌 편집기 열기|Open conflict editor

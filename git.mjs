@@ -31,3 +31,10 @@ export async function commitChoice(root,ref){
  const [author,date,title]=(await git(root,['show','-s','--format=%an%x00%aI%x00%s',hash,'--'])).trimEnd().split('\0');
  return {hash,author,date,title};
 }
+
+export async function commitCandidates(root,ref){
+ const source=await commitChoice(root,ref),target=await commitChoice(root,'HEAD');
+ const raw=await git(root,['log','--topo-order','--cherry-pick','--right-only','-n','501','--format=%H%x00%P%x00%an%x00%aI%x00%s',target.hash+'...'+source.hash,'--']);
+ const commits=raw.trimEnd().split('\n').filter(Boolean).map(line=>{const [hash,parents,author,date,title]=line.split('\0');return {hash,parents:parents?parents.split(' '):[],author,date,title}});
+ return {source:source.hash,target:target.hash,commits:commits.slice(0,500),limited:commits.length>500};
+}

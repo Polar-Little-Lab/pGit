@@ -34,5 +34,18 @@ window.PgitCommitPicker=(()=>{
   }
   select.disabled=false;select.value=item.value;select.dispatchEvent(new Event('change',{bubbles:true}));
  }
- return {create,populate,select:selectCommit};
+ function renderChoice(option){const text=el('span',undefined,'commit-option literal-data');text.append(el('strong',option.dataset.title||option.textContent),el('small',option.dataset.description||''));return text}
+ function mountList(select,{label,onSelect}){
+  select.dataset.inlineList='true';select.hidden=true;select.required=false;
+  const element=el('div',undefined,'commit-list-picker'),search=el('input'),list=el('div',undefined,'commit-list-options');
+  search.type='search';search.placeholder='메시지·작성자·해시 검색';search.setAttribute('aria-label',label+' 검색');list.setAttribute('role','listbox');list.setAttribute('aria-label',label);element.append(search,list);
+  function refresh(){list.replaceChildren();const query=search.value.toLocaleLowerCase();for(const option of select.options){if(!option.value||!(option.textContent+' '+option.value).toLocaleLowerCase().includes(query))continue;
+   const row=el('button');row.type='button';row.setAttribute('role','option');row.setAttribute('aria-selected',String(option.selected));row.disabled=option.disabled;row.append(renderChoice(option));if(option.selected)row.append(PgitIcons.icon('check'));row.onclick=()=>{select.value=option.value;select.dispatchEvent(new Event('change',{bubbles:true}));onSelect?.();list.querySelector('[aria-selected=true]')?.focus()};list.append(row);
+  }if(!list.children.length)list.append(el('p','일치하는 항목이 없습니다.','select-empty'))}
+  list.onkeydown=e=>{if(!['ArrowDown','ArrowUp','Home','End'].includes(e.key))return;e.preventDefault();const rows=[...list.querySelectorAll('button:not(:disabled)')],index=rows.indexOf(document.activeElement);rows[e.key==='Home'?0:e.key==='End'?rows.length-1:(index+(e.key==='ArrowDown'?1:-1)+rows.length)%rows.length]?.focus()};
+  search.oninput=()=>{select.value='';refresh();onSelect?.()};search.onkeydown=e=>{if(['ArrowDown','Enter'].includes(e.key)){e.preventDefault();const row=list.querySelector('button:not(:disabled)');if(e.key==='Enter')row?.click();else row?.focus()}};select.addEventListener('change',refresh);
+  function setCommits(commits,snapshot){search.value='';populate(select,{...snapshot,history:commits},null);select.value='';refresh()}
+  setCommits([], {history:[],refs:[],branches:[]});return {element,setCommits,refresh};
+ }
+ return {create,populate,select:selectCommit,renderChoice,mountList};
 })();

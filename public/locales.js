@@ -40,6 +40,21 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Choose starting point": ["開始点を選択", "选择起点", "Elegir punto de partida", "Choisir le point de départ"],
+"Starting branch": ["開始ブランチ", "起始分支", "Rama de partida", "Branche de départ"],
+"Enter a reference": ["参照を入力", "输入引用", "Introducir referencia", "Saisir une référence"],
+"Enter manually": ["直接入力", "手动输入", "Introducir manualmente", "Saisir manuellement"],
+"Check reference": ["参照を確認", "检查引用", "Comprobar referencia", "Vérifier la référence"],
+"Apply to branch": ["適用先ブランチ", "应用到分支", "Aplicar a la rama", "Appliquer à la branche"],
+"Source branch": ["取得元ブランチ", "来源分支", "Rama de origen", "Branche source"],
+"Choose a branch": ["ブランチを選択", "选择分支", "Elige una rama", "Choisir une branche"],
+"Choose a source branch to see its commits.": ["取得元ブランチを選択するとコミットが表示されます。", "选择来源分支以查看其提交。", "Elige una rama de origen para ver sus commits.", "Choisissez une branche source pour voir ses commits."],
+"Commits not in the current branch history": ["現在のブランチ履歴にないコミット", "当前分支历史中没有的提交", "Commits fuera del historial de la rama actual", "Commits absents de l’historique de la branche actuelle"],
+"Latest 500 commits outside the current branch history": ["現在のブランチ履歴にない最新500件", "当前分支历史之外的最近500个提交", "Últimos 500 commits fuera del historial actual", "500 derniers commits absents de l’historique actuel"],
+"No commits to bring over.": ["取り込むコミットがありません。", "没有可引入的提交。", "No hay commits que traer.", "Aucun commit à récupérer."],
+"Selected commit": ["選択したコミット", "所选提交", "Commit seleccionado", "Commit sélectionné"],
+"Search message, author or hash": ["メッセージ・作成者・ハッシュを検索", "搜索消息、作者或哈希", "Buscar mensaje, autor o hash", "Rechercher un message, auteur ou hash"],
+"The target branch changed. Reopen this action.": ["対象ブランチが変更されました。操作を開き直してください。", "目标分支已更改，请重新打开此操作。", "La rama de destino cambió. Vuelve a abrir la acción.", "La branche cible a changé. Rouvrez cette action."],
 "Review changes": ["変更内容を確認", "检查更改", "Revisar cambios", "Vérifier les modifications"],
 "Multiple conflicts were edited together. Review the result or undo.":["複数の競合をまとめて編集しました。結果を確認するか元に戻してください。","已同时编辑多个冲突。请检查结果或撤销。","Se editaron varios conflictos juntos. Revisa el resultado o deshaz los cambios.","Plusieurs conflits ont été modifiés ensemble. Vérifiez le résultat ou annulez."],
 "Open conflict editor":["競合エディターを開く", "打开冲突编辑器", "Abrir editor de conflictos", "Ouvrir l’éditeur de conflits"],

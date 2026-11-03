@@ -455,3 +455,23 @@ body .merge-editor .merge-take{position:sticky;right:2px;flex-shrink:0;margin-le
 .commit-option small{color:var(--muted);font-size:.9em;white-space:normal;overflow-wrap:anywhere}
 .reset-target{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;overflow-wrap:anywhere}
 .reset-target small{color:var(--muted)}
+.reference-workflow{display:flex;flex-direction:column;gap:12px;min-width:0}
+.reference-workflow [hidden]{display:none!important}
+.reference-field{display:flex;flex-direction:column;gap:8px;min-width:0}
+.reference-field>label{font-size:.9em;color:var(--muted)}
+.reference-modes{display:flex;padding:3px;gap:3px;background:var(--soft);border-radius:7px}
+body .reference-modes button{flex:1;min-width:0;border:0;background:transparent;color:var(--muted);padding:8px;white-space:normal}
+body .reference-modes button[aria-pressed=true]{background:var(--surface);color:var(--accent);box-shadow:0 1px 3px #0002}
+.reference-preview{display:flex;flex-direction:column;gap:5px;overflow-wrap:anywhere}
+.reference-preview:empty{display:none}
+.reference-preview small,.reference-status{color:var(--muted);font-size:.85em}
+.reference-status{margin:0}
+.cherry-target{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;background:var(--soft);border-radius:6px;flex-wrap:wrap}
+.cherry-target span{font-size:.9em;color:var(--muted)}
+.cherry-target strong{overflow-wrap:anywhere}
+.commit-list-picker{display:flex;flex-direction:column;gap:8px;min-width:0}
+.commit-list-options{max-height:260px;overflow:auto;border:1px solid var(--border);border-radius:6px}
+body .commit-list-options>button{display:flex;align-items:center;gap:10px;width:100%;min-height:60px;height:auto;text-align:left;border:0;border-bottom:1px solid var(--border);border-radius:0;background:var(--surface);padding:10px 12px}
+body .commit-list-options>button:hover{background:var(--soft)}
+body .commit-list-options>button[aria-selected=true]{background:var(--selection,var(--soft));box-shadow:inset 3px 0 var(--accent)}
+.commit-list-options .select-empty{padding:12px;margin:0}
