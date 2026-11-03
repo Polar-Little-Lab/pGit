@@ -9,8 +9,10 @@ async function showFileHistory(name){
  async function load(target=0,reset=false){
   const request=++version;if(reset)revision=null;previous.disabled=next.disabled=true;list.setAttribute('aria-busy','true');list.replaceChildren(PgitUI.message('불러오는 중…'));
   try{const result=await api('fileHistoryPage',{name,query,offset:target,...(revision?{revision}:{})});if(!alive()||request!==version)return;revision=result.revision;offset=result.offset;list.replaceChildren();
-   for(const commit of result.commits){const row=PgitUI.listItem({title:commit.title,meta:commit.author});const title=el('button',commit.title,'file-history-open literal-data');title.type='button';title.title=commit.title;title.onclick=()=>{advancedDialog.close();tab('history');selectCommit(commit)};row.main.querySelector('strong').replaceWith(title);
-    const meta=row.main.querySelector('.ui-list-meta'),date=el('time',new Date(commit.date).toLocaleDateString(document.documentElement.lang||undefined));date.dateTime=commit.date;date.title=new Date(commit.date).toLocaleString();meta.append(el('span',' · '),date,el('code',commit.hash.slice(0,8),'literal-data'));list.append(row.element);
+   for(const commit of result.commits){
+    const row=PgitUI.listItem({title:commit.title}),button=el('button',undefined,'ui-list-item file-history-open'),main=el('span',undefined,'ui-list-main');button.type='button';button.title=commit.title;button.onclick=()=>{advancedDialog.close();tab('history');selectCommit(commit)};
+    const meta=el('span',commit.author,'ui-list-meta literal-data'),date=el('time',new Date(commit.date).toLocaleDateString(document.documentElement.lang||undefined));date.dateTime=commit.date;date.title=new Date(commit.date).toLocaleString();meta.append(el('span',' · '),date);main.append(row.main.querySelector('strong'),meta);
+    const hash=el('code',commit.hash.slice(0,8),'file-history-hash literal-data');hash.title=commit.hash;button.append(main,hash);list.append(button);
    }
    if(!result.commits.length)list.append(PgitUI.message(query?'일치하는 항목이 없습니다.':'표시할 항목이 없습니다.'));
    status.replaceChildren(el('span',String(offset/result.pageSize+1),'literal-data'),document.createTextNode(' · '),el('span','커밋'),document.createTextNode(' '+result.commits.length));previous.disabled=offset===0;next.disabled=!result.hasMore;list.scrollTop=0;
