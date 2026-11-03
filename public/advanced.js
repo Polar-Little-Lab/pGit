@@ -39,8 +39,19 @@ const fileActions=el('div',undefined,'file-actions');for(const [key,label] of [[
 const recentKey='pgit.recent';const recentButton=el('button','최근 저장소');recentButton.onclick=()=>{const body=advancedFrame('최근 저장소','list');let entries=[];try{entries=JSON.parse(localStorage.getItem(recentKey)||'[]')}catch{}for(const root of entries){const b=el('button',root,'command-option');b.onclick=async()=>{scope=null;activeCommit=null;selected=null;if(await mutate('open',{path:root}))advancedDialog.close()};body.append(b)}if(!entries.length)body.append(el('p','아직 연 저장소가 없습니다.'))};$('openRepo').after(recentButton);
 const beforeRecentRender=render;render=function(){beforeRecentRender();if(state){let recent=[];try{recent=JSON.parse(localStorage.getItem(recentKey)||'[]')}catch{}localStorage.setItem(recentKey,JSON.stringify([state.root,...recent.filter(p=>p!==state.root)].slice(0,12)))}};
 // Contextual Git actions preserve the graph as the main navigation surface.
-async function contextualCommand(key,values){await openCommand(key);for(const [name,value] of Object.entries(values)){const input=$('command-'+name);if(input){if(input.selectReference)await input.selectReference(value);else if(input.dataset.commitPicker)await PgitCommitPicker.select(input,value);else{input.value=value;input.dispatchEvent(new Event('change',{bubbles:true}))}}}}
-function contextActions(title,items){const body=advancedFrame(title,'menu');for(const [key,values] of items){const b=el('button',commands[key][0],'command-option');b.onclick=()=>{advancedDialog.close();contextualCommand(key,values)};body.append(b)}}
+async function contextualCommand(key,values={}){
+ if(working)return;
+ if(key==='branchSwitch'&&values.name){
+  if(values.name===state?.branch)return;
+  if(await mutate(key,values)){scope=null;selectedHistoryRef=null;activeCommit=null;render();notify('브랜치 전환 완료')}return;
+ }
+ if((key==='resetPreview'&&values.ref)||(key==='rebasePlan'&&values.base))return openAdvanced(key,values);
+ if((key==='mergePreview'&&values.ref)||(key==='stashDiff'&&values.hash)){
+  panel.close();const body=advancedFrame(commands[key][0],'list');PgitCommandHelp.mount(body,key);const output=el('div');output.append(PgitUI.message('불러오는 중…'));body.append(output);
+  try{const result=await api(key,values);if(!body.isConnected||!advancedDialog.open)return;if(key==='mergePreview')renderMergePreview(output,result);else output.replaceChildren(el('pre',result,'command-output'))}catch(error){if(body.isConnected)output.replaceChildren(PgitUI.message(error.message,{error:true}))}return;
+ }
+ await openCommand(key);for(const [name,value] of Object.entries(values)){const input=$('command-'+name);if(input){if(input.selectReference)await input.selectReference(value);else if(input.dataset.commitPicker)await PgitCommitPicker.select(input,value);else{input.value=value;input.dispatchEvent(new Event('change',{bubbles:true}))}}}}
+function contextActions(title,items){const body=advancedFrame(title,'menu');for(const [key,values] of items){const b=el('button',commands[key][0],'command-option');if(['branchSwitch','branchDelete'].includes(key)&&values.name&&(state?.branch===values.name||state?.worktrees?.some(w=>w.branch==='refs/heads/'+values.name))){b.disabled=true}b.onclick=()=>{advancedDialog.close();contextualCommand(key,values)};body.append(b)}}
 $('branches').addEventListener('contextmenu',event=>{const button=event.target.closest('.branchitem');if(!button)return;event.preventDefault();const name=button.dataset.ref.slice('refs/heads/'.length);contextActions(name,[['mergePreview',{ref:name}],['branchSwitch',{name}],['branchCreate',{ref:name}],['branchRename',{name}],['merge',{ref:name}],['rebase',{ref:name}],['branchDelete',{name}]])});
 $('branches').addEventListener('dblclick',event=>{const button=event.target.closest('.branchitem');if(button)contextualCommand('branchSwitch',{name:button.dataset.ref.slice('refs/heads/'.length)})});
 $('history').addEventListener('contextmenu',event=>{const row=event.target.closest('.historyrow');if(!row)return;event.preventDefault();activeCommit=row.dataset.hash;contextActions(activeCommit.slice(0,7),[['resetPreview',{ref:activeCommit}],['branchCreate',{ref:activeCommit}],['tagCreate',{ref:activeCommit}],['cherryPick',{ref:activeCommit}],['revert',{ref:activeCommit}],['compare',{to:activeCommit}],['rebasePlan',{base:activeCommit}]])});
