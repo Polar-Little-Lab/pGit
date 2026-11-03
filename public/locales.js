@@ -40,6 +40,11 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Conflicting files must be resolved after merging.":["マージ後に競合ファイルを解決する必要があります。","合并后需要解决冲突文件。","Los archivos en conflicto deben resolverse tras la fusión.","Les fichiers en conflit devront être résolus après la fusion."],
+"Create a merge commit combining both branches.":["両方のブランチの変更をまとめたマージコミットを作成します。","创建包含两个分支更改的合并提交。","Crea un commit de fusión con los cambios de ambas ramas.","Crée un commit de fusion réunissant les deux branches."],
+"Advance the current branch without creating a merge commit.":["マージコミットを作成せず、現在のブランチを最新コミットへ進めます。","直接推进当前分支，不创建合并提交。","Avanza la rama actual sin crear un commit de fusión.","Avance la branche actuelle sans créer de commit de fusion."],
+"Ready to merge without conflicts.":["競合なしでマージできます。","可以无冲突合并。","Se puede fusionar sin conflictos.","Fusion possible sans conflit."],
+"Receives the changes":["変更を受け取るブランチ","接收更改的分支","Recibe los cambios","Reçoit les modifications"],
 "The selected files have changed. Select them again.":["選択したファイルの状態が変わりました。再度選択してください。","所选文件的状态已更改，请重新选择。","Los archivos seleccionados han cambiado. Vuelve a seleccionarlos.","Les fichiers sélectionnés ont changé. Sélectionnez-les à nouveau."],
 "Select files to ignore.":["無視するファイルを選択してください。","请选择要忽略的文件。","Selecciona los archivos que deseas ignorar.","Sélectionnez les fichiers à ignorer."],
 "There are no files to ignore.":["無視するファイルがありません。","没有可忽略的文件。","No hay archivos para ignorar.","Aucun fichier à ignorer."],

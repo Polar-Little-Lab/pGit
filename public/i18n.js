@@ -1,6 +1,11 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+병합 후 충돌한 파일을 해결해야 합니다.|Conflicting files must be resolved after merging.
+두 브랜치의 변경을 합친 병합 커밋을 만듭니다.|Create a merge commit combining both branches.
+새 병합 커밋 없이 현재 브랜치를 최신 커밋으로 이동합니다.|Advance the current branch without creating a merge commit.
+충돌 없이 병합할 수 있습니다.|Ready to merge without conflicts.
+변경을 받는 브랜치|Receives the changes
 선택한 파일 상태가 변경되었습니다. 다시 선택하세요.|The selected files have changed. Select them again.
 무시할 파일을 선택하세요.|Select files to ignore.
 무시할 파일이 없습니다.|There are no files to ignore.
