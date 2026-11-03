@@ -47,3 +47,9 @@ test('missing recent folders survive desktop persistence without unrelated paths
  assert.deepEqual(result.missingPaths,['/missing']);
  assert.deepEqual(result.projects,[]);
 });
+
+test('recent project metadata keeps valid entries without storing unrelated paths',()=>{
+ const result=store.normalizeWorkspace({recents:['/repo'],recentDetails:{'/repo':{pinned:true,branch:'feature/ui',openedAt:1000,draft:'private'},'/other':{pinned:true}}});
+ assert.deepEqual(result.recentDetails,{'/repo':{pinned:true,branch:'feature/ui',openedAt:1000}});
+ assert.deepEqual(store.normalizeWorkspace({recents:['/repo'],recentDetails:{'/repo':{openedAt:'invalid',branch:42}}}).recentDetails,{'/repo':{pinned:false}});
+});

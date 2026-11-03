@@ -3,7 +3,7 @@ const description=el('textarea');description.id='commitDescription';description.
 const summaryCounter=el('span','0 / 72','summary-counter');$('message').before(summaryCounter);
 function completeMessage(){return $('message').value.trim()+(description.value.trim()?'\n\n'+description.value.trim():'')}
 const workflowControls=controls;controls=function(){workflowControls();const length=$('message').value.length;summaryCounter.textContent=length+' / 72';summaryCounter.classList.toggle('long-summary',length>72);if(completeMessage().length>4000){$('commit').disabled=true;$('commitSummary').textContent='제목과 상세 설명은 합쳐서 4,000자 이내로 입력하세요.'}document.querySelectorAll('[data-stage-all]').forEach(b=>{const members=(state?.files||[]).filter(b.dataset.stageAll==='true'?hasWorkingChange:hasStagedChange);b.disabled=working||!members.length||!!state?.files.some(f=>f.conflict)})};
-const workflowPublish=publishPane;publishPane=function(){if(embedded)sendShell({type:'state',path:state?.root||null,count:state?.files.length||0,busy:working,draft:completeMessage()});else workflowPublish()};
+const workflowPublish=publishPane;publishPane=function(){if(embedded)sendShell({type:'state',path:state?.root||null,branch:state?.branch||'',count:state?.files.length||0,busy:working,draft:completeMessage()});else workflowPublish()};
 description.oninput=()=>{controls();publishPane()};
 $('message').addEventListener('input',()=>{controls();publishPane()});
 $('form').onsubmit=async e=>{e.preventDefault();if($('commit').disabled)return;const message=completeMessage();if(await mutate('commit',{message})){$('message').value='';description.value='';controls();publishPane();notify('커밋을 생성했습니다.')}};

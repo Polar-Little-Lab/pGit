@@ -40,6 +40,16 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Open a project or clone a remote repository.":["プロジェクトを開くか、リモートリポジトリを複製してください。", "打开项目或克隆远程仓库。", "Abre un proyecto o clona un repositorio remoto.", "Ouvrez un projet ou clonez un dépôt distant."],
+"Search projects":["プロジェクトを検索", "搜索项目", "Buscar proyectos", "Rechercher des projets"],
+"Search by name or path":["名前またはパスで検索", "按名称或路径搜索", "Buscar por nombre o ruta", "Rechercher par nom ou chemin"],
+"Last known branch":["最後に確認したブランチ", "最近确认的分支", "Última rama conocida", "Dernière branche connue"],
+"Last opened":["最後に開いた日時", "上次打开时间", "Última apertura", "Dernière ouverture"],
+"Favorite":["お気に入り", "收藏", "Favorito", "Favori"],
+"Remove from list":["一覧から削除", "从列表中移除", "Quitar de la lista", "Retirer de la liste"],
+"Removing an entry keeps its repository and files.":["一覧から削除してもリポジトリとファイルは残ります。", "从列表移除不会删除仓库和文件。", "Quitar una entrada conserva el repositorio y sus archivos.", "Retirer une entrée conserve le dépôt et ses fichiers."],
+"Projects you open will appear here.":["開いたプロジェクトがここに表示されます。", "打开的项目将显示在这里。", "Los proyectos que abras aparecerán aquí.", "Les projets ouverts apparaîtront ici."],
+"⌘T New project":["⌘T 新しいプロジェクト", "⌘T 新项目", "⌘T Nuevo proyecto", "⌘T Nouveau projet"],
 "Conflicting files must be resolved after merging.":["マージ後に競合ファイルを解決する必要があります。","合并后需要解决冲突文件。","Los archivos en conflicto deben resolverse tras la fusión.","Les fichiers en conflit devront être résolus après la fusion."],
 "Create a merge commit combining both branches.":["両方のブランチの変更をまとめたマージコミットを作成します。","创建包含两个分支更改的合并提交。","Crea un commit de fusión con los cambios de ambas ramas.","Crée un commit de fusion réunissant les deux branches."],
 "Advance the current branch without creating a merge commit.":["マージコミットを作成せず、現在のブランチを最新コミットへ進めます。","直接推进当前分支，不创建合并提交。","Avanza la rama actual sin crear un commit de fusión.","Avance la branche actuelle sans créer de commit de fusion."],

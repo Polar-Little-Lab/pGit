@@ -2,7 +2,7 @@
 const embedded=window.parent!==window;
 if(embedded)document.body.classList.add('embedded');
 const sendShell=message=>{if(embedded)parent.postMessage({source:'pgit-pane',...message},location.origin)};
-function publishPane(){sendShell({type:'state',path:state?.root||null,count:state?.files.length||0,busy:working,draft:$('message').value})}
+function publishPane(){sendShell({type:'state',path:state?.root||null,branch:state?.branch||'',count:state?.files.length||0,busy:working,draft:$('message').value})}
 const paneControls=controls;controls=function(){paneControls();publishPane()};
 $('message').addEventListener('input',publishPane);
 

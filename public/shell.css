@@ -12,3 +12,27 @@
 #shellNotice button{background:var(--soft);color:var(--text);border-color:var(--border)}
 #shellNotice button:hover{background:var(--control-selected,var(--soft));color:var(--text)}
 #shellNotice button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* Repository home */
+.welcome{max-width:1240px;padding:40px 36px 24px;background:var(--surface)}
+.project-home-heading{display:flex;justify-content:space-between;align-items:center;gap:24px;margin-bottom:32px}
+.project-home-heading h1{font-size:28px;letter-spacing:-.7px;line-height:1.3;margin:0 0 8px;font-weight:650}
+.project-home-heading p{margin:0;color:var(--muted)}
+.welcome-actions{margin:0;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.welcome-actions button{display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap}
+.recent-section{padding:0;border:0}.project-home-toolbar{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:16px}
+.project-home-toolbar .section-heading{justify-content:flex-start;gap:10px}.section-heading>span{padding:2px 7px;background:var(--soft);border-radius:4px;font-variant-numeric:tabular-nums}
+#projectSearch{width:320px;height:36px}.recent-list{border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.recent-columns{display:grid;grid-template-columns:minmax(0,1fr) 200px 160px 88px;padding:8px 0 8px 16px;color:var(--muted);font-size:11px}
+.recent-row{display:flex;align-items:stretch;border-bottom:1px solid var(--border);background:var(--surface)}.recent-row:last-child{border-bottom:0}
+.recent-row:hover,.recent-row:focus-within{background:var(--soft)}
+html[data-theme] .recent-row .recent-project,.recent-row .recent-project{display:grid;grid-template-columns:28px minmax(0,1fr) 200px 160px;gap:0;width:100%;min-width:0;min-height:76px;padding:12px 0 12px 16px;border:0;border-radius:0;background:transparent;color:var(--text)}
+.recent-project .repo-symbol{height:24px;width:20px;background:none;border:0;border-radius:0;color:var(--muted)}
+.recent-name{min-width:0;padding:0 20px 0 10px}.recent-project strong{font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.recent-project small{font-size:12px;max-width:none;margin-top:3px}.recent-branch{display:flex;align-items:center;gap:7px;color:var(--muted);overflow:hidden;white-space:nowrap;font:12px ui-monospace,monospace;padding-right:14px}.recent-branch .pgit-icon{flex-shrink:0}
+.recent-time{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}.recent-row[data-missing=true] .recent-time{color:var(--danger)}
+.recent-actions{display:flex;align-items:center;justify-content:center;width:88px;flex-shrink:0;gap:4px;padding-right:8px}.recent-actions button{width:32px;height:32px;min-width:32px;padding:0;border:0;background:transparent;display:inline-flex;align-items:center;justify-content:center;color:var(--muted)}.recent-actions button:hover{background:var(--surface);color:var(--text)}.recent-actions [aria-pressed=true]{color:var(--accent);font-size:19px}
+.recent-empty{border:0;text-align:center;padding:52px 20px}.welcome-footer{margin-top:20px;border:0;padding-top:0;font-size:11px;gap:20px;color:var(--muted)}
+@media(max-width:900px){.project-home-heading{align-items:flex-start;flex-direction:column;gap:20px}.welcome-actions{justify-content:flex-start}.recent-columns{grid-template-columns:minmax(0,1fr) 150px 130px 88px}.recent-row .recent-project,html[data-theme] .recent-row .recent-project{grid-template-columns:28px minmax(0,1fr) 150px 130px}}
+@media(max-width:650px){.welcome{padding:24px 16px}.project-home-toolbar{align-items:stretch;flex-direction:column;gap:12px}#projectSearch{width:100%}.recent-columns{display:none}.recent-row .recent-project,html[data-theme] .recent-row .recent-project{grid-template-columns:28px minmax(0,1fr);row-gap:6px}.recent-branch{grid-column:2;padding-left:10px}.recent-time{grid-column:2;padding-left:10px}.recent-actions{width:76px}.welcome-footer{align-items:flex-start;flex-direction:column;gap:8px}}
+
+html[data-theme] .welcome-footer{background:transparent}

@@ -1,6 +1,16 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+프로젝트를 열거나 원격 저장소를 복제하세요.|Open a project or clone a remote repository.
+프로젝트 검색|Search projects
+이름 또는 경로로 검색|Search by name or path
+최근 확인 브랜치|Last known branch
+마지막으로 연 시간|Last opened
+즐겨찾기|Favorite
+목록에서 제거|Remove from list
+목록에서 제거해도 저장소와 파일은 유지됩니다.|Removing an entry keeps its repository and files.
+프로젝트를 열면 최근 목록에 표시됩니다.|Projects you open will appear here.
+⌘T 새 프로젝트|⌘T New project
 병합 후 충돌한 파일을 해결해야 합니다.|Conflicting files must be resolved after merging.
 두 브랜치의 변경을 합친 병합 커밋을 만듭니다.|Create a merge commit combining both branches.
 새 병합 커밋 없이 현재 브랜치를 최신 커밋으로 이동합니다.|Advance the current branch without creating a merge commit.
