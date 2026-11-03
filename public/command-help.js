@@ -74,7 +74,7 @@ const catalog={
     "fr": "Affiche les noms et URL de Fetch et Push des dépôts distants."
   },
   "fetch": {
-    "ko": "원격의 커밋과 브랜치 정보를 가져옵니다. 현재 작업 파일에는 합치지 않습니다.",
+    "ko": "선택한 원격 저장소의 최신 커밋과 브랜치 정보를 가져옵니다. 현재 브랜치와 작업 파일은 그대로 유지됩니다.",
     "en": "Fetch remote commits and branch updates without merging them into your working files.",
     "ja": "リモートのコミットとブランチ情報を取得します。作業ファイルへの統合は行いません。",
     "zh-CN": "获取远程提交和分支更新，不合并到当前工作文件。",
@@ -82,7 +82,7 @@ const catalog={
     "fr": "Récupère les commits et branches distants sans les intégrer aux fichiers de travail."
   },
   "pull": {
-    "ko": "추적 중인 원격 브랜치의 변경을 가져와 선택한 방식으로 현재 브랜치에 반영합니다.",
+    "ko": "현재 브랜치에 연결된 원격 브랜치의 최신 커밋을 가져와 현재 브랜치와 작업 파일에 반영합니다. 빠른 앞으로 이동, 병합, 리베이스 중 반영 방식을 선택할 수 있습니다.",
     "en": "Fetch the tracked remote branch and integrate it into the current branch using the selected strategy.",
     "ja": "追跡中のリモートブランチを取得し、選択した方法で現在のブランチに統合します。",
     "zh-CN": "获取跟踪的远程分支，并按所选方式整合到当前分支。",
@@ -90,7 +90,7 @@ const catalog={
     "fr": "Récupère la branche distante suivie et l’intègre à la branche actuelle selon la stratégie choisie."
   },
   "push": {
-    "ko": "현재 브랜치의 로컬 커밋을 원격의 같은 이름 브랜치에 전송합니다.",
+    "ko": "현재 브랜치의 커밋을 선택한 원격 저장소의 같은 이름 브랜치에 올립니다. 커밋하지 않은 변경은 포함되지 않으며, 원격에 같은 이름의 브랜치가 없으면 새로 만듭니다.",
     "en": "Send local commits on the current branch to the same-named remote branch.",
     "ja": "現在のローカルブランチのコミットを同名のリモートブランチへ送信します。",
     "zh-CN": "将当前本地分支的提交发送到远程同名分支。",
