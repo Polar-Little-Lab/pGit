@@ -354,7 +354,7 @@ const catalog={
     "fr": "Ajoute un fichier non suivi au .gitignore du dépôt pour l’exclure des changements."
   },
   "rebasePlan": {
-    "ko": "기준 커밋 이후의 커밋 순서·메시지·합치기·제외를 계획하고 적용합니다. 이력이 다시 작성됩니다.",
+    "ko": "커밋 목록에서 정리할 범위를 고르고, 메시지·순서·합치기·제외를 편집합니다. 결과를 확인한 뒤 적용하세요.",
     "en": "Plan and apply reordering, rewording, combining or dropping commits after a base commit; history is rewritten.",
     "ja": "基準コミット以降の順序・メッセージ・結合・除外を計画して適用します。履歴を書き換えます。",
     "zh-CN": "计划并应用基准提交之后的排序、消息修改、合并或移除，历史会被重写。",

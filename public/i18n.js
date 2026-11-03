@@ -1,6 +1,7 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+커밋 이력 정리|Organize commit history
 선택한 변경 추가|Add selected changes
 스테이징된 변경만|Staged changes only
 작업 폴더 변경|Working directory changes
