@@ -21,4 +21,4 @@ const previewOpenCommand=openCommand;openCommand=async function(key){
  }
  if(key==='mergePreview')form.onsubmit=inspect;else run.onclick=inspect;
 };
-$('extraRefs').addEventListener('contextmenu',event=>{const button=event.target.closest('.remote-branch');if(!button)return;event.preventDefault();contextActions(button.title,[['mergePreview',{ref:button.dataset.ref}]])});
+document.addEventListener('contextmenu',event=>{const button=event.target.closest('.remote-branch');if(!button)return;event.preventDefault();contextActions(button.title,[['mergePreview',{ref:button.dataset.ref}]])});

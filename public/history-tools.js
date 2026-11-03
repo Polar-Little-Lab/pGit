@@ -73,7 +73,7 @@ $('history').addEventListener('click',event=>{
 },true);
 $('history').addEventListener('keydown',event=>{if(event.key==='Escape'&&selectedCommits.size){event.preventDefault();selectedCommits.clear();selectionAnchor=null;paintCommitSelection()}},true);
 // Extend the existing compact context menus instead of creating another menu style.
-for(const host of [$('branches'),$('extraRefs')])host.addEventListener('contextmenu',event=>{
+document.addEventListener('contextmenu',event=>{
  const button=event.target.closest('.branchitem,.remote-branch');if(!button)return;
  const ref=button.dataset.ref,body=advancedDialog.querySelector('.advanced-body');if(!body)return;
  const options=[[hiddenGraphRefs.has(ref)?'그래프에 표시':'그래프에서 숨기기',()=>changeGraphVisibility('hide',ref)],[soloGraphRef===ref?'단독 보기 종료':'이 브랜치만 보기',()=>changeGraphVisibility('solo',ref)]];
