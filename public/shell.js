@@ -32,7 +32,7 @@ function setProjectMode(mode){
  byId('cloneUrlField').hidden=mode!=='clone';byId('cloneUrl').required=mode==='clone';
  byId('pathLabel').textContent=mode==='open'?'프로젝트 폴더':'새 프로젝트의 절대 경로';
  byId('projectTitle').textContent=mode==='open'?'프로젝트 열기':mode==='clone'?'저장소 복제':'새 저장소 만들기';
- byId('projectHelp').textContent=mode==='clone'?'아직 존재하지 않는 새 폴더 경로를 입력하세요.':mode==='init'?'선택한 폴더에 main 브랜치의 Git 저장소를 만듭니다.':'';
+ byId('projectHelp').textContent=mode==='open'?'':PgitCommandHelp.text(mode);if(mode==='open')delete byId('projectHelp').dataset.commandHelp;else byId('projectHelp').dataset.commandHelp=mode;
  byId('projectHelp').hidden=mode==='open';byId('browseProject').hidden=mode==='clone'||!window.pgitDesktop;
  projectBusy();
 }

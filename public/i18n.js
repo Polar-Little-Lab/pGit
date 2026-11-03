@@ -477,7 +477,7 @@ Git LFS 상태|Git LFS status
 현재 브랜치에 적용할 작업을 선택하세요. 다음 화면에서 내용을 검토하고 실행합니다.|Choose an operation for the current branch. Review the details before running it.
 대상 브랜치를 먼저 체크아웃해야 합니다. 작업 폴더가 깨끗한지 확인한 뒤 전환하세요.|Check out the target branch first. Your working directory must be clean.
 폴더의 절대 경로를 입력하세요.|Enter an absolute folder path.
-새 저장소 만들기|Initialize repository
+새 저장소 만들기|Create repository
 새 프로젝트의 절대 경로|Absolute path for new project
 아직 존재하지 않는 새 폴더 경로를 입력하세요.|Enter a new folder path that does not exist yet.
 선택한 폴더에 main 브랜치의 Git 저장소를 만듭니다.|Initialize a Git repository with a main branch in this folder.

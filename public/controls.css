@@ -485,3 +485,8 @@ body .worktree-form .worktree-location-button{align-self:flex-start;display:inli
 body dialog .command-body .commit-message-input{display:block;width:100%;min-height:140px;max-height:280px;resize:vertical;padding:10px 12px;line-height:1.5;white-space:pre-wrap}
 .amend-summary{margin-top:12px;font-size:.9em;line-height:1.5;color:var(--muted);overflow-wrap:anywhere;max-height:120px;overflow:auto}
 .amend-summary strong{display:block;margin-bottom:4px;font-weight:500}
+/* Keep the operation's purpose beside its controls, without another dialog. */
+body #commandDialog[data-dialog-kind=palette] .command-option{display:flex;flex-direction:column;align-items:stretch;height:auto;gap:5px;padding:10px 12px;margin:2px 0;text-align:left;white-space:normal}
+body #commandDialog[data-dialog-kind=palette] .command-option>strong{font-size:1em;font-weight:600;line-height:1.4}
+body #commandDialog[data-dialog-kind=palette] .command-help{margin:0;font-size:.9em;line-height:1.5;color:var(--muted);font-weight:400}
+body dialog :is(.command-body,.advanced-body,.body)>.command-help{margin:0 0 14px;line-height:1.6;color:var(--muted);font-size:.9em;overflow-wrap:anywhere;flex-shrink:0}

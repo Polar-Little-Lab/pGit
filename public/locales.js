@@ -40,6 +40,7 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Create repository": ["リポジトリを作成", "创建仓库", "Crear repositorio", "Créer un dépôt"],
 "Files included in this amendment": ["この修正に含めるファイル", "本次修订包含的文件", "Archivos incluidos en esta modificación", "Fichiers inclus dans cette modification"],
 "No staged changes \u00b7 Message only": ["ステージ済み変更なし · メッセージのみ変更", "没有暂存更改 · 仅修改消息", "Sin cambios preparados · Solo mensaje", "Aucune modification indexée · Message uniquement"],
 "Choose location": ["場所を選択", "选择位置", "Elegir ubicación", "Choisir un emplacement"],
