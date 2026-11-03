@@ -40,6 +40,7 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Review changes": ["変更内容を確認", "检查更改", "Revisar cambios", "Vérifier les modifications"],
 "Multiple conflicts were edited together. Review the result or undo.":["複数の競合をまとめて編集しました。結果を確認するか元に戻してください。","已同时编辑多个冲突。请检查结果或撤销。","Se editaron varios conflictos juntos. Revisa el resultado o deshaz los cambios.","Plusieurs conflits ont été modifiés ensemble. Vérifiez le résultat ou annulez."],
 "Open conflict editor":["競合エディターを開く", "打开冲突编辑器", "Abrir editor de conflictos", "Ouvrir l’éditeur de conflits"],
 "Current changes":["現在の変更", "当前更改", "Cambios actuales", "Modifications actuelles"],
@@ -246,7 +247,7 @@ const messages={
  "Use left": ["左側を使用", "使用左侧", "Usar izquierda", "Utiliser la gauche"],
  "Use right": ["右側を使用", "使用右侧", "Usar derecha", "Utiliser la droite"],
  "Use both": ["両方を使用", "使用两侧", "Usar ambos", "Utiliser les deux"],
- "Common ancestor": ["共通の祖先", "共同祖先", "Ancestro común", "Ancêtre commun"],
+ "Base version before divergence": ["分岐前の原本", "分支分开前的原始版本", "Versión base antes de la divergencia", "Version de base avant divergence"],
  "All conflicts resolved.": ["すべての競合を解決しました。", "所有冲突均已解决。", "Todos los conflictos resueltos.", "Tous les conflits sont résolus."],
  "Check the conflict marker structure.": ["競合マーカーの構造を確認してください。", "请检查冲突标记结构。", "Comprueba la estructura de los marcadores de conflicto.", "Vérifiez la structure des marqueurs de conflit."],
  "Settings": ["設定", "设置", "Ajustes", "Paramètres"],

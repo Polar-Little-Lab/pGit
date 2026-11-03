@@ -14,7 +14,7 @@ function mountConflictEditor(body,result,data){
  const area=el('div',undefined,'merge-result-area'),numbers=el('div',undefined,'merge-line-numbers'),editor=el('textarea');editor.id='conflictResult';editor.className='merge-result literal-data';editor.wrap='off';editor.spellcheck=false;editor.setAttribute('aria-label','병합 결과 편집');area.append(numbers,editor);center.append(area);
  const choices=el('div',undefined,'merge-choices');const ours=button('왼쪽 사용',()=>choose('ours')),theirs=button('오른쪽 사용',()=>choose('theirs')),both=button('양쪽 사용',()=>choose('both')),manual=button('현재 충돌 해결',()=>{remember();session.blocks[active].resolved=true;draw();navigate(1,true)});choices.append(ours,both,theirs,manual);
  const footer=el('div',undefined,'merge-footer'),save=button('결과 저장·스테이징',async()=>{if(save.disabled)return;body.inert=true;try{if(await applyAdvanced('conflictSave',{...data,content:session.content,revision:result.revision})){dialog.close();notify('충돌 해결 결과를 저장하고 스테이징했습니다.')}}finally{body.inert=false;draw()}});save.classList.add('primary');footer.append(status,save);
- const base=el('details',undefined,'merge-base');base.append(el('summary','공통 조상'),el('pre',result.base,'literal-data'));
+ const base=el('details',undefined,'merge-base');base.append(el('summary','분기 전 원본'),el('pre',result.base,'literal-data'));
  body.replaceChildren(tools,choices,grid,base,footer);
  const original=PgitConflict.parse(result.content);
  function projection(choice){const text=result[choice];let cursor=0;const ranges=original.map(b=>{const found=b[choice]?text.indexOf(b[choice],cursor):cursor,start=found<0?cursor:found;cursor=start+b[choice].length;return {start,end:cursor}});return {text,ranges}}

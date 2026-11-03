@@ -447,3 +447,11 @@ body .merge-base pre{max-height:140px;min-height:0;margin:0;padding:12px;overflo
 body dialog.merge-editor-dialog .advanced-body textarea.merge-result{font:var(--code-font-size,13px)/1.65 var(--code-font,ui-monospace,monospace);height:100%;width:0;min-height:0;border:0;border-radius:0;padding:8px 12px;background-attachment:local}
 .merge-code-line{position:relative}
 body .merge-editor .merge-take{position:sticky;right:2px;flex-shrink:0;margin-left:auto;align-self:flex-start;width:24px;height:1.65em;min-height:0;border:0;border-radius:2px;padding:0;background:var(--soft);color:var(--accent);font:inherit;line-height:1.65}
+/* Commit choices expose the message first, with identity details beneath it. */
+.commit-picker .frost-select-trigger{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left}
+.commit-picker .frost-select-option{text-align:left;align-items:center;min-height:54px;height:auto;padding:9px 12px}
+.commit-option{display:flex;flex-direction:column;gap:5px;min-width:0;flex:1}
+.commit-option strong{font-weight:600;white-space:normal;overflow-wrap:anywhere}
+.commit-option small{color:var(--muted);font-size:.9em;white-space:normal;overflow-wrap:anywhere}
+.reset-target{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;overflow-wrap:anywhere}
+.reset-target small{color:var(--muted)}

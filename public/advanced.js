@@ -1,5 +1,5 @@
 Object.assign(commands,{
- resetPreview:['커밋으로 Reset',[['ref','대상 커밋','selected']]],resetJournal:['Reset 실행 취소·다시 실행',[]],
+ resetPreview:['커밋으로 Reset',[['ref','대상 커밋','commits']]],resetJournal:['Reset 실행 취소·다시 실행',[]],
  discardPreview:['파일 변경 버리기',[['name','파일','files']]],recoveryList:['버린 변경 복구',[]],
  hunks:['부분 스테이징',[['name','파일','files']]],readText:['파일 편집',[['name','파일','files']]],conflictRead:['충돌 편집기',[['name','충돌 파일','conflicts']]],diffSides:['좌우 파일 비교',[['name','파일','files']]],ignoreFile:['파일 무시',[['name','추적하지 않는 파일 경로']]],rebasePlan:['인터랙티브 리베이스',[['base','편집할 커밋 바로 이전 참조','HEAD~3']]],amend:['마지막 커밋 수정',[['message','새 커밋 메시지']],'스테이징된 변경도 마지막 커밋에 포함됩니다. 이전 커밋 해시는 복구용 참조에 보관합니다.'],searchHistory:['전체 이력 메시지 검색',[['query','검색어']]],worktreeLock:['Worktree 잠금',[['path','작업 폴더','worktrees']]],worktreeUnlock:['Worktree 잠금 해제',[['path','작업 폴더','worktrees']]],submodules:['Submodule 상태',[]],submoduleUpdate:['Submodule 초기화·갱신',[],'저장소에 설정된 하위 저장소를 다운로드합니다.'],lfsStatus:['Git LFS 상태',[]],lfsFetch:['Git LFS Fetch',[]],profileRead:['저장소 작성자 설정',[]]
 });
@@ -9,7 +9,7 @@ function advancedFrame(title,kind='compact'){advancedDialog.dataset.dialogKind=k
 async function applyAdvanced(action,data){if(working)return false;working=true;controls();try{state=await api(action,data);render();notify('변경을 적용했습니다.');return true}catch(e){notify(e.message);const error=el('p',e.message,'command-error');error.setAttribute('role','alert');advancedDialog.querySelector('.advanced-body')?.prepend(error);try{state=await api('state',{limit:historyLimit});render()}catch{}return false}finally{working=false;controls()}}
 async function openAdvanced(key,data){panel.close();try{
 if(key==='resetPreview'){
- const plan=await api(key,data),body=advancedFrame('커밋으로 Reset','list');body.append(el('p',plan.branch+' · '+plan.head.slice(0,7)+' → '+plan.target.slice(0,7),'literal-data'));
+ const plan=await api(key,data),body=advancedFrame('커밋으로 Reset','list');const target=state.history.find(c=>c.hash===plan.target);if(target){const detail=el('div',undefined,'reset-target literal-data');detail.append(el('strong',target.title),el('small',target.author+' · '+target.hash.slice(0,8)));body.append(detail)}body.append(el('p',plan.branch+' · '+plan.head.slice(0,7)+' → '+plan.target.slice(0,7),'literal-data'));
  const choices=el('div'),input=el('select');input.setAttribute('aria-label','Reset 방식');input.dataset.uiOptions='true';for(const [value,label] of [['soft','Soft · 변경을 스테이징에 유지'],['mixed','Mixed · 변경을 작업 폴더에 유지'],['hard','Hard · 대상 커밋의 파일로 변경']]){const o=el('option',label);o.value=value;input.append(o)}choices.append(input);body.append(choices,el('pre',plan.summary,'command-output'));
  const confirm=el('label','Hard Reset의 파일 변경을 확인했습니다.','reset-confirm'),check=el('input');check.type='checkbox';confirm.prepend(check);confirm.hidden=true;
  const run=el('button','Reset 실행','primary');input.onchange=()=>{check.checked=false;confirm.hidden=input.value!=='hard';run.disabled=input.value==='hard'};check.onchange=()=>run.disabled=!check.checked;

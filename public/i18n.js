@@ -1,6 +1,7 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+변경 내용 확인|Review changes
 여러 충돌을 직접 편집했습니다. 결과를 확인하거나 되돌리세요.|Multiple conflicts were edited together. Review the result or undo.
 충돌 편집기 열기|Open conflict editor
 현재 변경|Current changes
@@ -153,7 +154,7 @@ Git 병합 검사 결과를 읽을 수 없습니다.|Could not read the merge in
 왼쪽 사용|Use left
 오른쪽 사용|Use right
 양쪽 사용|Use both
-공통 조상|Common ancestor
+분기 전 원본|Base version before divergence
 모든 충돌을 선택했습니다.|All conflicts resolved.
 충돌 마커 구조를 확인하세요.|Check the conflict marker structure.
 
