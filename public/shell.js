@@ -29,7 +29,7 @@ function renderResume(){
  byId('resumeProject').onclick=()=>path?openProject(path):chooseProject();
 }
 function renderRecents(){
- renderResume();window.renderGroupFilters?.();
+ renderResume();window.renderGroupFilters?.();window.renderHomeGroups?.();
  const host=byId('recentProjects');host.replaceChildren();const query=byId('projectSearch').value.trim().toLocaleLowerCase();
  const visible=recents.filter(path=>(groupFilter==='all'||(groupFilter==='none'?!projectGroup(path):projectGroups[path]===groupFilter))&&(path+' '+(projectGroup(path)?.name||'')).toLocaleLowerCase().includes(query)).sort((a,b)=>Number(!!recentDetails[b]?.pinned)-Number(!!recentDetails[a]?.pinned));
  byId('recentCount').textContent=String(visible.length);
@@ -106,13 +106,14 @@ async function openProject(path,action='open',extra={},direct=false){
    const body=await response.json();if(!response.ok)throw Object.assign(Error(body.error||'프로젝트 경로를 확인하세요.'),{code:body.code,reason:body.reason,platform:body.platform});path=body.result;
   }
   const duplicate=projects.find(p=>p.path===path&&action==='open');
-  if(duplicate){finishStartTab(starter,duplicate);selectProject(duplicate.id);byId('projectDialog').close();return}
+  if(duplicate){finishStartTab(starter,duplicate);selectProject(duplicate.id);byId('projectDialog').close();return true}
   if(projects.length>=50&&!starter)throw Error('프로젝트는 최대 50개까지 열 수 있습니다.');
   created=createPane(path);if(starter)created.pendingStartId=starter.id;created.recoveryPath=recoveryPath||path;recoveryPath=null;created.initial={action,path,...extra};
   const loaded=new Promise((resolve,reject)=>{created.resolveOpen=resolve;created.rejectOpen=reject});
   // Keep the form and its input until Git confirms success.
   await loaded;
   finishStartTab(starter,created);selectProject(created.id);byId('projectDialog').close();try{const draft=localStorage.getItem('pgit.missingDraft:'+created.recoveryPath);if(draft)send(created,{type:'recover-draft',draft})}catch{}
+  return true;
  }catch(error){
   if(error.code==='REPOSITORY_MISSING'){if(!created){missingPaths.add(path);renderRecents();save();missingNotice(path)}return}
   if(created){created.busy=false;await removeProject(created);selectProject(previousId)}

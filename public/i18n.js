@@ -1,6 +1,10 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+그룹 열기|Open group
+표시된 저장소 열기|Open shown repositories
+그룹 열기 완료|Group opened
+그룹 열기가 중단되었습니다.|Opening the group stopped.
 Git을 실행할 수 없습니다|Git is unavailable
 Git 실행 권한을 확인해 주세요.|Check permission to run Git.
 macOS 개발자 도구 설정을 확인해 주세요.|Check the macOS developer tools setup.
