@@ -1,51 +1,120 @@
-name: Build macOS download
+name: Build desktop downloads
 on:
   push:
-    branches: [main]
-    paths: ['.github/workflows/release-macos.yml', 'desktop/**', 'package.json', 'test/**', 'server.mjs', 'git.mjs', 'public/**', 'operations.mjs', 'advanced.mjs', 'comparison.mjs', 'providers.mjs', 'scripts/**']
+    tags: ['v*']
   workflow_dispatch:
 permissions:
   contents: write
 concurrency:
-  group: macos-release
-  cancel-in-progress: true
+  group: desktop-release-${{ github.ref }}
+  cancel-in-progress: false
 jobs:
-  macos:
-    runs-on: macos-14
-    timeout-minutes: 30
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-14
+            platform: macos
+          - os: windows-2022
+            platform: windows
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm install
+          cache: npm
+      - name: Configure Git test filesystem behavior
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.symlinks true
+      - name: Enable Windows symbolic links
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          New-Item -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock' -Force | Out-Null
+          New-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock' -Name AllowDevelopmentWithoutDevLicense -Value 1 -PropertyType DWord -Force | Out-Null
+      - run: npm ci
       - run: npm test
       - run: npx playwright install chromium
-      - run: npm run test:ui
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: pGit-ui-verification
-          path: test-results/
-      - run: npm run dist:mac
+      - name: Verify history and review interfaces
+        run: |
+          node test/ui-amend.mjs
+          node test/ui-history-edits.mjs
+          node test/ui-provider-review.mjs
+          node test/ui-command-help.mjs
+      - name: Build macOS installers
+        if: runner.os == 'macOS'
+        run: npm run dist:mac
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
-      - name: Verify bundles
+      - name: Build Windows installer
+        if: runner.os == 'Windows'
+        run: npm run dist:win
+      - name: Verify Mac bundles and launch
+        if: runner.os == 'macOS'
         run: |
           codesign --verify --deep --strict dist/mac-arm64/pGit.app
           codesign --verify --deep --strict dist/mac/pGit.app
-          test -s dist/pGit-0.4.0-macos-arm64.zip
-          test -s dist/pGit-0.4.0-macos-x64.zip
+          PGIT_APP_EXECUTABLE="$PWD/dist/mac-arm64/pGit.app/Contents/MacOS/pGit" node test/desktop-smoke.mjs
+      - name: Verify Windows installer and installed application
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $installer = Get-ChildItem dist/*-windows-x64-setup.exe | Select-Object -First 1
+          if (!$installer -or $installer.Length -eq 0) { throw 'Installer missing' }
+          $installDir = Join-Path $env:RUNNER_TEMP 'pgit-installed'
+          $process = Start-Process -FilePath $installer.FullName -ArgumentList @('/S', "/D=$installDir") -Wait -PassThru
+          if ($process.ExitCode -ne 0) { throw "Installer failed: $($process.ExitCode)" }
+          $env:PGIT_APP_EXECUTABLE = Join-Path $installDir 'pGit.exe'
+          if (!(Test-Path $env:PGIT_APP_EXECUTABLE)) { throw 'Installed application missing' }
+          node test/desktop-smoke.mjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v4
         with:
-          name: pGit-macos
+          name: pGit-${{ matrix.platform }}
           path: |
-            dist/*.zip
+            dist/*.exe
             dist/*.dmg
-      - name: Publish download
+            dist/*.zip
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verification-${{ matrix.platform }}
+          path: test-results/
+  publish:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: pGit-*
+          path: downloads
+          merge-multiple: true
+      - name: Publish release downloads
         env:
           GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        shell: bash
         run: |
-          TAG="v0.4.0-preview.${GITHUB_RUN_NUMBER}"
-          gh release create "$TAG" dist/*.zip dist/*.dmg --target "$GITHUB_SHA" --prerelease --title "pGit $TAG · macOS preview" --notes "macOS preview. arm64: Apple Silicon / x64: Intel. Includes runtime; Node.js installation is not required. Git must be installed (Xcode Command Line Tools). Ad-hoc signed; not Apple-notarized. First launch may require System Settings > Privacy & Security > Open Anyway. Local Git tests and bundle signature verification passed; automated UI workflows passed; manual macOS QA remains pending."
+          cd downloads
+          sha256sum * > SHA256SUMS.txt
+          cat > "$RUNNER_TEMP/release-notes.md" <<'NOTES'
+          ## Downloads
+          - Windows 10/11 (64-bit): `windows-x64-setup.exe`
+          - macOS Apple Silicon (M1/M2/M3/M4): `macos-arm64.dmg`
+          - macOS Intel: `macos-x64.dmg`
+          - ZIP archives are also available for macOS.
 
+          Node.js is included. Install Git for Windows on Windows, or Xcode Command Line Tools on macOS before using local repositories.
+
+          This preview is not signed with a Windows publisher certificate or notarized by Apple; the operating system may show an unidentified-publisher warning.
+
+          Includes file-selective amend, earlier commit message editing, PR/MR context selection, and the redesigned commit history organizer. Automated Git/UI tests and packaged application launch checks run on Windows and macOS before publication. Windows installation is tested on Windows Server 2022; manual Windows 10/11 QA remains pending.
+          NOTES
+          gh release create "$RELEASE_TAG" ./* --target "$GITHUB_SHA" --prerelease --title "pGit $RELEASE_TAG · Windows & macOS" --notes-file "$RUNNER_TEMP/release-notes.md"
