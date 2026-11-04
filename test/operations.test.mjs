@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtemp,writeFile,rm,realpath} from 'node:fs/promises';
+import {mkdtemp,writeFile,rm,realpath,mkdir,readFile} from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import {git} from '../git.mjs';
@@ -16,3 +16,5 @@ test('pull resolves divergent histories with explicit merge or rebase, preservin
  await assert.rejects(operate(root,'pull'));await assert.rejects(operate(root,'pull',{strategy:'--force'}));await operate(root,'pull',{strategy});assert.equal((await fullState(root)).behind,0);assert.equal((await fullState(root)).files.length,0);assert.equal((await git(root,['rev-list','--parents','-n','1','HEAD'])).trim().split(' ').length,strategy==='merge'?3:2);
  }
 });
+
+test('clone accepts an empty destination but preserves existing contents',async t=>{const root=await fixture(t),parent=await realpath(await mkdtemp(path.join(os.tmpdir(),'pgit-clone-empty-')));t.after(()=>rm(parent,{recursive:true,force:true}));const target=path.join(parent,'empty');await mkdir(target);await createRepository('clone',{url:root,path:target});assert.equal((await git(target,['rev-parse','HEAD'])).trim(),(await git(root,['rev-parse','HEAD'])).trim());const occupied=path.join(parent,'occupied');await mkdir(occupied);await writeFile(path.join(occupied,'keep'),'preserve');await assert.rejects(createRepository('clone',{url:root,path:occupied}),/비어 있지/);assert.equal(await readFile(path.join(occupied,'keep'),'utf8'),'preserve')});

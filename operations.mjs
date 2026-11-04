@@ -44,7 +44,7 @@ export async function worktreeOverview(root){
  return result;
 }
 export async function fullState(root,limit){return {...await snapshot(root,limit),...await extras(root)}}
-export async function createRepository(kind,data){const target=text(data.path,'대상 절대 경로');if(!path.isAbsolute(target))throw Error('절대 경로가 필요합니다.');if(kind==='init'){await mkdir(target,{recursive:true});if(await git(target,['rev-parse','--show-toplevel']).then(()=>true,()=>false))throw Error('이미 Git 저장소 안에 있습니다.');await git(target,['init','-b','main'])}else {if(await exists(target))throw Error('복제 대상은 아직 존재하지 않는 폴더여야 합니다.');await git(path.dirname(target),['clone','--',remoteURL(data.url),target]);}return openRepo(target)}
+export async function createRepository(kind,data){const target=text(data.path,'대상 절대 경로');if(!path.isAbsolute(target))throw Error('절대 경로가 필요합니다.');if(kind==='init'){await mkdir(target,{recursive:true});if(await git(target,['rev-parse','--show-toplevel']).then(()=>true,()=>false))throw Error('이미 Git 저장소 안에 있습니다.');await git(target,['init','-b','main'])}else {if(await exists(target)){const stat=await lstat(target);if(!stat.isDirectory()||(await readdir(target)).length)throw Error('복제 대상 폴더가 비어 있지 않습니다. 다른 폴더를 선택하세요.')}try{await git(path.dirname(target),['clone','--',remoteURL(data.url),target],{timeout:30*60*1000})}catch(error){if(error.killed)throw Error('복제가 30분 안에 완료되지 않았습니다. 네트워크와 대상 폴더를 확인한 뒤 다시 시도하세요.');throw error}}return openRepo(target)}
 export const readOperations=new Set(['remoteTags','cherryPickPreview','worktreeOverview','mergePreview','stashDiff','fileHistory','fileHistoryPage','blameView','blame','compare','reflog','remoteList','worktreeList','trackedFiles']);
 export async function operate(root,action,d={}){
  switch(action){
