@@ -1,6 +1,21 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+Git을 실행할 수 없습니다|Git is unavailable
+Git 실행 권한을 확인해 주세요.|Check permission to run Git.
+macOS 개발자 도구 설정을 확인해 주세요.|Check the macOS developer tools setup.
+Git이 설치되지 않았거나 pGit에서 찾을 수 없는 상태입니다.|Git is not installed or pGit cannot find it.
+Git 공식 설치 안내에서 운영체제에 맞게 설치하세요.|Follow the official Git installation guide for your operating system.
+이미 설치했다면 터미널에서 git --version이 실행되는지 확인하세요.|If already installed, check that git --version runs in a terminal.
+설치 또는 PATH 변경 후 pGit을 완전히 종료하고 다시 여세요.|After installation or PATH changes, quit and reopen pGit.
+Git 설치 안내|Git installation guide
+설치 확인|Check installation
+Git을 확인하는 중…|Checking Git…
+Git이 준비되었습니다. 원래 작업을 다시 실행하세요.|Git is ready. Run your original action again.
+Git을 사용할 수 있습니다|Git is ready
+아직 Git을 실행할 수 없습니다. 설치와 실행 경로를 확인해 주세요.|Git is still unavailable. Check the installation and executable path.
+Git 설정 확인|Check Git setup
+Git 설치를 확인한 뒤 다시 시도하세요.|Check the Git installation, then try again.
 프로젝트 그룹|Project groups
 그룹 필터|Group filter
 그룹 없음|Ungrouped

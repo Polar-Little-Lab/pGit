@@ -11,11 +11,14 @@ export async function repositoryExists(root){
  }
 }
 export async function gitLaunchError(error,root){
- if(error.code!=='ENOENT')return error;
+ const developerTools=/xcrun: error: invalid active developer path|xcode-select: (?:error|note):.*(?:developer tools|active developer directory)/i.test(error.stderr||error.message||'');
+ if(!['ENOENT','EACCES','EPERM'].includes(error.code)&&!developerTools)return error;
+ // Permission failures for repository files are not executable launch failures.
+ if(['EACCES','EPERM'].includes(error.code)&&!String(error.syscall||'').startsWith('spawn'))return error;
  if(root){
   try{if(!await repositoryExists(root))return missingRepository(root,error)}catch(cause){return cause}
  }
- return new Error('Git 실행 파일을 찾을 수 없습니다. Git 설치와 실행 경로를 확인한 뒤 앱을 다시 시작하세요.',{cause:error});
+ return Object.assign(new Error('Git 실행 파일을 찾을 수 없습니다. Git 설치와 실행 경로를 확인한 뒤 앱을 다시 시작하세요.',{cause:error}),{code:'GIT_UNAVAILABLE',reason:developerTools?'developer-tools':['EACCES','EPERM'].includes(error.code)?'permission':'not-found',platform:process.platform});
 }
 export function shellQuote(value){return "'"+value.replace(/'/g,"'\\''")+"'"}
 export function gitScriptCommand(name,{executable=process.execPath,platform=process.platform}={}){

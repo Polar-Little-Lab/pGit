@@ -40,6 +40,21 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Git is unavailable":["Gitを実行できません", "无法运行 Git", "Git no está disponible", "Git est indisponible"],
+"Check permission to run Git.":["Gitの実行権限を確認してください。", "请检查 Git 执行权限。", "Comprueba el permiso para ejecutar Git.", "Vérifiez le droit d’exécuter Git."],
+"Check the macOS developer tools setup.":["macOS開発者ツールの設定を確認してください。", "请检查 macOS 开发者工具设置。", "Comprueba las herramientas de desarrollo de macOS.", "Vérifiez les outils de développement macOS."],
+"Git is not installed or pGit cannot find it.":["Gitが未インストールか、pGitから見つかりません。", "Git 未安装或 pGit 无法找到它。", "Git no está instalado o pGit no puede encontrarlo.", "Git n’est pas installé ou pGit ne le trouve pas."],
+"Follow the official Git installation guide for your operating system.":["公式ガイドでOSに合ったGitをインストールしてください。", "请按官方指南安装适合您操作系统的 Git。", "Sigue la guía oficial de Git para tu sistema operativo.", "Suivez le guide officiel de Git pour votre système."],
+"If already installed, check that git --version runs in a terminal.":["インストール済みならターミナルでgit --versionを確認してください。", "若已安装，请在终端确认 git --version 能否运行。", "Si ya está instalado, comprueba git --version en una terminal.", "Si Git est installé, vérifiez git --version dans un terminal."],
+"After installation or PATH changes, quit and reopen pGit.":["インストールやPATH変更後はpGitを終了して再起動してください。", "安装或更改 PATH 后，请完全退出并重新打开 pGit。", "Tras instalar o cambiar PATH, cierra y vuelve a abrir pGit.", "Après installation ou modification de PATH, quittez et relancez pGit."],
+"Git installation guide":["Gitインストールガイド", "Git 安装指南", "Guía de instalación de Git", "Guide d’installation de Git"],
+"Check installation":["インストールを確認", "检查安装", "Comprobar instalación", "Vérifier l’installation"],
+"Checking Git\u2026":["Gitを確認中…", "正在检查 Git…", "Comprobando Git…", "Vérification de Git…"],
+"Git is ready. Run your original action again.":["Gitの準備ができました。元の操作を再実行してください。", "Git 已就绪。请重新执行原操作。", "Git está listo. Repite la acción original.", "Git est prêt. Relancez votre action initiale."],
+"Git is ready":["Gitを使用できます", "Git 已就绪", "Git está listo", "Git est prêt"],
+"Git is still unavailable. Check the installation and executable path.":["まだGitを実行できません。インストールと実行パスを確認してください。", "仍无法运行 Git。请检查安装及执行路径。", "Git sigue sin estar disponible. Comprueba la instalación y la ruta.", "Git reste indisponible. Vérifiez l’installation et le chemin."],
+"Check Git setup":["Gitの設定を確認", "检查 Git 设置", "Comprobar configuración de Git", "Vérifier la configuration de Git"],
+"Check the Git installation, then try again.":["Gitのインストールを確認して再試行してください。", "请检查 Git 安装后重试。", "Comprueba la instalación de Git y vuelve a intentarlo.", "Vérifiez l’installation de Git, puis réessayez."],
 "Project groups":["プロジェクトグループ", "项目分组", "Grupos de proyectos", "Groupes de projets"],
 "Group filter":["グループフィルター", "分组筛选", "Filtro de grupos", "Filtre de groupes"],
 "Ungrouped":["未分類", "未分组", "Sin grupo", "Sans groupe"],

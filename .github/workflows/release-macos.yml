@@ -49,6 +49,7 @@ jobs:
           node test/ui-project-dialog.mjs
           node test/ui-direct-project-open.mjs
           node test/ui-project-groups.mjs
+          node test/ui-git-setup.mjs
       - name: Build macOS installers
         if: runner.os == 'macOS'
         run: npm run dist:mac

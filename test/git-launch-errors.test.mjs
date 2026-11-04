@@ -10,7 +10,7 @@ test('missing working folder and missing Git have distinct actionable errors',as
  try{
   for(const execute of [git,runGit]){
    await assert.rejects(execute(path.join(root,'missing'),['status']),/저장소 폴더를 찾을 수 없습니다/);
-   await assert.rejects(execute(root,['status'],{env:{PATH:path.join(root,'no-bin')}}),/Git 실행 파일을 찾을 수 없습니다/);
+   await assert.rejects(execute(root,['status'],{env:{PATH:path.join(root,'no-bin')}}),error=>error.code==='GIT_UNAVAILABLE'&&error.reason==='not-found');
    assert.match(await execute(root,['--version']),/git version/);
   }
  }finally{await rm(root,{recursive:true,force:true})}
@@ -21,3 +21,5 @@ test('unavailable volumes do not report repository deletion',{skip:process.platf
  await assert.rejects(repositoryExists('/Volumes/pgit-nonexistent-test-volume/repository'),error=>error.code==='ENOENT');
  await assert.rejects(git('/Volumes/pgit-nonexistent-test-volume/repository',['status']),error=>error.code!=='REPOSITORY_MISSING');
 });
+
+test('Git toolchain errors are distinct from repository permissions',async()=>{const {gitLaunchError}=await import('../git-runtime.mjs');assert.equal((await gitLaunchError({code:1,stderr:'xcrun: error: invalid active developer path (/missing)'})).reason,'developer-tools');assert.equal((await gitLaunchError({code:'EACCES',syscall:'spawn git'})).reason,'permission');const error={code:'EACCES',syscall:'open'};assert.equal(await gitLaunchError(error),error);const unsupported={code:1,stderr:'git: unknown command'};assert.equal(await gitLaunchError(unsupported),unsupported)});

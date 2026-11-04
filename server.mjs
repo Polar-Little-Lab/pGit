@@ -11,7 +11,7 @@ import {provider,providerActions} from './providers.mjs';
 import {comparisonFiles,comparisonFile,workingComparison} from './comparison.mjs';
 const token=randomBytes(32).toString('hex');
 const workspaces=new Map(), busyWorkspaces=new Set(), busyRoots=new Set();
-const assets=new Set(['project-groups-ui.js','ignore-picker.js','blame-view.js','file-history.js','ui-components.js','ui-components.css','command-help.js','folder-picker.js','commit-picker.js','reference-fields.js','guide.js','provider-review.js','theme-catalog.js','tooltips.js','icons.js','settings.css','history-tools.js','history-model.js','auto-refresh.js','worktrees.js','merge-preview.js','conflict-model.js','conflict-editor.js','settings.js','themes.css','controls.css','check.svg','chevron.svg','branch.svg','changes.js','workspace.js','workspace.css','logo.svg','logo.png','advanced.js','providers.js','diff-layout.js','comparison.js','comparison.css','shell.js','arctic.js','arctic.css','shell.css','frost.css','graph-workspace.js','frost-select.js','workflow-tools.js','locales.js','i18n.js','code-syntax.js','diff-viewer.js']);
+const assets=new Set(['git-setup.js','project-groups-ui.js','ignore-picker.js','blame-view.js','file-history.js','ui-components.js','ui-components.css','command-help.js','folder-picker.js','commit-picker.js','reference-fields.js','guide.js','provider-review.js','theme-catalog.js','tooltips.js','icons.js','settings.css','history-tools.js','history-model.js','auto-refresh.js','worktrees.js','merge-preview.js','conflict-model.js','conflict-editor.js','settings.js','themes.css','controls.css','check.svg','chevron.svg','branch.svg','changes.js','workspace.js','workspace.css','logo.svg','logo.png','advanced.js','providers.js','diff-layout.js','comparison.js','comparison.css','shell.js','arctic.js','arctic.css','shell.css','frost.css','graph-workspace.js','frost-select.js','workflow-tools.js','locales.js','i18n.js','code-syntax.js','diff-viewer.js']);
 const server=http.createServer(async(req,res)=>{
  res.setHeader('Cache-Control','no-store');res.setHeader('X-Content-Type-Options','nosniff');
  const host=`127.0.0.1:${server.address().port}`;
@@ -39,7 +39,8 @@ const server=http.createServer(async(req,res)=>{
   busyWorkspaces.add(workspaceId);
   let result;
   try{
-   if(action==='repositoryPresence'){result=root?await repositoryExists(root):true}
+   if(action==='gitAvailability'){result={version:(await git.git(undefined,['--version'])).trim()}}
+   else if(action==='repositoryPresence'){result=root?await repositoryExists(root):true}
    else if(action==='resolveRepo'){result=await git.openRepo(data.path)}
    else if(action==='closeWorkspace'){workspaces.delete(workspaceId);result=true}
    else {
@@ -72,7 +73,7 @@ const server=http.createServer(async(req,res)=>{
    }
   }finally{busyWorkspaces.delete(workspaceId);if(lockedRoot)busyRoots.delete(lockedRoot)}
   res.setHeader('Content-Type','application/json');res.end(JSON.stringify({result}));
- }catch(e){res.writeHead(400,{'Content-Type':'application/json'});res.end(JSON.stringify({error:e.stderr||e.message,...(e.code==='REPOSITORY_MISSING'?{code:e.code,repositoryPath:e.repositoryPath}:{})}));}
+ }catch(e){res.writeHead(400,{'Content-Type':'application/json'});res.end(JSON.stringify({error:e.stderr||e.message,...(e.code==='GIT_UNAVAILABLE'?{code:e.code,reason:e.reason,platform:e.platform}:{}),...(e.code==='REPOSITORY_MISSING'?{code:e.code,repositoryPath:e.repositoryPath}:{})}));}
 });
 export {server};
 export const ready=new Promise((resolve,reject)=>{server.once('error',reject);server.listen(0,'127.0.0.1',()=>{const url=`http://127.0.0.1:${server.address().port}/`;console.log(`pGit: ${url}`);resolve(url)});});
