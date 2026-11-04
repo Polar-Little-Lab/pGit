@@ -40,6 +40,7 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Organize commit history":["コミット履歴の整理", "整理提交历史", "Organizar historial de commits", "Organiser l’historique des commits"],
 "Add selected changes":["選択した変更を追加", "添加所选更改", "Añadir cambios seleccionados", "Ajouter les changements sélectionnés"],
 "Staged changes only":["ステージ済み変更のみ", "仅暂存更改", "Solo cambios preparados", "Changements indexés uniquement"],
 "Working directory changes":["作業フォルダーの変更", "工作目录更改", "Cambios del directorio de trabajo", "Changements du dossier de travail"],
