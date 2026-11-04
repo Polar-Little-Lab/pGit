@@ -25,7 +25,7 @@ test('workspace requests remain bound to their repository across concurrent tabs
 test('desktop tab persistence validates paths, omits drafts and writes atomically',async t=>{
  const dir=await mkdtemp(path.join(os.tmpdir(),'pgit-store-'));t.after(()=>rm(dir,{recursive:true,force:true}));const file=path.join(dir,'workspace.json');
  const data={projects:[{path:'/north',draft:'not persisted'},{path:'/north'},{path:'relative'},{path:'/south'}],activePath:'/south',recents:['/north','/north','relative']};
- await store.writeWorkspace(file,data);const restored=await store.readWorkspace(file);assert.deepEqual(restored,{projects:[{path:'/north',name:'north'},{path:'/south',name:'south'}],activePath:'/south',recents:['/north']});
+ await store.writeWorkspace(file,data);const restored=await store.readWorkspace(file);assert.deepEqual(restored,{groups:[],projectGroups:Object.create(null),projects:[{path:'/north',name:'north'},{path:'/south',name:'south'}],activePath:'/south',recents:['/north']});
  await Promise.all([store.writeWorkspace(file,{projects:[{path:'/one'}]}),store.writeWorkspace(file,{projects:[{path:'/two'}]})]);assert.equal((await store.readWorkspace(file)).projects[0].path,'/two');
  await writeFile(file,'invalid json');assert.deepEqual((await store.readWorkspace(file)).projects,[]);
 });

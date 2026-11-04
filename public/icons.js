@@ -19,6 +19,8 @@
   push:'M12 15V3m-4 4 4-4 4 4M4 15v6h16v-6',
   stash:'M3 11h18v10H3zM2 8h6m8 0h6M12 2v12m-3-3 3 3 3-3',
   unstash:'M3 11h4m10 0h4v10H3V11M12 14V2m-3 3 3-3 3 3',
+  cloud:'M6 18a5 5 0 0 1-1-10 7 7 0 0 1 13-1 5.5 5.5 0 0 1 0 11z',
+  code:'m8 6-6 6 6 6m8-12 6 6-6 6m-3-15-2 18',
   history:'M4 5v5h5M4.5 9a8 8 0 1 1-.3 6M12 7v5l3 2',
   changes:'M5 3h10l4 4v14H5zM14 3v5h5M8 12h8M8 16h5',
   worktree:'M12 7v5M5 12h14M5 12v5m14-5v5M9 2h6v5H9zM2 17h6v5H2zM16 17h6v5h-6z',

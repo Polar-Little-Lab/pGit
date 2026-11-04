@@ -1,6 +1,30 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+프로젝트 그룹|Project groups
+그룹 필터|Group filter
+그룹 없음|Ungrouped
+새 그룹|New group
+그룹 이름|Group name
+그룹 색상|Group color
+그룹 아이콘|Group icon
+그룹 저장|Save group
+그룹 만들기|Create group
+그룹 삭제|Delete group
+프로젝트 선택|Select projects
+클라우드|Cloud
+파랑|Blue
+주황|Orange
+청록|Teal
+보라|Purple
+분홍|Pink
+회색|Gray
+색상과 아이콘으로 탭을 구분합니다. 그룹 설정은 이 컴퓨터에 저장됩니다.|Identify tabs by color and icon. Groups are saved on this computer.
+같은 이름의 그룹이 있습니다.|A group with this name already exists.
+그룹을 만든 뒤 프로젝트를 선택하세요.|Create a group, then select projects.
+그룹을 삭제해도 저장소와 파일은 유지됩니다.|Deleting a group keeps repositories and files.
+체크하면 이 그룹으로 이동합니다. 변경은 즉시 저장됩니다.|Check to move into this group. Changes are saved immediately.
+프로젝트를 열면 여기에 표시됩니다.|Opened projects appear here.
 커밋 이력 정리|Organize commit history
 선택한 변경 추가|Add selected changes
 스테이징된 변경만|Staged changes only
