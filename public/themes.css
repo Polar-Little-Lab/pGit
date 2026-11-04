@@ -1,0 +1,69 @@
+.settings-button{margin-left:auto;height:28px;padding:0 10px;font-size:11px;flex-shrink:0;-webkit-app-region:no-drag}
+html[data-theme] body{background:var(--canvas);color:var(--text)}
+html[data-theme] :is(header,footer,.project-bar,.workspace-toolbar,.shell>aside,.selected-commit-panel,#changes,.working-review,.history-head,.filterbar,.compare-bar,.diff-controls,.diff-column-header,.diff-file-note,.unified-legend,.selected-commit-heading,.commit-file-heading,.bar,.change-group-title,.review-back,.return-graph){background:var(--canvas)!important;color:var(--text);border-color:var(--border)}
+html[data-theme] :is(input,textarea,select,dialog,.frost-select-popup,.frost-select-option,.history-scroll,.historyrow,#history,.diff-scroll,.diff-canvas,.welcome,.recent-project,.commit-review,.compare-content,.diff-control-help){background-color:var(--surface);color:var(--text);border-color:var(--border)}
+html[data-theme] :is(.diff-line-number,.diff-overview,.diff-bridge,.diff-gap,.command-notice,.branch-route,.project-options,.project-tab.selected,.author-avatar,.repo-symbol){background:var(--soft)!important;color:var(--muted);border-color:var(--border)}
+html[data-theme] :is(.nav.active,.historyrow.active,.file.active,.commit-file.active,.compare-file.active,.frost-select-option[aria-selected=true]){background:var(--control-selected)!important;color:var(--text)}
+html[data-theme] :is(.cell-muted,.caption,.history-info,.history-scope,.change-state,.diff-count,.diff-header-path,.commit-body,.commit-author time,.commit-parents,.command-body p,.intro p,.recent-project small,.welcome-footer){color:var(--muted)}
+html[data-theme] :is(.current-branch,.repo-heading,.branch-folder-name,.commit-parents button,.diff-column-header code){color:var(--polar-accent)}
+html[data-appearance=dark] :is(.diff-modified,.diff-modified .diff-line-number){background:#253d55!important}
+html[data-appearance=dark] :is(.diff-added,.diff-added .diff-line-number){background:#233f36!important;color:var(--text)}
+html[data-appearance=dark] :is(.diff-removed,.diff-removed .diff-line-number){background:#4b3035!important;color:var(--text)}
+html[data-appearance=dark] .diff-added .diff-word{background:#37664b;color:#e5f4e9}
+html[data-appearance=dark] .diff-removed .diff-word{background:#79454c;color:#ffedee}
+html[data-appearance=dark] .idea-diff :is(.syntax-keyword,.syntax-type){color:#e1ac79}
+html[data-appearance=dark] .idea-diff .syntax-identifier{color:#cf9bd3}
+html[data-appearance=dark] .idea-diff .syntax-string{color:#aad28e}
+html[data-appearance=dark] .idea-diff :is(.syntax-number,.syntax-builtin){color:#85c8e1}
+html[data-appearance=dark] .idea-diff .syntax-comment{color:#97aca7}
+html[data-appearance=dark] :is(.legend-add,.status-A){color:#98d9b5}
+html[data-appearance=dark] :is(.legend-delete,.status-D){color:#eca6a1}
+html[data-appearance=dark] button.primary:not(:disabled){background:var(--polar-primary);border-color:var(--polar-primary);color:#fff}
+html[data-appearance=dark] .branchmarker{background:var(--soft);color:var(--text);border-color:var(--border)}
+html[data-appearance=dark] .branchmarker.current-ref{background:var(--polar-primary);color:#fff}
+html[data-theme] .commit-parents button{background:var(--soft)}
+html[data-theme] .frost-select-trigger{background:var(--surface);color:var(--text)}
+html[data-theme] .diff-fold{background:var(--soft);color:var(--muted);border-color:var(--border)}
+
+html[data-appearance=dark]{color-scheme:dark}
+html[data-theme] .idea-diff{background:var(--surface)}
+html[data-theme] :is(.commitbox,.commit-summary,#changes #message,.theme-card,.worktree-form){background:var(--surface);color:var(--text)}
+html[data-theme] :is(.ui-segmented,.idea-diff .diff-controls .ui-segmented){background:var(--soft)}
+html[data-theme] .idea-diff .diff-controls .ui-segmented>button{background:transparent;color:var(--muted)}
+html[data-theme] .idea-diff .diff-controls .ui-segmented>button[aria-pressed=true]{background:var(--surface);color:var(--accent);box-shadow:0 1px 3px #0002,inset 0 0 0 1px var(--border)}
+html[data-theme] .idea-diff .diff-controls .ui-segmented>button[aria-pressed=false]:hover{background:var(--control-hover)}
+.settings-button.icon-control{width:32px;height:32px;padding:0;border-color:transparent;background:transparent}
+.settings-button[aria-pressed=true]{background:var(--control-selected);color:var(--accent)}
+/* A project tab is one visual surface, including its close-button area. */
+html[data-theme] .project-tab{background:transparent;border-color:transparent;cursor:pointer;overflow:hidden}
+html[data-theme] .project-tab.selected{background:var(--surface)!important;color:var(--text);border-color:var(--border)}
+html[data-theme] .project-tab:hover{background:var(--control-hover)}
+html[data-theme] .project-tab.selected:hover{background:var(--control-selected)!important}
+html[data-theme] .project-tab>button{background:transparent;border-radius:0}
+html[data-theme] .project-tab>.tab-close{align-self:stretch;width:32px;height:auto;margin:0;flex:0 0 32px}
+html[data-theme] .project-tab>.tab-close:hover{background:transparent;color:var(--accent)}
+html[data-theme] .project-tab>button:focus-visible{outline-offset:-3px;border-radius:4px}
+html[data-theme] .project-tab.selected:before{background:var(--accent);pointer-events:none}
+/* Keep the destination legible against alternating history-row backgrounds. */
+html[data-theme] .historyrow.active{box-shadow:inset 3px 0 var(--accent),inset 0 1px var(--border),inset 0 -1px var(--border)}
+html[data-theme] .historyrow.active .subject-text{font-weight:600}
+html[data-theme] .historyrow.active>code{color:var(--accent);font-weight:600}
+html[data-theme] .historyrow.active svg circle{fill:var(--accent);stroke-width:2.5px}
+html[data-theme] .historyrow:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+/* Alignment spacers are empty canvas, not a stack of highlighted code rows. */
+html[data-theme] .idea-diff .diff-code-row.diff-gap{background:var(--surface)!important;border:0;box-shadow:none}
+html[data-theme] .idea-diff .diff-gap .diff-line-number{background:var(--surface)!important;border:0}
+
+/* Quiet row striping; reserve stronger color for hover and selection. */
+html[data-theme] .historyrow:not(.active){background:var(--surface);color:var(--text)}
+html[data-theme] .historyrow:nth-child(even):not(.active){background:color-mix(in srgb,var(--soft) 24%,var(--surface))}
+html[data-theme] .historyrow:not(.active):hover{background:color-mix(in srgb,var(--control-selected) 48%,var(--surface))}
+/* Continuous diff surfaces, with rounded transitions and no outlined ornament. */
+html[data-theme] .diff-bridge path{stroke:none}
+html[data-theme] .bridge-add{fill:#e4f1e8}
+html[data-theme] .bridge-delete{fill:#f8e8e7}
+html[data-theme] .bridge-change{fill:#e8f0f8}
+html[data-appearance=dark] .bridge-add{fill:#233f36}
+html[data-appearance=dark] .bridge-delete{fill:#4b3035}
+html[data-appearance=dark] .bridge-change{fill:#253d55}
+html[data-theme] .diff-bridge{background:var(--surface)!important}

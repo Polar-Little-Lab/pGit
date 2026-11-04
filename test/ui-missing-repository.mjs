@@ -1,0 +1,25 @@
+import {chromium} from 'playwright';import assert from 'node:assert/strict';
+import {mkdtemp,writeFile,rm,rename} from 'node:fs/promises';import os from 'node:os';import path from 'node:path';
+import {git} from '../git.mjs';import {server,ready} from '../server.mjs';
+const temp=await mkdtemp(path.join(os.tmpdir(),'pgit-missing-'));let browser;
+try{
+ const roots=[];for(const name of ['keep','testing']){const root=path.join(temp,name);await git(temp,['init','-b','main',root]);await git(root,['config','user.name','Test']);await git(root,['config','user.email','test@example.invalid']);await writeFile(root+'/README.md',name);await git(root,['add','.']);await git(root,['commit','-m','Initial commit']);roots.push(root)}
+ browser=await chromium.launch({headless:true,...(process.env.PGIT_BROWSER_PATH?{executablePath:process.env.PGIT_BROWSER_PATH}:{})});const page=await browser.newPage({viewport:{width:1400,height:900}});page.setDefaultTimeout(15000);await page.goto(await ready);
+ async function open(root){await page.locator('#addProject').click();await page.locator('#projectPath').fill(root);await page.locator('#submitProject').click();await page.frameLocator(`iframe[title="${path.basename(root)} 작업 공간"]`).locator('.historyrow').first().waitFor()}
+ await open(roots[0]);await open(roots[1]);
+ const originalPane=await (await page.locator('iframe[title="testing 작업 공간"]').elementHandle()).contentFrame();await originalPane.evaluate(()=>{$('message').value='Preserved title';$('commitDescription').value='Preserved details';publishPane()});
+ // Permission/server failures must not close a healthy tab.
+ await page.route('**/api',async route=>{if(route.request().postDataJSON()?.action==='repositoryPresence')return route.fulfill({status:400,contentType:'application/json',body:JSON.stringify({error:'EACCES: permission denied'})});return route.continue()});await page.evaluate(()=>checkProjectFolders());assert.equal(await page.locator('.project-tab').count(),2);await page.unroute('**/api');
+ // Moving a repository is treated as a missing folder, not as lost Git installation.
+ const moved=path.join(temp,'moved');await rename(roots[1],moved);await page.evaluate(()=>checkProjectFolders());await page.locator('iframe[title="testing 작업 공간"]').waitFor({state:'detached'});assert.equal(await page.locator('.project-tab').count(),1);assert.equal(await page.locator('.project-tab.selected .tab-text').textContent(),'keep');
+ await page.locator('#shellNotice').waitFor({state:'visible'});assert.match(await page.locator('#shellNotice').textContent(),/testing.*탭을 닫았습니다/);assert.ok((await page.locator('#shellNotice').boundingBox()).y<120);
+ await page.getByRole('button',{name:'다른 위치에서 열기',exact:true}).click();await page.locator('#projectDialog').waitFor();await page.locator('#projectPath').fill(moved);await page.locator('#submitProject').click();await page.frameLocator('iframe[title="moved 작업 공간"]').locator('.historyrow').first().waitFor();
+ const restoredPane=await (await page.locator('iframe[title="moved 작업 공간"]').elementHandle()).contentFrame();await restoredPane.waitForFunction(()=>$('message').value==='Preserved title');assert.equal(await restoredPane.locator('#commitDescription').inputValue(),'Preserved details');
+ // Delete active folder while an operation modal is open: periodic presence checks still work.
+ const pane=await (await page.locator('iframe[title="moved 작업 공간"]').elementHandle()).contentFrame();await pane.evaluate(()=>openCommand('remoteAdd'));
+ await rm(moved,{recursive:true,force:true});await page.evaluate(()=>checkProjectFolders());await page.locator('iframe[title="moved 작업 공간"]').waitFor({state:'detached'});await page.locator('#shellNotice').waitFor({state:'visible'});const shown=Date.now();await page.locator('#shellNotice').waitFor({state:'hidden'});assert.ok(Date.now()-shown>=2000);assert.ok(Date.now()-shown<5000);
+ await page.waitForFunction(()=>JSON.parse(localStorage.getItem('pgit.arctic.workspace.v1')).projects.length===1);await page.reload();await page.frameLocator('iframe[title="keep 작업 공간"]').locator('.historyrow').first().waitFor();assert.equal(await page.locator('.project-tab').count(),1);assert.equal(await page.locator('.recent-project[data-missing=true]').count(),2);
+ // A saved tab whose folder disappears while the app is closed is removed at startup too.
+ await rm(roots[0],{recursive:true,force:true});await page.reload();await page.locator('iframe').waitFor({state:'detached'});await page.locator('#welcome').waitFor({state:'visible'});await page.waitForFunction(()=>JSON.parse(localStorage.getItem('pgit.arctic.workspace.v1')).projects.length===0);assert.equal(await page.locator('.recent-project[data-missing=true]').count(),3);
+ console.log('Missing folder: active/modal/startup close, adjacent tab/home, 3-second top notice, reopen, recents and permission-error retention passed');
+}finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await rm(temp,{recursive:true,force:true})}

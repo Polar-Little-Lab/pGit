@@ -22,5 +22,7 @@ function inlineChanges(before,after){
  for(let i=a.length-1;i>=0;i--)for(let j=b.length-1;j>=0;j--)dp[i*width+j]=a[i]===b[j]?1+dp[(i+1)*width+j+1]:Math.max(dp[(i+1)*width+j],dp[i*width+j+1]);
  let i=0,j=0;while(i<a.length||j<b.length){if(i<a.length&&j<b.length&&a[i]===b[j]){put(left,a[i++],false);put(right,b[j++],false)}else if(i<a.length&&(j===b.length||dp[(i+1)*width+j]>=dp[i*width+j+1]))put(left,a[i++],true);else put(right,b[j++],true)}return {before:left,after:right};
 }
-scope.PgitDiff={alignDiff,documentLines,changeBlocks,inlineChanges};
+// One visual block: removals first, additions second; unchanged lines appear only once.
+function unifiedRows(rows){const entries=[],offsets=[];for(let i=0;i<rows.length;){const row=rows[i];if(row.kind==='fold'){entries.push({row,kind:'fold'});i++;continue}if(row.kind==='context'){entries.push({row,kind:'context',side:row.after===null?'before':'after'});i++;continue}offsets.push(entries.length);const block=offsets.length-1;let end=i+1;while(end<rows.length&&!['fold','context'].includes(rows[end].kind))end++;for(const side of ['before','after'])for(let j=i;j<end;j++)if(rows[j][side]!==null)entries.push({row:rows[j],kind:side==='before'?'delete':'add',side,block});i=end}return {entries,offsets}}
+scope.PgitDiff={alignDiff,documentLines,changeBlocks,inlineChanges,unifiedRows};
 })(typeof window==='undefined'?globalThis:window);

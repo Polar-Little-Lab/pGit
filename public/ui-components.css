@@ -1,0 +1,196 @@
+/* Shared list density: one outline per collection, one divider per item.
+   Scope paragraph/control resets here so generic modal rules cannot add spacing. */
+:root{--ui-list-padding-y:8px;--ui-list-padding-x:12px;--ui-list-gap:4px}
+.ui-item-list{border:1px solid var(--border);border-radius:var(--control-radius,4px);background:var(--surface);overflow:hidden}
+.ui-item-list:empty{display:none}
+body dialog .ui-list-item{margin:0;padding:0;border:0;border-bottom:1px solid var(--border);border-radius:0;background:var(--surface);font-size:var(--ui-font-size,12px)}
+body dialog .ui-list-item:last-child{border-bottom:0}
+body dialog .ui-list-main{position:relative;display:flex;flex-direction:column;gap:var(--ui-list-gap);min-width:0;min-height:48px;padding:var(--ui-list-padding-y) calc(var(--ui-list-padding-x) + 20px) var(--ui-list-padding-y) var(--ui-list-padding-x);color:var(--text);text-decoration:none;overflow-wrap:anywhere;line-height:1.5}
+body dialog a.ui-list-main:hover{background:var(--soft);color:var(--accent)}
+body dialog a.ui-list-main:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+body dialog .ui-list-title{font-size:inherit;line-height:1.5;font-weight:600}
+body dialog .ui-list-item .ui-list-meta{margin:0;padding:0;color:var(--muted);font-size:.92em;line-height:1.5}
+.ui-list-external{position:absolute;right:var(--ui-list-padding-x);top:var(--ui-list-padding-y);color:var(--muted)}
+body dialog .ui-list-actions{display:flex;flex-wrap:wrap;gap:6px;padding:0 var(--ui-list-padding-x) var(--ui-list-padding-y)}
+body dialog .ui-list-actions:empty{display:none}
+body dialog .ui-list-actions>button{height:auto;min-height:28px;padding:3px 8px;margin:0;font-size:inherit;line-height:1.5}
+/* Selection groups and list states use the same spacing in shell and workspace. */
+body .reference-modes{display:flex;height:auto;min-height:0;flex-shrink:0;align-items:stretch;padding:3px;gap:3px;background:var(--soft);border-radius:7px}
+body .reference-modes>button{flex:1;min-width:0;min-height:36px;height:auto;margin:0;border:0;border-radius:4px;background:transparent;color:var(--muted);padding:8px;font-size:var(--ui-font-size,12px);line-height:1.5;white-space:normal}
+body .reference-modes>button[aria-pressed=true]{background:var(--surface);color:var(--accent);box-shadow:0 1px 3px #0002}
+body dialog .ui-list-message{display:flex;align-items:center;justify-content:center;min-height:72px;padding:18px 16px;color:var(--muted);font-size:var(--ui-font-size,12px);line-height:1.6;overflow-wrap:anywhere;text-align:center}
+body dialog .ui-list-message[role=alert]{color:var(--danger);text-align:left;justify-content:flex-start}
+body dialog .ui-list-meta{white-space:pre-line}
+body #projectDialog .dialog-heading{background:var(--canvas);border-bottom:1px solid var(--border)}
+body #projectDialog .dialog-heading h2{font-size:var(--ui-font-size,12px);font-weight:650;line-height:1.5}
+
+/* Dialog structure shared by project forms, advanced views and worktrees. */
+.ui-dialog-layout:not(dialog),dialog.ui-dialog-layout[open]{display:flex;flex-direction:column;min-height:0;max-height:calc(100vh - 32px)}
+.ui-dialog-layout>.bar{flex-shrink:0}
+.ui-dialog-content{min-height:0;overflow:auto}
+.ui-dialog-actions{display:flex;justify-content:flex-end;gap:8px;flex-shrink:0}
+
+/* One notification surface for both the shell and standalone workspaces. */
+#shellNotice.ui-notification,#toast.ui-notification{position:fixed;inset:64px auto auto 50%;margin:0;transform:translateX(-50%);display:block;width:max-content;max-width:calc(100vw - 32px);max-height:calc(100vh - 96px);overflow:auto;padding:12px 20px;border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;background:var(--surface);color:var(--text);box-shadow:0 8px 28px #0003;line-height:1.5;z-index:1000;overflow-wrap:anywhere}
+#shellNotice.ui-notification.missing-notice{display:flex}
+#shellNotice.ui-notification[hidden],#toast[hidden]{display:none!important}
+/* File history appends compact rows while keeping search controls visible. */
+body dialog.file-history-dialog[data-dialog-kind=list]{width:min(960px,calc(100vw - 24px));height:min(760px,85vh)}
+body dialog .file-history-view{display:flex;flex-direction:column;gap:12px;flex:1;min-height:0;overflow:hidden}
+body dialog .file-history-view>.command-help{margin:0}
+.file-history-path{color:var(--muted);overflow-wrap:anywhere;font-size:.9em;flex-shrink:0}
+.file-history-toolbar{display:flex;gap:8px;align-items:center;flex-shrink:0}
+body dialog .file-history-toolbar>input{flex:1;min-width:0;width:0;margin:0;height:3em;min-height:36px;box-sizing:border-box}
+body dialog .file-history-toolbar>button{flex:none;margin:0;height:3em;min-height:36px;padding:0 12px;line-height:1.5;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center}
+body dialog .file-history-list{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain}
+body dialog .file-history-list>.file-history-open{display:flex;align-items:center;gap:20px;width:100%;height:auto;min-height:56px;margin:0;padding:10px 12px;border:0;border-bottom:1px solid var(--border);border-radius:0;background:transparent;color:var(--text);text-align:left;font-weight:400;line-height:1.5;white-space:normal;cursor:pointer}
+body dialog .file-history-list>.file-history-open:last-child{border-bottom:0}
+body dialog .file-history-list>.file-history-open:is(:hover,:focus-visible){background:var(--soft);color:var(--text)}
+body dialog .file-history-list>.file-history-open:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+body dialog .file-history-open>.ui-list-main{flex:1;min-width:0;padding:0}
+body dialog .file-history-open .ui-list-title{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere;line-height:1.5}
+body dialog .file-history-open .ui-list-meta{display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin-top:4px}
+body dialog .file-history-open>.file-history-hash{flex:none;align-self:center;margin:0;padding:0;background:transparent;color:var(--muted);font-size:.9em;white-space:nowrap}
+.file-history-footer{display:flex;align-items:center;justify-content:center;gap:8px;flex-shrink:0}
+.file-history-footer [role=status]{color:var(--muted);font-size:.9em}
+@media(max-width:540px){.file-history-toolbar{flex-wrap:wrap}.file-history-toolbar input{flex-basis:100%}body dialog.file-history-dialog[data-dialog-kind=list]{height:calc(100vh - 24px)}}
+body dialog.file-history-comparing[data-dialog-kind=list]{width:min(1440px,calc(100vw - 24px));height:90vh}
+body dialog .file-history-detail{display:flex;flex-direction:column;gap:10px;flex:1;min-height:0}
+body dialog .file-history-detail-heading{display:flex;align-items:center;gap:12px;flex-shrink:0}
+body dialog .file-history-detail-heading>button{flex:none;margin:0}
+body dialog .file-history-detail-heading>strong{min-width:0;overflow-wrap:anywhere}
+body dialog .single-file-comparison .compare-files,body dialog .single-file-comparison .compare-bar>button{display:none}
+body dialog .single-file-comparison .compare-area{grid-template-columns:minmax(0,1fr)}
+/* Refresh actions share one square hit target and centered icon in every view. */
+body button.icon-control.refresh-control,body dialog button.icon-control.refresh-control{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;gap:0;width:var(--refresh-control-size,max(32px,2.75em));height:var(--refresh-control-size,max(32px,2.75em));min-width:var(--refresh-control-size,max(32px,2.75em));min-height:var(--refresh-control-size,max(32px,2.75em));padding:0;margin:0;line-height:1;box-sizing:border-box;vertical-align:middle}
+body button.refresh-control>.pgit-icon{display:block;flex:none;width:1.4em;height:1.4em;margin:0}
+body button.refresh-control::before,body button.refresh-control::after{content:none}
+body button.icon-control.refresh-control[hidden]{display:none}
+.file-history-toolbar{--refresh-control-size:max(36px,3em)}
+body dialog.blame-dialog[data-dialog-kind=list]{width:min(1500px,calc(100vw - 24px));height:90vh}
+.blame-toolbar{display:flex;align-items:center;gap:8px;flex-shrink:0;flex-wrap:wrap}
+.blame-toolbar>strong{flex:1;min-width:120px;overflow-wrap:anywhere}
+body dialog .blame-toolbar>label{display:flex;align-items:center;gap:6px;margin:0;white-space:nowrap}
+body dialog .blame-toolbar input{width:7em;margin:0}
+body dialog .blame-toolbar>button{margin:0}
+.blame-status{color:var(--muted);font-size:.9em;flex-shrink:0}
+.blame-viewport{flex:1;min-height:0;overflow:auto;border:1px solid var(--border);border-radius:6px;background:var(--surface);overscroll-behavior:contain}
+.blame-canvas{position:relative;font-family:var(--code-font,monospace);font-size:var(--code-font-size,12px)}
+.blame-row{position:absolute;left:0;right:0;display:flex;align-items:stretch;white-space:pre}
+body dialog .blame-row>.blame-author{position:sticky;left:0;z-index:2;display:flex;align-items:center;gap:8px;flex:0 0 278px;width:278px;height:var(--blame-row-height);min-height:0;margin:0;padding:0 10px;border:0;border-right:1px solid var(--border);border-radius:0;background:var(--canvas);color:var(--muted);font-size:var(--ui-font-size,12px);line-height:1;text-align:left}
+.blame-author-name{min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis}
+.blame-author time,.blame-author code{flex:none;font-size:.85em}
+.blame-line-number{position:sticky;left:278px;z-index:1;flex:0 0 52px;width:52px;box-sizing:border-box;text-align:right;padding-right:12px;color:var(--muted);background:var(--canvas);border-right:1px solid var(--border);line-height:var(--blame-row-height)}
+.blame-code{padding:0 12px;line-height:var(--blame-row-height);font:inherit;line-height:var(--blame-row-height);white-space:pre;tab-size:4}
+.blame-row:hover{background:var(--soft)}
+body dialog .blame-row>.blame-author:is(:hover,:focus-visible){background:var(--selected);color:var(--text)}
+.blame-viewport.idea-diff{display:block}
+.blame-canvas{flex:none}
+/* Plain refresh affordances: show feedback on interaction, not a permanent box. */
+body button.icon-control.refresh-control,body dialog button.icon-control.refresh-control{border:0;background:transparent;box-shadow:none;color:var(--muted)}
+body button.icon-control.refresh-control:hover:not(:disabled){background:var(--soft);color:var(--text)}
+body button.icon-control.refresh-control:focus-visible{outline:2px solid var(--accent);outline-offset:2px;background:var(--soft);color:var(--text)}
+body dialog.blame-dialog form.blame-toolbar{--refresh-control-size:max(36px,3em);margin:0;align-items:center}
+body dialog.blame-dialog form.blame-toolbar>label{display:flex;align-items:center;margin:0;padding:0;min-height:0;height:auto;line-height:1.5;font-size:var(--ui-font-size,12px)}
+body dialog.blame-dialog form.blame-toolbar input,body dialog.blame-dialog form.blame-toolbar>button{height:var(--refresh-control-size);min-height:var(--refresh-control-size);margin:0;box-sizing:border-box;font-size:var(--ui-font-size,12px);line-height:1.5}
+body dialog.blame-dialog form.blame-toolbar>button{display:inline-flex;align-items:center;justify-content:center}
+.remote-site-header{display:flex;align-items:center;flex:0 0 100%;width:100%;min-width:0;border-radius:4px}
+.remote-site-header .remote-site-link:hover,.shell>aside .remote-site-header>button:hover{background:transparent}
+body dialog label.ui-check-field{display:flex;align-items:center;gap:.65em;min-height:38px;margin:10px 0;padding:8px 10px;line-height:1.5;cursor:pointer;border-radius:5px}
+body dialog label.ui-check-field:hover{background:var(--soft)}
+body dialog label.ui-check-field>input[type=checkbox]{flex:none;width:1.25em;height:1.25em;min-height:0;padding:0;margin:0;accent-color:var(--accent)}
+body dialog label.ui-check-field>span{min-width:0;overflow-wrap:anywhere}
+body dialog .ignore-picker{display:flex;flex-direction:column;gap:10px;max-height:75vh}
+body dialog .ignore-picker>input{flex:none;margin:0}
+body dialog .ignore-picker>label.ui-check-field{margin:0}
+.ignore-tree{min-height:100px;max-height:45vh;overflow:auto;border:1px solid var(--border);border-radius:6px}
+.ignore-row{display:flex;align-items:center;gap:4px;min-width:0;padding-right:10px}
+.ignore-row:hover{background:var(--soft)}
+body dialog .ignore-row label.ui-check-field{flex:1;min-width:0;margin:0;padding:6px;min-height:34px;background:transparent}
+body dialog button.ignore-toggle,.ignore-toggle-spacer{display:inline-flex;align-items:center;justify-content:center;width:26px;min-width:26px;height:26px;min-height:0;flex:none;padding:0;margin:0;border:0;background:transparent}
+.ignore-toggle[aria-expanded=true] svg{transform:rotate(90deg)}
+.ignore-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;flex:none}
+body dialog .merge-form .merge-branch-flow{display:grid;grid-template-columns:minmax(0,1fr) 20px minmax(0,1fr);align-items:center;gap:12px;margin:18px 0}
+.merge-branch-flow>.pgit-icon{color:var(--muted);justify-self:center}
+body dialog .merge-branch-card{min-width:0;padding:14px;border:1px solid var(--border);border-radius:8px;background:var(--surface);align-self:stretch;display:flex;flex-direction:column;justify-content:center;gap:8px}
+body dialog .merge-branch-card>label,body dialog .merge-branch-card>span{margin:0;color:var(--muted);font-size:.9em}
+body dialog .merge-branch-card .frost-select{min-width:0;width:100%;margin:0}
+body dialog .merge-destination{background:var(--canvas)}
+.merge-destination>strong{display:flex;align-items:center;gap:8px;overflow-wrap:anywhere}
+.merge-destination>small{color:var(--muted);font-size:.85em}
+body dialog .merge-preview{padding:14px;border:1px solid var(--border);border-radius:8px;background:var(--canvas);margin:12px 0;line-height:1.6}
+.merge-result-heading{display:flex;align-items:center;gap:8px;color:var(--accent)}
+body dialog .merge-preview p{margin:8px 0 0}
+.merge-preview details{margin-top:12px;color:var(--muted)}
+.merge-preview details>code{display:block;overflow-wrap:anywhere;margin-top:8px}
+.merge-preview[data-status=conflicts] .merge-result-heading,.merge-preview[data-status=unrelated] .merge-result-heading{color:var(--danger)}
+body dialog .merge-form-actions{display:flex;justify-content:flex-end;align-items:center;gap:12px;padding-top:16px;margin-top:16px;border-top:1px solid var(--border)}
+body dialog .merge-form-actions>button{margin:0;float:none}
+body dialog .merge-form-actions>.primary{min-width:100px}
+body dialog .merge-form>.command-error:empty{display:none}
+@media(max-width:560px){body dialog .merge-form .merge-branch-flow{grid-template-columns:minmax(0,1fr);gap:8px}.merge-branch-flow>.pgit-icon{transform:rotate(90deg)}.merge-form-actions{flex-wrap:wrap}}
+body dialog form.merge-form .merge-form-actions>button{height:3em;min-height:36px;margin:0;float:none;display:inline-flex;align-items:center;justify-content:center;padding:0 12px}
+
+body dialog .merge-preview.command-error{display:flex;align-items:center;gap:12px}
+body dialog .merge-preview.command-error>span{flex:1;min-width:0}
+/* Keep simple commands next to their input; multi-field forms end in a full-width action. */
+body dialog form.ui-command-form>button.primary{width:100%;margin:16px 0 0;float:none;height:3em;min-height:36px;display:flex;align-items:center;justify-content:center}
+body dialog form.ui-command-inline{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:10px;align-items:start}
+body dialog form.ui-command-inline>*{grid-column:1/-1;min-width:0}
+body dialog form.ui-command-inline>:is(input,select,.frost-select){grid-column:1;margin:0;height:3em;min-height:36px}
+body dialog form.ui-command-inline>.frost-select .frost-select-trigger{height:3em;min-height:36px}
+body dialog form.ui-command-inline>button[type=submit]{grid-column:2;width:auto;min-width:80px;margin:0;height:3em;min-height:36px;padding:0 16px}
+body dialog form.ui-command-inline>.command-error{order:1;margin:10px 0 0}
+body dialog form.ui-command-form>.command-error:empty{display:none}
+body dialog form.ui-command-inline>.merge-preview{order:2;margin-top:16px}
+body dialog form.ui-command-inline>.merge-preview[hidden]{display:none}
+@media(max-width:520px){body dialog form.ui-command-inline{grid-template-columns:minmax(0,1fr)}body dialog form.ui-command-inline>button[type=submit]{grid-column:1;width:100%;margin-top:10px}}
+body dialog form.ui-command-inline>:is(input,select,.frost-select),body dialog form.ui-command-inline>.frost-select .frost-select-trigger,body dialog form.ui-command-inline>button[type=submit]{font-size:inherit}
+body dialog .dialog-actions>button.primary:only-child{width:100%;display:flex;align-items:center;justify-content:center}
+body dialog .provider-row button.ui-list-main{height:auto;width:100%;text-align:left;border:0;background:transparent;font:inherit;color:inherit}
+body dialog .issue-detail{max-width:100%;overflow:auto}.issue-heading{padding:8px 0 20px;border-bottom:1px solid var(--border);margin-bottom:16px}.issue-heading>span{color:var(--muted);font-size:12px}.issue-heading h2{font-size:20px;line-height:1.4;margin:8px 0;overflow-wrap:anywhere}.issue-heading a{color:var(--accent)}
+.issue-comment{padding:16px;margin:12px 0;border:1px solid var(--border);border-radius:8px;background:var(--surface)}.issue-comment-meta{font-size:12px;color:var(--muted);margin-bottom:10px}.issue-text{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.7}.issue-conversation h3{font-size:13px;margin:24px 0 12px}
+.issue-composer{margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}.issue-composer label{display:block;margin-bottom:8px}.issue-composer textarea{width:100%;min-height:120px;padding:12px;resize:vertical;box-sizing:border-box;font:inherit;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text)}body dialog .issue-composer button.primary{width:100%;height:36px;margin-top:12px}.issue-composer .command-error:empty{display:none}
+body .advanced-dialog[data-dialog-kind=issue]{width:760px;max-width:calc(100vw - 32px);max-height:90vh}
+body dialog .issue-heading{display:block;height:auto;background:transparent;padding:8px 0 20px}
+body dialog .issue-detail .review-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.syntax-editor{position:relative;height:clamp(200px,50vh,520px);min-height:120px;border:1px solid var(--border);border-radius:6px;overflow:hidden;background:var(--surface)}
+body dialog .syntax-editor>:is(pre,textarea.code-editor){position:absolute;inset:0;display:block;box-sizing:border-box;width:100%;height:100%;min-height:0;max-height:none;margin:0;border:0;border-radius:0;padding:12px;font:var(--code-font-size,13px)/var(--code-row-height,24px) var(--code-font,ui-monospace,monospace);font-variant-ligatures:none;letter-spacing:normal;tab-size:4;white-space:pre;overflow-wrap:normal;word-break:normal;text-align:left}
+body dialog .syntax-editor>pre{pointer-events:none;overflow:hidden;color:var(--text);background:transparent}
+body dialog .syntax-editor>textarea.code-editor{resize:none;overflow:auto;background:transparent;color:transparent;caret-color:var(--text);-webkit-text-fill-color:transparent}
+body dialog .syntax-editor>textarea::selection{background:var(--control-selected,var(--soft));-webkit-text-fill-color:var(--text);color:var(--text)}
+.syntax-editor:focus-within{outline:2px solid var(--accent);outline-offset:-2px}
+.syntax-editor .syntax-keyword,.syntax-editor .syntax-type{color:var(--syntax-keyword,#a05c29)}
+.syntax-editor .syntax-string{color:var(--syntax-string,#487c42)}.syntax-editor .syntax-number{color:var(--syntax-number,#398b98)}.syntax-editor .syntax-identifier{color:var(--syntax-identifier,#88578f)}.syntax-editor .syntax-comment{color:var(--muted)}
+html[data-appearance=dark] .syntax-editor :is(.syntax-keyword,.syntax-type){color:#e1ac79}html[data-appearance=dark] .syntax-editor .syntax-string{color:#aad28e}html[data-appearance=dark] .syntax-editor .syntax-number{color:#85c8e1}html[data-appearance=dark] .syntax-editor .syntax-identifier{color:#cf9bd3}
+/* The transparent input must stay above the painted code in every theme. */
+body dialog .syntax-editor>textarea.code-editor{background:transparent!important;color:transparent!important}
+body .advanced-dialog[data-dialog-kind=amend]{width:1060px;max-width:calc(100vw - 32px)}
+.amend-target{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}.amend-selection{display:grid;grid-template-columns:280px minmax(0,1fr);height:300px;border:1px solid var(--border);border-radius:6px;overflow:hidden;margin:12px 0 16px}.amend-file-list{overflow:auto;border-right:1px solid var(--border)}.amend-file-row{display:flex;align-items:center;gap:8px;padding:6px 10px;border-bottom:1px solid var(--border)}.amend-file-row:hover,.amend-file-row.selected{background:var(--soft)}.amend-file-row input{flex-shrink:0;width:16px;height:16px}.amend-file-row button{height:auto;min-width:0;flex:1;padding:6px 0;text-align:left;border:0;background:transparent;color:var(--text)}.amend-file-row strong{display:block;overflow-wrap:anywhere;font-size:12px}.amend-file-row small{color:var(--muted);font-size:11px}.amend-file-preview{min-width:0;overflow:auto}.amend-file-preview.idea-diff{height:100%}body dialog[data-dialog-kind=amend] .commit-message-input{width:100%;min-height:100px;padding:10px;resize:vertical}
+@media(max-width:650px){.amend-selection{grid-template-columns:1fr;height:380px;grid-template-rows:150px minmax(0,1fr)}.amend-file-list{border-right:0;border-bottom:1px solid var(--border)}}
+
+.provider-picker-toolbar input{flex:1;min-width:0;height:36px}.review-context{padding:12px 16px;background:var(--soft);border:1px solid var(--border);border-radius:8px;flex-shrink:0}.review-context summary{cursor:pointer;font-weight:600}.review-context .review-description{max-height:160px;overflow:auto;margin-top:8px}.review-form>button[type=submit]{display:block;width:100%;margin-top:16px}.review-form>select{max-width:100%}
+
+.advanced-dialog[data-dialog-kind=organizer]{width:1200px;max-width:calc(100vw - 32px)}.organizer-layout{display:grid;grid-template-columns:minmax(260px,2fr) minmax(0,3fr);gap:20px}.organizer-range,.organizer-editor{min-width:0}.organizer-range input{width:100%;margin-bottom:12px}.organizer-history{max-height:55vh;overflow:auto;border:1px solid var(--border);border-radius:8px}.organizer-commit{display:grid;grid-template-columns:20px minmax(0,1fr) auto;gap:6px 10px;width:100%;text-align:left;border:0;border-bottom:1px solid var(--border);border-radius:0;padding:12px;background:var(--surface)}.organizer-commit strong{overflow-wrap:anywhere}.organizer-commit small{grid-column:2/-1;color:var(--muted)}.organizer-node{color:var(--accent)}.organizer-commit[aria-pressed=true],.organizer-actions button[aria-pressed=true]{background:var(--soft);box-shadow:inset 3px 0 var(--accent)}.organizer-rows{max-height:42vh;overflow:auto}.organizer-row{padding:12px;border:1px solid var(--border);border-radius:8px;margin-bottom:10px}.organizer-row-heading{display:flex;gap:10px;overflow-wrap:anywhere}.organizer-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.organizer-actions button{font-size:12px;padding:6px 8px}.organizer-row textarea{width:100%;margin-top:10px}.organizer-row.is-dropped .organizer-row-heading{text-decoration:line-through;opacity:.6}.organizer-preview{padding:12px;background:var(--soft);border-radius:8px;margin-top:12px}.organizer-result{padding:6px;overflow-wrap:anywhere}.organizer-editor>button{width:100%}@media(max-width:800px){.organizer-layout{grid-template-columns:1fr}.organizer-history{max-height:220px}}
+
+body dialog .organizer-commit{height:auto;min-height:72px;line-height:1.4}body dialog .organizer-commit[hidden]{display:none}
+
+.organizer-context{padding:12px 16px;background:var(--soft);border-radius:8px;overflow-wrap:anywhere}.organizer-context div{margin-top:6px;color:var(--muted)}.organizer-range-note{font-size:11px}.organizer-commit:disabled{opacity:.65;cursor:default}
+body .advanced-dialog[data-dialog-kind=organizer]{width:1000px}
+body dialog .advanced-body.organizer-v2{display:flex;flex-direction:column;gap:12px;height:min(720px,calc(100dvh - 120px));overflow:hidden}
+.organizer-v2 .organizer-context{font-size:12px;padding:8px 12px;flex-shrink:0}
+body dialog .organizer-v2>p{margin:0;flex-shrink:0}
+.organizer-stage{display:flex;flex-direction:column;gap:12px;min-height:0;flex:1;overflow:hidden}
+.organizer-stage>input{width:100%;flex-shrink:0}.organizer-stage>button{align-self:flex-start;flex-shrink:0}
+.organizer-v2 .organizer-history,.organizer-v2 .organizer-rows{max-height:none;min-height:0;flex:1;overflow:auto}
+.organizer-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:12px;border-top:1px solid var(--border);flex-shrink:0}
+body dialog .organizer-footer button.primary{margin:0;min-height:36px;height:auto}
+.organizer-v2 .organizer-row{padding:0;margin:0;border:0;border-radius:0}.organizer-v2 .organizer-group{border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:8px}
+body dialog .organizer-v2 .organizer-row-heading{display:flex;align-items:center;gap:12px;width:100%;height:auto;min-height:56px;text-align:left;border:0;border-radius:0;padding:12px;background:var(--surface)}
+.organizer-v2 .organizer-row-heading strong{flex:1;min-width:0;overflow-wrap:anywhere}.organizer-v2 .organizer-row-heading small{color:var(--muted)}
+body dialog .organizer-v2 .is-active>.organizer-row-heading{background:var(--soft);box-shadow:inset 3px 0 var(--accent)}
+.organizer-v2 .organizer-actions{padding:0 12px 12px;margin:0}.organizer-v2 .organizer-row textarea{width:calc(100% - 24px);margin:0 12px 12px}
+.organizer-v2 .is-combined{margin-left:20px;border-left:3px solid var(--border)}
+@media(max-width:650px){body dialog .organizer-v2 .organizer-row-heading{flex-wrap:wrap}.organizer-v2 .organizer-row-heading strong{flex-basis:65%}.organizer-footer{font-size:12px}}
+
+body dialog .organizer-footer{height:auto;min-height:52px;font-size:14px;padding:12px 0 0;background:var(--surface)}

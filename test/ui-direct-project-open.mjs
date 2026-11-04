@@ -1,0 +1,15 @@
+import {chromium} from 'playwright';import assert from 'node:assert/strict';import {mkdtemp,writeFile,rm,realpath} from 'node:fs/promises';import os from 'node:os';import path from 'node:path';import {git} from '../git.mjs';import {server,ready} from '../server.mjs';
+const root=await realpath(await mkdtemp(path.join(os.tmpdir(),'pgit-direct-open-')));let browser;
+try{
+ await git(root,['init','-b','main']);await git(root,['config','user.name','Test']);await git(root,['config','user.email','test@example.invalid']);await writeFile(root+'/file','base');await git(root,['add','.']);await git(root,['commit','-m','base']);
+ browser=await chromium.launch({headless:true,executablePath:process.env.PGIT_BROWSER_PATH});const page=await browser.newPage();page.setDefaultTimeout(12000);const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.addInitScript(()=>{window.picks=0;window.choice=null;window.pgitDesktop={chooseFolder:async()=>{window.picks++;return window.choice},loadWorkspace:async()=>null,saveWorkspace:async()=>{}}});await page.goto(await ready);
+ for(const id of ['welcomeOpen','addProject','resumeProject']){const before=await page.evaluate(()=>picks);await page.locator('#'+id).click();assert.equal(await page.evaluate(()=>picks),before+1);assert.equal(await page.locator('dialog[open]').count(),0);assert.equal(await page.getByRole('tab').count(),0)}
+ await page.keyboard.press('Control+t');assert.equal(await page.evaluate(()=>picks),4);assert.equal(await page.locator('dialog[open]').count(),0);
+ await page.evaluate(()=>{window.pgitDesktop.chooseFolder=async()=>{picks++;throw new Error('Picker unavailable')}});await page.locator('#welcomeOpen').click();await page.locator('#shellNotice').filter({hasText:'Picker unavailable'}).waitFor();assert.equal(await page.locator('dialog[open]').count(),0);
+ await page.evaluate(root=>{window.pgitDesktop.chooseFolder=async()=>root},root);await page.locator('#welcomeOpen').click();await page.locator('#welcome').waitFor({state:'hidden'});assert.equal(await page.getByRole('tab').count(),1);assert.equal(await page.locator('dialog[open]').count(),0);
+ await page.locator('#addProject').click();await page.waitForFunction(()=>!opening&&!choosingProject);assert.equal(await page.getByRole('tab').count(),1);
+ // An existing non-repository folder reports a notice without opening a corrective form.
+ await page.evaluate(()=>{window.pgitDesktop.chooseFolder=async()=>'/'});await page.locator('#addProject').click();await page.locator('#shellNotice').filter({hasText:'Git 저장소가 아닌 폴더입니다.'}).waitFor();assert.equal(await page.locator('dialog[open]').count(),0);assert.equal(await page.getByRole('tab').count(),1);
+ assert.deepEqual(errors,[]);console.log('Direct project open: home, empty resume, add tab, shortcut, cancellation, picker error, invalid repository and duplicate tab passed');
+}finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await rm(root,{recursive:true,force:true})}
