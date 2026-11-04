@@ -782,6 +782,10 @@ const messages={
  "STASHES · {0}": ["スタッシュ · {0}", "储藏 · {0}", "Stashes · {0}", "Stashes · {0}"],
  "Open a repository": ["リポジトリを開いてください", "请打开仓库", "Abre un repositorio", "Ouvrez un dépôt"]
 };
+messages['Open group']=['グループを開く','打开分组','Abrir grupo','Ouvrir le groupe'];
+messages['Open shown repositories']=['表示中のリポジトリを開く','打开显示的仓库','Abrir repositorios mostrados','Ouvrir les dépôts affichés'];
+messages['Group opened']=['グループを開きました','已打开分组','Grupo abierto','Groupe ouvert'];
+messages['Opening the group stopped.']=['グループを開く処理が中断されました。','打开分组已停止。','Se detuvo la apertura del grupo.','L’ouverture du groupe a été interrompue.'];
 messages["New project"]=["新しいプロジェクト","新项目","Nuevo proyecto","Nouveau projet"];
 messages['1 conflicts remaining']=['残り 1 件の競合','剩余 1 个冲突','Queda 1 conflicto','1 conflit restant'];
 messages['Expand 1 unchanged lines']=['変更のない 1 行を展開','展开 1 行未更改的内容','Expandir 1 línea sin cambios','Développer 1 ligne inchangée'];

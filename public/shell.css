@@ -63,3 +63,17 @@ html[data-theme] .welcome-footer{background:transparent}
 
 #projectGroupsDialog .groups-body{padding:20px 24px 24px}#projectGroupsDialog .groups-body>p{margin:0 0 20px}#projectGroupsDialog .dialog-heading{display:flex;align-items:center;justify-content:space-between}.groups-body .error[hidden]{display:none}
 #projectGroupsDialog .dialog-heading{padding:18px 24px;background:var(--canvas);border-bottom:1px solid var(--border)}#projectGroupsDialog .dialog-heading h2{margin:0;font-size:18px}
+
+/* Group navigation is separate from the removable recent-history list. */
+.home-groups{display:grid;gap:10px;margin:12px 0 22px}.home-groups[hidden]{display:none}
+.home-group{min-width:0;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.home-group-header{display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--soft)}
+.home-group-toggle{display:flex;align-items:center;gap:8px;flex:1;min-width:0;text-align:left;border:0;background:transparent;padding:8px 0}
+.home-group-toggle .project-group-badge{max-width:min(440px,50vw)}.home-group-count{color:var(--muted)}
+.home-group-list{display:grid}.home-group-list[hidden]{display:none}
+.home-group-project{display:flex;align-items:center;gap:16px;width:100%;min-width:0;padding:10px 14px;border:0;border-top:1px solid var(--border);border-radius:0;background:transparent;text-align:left}
+.home-group-project:hover{background:var(--soft)}.home-group-project strong{flex:0 1 180px;overflow-wrap:anywhere}.home-group-project small{min-width:0;color:var(--muted);overflow-wrap:anywhere}
+.home-group-list>.group-help,.home-group-result{margin:0;padding:10px 14px}.home-group-result{color:var(--muted);font-size:12px}
+@media(max-width:650px){.home-group-header{flex-wrap:wrap}.home-group-toggle{flex-basis:65%}.home-group-project{align-items:flex-start;flex-direction:column;gap:4px}.home-group-project strong{flex:auto}}
+
+.home-group-toggle[aria-expanded=true]>.pgit-icon{transform:rotate(90deg)}

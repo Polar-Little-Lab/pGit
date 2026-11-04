@@ -9,6 +9,43 @@
    const b=button(t(name),()=>{groupFilter=id;renderRecents()});b.setAttribute('aria-pressed',String(groupFilter===id));const g=groups.find(g=>g.id===id);if(g)b.replaceChildren(groupBadge(g));host.append(b);
   }
  };
+ // Home navigation includes assigned paths even after they leave the recent list.
+ const collapsed=new Set();let openingGroup=false,groupResult=null;
+ window.renderHomeGroups=()=>{
+  const host=byId('homeGroups');host.replaceChildren();host.hidden=!groups.length||groupFilter==='none';
+  const query=byId('projectSearch').value.trim().toLocaleLowerCase();
+  for(const group of groups){
+   if(groupFilter!=='all'&&groupFilter!==group.id)continue;
+   const paths=Object.keys(projectGroups).filter(path=>projectGroups[path]===group.id);
+   const visible=paths.filter(path=>(path+' '+group.name).toLocaleLowerCase().includes(query));
+   if(query&&!visible.length)continue;
+   const section=document.createElement('div');section.className='home-group';section.dataset.groupId=group.id;
+   const header=document.createElement('div');header.className='home-group-header';
+   const list=document.createElement('div');list.className='home-group-list';list.id='home-group-'+group.id;
+   list.hidden=collapsed.has(group.id)&&!query;
+   const toggle=button('',()=>{if(collapsed.has(group.id))collapsed.delete(group.id);else collapsed.add(group.id);renderHomeGroups();byId(list.id)?.previousElementSibling?.querySelector('button').focus()});
+   toggle.className='home-group-toggle';toggle.setAttribute('aria-expanded',String(!list.hidden));toggle.setAttribute('aria-controls',list.id);
+   const count=document.createElement('span');count.className='home-group-count';count.textContent=String(visible.length);
+   toggle.append(PgitIcons.icon('right'),groupBadge(group),count);
+   const open=button(t(query?'표시된 저장소 열기':'그룹 열기'),async()=>{
+    if(openingGroup||opening)return;
+    openingGroup=true;groupResult=null;renderHomeGroups();let completed=0;
+    try{
+     // Sequential opens preserve the shell's opening guard and duplicate-tab handling.
+     for(const path of visible){if(!await openProject(path,'open',{},true))break;completed++}
+     groupResult={id:group.id,completed,total:visible.length};
+    }finally{openingGroup=false;renderHomeGroups()}
+   });open.disabled=openingGroup||!visible.length;
+   header.append(toggle,open);section.append(header,list);
+   for(const path of visible){
+    const row=button('',()=>missingPaths.has(path)?reopenMissing(path):openProject(path,'open',{},true));row.className='home-group-project literal-data';row.title=path;
+    const name=document.createElement('strong');name.textContent=PgitPaths.basename(path);const location=document.createElement('small');location.textContent=path;row.append(name,location);list.append(row);
+   }
+   if(!paths.length){const empty=document.createElement('p');empty.className='group-help';empty.textContent=t('그룹을 만든 뒤 프로젝트를 선택하세요.');list.append(empty)}
+   if(groupResult?.id===group.id){const result=document.createElement('p');result.className='home-group-result';result.setAttribute('role','status');const label=document.createElement('span');label.textContent=t(groupResult.completed===groupResult.total?'그룹 열기 완료':'그룹 열기가 중단되었습니다.');result.append(label,document.createTextNode(' '+groupResult.completed+' / '+groupResult.total));section.append(result)}
+   host.append(section);
+  }
+ };
  const dialog=document.createElement('dialog');dialog.id='projectGroupsDialog';
  const body=document.createElement('div');body.className='groups-body';
  PgitUI.dialogFrame(dialog,{title:'프로젝트 그룹',body,className:'dialog-heading',titleTag:'h2'});document.body.append(dialog);
@@ -39,5 +76,5 @@
   search.oninput=renderPaths;renderPaths();
  }
  window.openProjectGroups=path=>{targetPath=path||projects.find(p=>p.id===activeId)?.path||null;selected=projectGroups[targetPath]||groups[0]?.id||null;render();if(!dialog.open)dialog.showModal();byId('groupName').focus()};
- PgitIcons.label(byId('manageGroups'),'worktree');byId('manageGroups').onclick=()=>openProjectGroups();renderGroupFilters();
+ PgitIcons.label(byId('manageGroups'),'worktree');byId('manageGroups').onclick=()=>openProjectGroups();renderGroupFilters();renderHomeGroups();
 })();
