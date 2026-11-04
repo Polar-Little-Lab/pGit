@@ -58,7 +58,8 @@ jobs:
         run: |
           codesign --verify --deep --strict dist/mac-arm64/pGit.app
           codesign --verify --deep --strict dist/mac/pGit.app
-          PGIT_APP_EXECUTABLE="$PWD/dist/mac-arm64/pGit.app/Contents/MacOS/pGit" node test/desktop-smoke.mjs
+          if [ "$(uname -m)" = "arm64" ]; then APP_DIR=mac-arm64; else APP_DIR=mac; fi
+          PGIT_APP_EXECUTABLE="$PWD/dist/$APP_DIR/pGit.app/Contents/MacOS/pGit" node test/desktop-smoke.mjs
       - name: Verify Windows installer and installed application
         if: runner.os == 'Windows'
         shell: pwsh

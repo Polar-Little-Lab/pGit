@@ -2,7 +2,7 @@
 
 프로젝트 탭, 커밋 그래프, 오른쪽 스테이징·커밋 패널을 갖춘 macOS·Windows Git 클라이언트입니다. Polar Frost 디자인 시스템의 얼음색 표면과 차분한 북극 테마를 사용합니다. AI 기능은 포함하지 않습니다. 로고는 Polar 제품군 A안: 공통 북극곰 얼굴과 pGit 분기 심볼입니다.
 
-[macOS 미리보기 다운로드](https://github.com/Polar-Little-Lab/pGit/releases)
+[Windows · macOS 미리보기 다운로드](https://github.com/Polar-Little-Lab/pGit/releases)
 
 Apple Silicon은 `macos-arm64`, Intel은 `macos-x64` 파일을 받으세요. Node.js는 앱에 포함되어 있으며 Git은 별도 설치가 필요합니다(`xcode-select --install`). Ad-hoc 서명된 미리보기이며 Apple 공증은 받지 않았습니다. 수동 macOS 실기기 QA는 아직 남아 있습니다.
 
