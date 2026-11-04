@@ -5,6 +5,7 @@ import {mergePreview} from './merge-preview.mjs';
 import {git, fileHistoryPage, snapshot, openRepo, parseStatus} from './git.mjs';
 import {access, mkdir, realpath, readdir, rm, readFile, lstat} from 'node:fs/promises';
 import path from 'node:path';
+import paths from './path-utils.cjs';
 
 const text=(value,label)=>{if(typeof value!=='string'||!value.trim()||value.includes('\0')||value.length>4096)throw Error(`${label}을 입력하세요.`);return value.trim()};
 async function ref(root,value){const name=text(value,'참조');if(name.startsWith('-'))throw Error('잘못된 참조');return (await git(root,['rev-parse','--verify','--end-of-options',`${name}^{commit}`])).trim()}
@@ -13,7 +14,7 @@ async function localBranch(root,value){const name=await branchName(root,value);a
 async function remoteName(root,value){const name=text(value,'원격 이름');if(!(await git(root,['remote'])).trim().split('\n').includes(name))throw Error('원격 저장소가 없습니다.');return name}
 async function clean(root){if((await snapshot(root)).files.length)throw Error('먼저 변경을 커밋하거나 stash에 보관하세요.');}
 async function idle(root){if((await extras(root)).operation)throw Error('진행 중인 작업을 계속하거나 중단하세요.');}
-function remoteURL(value){const url=text(value,'원격 URL');if(!/^(https:\/\/[^\s]+|ssh:\/\/[^\s]+|[\w.-]+@[\w.-]+:[^\s]+|\/[^\0]*)$/.test(url))throw Error('HTTPS, SSH 또는 로컬 절대 경로를 사용하세요.');if(/^https:\/\/[^/]*@/.test(url))throw Error('URL에 토큰을 넣지 마세요. Git credential helper를 사용하세요.');return url}
+function remoteURL(value){const url=text(value,'원격 URL');if(paths.isAbsolute(url))return url;if(!/^(https:\/\/[^\s]+|ssh:\/\/[^\s]+|[\w.-]+@[\w.-]+:[^\s]+|\/[^\0]*)$/.test(url))throw Error('HTTPS, SSH 또는 로컬 절대 경로를 사용하세요.');if(/^https:\/\/[^/]*@/.test(url))throw Error('URL에 토큰을 넣지 마세요. Git credential helper를 사용하세요.');return url}
 async function exists(file){return access(file).then(()=>true,()=>false)}
 export async function extras(root){
  const dir=(await git(root,['rev-parse','--absolute-git-dir'])).trim();
