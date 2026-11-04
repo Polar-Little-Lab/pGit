@@ -28,7 +28,7 @@ try{
  await page.locator('.home-group-toggle').focus();await page.keyboard.press('Enter');assert.equal(await page.locator('.home-group-list').isVisible(),true);
  await page.getByRole('button',{name:'그룹 열기',exact:true}).click();
  await page.waitForFunction(()=>document.querySelector('.home-group-result')?.textContent.includes('2 / 2'));
- assert.equal(await page.getByRole('tab').count(),2);assert.equal(await first.getByRole('textbox',{name:'커밋 메시지',exact:true}).inputValue(),'Keep my draft');
+ assert.equal(await page.getByRole('tab').count(),2);assert.equal(await first.locator('#message').inputValue(),'Keep my draft');
  await page.locator('#homeButton').click();await page.getByRole('button',{name:'그룹 열기',exact:true}).click();
  await page.waitForFunction(()=>document.querySelector('.home-group-result')?.textContent.includes('2 / 2'));assert.equal(await page.getByRole('tab').count(),2);
  await page.locator('#homeButton').click();
