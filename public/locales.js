@@ -40,6 +40,8 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"New tab":["新しいタブ", "新标签页", "Nueva pestaña", "Nouvel onglet"],
+"Close new tab":["新しいタブを閉じる", "关闭新标签页", "Cerrar nueva pestaña", "Fermer le nouvel onglet"],
 "Organize commit history":["コミット履歴の整理", "整理提交历史", "Organizar historial de commits", "Organiser l’historique des commits"],
 "Add selected changes":["選択した変更を追加", "添加所选更改", "Añadir cambios seleccionados", "Ajouter les changements sélectionnés"],
 "Staged changes only":["ステージ済み変更のみ", "仅暂存更改", "Solo cambios preparados", "Changements indexés uniquement"],

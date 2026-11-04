@@ -47,6 +47,7 @@ jobs:
           node test/ui-provider-review.mjs
           node test/ui-command-help.mjs
           node test/ui-project-dialog.mjs
+          node test/ui-direct-project-open.mjs
       - name: Build macOS installers
         if: runner.os == 'macOS'
         run: npm run dist:mac

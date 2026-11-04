@@ -286,6 +286,8 @@ Git 병합 검사 결과를 읽을 수 없습니다.|Could not read the merge in
 · 커밋할 변경|· Staged
 
 프로젝트 홈|Project home
+새 탭|New tab
+새 탭 닫기|Close new tab
 새 프로젝트 탭|New project tab
 열린 프로젝트|Open projects
 프로젝트 탭 닫기|Close project tab
