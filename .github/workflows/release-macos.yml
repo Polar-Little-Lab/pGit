@@ -40,6 +40,7 @@ jobs:
       - run: npm test
       - run: npx playwright install chromium
       - name: Verify history and review interfaces
+        shell: bash
         run: |
           node test/ui-amend.mjs
           node test/ui-history-edits.mjs

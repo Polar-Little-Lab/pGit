@@ -29,4 +29,4 @@ try{
  await page.locator('#submitProject').click();await captured;
  assert.equal(await page.locator('.project-options').count(),0);assert.equal(await page.locator('#projectPath').isDisabled(),true);assert.equal(await page.locator('#submitProject').textContent(),'만드는 중…');await page.keyboard.press('Escape');assert.equal(await page.locator('#projectDialog').isVisible(),true);release();await page.locator('#projectDialog').waitFor({state:'hidden'});assert.equal(await page.getByRole('tab').count(),3);assert.equal((await git(parent+'/new',['branch','--show-current'])).trim(),'main');
  assert.deepEqual(errors,[]);console.log('Project dialog UI passed: native picker, independent drafts, focus/segments, narrow/short windows, validation, clone failure/retry and initialization.');
-}finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await rm(parent,{recursive:true,force:true})}
+}finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await rm(parent,{recursive:true,force:true,maxRetries:10,retryDelay:200})}
