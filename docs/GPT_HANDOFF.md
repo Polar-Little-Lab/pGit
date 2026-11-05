@@ -217,3 +217,7 @@ See [Group icon UX](GROUP_ICON_UX.md) for current behavior. New selections inclu
 
 ### GitHub·GitLab 작업 검색 임시 비활성화
 `public/providers.js`의 `categories.push(...providerCommandCategories);`가 주석 처리되어 있습니다. 해당 한 줄의 주석을 해제하면 작업 검색의 GitHub·GitLab 항목을 모두 복원할 수 있습니다. 명령 정의와 연동 구현은 유지하며, 일반 Git의 Fetch/Pull/Push는 계속 표시합니다.
+
+
+### 이력 검색 빈 결과
+전체 이력 메시지 검색은 입력창을 유지하고 아래에 결과를 표시합니다. 검색 전·로딩·결과 없음·실패를 구분합니다. 조회 결과가 빈 문자열/배열이면 일반 조회 창에서도 빈 화면 대신 안내를 표시합니다.
