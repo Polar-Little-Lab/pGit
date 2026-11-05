@@ -69,6 +69,24 @@ let selectedHistoryRef=null;
 let scopedHistoryRoot=null;const scopedHistoryPages=new Map();
 function currentHistoryPage(){return scopedHistoryRoot===state?.root?scopedHistoryPages.get(scope):null}
 function mergeScopedHistory(page){const known=new Set(state.history.map(c=>c.hash));state.history.push(...page.commits.filter(c=>!known.has(c.hash)))}
+let historyPrefetchFrame=0;
+function scheduleHistoryPrefetch(){
+ if(historyPrefetchFrame)return;
+ historyPrefetchFrame=requestAnimationFrame(()=>{
+  historyPrefetchFrame=0;const scroller=$('historyScroll'),page=currentHistoryPage();
+  if(!scroller||!scroller.isConnected||scroller.clientHeight===0||mode!=='history'||working||historyQuery.trim()||!page?.commits.length||page.loading||page.error||!page.hasMore)return;
+  if(scroller.scrollHeight-scroller.scrollTop-scroller.clientHeight<=scroller.clientHeight)void loadScopedHistory(scope,true);
+ });
+}
+function renderHistoryContinuation(page,list){
+ list.querySelector('.history-continuation')?.remove();if(!page)return;
+ const footer=el('div',undefined,'history-continuation');
+ if(page.error){const retry=el('button','다시 시도');retry.onclick=()=>loadScopedHistory(scope,true);retry.disabled=working||page.loading;footer.append(retry)}
+ else if(page.loading){footer.textContent='이전 커밋을 불러오는 중…';footer.setAttribute('role','status')}
+ else if(!page.hasMore&&page.commits.length){footer.textContent='모든 커밋을 불러왔습니다.'}
+ else return;
+ list.append(footer);
+}
 async function loadScopedHistory(hash,more=false){
  if(!state||!hash)return;
  if(scopedHistoryRoot!==state.root){scopedHistoryRoot=state.root;scopedHistoryPages.clear()}
@@ -76,12 +94,12 @@ async function loadScopedHistory(hash,more=false){
  if(page?.loading||page&&(!more||!page.hasMore)&&!page.error)return;
  if(!page){page={commits:[],hasMore:true,nextOffset:0};scopedHistoryPages.set(hash,page)}
  page.loading=true;page.error=null;
- if(more)drawRows();
+ if(more&&$('commitRows'))renderHistoryContinuation(page,$('commitRows'));
  try{const result=await api('historyPage',{ref:hash,offset:page.nextOffset});if(state?.root!==root)return;
  const known=new Set(page.commits.map(c=>c.hash));page.commits.push(...result.commits.filter(c=>!known.has(c.hash)));page.hasMore=result.hasMore;page.nextOffset=result.nextOffset;
  }catch(error){page.error=error.message}finally{page.loading=false;if(state?.root===root&&scope===hash){mergeScopedHistory(page);renderHistory()}}
 }
-function chooseHistoryRef(ref,hash){selectedHistoryRef=ref;scope=hash;activeCommit=hash;tab('history');renderHistory()}
+function chooseHistoryRef(ref,hash){if((scope!==hash||selectedHistoryRef!==ref)&&$('historyScroll'))$('historyScroll').scrollTop=0;selectedHistoryRef=ref;scope=hash;activeCommit=hash;tab('history');renderHistory()}
 function historyScopeLabel(){return scope?(selectedHistoryRef?.startsWith('refs/tags/')?'태그: ':selectedHistoryRef?'브랜치: ':'커밋: ')+(selectedHistoryRef?.replace(/^refs\/(heads|remotes|tags)\//,'')||scope.slice(0,7)):'브랜치 선택'}
 let historyScopeRoot=null,historyCheckedOutRef=null;
 function syncHistoryScope(){
