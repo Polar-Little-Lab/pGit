@@ -50,7 +50,7 @@ async function discardPartial(root,d){
  try{const file=path.join(temp,d.name);await mkdir(path.dirname(file),{recursive:true});await writeFile(file,preview.content);await runGit(temp,['apply',...(partial?[]:['--reverse']),'-'],{input:content});await discardContent(root,preview,await readFile(file,'utf8'))}
  finally{await rm(temp,{recursive:true,force:true})}
 }
-export const advancedActions=new Set(['rebaseCandidates','rewordInfo','rewordCommit','discardHunk','discardLines','redoDiscard','discardPreview','discardFile','recoveryList','recoverFile','hunks','stageHunk','stageLines','readText','saveText','conflictRead','conflictSave','ignoreFile','ignoreCandidates','amendSelectionInfo','amend','amendMessage','rebasePlan','rebaseApply','searchHistory','worktreeLock','worktreeUnlock','submodules','submoduleUpdate','profileRead','profileSave','diffSides']);
+export const advancedActions=new Set(['rebaseCandidates','rewordInfo','rewordCommit','discardHunk','discardLines','redoDiscard','discardPreview','discardFile','recoveryList','recoverFile','hunks','stageHunk','stageLines','stageSelection','readText','saveText','conflictRead','conflictSave','ignoreFile','ignoreCandidates','amendSelectionInfo','amend','amendMessage','rebasePlan','rebaseApply','searchHistory','worktreeLock','worktreeUnlock','submodules','submoduleUpdate','profileRead','profileSave','diffSides']);
 export const advancedReads=new Set(['rebaseCandidates','rewordInfo','amendSelectionInfo','ignoreCandidates','discardPreview','recoveryList','hunks','readText','conflictRead','rebasePlan','searchHistory','submodules','profileRead','diffSides']);
 export async function advanced(root,action,d={}){switch(action){
 case 'discardPreview':return discardPreview(root,d.name);
@@ -66,6 +66,12 @@ case 'recoverFile':case 'redoDiscard':{
  if(!redo&&typeof backup.redoContent!=='string')backup.redoContent=file.content;await writeFile(file.absolute,redo?backup.redoContent:backup.content);backup.restored=!redo;await writeFile(location,JSON.stringify(backup),{mode:0o600});break
 }
 case 'hunks':return hunks(root,d.name,!!d.staged);
+case 'stageSelection':{
+ const p=await hunks(root,d.name,!!d.staged);if(p.revision!==d.revision)throw Error('파일이 변경되었습니다. Diff를 다시 확인하세요.');
+ if(!Array.isArray(d.selections)||!d.selections.length||d.selections.length>p.hunks.length)throw Error('변경된 줄을 선택하세요.');
+ const seen=new Set();const parts=d.selections.slice().sort((a,b)=>a.index-b.index).map(selection=>{if(seen.has(selection.index))throw Error('중복된 변경 블록');seen.add(selection.index);const h=p.hunks.find(h=>h.index===selection.index);if(!h)throw Error('변경 블록 없음');return selectedLinePatch('',h.text,selection.lines,!!d.staged)});
+ const patch=p.header+parts.join('');await runGit(root,['apply','--cached','--check','-'],{input:patch});await runGit(root,['apply','--cached','-'],{input:patch});break;
+}
 case 'stageLines':{const p=await hunks(root,d.name,!!d.staged);if(p.revision!==d.revision)throw Error('파일이 변경되었습니다.');const h=p.hunks.find(h=>h.index===d.index);if(!h)throw Error('변경 블록 없음');const patch=selectedLinePatch(p.header,h.text,d.lines,!!d.staged);await runGit(root,['apply','--cached','--check','-'],{input:patch});await runGit(root,['apply','--cached','-'],{input:patch});break}
 case 'stageHunk':{const p=await hunks(root,d.name,!!d.staged);if(p.revision!==d.revision)throw Error('파일이 변경되었습니다. Diff를 다시 열어 주세요.');const h=p.hunks.find(h=>h.index===d.index);if(!h)throw Error('변경 블록이 없습니다.');await runGit(root,['apply','--cached',...(d.staged?['--reverse']:[]),'--check','-'],{input:p.header+h.text});await runGit(root,['apply','--cached',...(d.staged?['--reverse']:[]),'-'],{input:p.header+h.text});break}
 case 'readText':await known(root,d.name);{const {content,revision}=await textFile(root,d.name);return {content,revision}}

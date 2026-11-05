@@ -35,3 +35,14 @@ test('reword preserves tree, full message and literal shell-like text',async t=>
 test('reword plan survives a conflict and continues with the requested message',async t=>{
  const root=await fixture(t),base=(await git(root,['rev-parse','HEAD'])).trim();await writeFile(root+'/file.txt','first\n');await git(root,['commit','-am','first']);await writeFile(root+'/file.txt','second\n');await git(root,['commit','-am','second']);const plan=await rebasePlan(root,base);plan.commits[0].action='drop';plan.commits[1].action='reword';plan.commits[1].message='Resolved message\n\nDetails';await assert.rejects(advanced(root,'rebaseApply',plan));assert.equal((await fullState(root)).operation,'rebase');await writeFile(root+'/file.txt','second\n');await git(root,['add','file.txt']);await operate(root,'continue');assert.equal((await fullState(root)).operation,null);assert.equal((await git(root,['show','-s','--format=%B','HEAD'])).trim(),plan.commits[1].message);
 });
+
+test('inline selection applies multiple hunks atomically and reverses without touching worktree',async t=>{
+ const root=await fixture(t),name='file.txt',original=await readFile(root+'/'+name,'utf8');
+ const draft=original.replace('line 1\n','first\nextra\n').replace('line 4\n','leave this\n').replace('line 25\n','last\n');await writeFile(root+'/'+name,draft);
+ const p=await hunks(root,name);const selections=p.hunks.map(h=>({index:h.index,lines:h.text.split('\n').slice(1).flatMap((s,i)=>['-line 1','+first','+extra','-line 25','+last'].includes(s)?[i]:[])}));
+ await advanced(root,'stageSelection',{name,revision:p.revision,selections});assert.equal(await git(root,['show',':'+name]),original.replace('line 1\n','first\nextra\n').replace('line 25\n','last\n'));assert.equal(await readFile(root+'/'+name,'utf8'),draft);
+ await assert.rejects(advanced(root,'stageSelection',{name,revision:p.revision,selections}),/변경/);
+ const staged=await hunks(root,name,true),all=staged.hunks.map(h=>({index:h.index,lines:h.text.split('\n').slice(1).flatMap((s,i)=>['+','-'].includes(s[0])?[i]:[])}));
+ await assert.rejects(advanced(root,'stageSelection',{name,staged:true,revision:staged.revision,selections:[all[0],{index:999,lines:[0]}]}));assert.match(await git(root,['diff','--cached']),/first/);
+ await advanced(root,'stageSelection',{name,staged:true,revision:staged.revision,selections:all});assert.equal(await git(root,['diff','--cached']),'');assert.equal(await readFile(root+'/'+name,'utf8'),draft);
+});
