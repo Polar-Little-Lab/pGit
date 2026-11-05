@@ -910,3 +910,15 @@ Only 25 AWS service-level icons are offered for new selections. Other AWS assets
 - American Express [SVG]: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/amex.svg
 - UnionPay [SVG]: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/unionpay.svg
 - JCB [SVG]: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/jcb.svg
+
+
+## 금융그룹 명칭 및 공유 심볼 확인
+기존 번들 심볼의 선택 명칭을 금융그룹 기준으로 정리했습니다. 자산 다운로드 출처는 위 목록을 유지합니다. 은행 이름은 검색 별칭으로 보존합니다.
+- KB금융그룹 CI: https://www.kbfg.com/kor/about/corporate/ci.htm
+- 우리금융그룹 CI: https://www.woorifg.com/kor/company/ci/contentsid/48/index.do
+- NH농협금융 CI: https://www.nhfngroup.com/user/indexSub.do?codyMenuSeq=884086974&siteId=nhfngroup
+- 신한금융그룹 CI: https://shinhangroup.com/kr/about/identity/ci
+- BNK금융그룹 CI: https://www.bnkfg.com/02/01.jsp
+- SBI그룹 공통 브랜드: https://www.sbigroup.co.jp/company/information/brand.html
+- 삼성금융네트웍스 공통 로고 [공식 PNG]: https://www.samsungfire.com/v2/resources/images/company/brand/finacial_logo_kr.png (기존 삼성증권 자산을 그룹 공통 로고로 교체)
+- JB금융그룹 CI: https://www.jbfg.com/ko/about/ci.do
