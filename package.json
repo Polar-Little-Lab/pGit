@@ -12,7 +12,7 @@
     "desktop": "electron .",
     "dist:mac": "electron-builder --mac zip dmg --arm64 --x64 --publish never",
     "predist:mac": "node scripts/build-icons.cjs",
-    "test:ui": "node test/ui-project-home.mjs && node test/ui-group-curation.mjs && node test/ui-finance-icons.mjs && node test/ui-group-icons.mjs && node test/ui-repo-navigation.mjs && node test/ui-interface-polish.mjs && node test/ui-group-home.mjs && node test/ui-git-setup.mjs && node test/ui-project-groups.mjs && node test/ui.mjs && node test/ui-tabs.mjs && node test/ui-missing-repository.mjs && node test/ui-notices.mjs && node test/ui-workflow.mjs && node test/ui-language.mjs && node test/ui-diff-editor.mjs && node test/ui-conflicts.mjs && node test/ui-merge-preview.mjs && node test/ui-worktrees.mjs && node test/ui-refresh.mjs && node test/ui-history-tools.mjs && node test/ui-settings.mjs && node test/ui-command-help.mjs && node test/ui-remote-addresses.mjs && node test/ui-settings-layout.mjs && node test/ui-project-dialog.mjs && node test/ui-folder-controls.mjs && node test/ui-sidebar.mjs && node test/ui-parent-navigation.mjs && node test/ui-gitlab-recovery.mjs && node test/ui-history-edits.mjs && node test/ui-amend.mjs && node test/ui-commit-picker.mjs && node test/ui-reference-errors.mjs && node test/ui-provider-review.mjs && node test/ui-provider-navigation.mjs",
+    "test:ui": "node test/ui-clone-progress.mjs && node test/ui-project-home.mjs && node test/ui-group-curation.mjs && node test/ui-finance-icons.mjs && node test/ui-group-icons.mjs && node test/ui-repo-navigation.mjs && node test/ui-interface-polish.mjs && node test/ui-group-home.mjs && node test/ui-git-setup.mjs && node test/ui-project-groups.mjs && node test/ui.mjs && node test/ui-tabs.mjs && node test/ui-missing-repository.mjs && node test/ui-notices.mjs && node test/ui-workflow.mjs && node test/ui-language.mjs && node test/ui-diff-editor.mjs && node test/ui-conflicts.mjs && node test/ui-merge-preview.mjs && node test/ui-worktrees.mjs && node test/ui-refresh.mjs && node test/ui-history-tools.mjs && node test/ui-settings.mjs && node test/ui-command-help.mjs && node test/ui-remote-addresses.mjs && node test/ui-settings-layout.mjs && node test/ui-project-dialog.mjs && node test/ui-folder-controls.mjs && node test/ui-sidebar.mjs && node test/ui-parent-navigation.mjs && node test/ui-gitlab-recovery.mjs && node test/ui-history-edits.mjs && node test/ui-amend.mjs && node test/ui-commit-picker.mjs && node test/ui-reference-errors.mjs && node test/ui-provider-review.mjs && node test/ui-provider-navigation.mjs",
     "dist:win": "electron-builder --win nsis --x64 --publish never",
     "predist:win": "node scripts/build-icons.cjs",
     "test:desktop": "node test/desktop-smoke.mjs && node test/desktop-worktree-folder.mjs && node test/desktop-init-folder.mjs && node test/desktop-clone-folder.mjs"
@@ -38,6 +38,7 @@
       "server.mjs",
       "package.json",
       "operations.mjs",
+      "clone-progress.mjs",
       "merge-preview.mjs",
       "refresh.mjs",
       "multi-commit.mjs",

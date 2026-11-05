@@ -1328,3 +1328,7 @@ Regression tests check distinct finance asset hashes, retired-ID migration, Woor
 ## Curated group picker and automatic colors
 
 See [Group icon UX](GROUP_ICON_UX.md) for current behavior. New selections include 25 AWS services, 26 distinct finance/payment brands and 28 development brands. Icons are grouped by purpose; legacy AWS selections remain valid without crowding the picker. Brand logos use their representative color automatically and hide the manual palette. Generic icons retain the user-selected color, including when switching back from a brand. The original logo artwork is never recolored.
+
+
+### 저장소 복제 진행률
+복제 창에서 연결 → 다운로드 준비 → 다운로드 → 객체 정리 → 파일 준비 → 프로젝트 열기 단계를 표시합니다. Git이 제공한 단계별 퍼센트와 받은 용량·전송 속도를 표시하며 전체 작업의 예상 퍼센트는 계산하지 않습니다. 진행률이 없는 단계는 대기 표시를 사용합니다. 복제 성공 시 프로젝트를 자동으로 열고 실패 시 입력을 유지합니다. 서버는 인증된 작업 공간별 진행 상태만 제공하고 완료·실패 후 정리합니다.

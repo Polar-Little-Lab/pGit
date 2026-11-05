@@ -65,6 +65,18 @@ function projectErrorMessage(error){
  return message;
 }
 function clearProjectError(){byId('projectError').textContent='';byId('projectPath').removeAttribute('aria-invalid');byId('cloneUrl').removeAttribute('aria-invalid')}
+function showCloneProgress(progress){
+ const labels={connecting:'원격 저장소에 연결 중…',preparing:'다운로드 준비 중…',receiving:'다운로드 중',resolving:'객체 정리 중',checkout:'파일 준비 중',loading:'프로젝트 여는 중…'};
+ byId('cloneProgress').hidden=false;byId('cloneStage').textContent=labels[progress.stage]||labels.connecting;
+ const percent=progress.percent;byId('clonePercent').textContent=Number.isFinite(percent)?percent+'%':'';
+ const bar=byId('cloneBar');if(Number.isFinite(percent))bar.value=percent;else bar.removeAttribute('value');
+ byId('cloneDetails').textContent=[progress.received,progress.speed,progress.total?progress.current.toLocaleString()+' / '+progress.total.toLocaleString():null].filter(Boolean).join(' · ');
+}
+function watchCloneProgress(id){
+ let stopped=false,timer;showCloneProgress({stage:'connecting'});
+ async function poll(){try{const response=await fetch('/api',{method:'POST',headers:{'Content-Type':'application/json','X-Pgit-Token':shellToken},body:JSON.stringify({action:'cloneProgress',workspaceId:id})});const body=await response.json();if(!stopped&&body.result)showCloneProgress(body.result)}catch{}finally{if(!stopped)timer=setTimeout(poll,500)}}
+ poll();return ()=>{stopped=true;clearTimeout(timer);byId('cloneProgress').hidden=true};
+}
 function projectBusy(){
  const form=byId('projectForm');form.setAttribute('aria-busy',String(opening));
  for(const control of form.querySelectorAll('input,button'))control.disabled=opening;
@@ -104,7 +116,7 @@ function createPane(path,name){const id=crypto.randomUUID();const frame=document
 function send(p,message){if(!p.frame.contentWindow)return;p.frame.contentWindow.postMessage({source:'pgit-shell',...message},location.origin)}
 async function openProject(path,action='open',extra={},direct=false){
  if(opening)return;
- const previousId=activeId,starter=projects.find(p=>p.id===activeId&&p.start);let created=null;if(starter)starter.busy=true;
+ const previousId=activeId,starter=projects.find(p=>p.id===activeId&&p.start);let created=null,stopProgress=null;if(starter)starter.busy=true;
  opening=true;clearProjectError();projectBusy();
  try{
   if(action==='open'){
@@ -116,6 +128,7 @@ async function openProject(path,action='open',extra={},direct=false){
   if(projects.length>=50&&!starter)throw Error('프로젝트는 최대 50개까지 열 수 있습니다.');
   created=createPane(path);if(starter)created.pendingStartId=starter.id;created.recoveryPath=recoveryPath||path;recoveryPath=null;created.initial={action,path,...extra};
   const loaded=new Promise((resolve,reject)=>{created.resolveOpen=resolve;created.rejectOpen=reject});
+  if(action==='clone')stopProgress=watchCloneProgress(created.id);
   // Keep the form and its input until Git confirms success.
   await loaded;
   finishStartTab(starter,created);selectProject(created.id);byId('projectDialog').close();try{const draft=localStorage.getItem('pgit.missingDraft:'+created.recoveryPath);if(draft)send(created,{type:'recover-draft',draft})}catch{}
@@ -130,7 +143,7 @@ async function openProject(path,action='open',extra={},direct=false){
   byId('projectError').textContent=projectErrorMessage(error);
   const errorField=action==='clone'&&/authentication|repository .*not found|could not resolve|URL|HTTPS|SSH/i.test(error.message)?byId('cloneUrl'):byId('projectPath');
   errorField.setAttribute('aria-invalid','true');errorField.focus();
- }finally{opening=false;if(starter)starter.busy=false;renderTabs();projectBusy();if(created){delete created.resolveOpen;delete created.rejectOpen}}
+ }finally{stopProgress?.();opening=false;if(starter)starter.busy=false;renderTabs();projectBusy();if(created){delete created.resolveOpen;delete created.rejectOpen}}
 }
 
 async function removeProject(p){if(p.busy)return;const index=projects.indexOf(p);try{if(!p.start)await fetch('/api',{method:'POST',headers:{'Content-Type':'application/json','X-Pgit-Token':shellToken},body:JSON.stringify({action:'closeWorkspace',workspaceId:p.id})})}catch{}p.frame.remove();projects=projects.filter(x=>x!==p);if(activeId===p.id)selectProject(projects[Math.min(index,projects.length-1)]?.id||null);else{renderTabs();save()}byId('addProject').focus()}

@@ -169,3 +169,5 @@ html[data-theme] #welcome .welcome-footer{background:transparent!important;flex-
 .group-choices .group-swatch[aria-pressed=true]{box-shadow:0 0 0 2px var(--accent)}
 .group-swatch .pgit-icon{width:15px;height:15px;color:#fff}.group-swatch[aria-pressed=false] .pgit-icon{visibility:hidden}
 @media(max-width:750px){.home-header{flex-wrap:wrap;gap:12px;margin-bottom:18px}.home-header .home-overview{width:100%}.home-header .home-start-actions{margin:0}}
+
+#cloneProgress{display:grid;gap:9px;padding:14px 0 4px}.clone-progress-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px}#clonePercent{font-variant-numeric:tabular-nums;color:var(--muted)}#cloneBar{display:block;width:100%;height:8px;accent-color:var(--accent);border:0;border-radius:6px;overflow:hidden}#cloneBar::-webkit-progress-bar{background:var(--soft);border-radius:6px}#cloneBar::-webkit-progress-value{background:var(--accent);border-radius:6px}#cloneDetails{min-height:16px;font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}

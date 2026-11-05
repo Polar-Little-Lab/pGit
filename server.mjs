@@ -10,6 +10,7 @@ import {advanced,advancedActions,advancedReads} from './advanced.mjs';
 import {provider,providerActions} from './providers.mjs';
 import {comparisonFiles,comparisonFile,workingComparison} from './comparison.mjs';
 const token=randomBytes(32).toString('hex');
+const cloneProgress=new Map();
 const workspaces=new Map(), busyWorkspaces=new Set(), busyRoots=new Set();
 const assets=new Set(['group-icon-picker.js','tab-picker.js','interface-polish.css','git-setup.js','project-groups-ui.js','ignore-picker.js','blame-view.js','file-history.js','ui-components.js','ui-components.css','command-help.js','folder-picker.js','commit-picker.js','reference-fields.js','guide.js','provider-review.js','theme-catalog.js','tooltips.js','icons.js','settings.css','history-tools.js','history-model.js','auto-refresh.js','worktrees.js','merge-preview.js','conflict-model.js','conflict-editor.js','settings.js','themes.css','controls.css','check.svg','chevron.svg','branch.svg','changes.js','workspace.js','workspace.css','logo.svg','logo.png','advanced.js','providers.js','diff-layout.js','comparison.js','comparison.css','shell.js','arctic.js','arctic.css','shell.css','frost.css','graph-workspace.js','frost-select.js','workflow-tools.js','locales.js','i18n.js','code-syntax.js','diff-viewer.js']);
 const server=http.createServer(async(req,res)=>{
@@ -35,6 +36,7 @@ const server=http.createServer(async(req,res)=>{
   let body='';for await(const c of req){body+=c;if(Buffer.byteLength(body)>2100000)throw Error('요청이 너무 큽니다.')}
   const {action,workspaceId='default',...data}=JSON.parse(body);
   if(typeof workspaceId!=='string'||!/^[-a-zA-Z0-9_]{1,80}$/.test(workspaceId))throw Error('잘못된 작업 공간입니다.');
+  if(action==='cloneProgress'){res.setHeader('Content-Type','application/json');return res.end(JSON.stringify({result:cloneProgress.get(workspaceId)||null}))}
   if(busyWorkspaces.has(workspaceId))throw Error('이 프로젝트에서 다른 작업이 진행 중입니다.');
   // Capture the root before awaiting. Another tab can never redirect this operation.
   let root=workspaces.get(workspaceId),lockedRoot=null;
@@ -48,7 +50,7 @@ const server=http.createServer(async(req,res)=>{
    else {
     if(['open','init','clone'].includes(action)){
      if(!workspaces.has(workspaceId)&&workspaces.size>=50)throw Error('프로젝트는 최대 50개까지 열 수 있습니다.');
-     root=action==='open'?await git.openRepo(data.path):await createRepository(action,data);
+     root=action==='open'?await git.openRepo(data.path):await createRepository(action,data,progress=>cloneProgress.set(workspaceId,progress));
     }
     if(!root)throw Error('먼저 저장소를 여세요.');
     if(busyRoots.has(root))throw Error('같은 저장소에서 다른 작업이 진행 중입니다.');
@@ -73,7 +75,7 @@ const server=http.createServer(async(req,res)=>{
      default:result=historyEditActions.has(action)?await historyEdit(root,action,data):providerActions.has(action)?await provider(root,action,data):advancedActions.has(action)?await advanced(root,action,data):await operate(root,action,data);if(!historyEditReads.has(action)&&!readOperations.has(action)&&!advancedReads.has(action)&&!providerActions.has(action))result=await fullState(root,data.limit);
     }
    }
-  }finally{busyWorkspaces.delete(workspaceId);if(lockedRoot)busyRoots.delete(lockedRoot)}
+  }finally{cloneProgress.delete(workspaceId);busyWorkspaces.delete(workspaceId);if(lockedRoot)busyRoots.delete(lockedRoot)}
   res.setHeader('Content-Type','application/json');res.end(JSON.stringify({result}));
  }catch(e){res.writeHead(400,{'Content-Type':'application/json'});res.end(JSON.stringify({error:e.stderr||e.message,...(e.code==='GIT_UNAVAILABLE'?{code:e.code,reason:e.reason,platform:e.platform}:{}),...(e.code==='REPOSITORY_MISSING'?{code:e.code,repositoryPath:e.repositoryPath}:{})}));}
 });
