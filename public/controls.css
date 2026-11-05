@@ -129,7 +129,7 @@ body dialog :is(.command-body,.advanced-body) button.primary{display:block;margi
 body dialog .command-option{height:auto;min-height:32px;padding:6px 9px;margin:2px 0;text-align:left;overflow-wrap:anywhere}
 body dialog .advanced-body>.command-option{margin:2px 0}
 body dialog .advanced-body>p:last-child{margin-bottom:0}
-body #commandDialog{width:460px}
+body #commandDialog:not(.history-browser-dialog){width:460px}
 body #commandDialog[data-dialog-kind=palette]{width:520px;top:clamp(24px,10vh,96px);bottom:auto;margin:0 auto}
 body #commandDialog[data-dialog-kind=palette] .command-body{max-height:min(560px,72vh)}
 body #commandDialog[data-dialog-kind=output]{width:900px}
@@ -243,7 +243,7 @@ body .primary-tools .pgit-icon{width:18px;height:18px;flex-basis:18px}
 
 .tab-mark .pgit-icon{width:14px;height:14px}
 @media(prefers-reduced-motion:no-preference){.tab-mark.is-busy .pgit-icon{animation:icon-spin 1.5s linear infinite}@keyframes icon-spin{to{transform:rotate(360deg)}}}
-body #commandDialog[data-dialog-kind=list]{width:540px}
+body #commandDialog[data-dialog-kind=list]:not(.history-browser-dialog){width:540px}
 body .diff-column-header>.pgit-icon{width:13px;height:13px;flex-basis:13px;color:var(--muted)}
 body dialog .close-control{display:inline-flex;align-items:center;justify-content:center;flex:0 0 28px;width:28px;min-width:28px;height:28px;padding:0!important;margin-left:auto;border:0;background:transparent;color:var(--muted);border-radius:4px}
 body dialog .close-control:hover{background:var(--control-hover);color:var(--text)}

@@ -44,6 +44,22 @@ window.PgitUI=(()=>{
   if(linked){const icon=document.createElement('span');icon.className='ui-list-external';icon.textContent='↗';icon.setAttribute('aria-hidden','true');main.append(icon)}
   const actions=document.createElement('div');actions.className='ui-list-actions';element.append(main,actions);return {element,main,actions};
  }
+ // Shared searchable commit browser; callers own requests and navigation.
+ function historyBrowser(dialog,{placeholder,label='커밋 이력',className=''}){
+  const make=(tag,text,cls)=>{const node=document.createElement(tag);if(text)node.textContent=text;if(cls)node.className=cls;return node};
+  dialog.classList.add('history-browser-dialog');dialog.addEventListener('close',()=>{if(!dialog.open)dialog.classList.remove('history-browser-dialog')},{once:true});
+  const element=make('form',null,'history-browser '+className),toolbar=make('div',null,'history-browser-toolbar'),search=make('input'),run=make('button','검색'),refresh=PgitIcons.refresh();
+  search.type='search';search.maxLength=256;search.placeholder=placeholder;search.setAttribute('aria-label','커밋 메시지 검색');run.type='submit';refresh.type='button';toolbar.append(search,run,refresh);
+  const error=make('p',null,'command-error'),results=make('div',null,'history-browser-results'),list=make('div',null,'history-browser-list'),footer=make('div',null,'history-browser-footer'),status=make('span'),retry=PgitIcons.refresh();
+  error.setAttribute('role','alert');list.setAttribute('aria-label',label);status.setAttribute('role','status');retry.type='button';retry.hidden=true;footer.append(status,retry);results.append(list);element.append(toolbar,error,results,footer);
+  function message(text){list.replaceChildren(PgitUI.message(text))}
+  function busy(value){list.setAttribute('aria-busy',String(value));run.disabled=refresh.disabled=value}
+  return {element,toolbar,search,run,refresh,error,results,list,footer,status,retry,message,busy};
+ }
+ function commitRow(commit,{className='',onOpen}={}){
+  const row=document.createElement('button');row.type='button';row.className='history-browser-row literal-data '+className;row.dataset.hash=commit.hash;row.title=commit.title;row.setAttribute('aria-label',commit.title+' · '+commit.hash.slice(0,8)+' · 커밋 보기');
+  const title=document.createElement('strong');title.textContent=commit.title;const meta=document.createElement('span');meta.className='history-browser-meta';const hash=document.createElement('code');hash.textContent=commit.hash.slice(0,8);hash.title=commit.hash;const author=document.createElement('span');author.textContent=commit.author;const date=document.createElement('time');date.dateTime=commit.date;date.textContent=new Date(commit.date).toLocaleString(document.documentElement.lang||undefined);meta.append(hash,document.createTextNode(' · '),author,document.createTextNode(' · '),date);row.append(title,meta);row.onclick=()=>onOpen?.(commit,row);return row;
+ }
  function notification(host){
   let version=0,animation=null,timer;
   host.classList.add('ui-notification');host.hidden=true;host.setAttribute('role','status');host.setAttribute('aria-live','polite');host.setAttribute('popover','manual');
@@ -62,7 +78,7 @@ window.PgitUI=(()=>{
  }
  function message(text,{error=false}={}){const element=document.createElement('div');element.className='ui-list-message';element.setAttribute('role',error?'alert':'status');element.textContent=text;return element}
  function commandFormLayout(form,{inline=false}={}){form.classList.add('ui-command-form');form.classList.toggle('ui-command-inline',inline)}
- return {commandFormLayout,dismissDialog,checkboxField,notification,message,selectionGroup,segments,closeButton,dialogHeader,dialogFrame,labeledField,externalLink,listItem};
+ return {historyBrowser,commitRow,commandFormLayout,dismissDialog,checkboxField,notification,message,selectionGroup,segments,closeButton,dialogHeader,dialogFrame,labeledField,externalLink,listItem};
 })();
 
 // One backdrop policy for native dialogs, including dynamically created views.

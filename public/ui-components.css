@@ -34,26 +34,10 @@ body #projectDialog .dialog-heading h2{font-size:var(--ui-font-size,12px);font-w
 #shellNotice.ui-notification,#toast.ui-notification{position:fixed;inset:64px auto auto 50%;margin:0;transform:translateX(-50%);display:block;width:max-content;max-width:calc(100vw - 32px);max-height:calc(100vh - 96px);overflow:auto;padding:12px 20px;border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:8px;background:var(--surface);color:var(--text);box-shadow:0 8px 28px #0003;line-height:1.5;z-index:1000;overflow-wrap:anywhere}
 #shellNotice.ui-notification.missing-notice{display:flex}
 #shellNotice.ui-notification[hidden],#toast[hidden]{display:none!important}
-/* File history appends compact rows while keeping search controls visible. */
-body dialog.file-history-dialog[data-dialog-kind=list]{width:min(960px,calc(100vw - 24px));height:min(760px,85vh)}
+/* File-history context and drill-in; browsing controls are shared below. */
 body dialog .file-history-view{display:flex;flex-direction:column;gap:12px;flex:1;min-height:0;overflow:hidden}
 body dialog .file-history-view>.command-help{margin:0}
 .file-history-path{color:var(--muted);overflow-wrap:anywhere;font-size:.9em;flex-shrink:0}
-.file-history-toolbar{display:flex;gap:8px;align-items:center;flex-shrink:0}
-body dialog .file-history-toolbar>input{flex:1;min-width:0;width:0;margin:0;height:3em;min-height:36px;box-sizing:border-box}
-body dialog .file-history-toolbar>button{flex:none;margin:0;height:3em;min-height:36px;padding:0 12px;line-height:1.5;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center}
-body dialog .file-history-list{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain}
-body dialog .file-history-list>.file-history-open{display:flex;align-items:center;gap:20px;width:100%;height:auto;min-height:56px;margin:0;padding:10px 12px;border:0;border-bottom:1px solid var(--border);border-radius:0;background:transparent;color:var(--text);text-align:left;font-weight:400;line-height:1.5;white-space:normal;cursor:pointer}
-body dialog .file-history-list>.file-history-open:last-child{border-bottom:0}
-body dialog .file-history-list>.file-history-open:is(:hover,:focus-visible){background:var(--soft);color:var(--text)}
-body dialog .file-history-list>.file-history-open:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
-body dialog .file-history-open>.ui-list-main{flex:1;min-width:0;padding:0}
-body dialog .file-history-open .ui-list-title{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere;line-height:1.5}
-body dialog .file-history-open .ui-list-meta{display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin-top:4px}
-body dialog .file-history-open>.file-history-hash{flex:none;align-self:center;margin:0;padding:0;background:transparent;color:var(--muted);font-size:.9em;white-space:nowrap}
-.file-history-footer{display:flex;align-items:center;justify-content:center;gap:8px;flex-shrink:0}
-.file-history-footer [role=status]{color:var(--muted);font-size:.9em}
-@media(max-width:540px){.file-history-toolbar{flex-wrap:wrap}.file-history-toolbar input{flex-basis:100%}body dialog.file-history-dialog[data-dialog-kind=list]{height:calc(100vh - 24px)}}
 body dialog.file-history-comparing[data-dialog-kind=list]{width:min(1440px,calc(100vw - 24px));height:90vh}
 body dialog .file-history-detail{display:flex;flex-direction:column;gap:10px;flex:1;min-height:0}
 body dialog .file-history-detail-heading{display:flex;align-items:center;gap:12px;flex-shrink:0}
@@ -199,3 +183,26 @@ body .git-setup-heading{display:flex;align-items:center;gap:10px;font-size:16px}
 body .git-setup-card p{margin:10px 0;color:var(--muted);font-size:inherit}body .git-setup-card ol{padding-left:22px;margin:14px 0}body .git-setup-card li{margin:6px 0}
 body .git-setup-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}body .git-setup-actions>a,body .git-setup-actions>button{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:38px;height:auto;padding:7px 14px;border-radius:6px;font:inherit;text-decoration:none}body .git-setup-actions>a{background:var(--accent);color:#fff}body .git-setup-actions>button{border:1px solid var(--border);background:var(--surface);color:var(--text)}body .git-setup-status:empty{display:none}
 #gitSetupDialog{padding:0;width:min(560px,calc(100vw - 32px));max-height:calc(100vh - 32px)}#gitSetupDialog .dialog-heading{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:var(--canvas);border-bottom:1px solid var(--border)}#gitSetupDialog h2{margin:0;font-size:17px}#gitSetupDialog .git-setup-card{border:0;border-radius:0;background:var(--surface)}
+
+/* One commit browser for repository search and file history. */
+body dialog.history-browser-dialog[data-dialog-kind=list]{width:min(960px,calc(100vw - 24px));height:min(760px,85vh)}
+body dialog .history-browser{display:flex;flex-direction:column;gap:12px;flex:1;min-height:0;overflow:hidden;padding:16px;margin:0}
+body dialog .file-history-view>.history-browser{padding:0}
+.history-browser>.command-help{margin:0;flex-shrink:0}
+.history-browser-toolbar{display:flex;align-items:center;gap:8px;flex-shrink:0;--refresh-control-size:36px}
+body dialog .history-browser-toolbar>input{flex:1;min-width:0;width:0;height:36px;margin:0}
+body dialog .history-browser-toolbar>button{flex:none;height:36px;min-height:36px;margin:0;padding:0 12px}
+body dialog .history-browser-results{display:flex;flex-direction:column;flex:1;min-height:0;margin:0}
+body dialog .history-browser-list{flex:1;min-height:0;max-height:none;overflow:auto;overscroll-behavior:contain;border:1px solid var(--border);border-radius:6px}
+body dialog .history-browser-list>.history-browser-row{display:flex;flex-direction:column;align-items:stretch;gap:6px;width:100%;height:auto;min-height:64px;padding:12px 16px;margin:0;text-align:left;border:0;border-bottom:1px solid var(--border);border-radius:0;background:var(--surface);color:var(--text);font-weight:400}
+body dialog .history-browser-row:last-child{border-bottom:0}
+body dialog .history-browser-row:is(:hover,:focus-visible){background:var(--soft)}
+body dialog .history-browser-row:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.history-browser-row>strong{display:block;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;font-weight:500}
+.history-browser-meta{display:flex;align-items:center;gap:6px;min-width:0;white-space:nowrap;overflow:hidden;font-size:11px;color:var(--muted)}
+.history-browser-meta>span{min-width:0;overflow:hidden;text-overflow:ellipsis}.history-browser-meta code,.history-browser-meta time{font-size:inherit;flex-shrink:0}
+.history-browser-footer{display:flex;align-items:center;justify-content:center;gap:8px;flex-shrink:0;color:var(--muted);font-size:12px}
+.history-browser-list>.ui-list-message{text-align:center;padding:28px 16px;color:var(--muted)}
+.history-browser>.command-error:empty{display:none}
+@media(max-width:540px){body dialog.history-browser-dialog[data-dialog-kind=list]{height:calc(100dvh - 24px)}body dialog .history-browser{padding:12px}.history-browser-meta{font-size:10px;gap:4px}}
+body dialog.file-history-comparing[data-dialog-kind=list]{width:min(1440px,calc(100vw - 24px));height:90vh}

@@ -79,3 +79,9 @@ modes.setValue('commit');
 `PgitUI.notification(host)`가 상단 진입(240ms), 표시(3초), 상단 퇴장(180ms)을 담당합니다. 작업 공간의 `notify()`는 셸로 전달되어 폴더 삭제 알림과 같은 표면을 사용하며, 독립 작업 공간도 같은 컴포넌트를 사용합니다. 새 알림은 이전 타이머와 애니메이션을 취소합니다. 모션 감소 설정에서는 이동 애니메이션을 생략하고 3초 표시를 유지합니다. 입력 오류와 작업 결과 목록은 사용자가 수정·검토할 수 있도록 본문에 유지합니다.
 
 Command forms use `PgitUI.commandFormLayout`: a single input shares a row with its submit button, stacking below it on narrow screens. Multi-field forms use a full-width primary action. Inspection results and errors span the form width below the action. Dedicated merge and worktree layouts retain their existing action groups.
+
+## 커밋 이력 브라우저
+
+`PgitUI.historyBrowser(dialog, options)`는 전체 이력 검색과 파일 이력의 공통 화면 골격이다. 960px 너비, 화면에 맞춘 고정 높이, 검색·새로고침 도구, 독립 스크롤 목록, 상태·재시도 영역을 공유한다. `PgitUI.commitRow(commit, {onOpen, className})`는 메시지 한 줄과 아래쪽 해시·작성자·시간을 렌더링한다. 긴 메시지는 생략하고 전체 내용은 title로 제공한다.
+
+데이터 요청·취소 판정·페이지 추가 로딩·클릭 목적지는 호출자가 소유한다. 전체 검색은 명시적 검색과 커밋 이동을, 파일 이력은 검색 debounce·페이지 로딩·파일 비교 후 목록 복원을 유지한다. 결과가 없는 경우 message(), 로딩 상태는 aria-busy, 조회 오류는 별도 alert로 구분한다. 일반 commandDialog의 좁은 너비 규칙은 history-browser-dialog에 적용하지 않는다.
