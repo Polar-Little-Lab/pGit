@@ -9,7 +9,7 @@ try {
  const errors=[];page.on('pageerror',error=>errors.push(error.message));
  await page.goto(await ready);
  await mkdir('test-results',{recursive:true});
- await page.screenshot({path:'test-results/interface-empty.png',fullPage:true});
+ await page.screenshot({path:'test-results/interface-empty.png',fullPage:true,animations:'disabled'});
  await page.evaluate(()=>{
   // Presentation fixtures only; no invented branch/status is written to real projects.
   groups=[{id:'work',name:'Polar Little Lab',color:'teal',icon:'code'},{id:'personal',name:'Personal',color:'orange',icon:'folder'}];
@@ -31,7 +31,8 @@ try {
  assert.equal(await list.isVisible(),true);assert.equal(await list.evaluate(el=>el.inert),false);
  for(const theme of ['light','dark']){
   await page.evaluate(theme=>PgitSettings.setTheme(theme),theme);
-  await page.screenshot({path:`test-results/interface-${theme}.png`,fullPage:true});
+  await page.screenshot({path:`test-results/interface-${theme}.png`,fullPage:true,animations:'disabled'});
+  assert.equal(await page.locator('#welcomeOpen').evaluate(el=>getComputedStyle(el).color),theme==='dark'?'rgb(229, 233, 238)':'rgb(37, 43, 50)');
  }
  for(const language of ['ko','en','ja','zh','es','fr']){
   await page.evaluate(language=>PgitI18n.setLanguage(language),language);
@@ -39,7 +40,7 @@ try {
   assert.ok(await page.locator('#welcome').evaluate(el=>el.scrollWidth<=el.clientWidth),language+' horizontal overflow');
  }
  await page.evaluate(()=>{PgitI18n.setLanguage('ko');PgitSettings.setTheme('light')});
- await page.screenshot({path:'test-results/interface-compact.png',fullPage:true});
+ await page.screenshot({path:'test-results/interface-compact.png',fullPage:true,animations:'disabled'});
  await page.emulateMedia({reducedMotion:'reduce'});
  await toggle.click();assert.equal(await list.isVisible(),false);
  assert.equal(await list.evaluate(el=>el.getAnimations().length),0);
