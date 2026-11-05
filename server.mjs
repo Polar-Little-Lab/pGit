@@ -58,6 +58,7 @@ const server=http.createServer(async(req,res)=>{
     if(action==='worktreeRemove'){const target=await realpath(data.path);if([...workspaces.values()].includes(target))throw Error('열려 있는 프로젝트 탭을 먼저 닫으세요.');}
     if(['open','init','clone'].includes(action)){result=await fullState(root);workspaces.set(workspaceId,root)}
     else switch(action){
+     case 'historyPage':result=await git.historyPage(root,data);break;
      case 'workingComparison':result=await workingComparison(root,data);break;
      case 'comparisonFiles':result=await comparisonFiles(root,data);break;
      case 'comparisonFile':result=await comparisonFile(root,data);break;

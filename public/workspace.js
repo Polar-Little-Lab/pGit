@@ -66,6 +66,21 @@ controls();
 
 // One history navigation surface; HEAD and the viewed branch are separate states.
 let selectedHistoryRef=null;
+let scopedHistoryRoot=null;const scopedHistoryPages=new Map();
+function currentHistoryPage(){return scopedHistoryRoot===state?.root?scopedHistoryPages.get(scope):null}
+function mergeScopedHistory(page){const known=new Set(state.history.map(c=>c.hash));state.history.push(...page.commits.filter(c=>!known.has(c.hash)))}
+async function loadScopedHistory(hash,more=false){
+ if(!state||!hash)return;
+ if(scopedHistoryRoot!==state.root){scopedHistoryRoot=state.root;scopedHistoryPages.clear()}
+ const root=state.root;let page=scopedHistoryPages.get(hash);
+ if(page?.loading||page&&(!more||!page.hasMore)&&!page.error)return;
+ if(!page){page={commits:[],hasMore:true,nextOffset:0};scopedHistoryPages.set(hash,page)}
+ page.loading=true;page.error=null;
+ if(more)drawRows();
+ try{const result=await api('historyPage',{ref:hash,offset:page.nextOffset});if(state?.root!==root)return;
+ const known=new Set(page.commits.map(c=>c.hash));page.commits.push(...result.commits.filter(c=>!known.has(c.hash)));page.hasMore=result.hasMore;page.nextOffset=result.nextOffset;
+ }catch(error){page.error=error.message}finally{page.loading=false;if(state?.root===root&&scope===hash){mergeScopedHistory(page);renderHistory()}}
+}
 function chooseHistoryRef(ref,hash){selectedHistoryRef=ref;scope=hash;activeCommit=hash;tab('history');renderHistory()}
 function historyScopeLabel(){return scope?(selectedHistoryRef?.startsWith('refs/tags/')?'태그: ':selectedHistoryRef?'브랜치: ':'커밋: ')+(selectedHistoryRef?.replace(/^refs\/(heads|remotes|tags)\//,'')||scope.slice(0,7)):'브랜치 선택'}
 let historyScopeRoot=null,historyCheckedOutRef=null;
@@ -78,5 +93,6 @@ function syncHistoryScope(){
  if(!scope)selectedHistoryRef=null;
  if(selectedHistoryRef){const ref=state.refs.find(r=>r.name===selectedHistoryRef)||state.branches.find(b=>'refs/heads/'+b.name===selectedHistoryRef);if(ref)scope=ref.hash;else{selectedHistoryRef=null;scope=null}}
  if(!scope){const current=state.branches.find(b=>b.current)||state.branches.find(b=>b.name===state.branch);selectedHistoryRef=current?'refs/heads/'+current.name:null;scope=current?.hash||state.head||null}
+ if(scope){const page=currentHistoryPage();if(page)mergeScopedHistory(page);else void loadScopedHistory(scope)}
  document.querySelectorAll('[data-ref]').forEach(b=>{const selected=!!scope&&b.dataset.ref===selectedHistoryRef;b.classList.toggle('active',selected);b.setAttribute('aria-pressed',String(selected))});
 }

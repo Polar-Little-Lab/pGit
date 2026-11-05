@@ -62,3 +62,13 @@ export function fileHistoryPage(root,{name,revision,query,offset,size=50}){
   child.on('close',code=>{if(!done)finish(code?Error(stderr||'Git history failed.'):null)});
  });
 }
+
+// Pin each page to a commit hash so moving refs cannot shift subsequent pages.
+export async function historyPage(root,{ref='HEAD',offset=0,limit=200}={}){
+ if(!Number.isSafeInteger(offset)||offset<0)throw Error('잘못된 이력 위치입니다.');
+ if(!Number.isInteger(limit)||limit<1||limit>200)throw Error('한 번에 최대 200개 커밋을 불러올 수 있습니다.');
+ const {hash}=await commitChoice(root,ref);
+ const raw=await git(root,['log','--topo-order',`--skip=${offset}`,'-n',String(limit+1),'--format=%H%x00%P%x00%an%x00%aI%x00%s%x00%b%x00',hash,'--']);
+ const rows=raw.split('\0\n').filter(Boolean).map(s=>{const [hash,parents,author,date,title,body]=s.replace(/^\n/,'').split('\0');return {hash,parents:parents?parents.split(' '):[],author,date,title,body:body?.trim()||''}});
+ return {hash,commits:rows.slice(0,limit),hasMore:rows.length>limit,nextOffset:offset+Math.min(rows.length,limit)};
+}
