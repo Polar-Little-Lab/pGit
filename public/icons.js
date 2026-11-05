@@ -1,6 +1,13 @@
 // One 24px grid, rounded 1.75px strokes. All icons inherit the control's color.
 (()=>{
  const paths={
+  briefcase:'M8 7V3h8v4M3 7h18v14H3zM3 12c6 4 12 4 18 0M12 12v4',
+  user:'M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0M4 21v-3a8 6 0 0 1 16 0v3',
+  server:'M3 3h18v7H3zM3 14h18v7H3zM7 6v1m0 10v1M11 6h6m-6 11h6',
+  database:'M3 6c0-5 18-5 18 0s-18 5-18 0v12c0 5 18 5 18 0V6M3 12c0 5 18 5 18 0',
+  flask:'M8 3h8m-6 0v7L4 20q-1 2 2 2h12q3 0 2-2l-6-10V3M7 16h10',
+  mobile:'M7 2h10v20H7zM10 5h4m-3 14h2',
+
   book:'M12 5c-3-2-6-2-10-1v15c4-1 7-1 10 1 3-2 6-2 10-1V4c-4-1-7-1-10 1v15',
   typography:'M3 5h12M9 5v15M5 20h8M15 12h7M18.5 12v8M16 20h5',
   chevronDown:'m6 9 6 6 6-6',

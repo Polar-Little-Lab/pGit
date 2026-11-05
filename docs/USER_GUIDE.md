@@ -1323,3 +1323,8 @@ Validation: SVG search/selection/save/reload, bundled images, dark/light themes,
 Finance & payments now contains Hana, Woori, BIDV, GLN, KB, Shinhan, NH, IBK, Kakao Bank, Kbank, SC, Citi, PayPal, Visa, Mastercard and Stripe. Eight identical Hana affiliate choices were removed. Their saved IDs migrate to the retained Hana icon without changing group names, colors or repository assignments. Woori/BIDV use genuine vector symbols; GLN uses its official PNG wordmark on a dark backing. No generated logo or raster-in-SVG wrapper is presented as a vector.
 
 Regression tests check distinct finance asset hashes, retired-ID migration, Woori/BIDV/GLN selection and persistence, local image loading and dark/light/compact presentation.
+
+
+## Curated group picker and automatic colors
+
+See [Group icon UX](GROUP_ICON_UX.md) for current behavior. New selections include 25 AWS services, 26 distinct finance/payment brands and 28 development brands. Icons are grouped by purpose; legacy AWS selections remain valid without crowding the picker. Brand logos use their representative color automatically and hide the manual palette. Generic icons retain the user-selected color, including when switching back from a brand. The original logo artwork is never recolored.

@@ -4,7 +4,7 @@ All assets are bundled locally. Trademarks belong to their owners.
 
 ## Finance correction
 
-Finance has 16 distinct brands, not aliases of the same Hana drawing. Only one Hana entry remains. Old Hana affiliate IDs migrate to hana-bank while preserving group names, colors and repository assignments.
+Finance has 26 distinct brands, not aliases of the same Hana drawing. Only one Hana entry remains. Old Hana affiliate IDs migrate to hana-bank while preserving group names, colors and repository assignments.
 
 - Woori: Wikimedia SVG (vector by Nahian, based on Woori Bank CI; PD-textlogo). The viewport isolates the original round symbol.
 - BIDV: current 2022 identity, Wikimedia SVG; checked against the official identity announcement at https://bidv.com.vn/bidv/tin-tuc/bidvstories/chuyen-ve-logo . Original yellow symbol paths retained; green wordmark excluded for tab legibility.
@@ -895,3 +895,18 @@ Hana: official symbol extracted from the color SVG, original paths and colors pr
 - Users [SVG]: https://aws.amazon.com/architecture/icons/
 - vercel [SVG]: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/vercel-icon.svg
 - Virtual private cloud VPC [SVG]: https://aws.amazon.com/architecture/icons/
+
+## Curated picker
+
+Only 25 AWS service-level icons are offered for new selections. Other AWS assets remain solely for existing groups. The picker offers 26 finance brands and 28 development brands. Generic grouping icons cover work, personal, servers, data, testing, mobile and design. Brand colors come from catalog metadata; AWS service colors are taken from original SVG fills. Generic icons retain the user palette choice.
+
+- BNK금융 [SVG]: https://static.toss.im/icons/svg/icon-bank-bnk.svg
+- JB금융 [SVG]: https://static.toss.im/icons/svg/icon-bank-jb.svg
+- 수협은행 [SVG]: https://static.toss.im/icons/svg/icon-bank-sh.svg
+- SBI저축은행 [SVG]: https://static.toss.im/icons/svg/icon-bank-sbi.svg
+- 삼성금융 [SVG]: https://static.toss.im/icons/svg/icon-bank-samsung.svg
+- 네이버페이 [SVG]: https://developers.pay.naver.com/img/logo/badge_npay.svg
+- 토스 [PNG]: https://static.toss.im/assets/toss-im/asset/navigation/logo-toss-blue@2x.png
+- American Express [SVG]: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/amex.svg
+- UnionPay [SVG]: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/unionpay.svg
+- JCB [SVG]: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/jcb.svg

@@ -1,6 +1,27 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+디자인|Design
+모바일|Mobile
+테스트|Testing
+데이터베이스|Database
+서버|Server
+개인|Personal
+회사|Work
+앱·협업|Apps & collaboration
+백엔드·데이터|Backend & data
+인프라·운영|Infrastructure & operations
+결제·핀테크|Payments & fintech
+글로벌 금융·결제|Global finance & payments
+국내 은행·금융|Korean banks & finance
+보안·운영|Security & operations
+메시징·워크플로|Messaging & workflows
+네트워크·API|Network & API
+저장소·데이터|Storage & data
+클라우드·컴퓨팅|Cloud & compute
+기본 아이콘|General icons
+현재 사용 중|Currently used
+로고 색상을 자동으로 사용합니다.|The logo color is applied automatically.
 금융·결제|Finance & payments
 아이콘 검색|Search icons
 아이콘 검색 · AWS, EC2, 하나은행, Docker|Search icons · AWS, EC2, Hana, Docker
