@@ -150,3 +150,22 @@ html[data-theme] #welcome .welcome-footer{background:transparent!important;flex-
 #welcome .home-start-actions strong{color:var(--text)}
 #welcome .recent-row{background:var(--surface)}
 #welcome .recent-actions{background:transparent;width:40px;padding-right:4px}
+
+/* Compact home header and a preview using the tab's actual icon treatment. */
+.home-header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}
+.home-header .home-brand,.home-header .home-overview{margin:0}
+.home-header .home-brand{flex-shrink:0}.home-header .home-overview{min-width:0}
+#welcome{padding-top:20px}.recent-quick-section{margin:0 0 22px}.project-home-toolbar{margin-bottom:12px}
+#welcome #ungroupedHeading{margin:16px 0 8px}.recent-section{padding-bottom:0}
+.recent-quick-project>.pgit-icon{color:var(--group-color,var(--muted))}
+.group-preview{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:8px 0 4px;border:0;background:transparent;border-radius:0}
+.group-preview-label{font-size:11px;color:var(--muted)}
+.group-tab-preview{height:40px;max-width:100%;gap:12px;padding:0 12px;border-radius:5px 5px 0 0;border-top:1px solid var(--group-color);background:var(--surface)}
+.group-tab-preview .tab-mark{display:inline-flex;align-items:center;color:var(--group-color)}
+.group-tab-preview .tab-mark>.pgit-icon{width:16px;height:16px;color:inherit}
+.group-tab-preview .tab-text{font-size:12px;font-weight:500;color:var(--text)}
+.group-tab-preview>.pgit-icon{width:14px;height:14px;color:var(--muted)}
+.group-choices .group-swatch{width:30px;height:30px;border:3px solid var(--surface);border-radius:50%;background:var(--swatch);box-shadow:0 0 0 1px var(--border)}
+.group-choices .group-swatch[aria-pressed=true]{box-shadow:0 0 0 2px var(--accent)}
+.group-swatch .pgit-icon{width:15px;height:15px;color:#fff}.group-swatch[aria-pressed=false] .pgit-icon{visibility:hidden}
+@media(max-width:750px){.home-header{flex-wrap:wrap;gap:12px;margin-bottom:18px}.home-header .home-overview{width:100%}.home-header .home-start-actions{margin:0}}
