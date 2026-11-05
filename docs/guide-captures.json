@@ -1,0 +1,218 @@
+{
+  "capturedAt": "2026-11-05T15:32:52.319Z",
+  "source": "https://github.com/expressjs/express",
+  "sourceHead": "43fca52d28a422c8be48fd489cbd4f2d6152bab6",
+  "practice": "/Users/polar/pgit-guide-projects/session-WMDT1W/express-practice",
+  "viewport": {
+    "width": 1440,
+    "height": 960
+  },
+  "theme": "dark",
+  "captures": [
+    {
+      "name": "clone",
+      "file": "images/manual-clone.png",
+      "capturedAt": "2026-11-05T15:32:31.823Z"
+    },
+    {
+      "name": "clone-progress",
+      "file": "images/manual-clone-progress.png",
+      "capturedAt": "2026-11-05T15:32:32.118Z"
+    },
+    {
+      "name": "home",
+      "file": "images/manual-home.png",
+      "capturedAt": "2026-11-05T15:32:34.442Z"
+    },
+    {
+      "name": "groups",
+      "file": "images/manual-groups.png",
+      "capturedAt": "2026-11-05T15:32:34.744Z"
+    },
+    {
+      "name": "graph",
+      "file": "images/manual-graph.png",
+      "capturedAt": "2026-11-05T15:32:35.230Z"
+    },
+    {
+      "name": "tag-history",
+      "file": "images/manual-tag-history.png",
+      "capturedAt": "2026-11-05T15:32:35.660Z"
+    },
+    {
+      "name": "search",
+      "file": "images/manual-search.png",
+      "capturedAt": "2026-11-05T15:32:36.290Z"
+    },
+    {
+      "name": "search-empty",
+      "file": "images/manual-search-empty.png",
+      "capturedAt": "2026-11-05T15:32:36.683Z"
+    },
+    {
+      "name": "file-history",
+      "file": "images/manual-file-history.png",
+      "capturedAt": "2026-11-05T15:32:37.010Z"
+    },
+    {
+      "name": "file-diff",
+      "file": "images/manual-file-diff.png",
+      "capturedAt": "2026-11-05T15:32:37.501Z"
+    },
+    {
+      "name": "blame",
+      "file": "images/manual-blame.png",
+      "capturedAt": "2026-11-05T15:32:37.871Z"
+    },
+    {
+      "name": "commands",
+      "file": "images/manual-commands.png",
+      "capturedAt": "2026-11-05T15:32:38.145Z"
+    },
+    {
+      "name": "changes",
+      "file": "images/manual-changes.png",
+      "capturedAt": "2026-11-05T15:32:39.474Z"
+    },
+    {
+      "name": "partial",
+      "file": "images/manual-partial.png",
+      "capturedAt": "2026-11-05T15:32:40.076Z"
+    },
+    {
+      "name": "editor",
+      "file": "images/manual-editor.png",
+      "capturedAt": "2026-11-05T15:32:40.403Z"
+    },
+    {
+      "name": "ignore",
+      "file": "images/manual-ignore.png",
+      "capturedAt": "2026-11-05T15:32:40.956Z"
+    },
+    {
+      "name": "staging",
+      "file": "images/manual-staging.png",
+      "capturedAt": "2026-11-05T15:32:42.343Z"
+    },
+    {
+      "name": "commit",
+      "file": "images/manual-commit.png",
+      "capturedAt": "2026-11-05T15:32:43.358Z"
+    },
+    {
+      "name": "amend-message",
+      "file": "images/manual-amend-message.png",
+      "capturedAt": "2026-11-05T15:32:43.684Z"
+    },
+    {
+      "name": "amend-files",
+      "file": "images/manual-amend-files.png",
+      "capturedAt": "2026-11-05T15:32:44.073Z"
+    },
+    {
+      "name": "branch",
+      "file": "images/manual-branch.png",
+      "capturedAt": "2026-11-05T15:32:44.350Z"
+    },
+    {
+      "name": "tag-create",
+      "file": "images/manual-tag-create.png",
+      "capturedAt": "2026-11-05T15:32:44.634Z"
+    },
+    {
+      "name": "stash",
+      "file": "images/manual-stash.png",
+      "capturedAt": "2026-11-05T15:32:44.900Z"
+    },
+    {
+      "name": "remotes",
+      "file": "images/manual-remotes.png",
+      "capturedAt": "2026-11-05T15:32:45.201Z"
+    },
+    {
+      "name": "fetch",
+      "file": "images/manual-fetch.png",
+      "capturedAt": "2026-11-05T15:32:45.467Z"
+    },
+    {
+      "name": "pull",
+      "file": "images/manual-pull.png",
+      "capturedAt": "2026-11-05T15:32:45.733Z"
+    },
+    {
+      "name": "push",
+      "file": "images/manual-push.png",
+      "capturedAt": "2026-11-05T15:32:46.000Z"
+    },
+    {
+      "name": "author",
+      "file": "images/manual-author.png",
+      "capturedAt": "2026-11-05T15:32:46.300Z"
+    },
+    {
+      "name": "submodules",
+      "file": "images/manual-submodules.png",
+      "capturedAt": "2026-11-05T15:32:46.632Z"
+    },
+    {
+      "name": "reflog",
+      "file": "images/manual-reflog.png",
+      "capturedAt": "2026-11-05T15:32:46.935Z"
+    },
+    {
+      "name": "merge",
+      "file": "images/manual-merge.png",
+      "capturedAt": "2026-11-05T15:32:47.799Z"
+    },
+    {
+      "name": "worktrees",
+      "file": "images/manual-worktrees.png",
+      "capturedAt": "2026-11-05T15:32:48.100Z"
+    },
+    {
+      "name": "organizer-range",
+      "file": "images/manual-organizer-range.png",
+      "capturedAt": "2026-11-05T15:32:48.893Z"
+    },
+    {
+      "name": "organizer",
+      "file": "images/manual-organizer.png",
+      "capturedAt": "2026-11-05T15:32:49.361Z"
+    },
+    {
+      "name": "reset",
+      "file": "images/manual-reset.png",
+      "capturedAt": "2026-11-05T15:32:49.910Z"
+    },
+    {
+      "name": "cherry-pick",
+      "file": "images/manual-cherry-pick.png",
+      "capturedAt": "2026-11-05T15:32:50.182Z"
+    },
+    {
+      "name": "revert",
+      "file": "images/manual-revert.png",
+      "capturedAt": "2026-11-05T15:32:50.465Z"
+    },
+    {
+      "name": "conflict",
+      "file": "images/manual-conflict.png",
+      "capturedAt": "2026-11-05T15:32:51.308Z"
+    },
+    {
+      "name": "settings",
+      "file": "images/manual-settings.png",
+      "capturedAt": "2026-11-05T15:32:51.795Z"
+    },
+    {
+      "name": "typography",
+      "file": "images/manual-typography.png",
+      "capturedAt": "2026-11-05T15:32:52.048Z"
+    },
+    {
+      "name": "auto-fetch",
+      "file": "images/manual-auto-fetch.png",
+      "capturedAt": "2026-11-05T15:32:52.297Z"
+    }
+  ]
+}

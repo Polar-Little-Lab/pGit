@@ -1,6 +1,6 @@
 # pGit 개발 인수인계
 
-2026년 11월 5일 기준. 이 문서는 pGit의 제품 방향, 누적 UI 요구사항, 구현 구조, 검증 방법을 다음 개발자와 GPT에 전달한다. 코드와 함께 읽고, 이후 변경 시 구현 상태와 검증 기록을 함께 갱신한다. 상세 조작은 [사용 가이드](USER_GUIDE.md), 기존 화면 감사는 [단계 점검](UX_DEPTH_REVIEW.md), 공통 UI는 [컴포넌트 지침](UI_COMPONENTS.md)을 참고한다.
+2026년 11월 6일 기준. 이 문서는 pGit의 제품 방향, 누적 UI 요구사항, 구현 구조, 검증 방법을 다음 개발자와 GPT에 전달한다. 코드와 함께 읽고, 이후 변경 시 구현 상태와 검증 기록을 함께 갱신한다. 상세 조작은 [사용 가이드](USER_GUIDE.md), 기존 화면 감사는 [단계 점검](UX_DEPTH_REVIEW.md), 공통 UI는 [컴포넌트 지침](UI_COMPONENTS.md)을 참고한다.
 
 ## 제품과 작업 환경
 
@@ -225,3 +225,19 @@ See [Group icon UX](GROUP_ICON_UX.md) for current behavior. New selections inclu
 
 ### 전체 이력 검색 결과 탐색
 전체 이력 메시지 검색 결과는 메시지·해시·작성자·날짜를 구분한 클릭 가능한 목록입니다. 결과를 클릭하면 검색 창을 닫고 해당 커밋을 그래프에서 선택하여 변경 파일과 diff를 확인합니다. 초기 로딩 범위 밖의 커밋도 직접 조회합니다. 최대 200개 결과 표시 시 제한 안내를 제공합니다.
+
+## 사용 가이드 재촬영 (2026-11-06)
+
+사용 가이드는 현재 Express 실제 이력과 격리된 실습 클론을 기준으로 24개 작업 흐름으로 다시 작성했다. 기존 그림 154개를 현재 화면 41개로 교체했다. 숨긴 GitHub/GitLab 전용 기능은 실행 절차에서 제외한다.
+
+- 본문: `docs/USER_GUIDE.md`. 앱의 책 아이콘에서 같은 문서를 읽는다.
+- 이미지: `docs/images/manual-*.png`. 전체 화면은 1440×960, 모달은 실제 영역만 촬영한다. 합성 UI가 아니다.
+- 출처·원본 HEAD·실습 경로·촬영 시각: `docs/guide-captures.json`.
+- 재촬영: `scripts/capture-guide-current.mjs`. 이전 capture-guide 진입점들은 이 스크립트로 연결된다.
+- 사전 준비: Express를 `~/pgit-guide-projects/express`에 복제한다. 다른 위치는 `PGIT_GUIDE_SOURCE`, 실습 상위 폴더는 `PGIT_GUIDE_WORKSPACE`로 지정한다.
+- 실행: `PGIT_BROWSER_PATH='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' node scripts/capture-guide-current.mjs`. Node 22 이상과 npm 의존성이 필요하다.
+- 매 실행에서 HTTPS로 새 실습 클론을 만든다. 네트워크가 필요하다. 원본 클론은 읽기 전용이며 변경·커밋·스태시·충돌은 새 session 폴더에서만 만든다. 원격 Push를 실행하지 않는다. 실습 폴더는 검토용으로 남긴다.
+- Express: https://github.com/expressjs/express (MIT). 화면 속 소스의 원래 저작권 표기를 유지한다.
+- 검증: `test/ui-settings.mjs`가 본문/촬영 manifest의 일치, 이미지 제공, 목차, 검색, 확대·포커스 복원, 좁은 화면을 검사한다.
+
+화면을 바꾼 뒤 가이드를 갱신할 때는 데이터 요청과 Git 작업 완료를 기다린 다음 찍고 실제 그림을 열어 확인한다. 이력 정리는 현재 ‘정리할 첫 커밋부터 최신까지’를 고르는 단계형 UI다. 이전 ‘기준 커밋 다음부터’ 설명을 다시 넣지 않는다.
