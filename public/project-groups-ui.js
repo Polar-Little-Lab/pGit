@@ -3,19 +3,12 @@
  const t=text=>window.PgitI18n?.t(text)||text;
  function button(text,action){const b=document.createElement('button');b.type='button';b.textContent=text;b.onclick=action;return b}
  function refresh(){renderTabs();renderRecents();save()}
- window.renderGroupFilters=()=>{
-  const host=byId('groupFilters');if(!host)return;host.replaceChildren();
-  for(const [id,name] of [['all','전체'],['recent','최근 프로젝트'],['favorites','즐겨찾기'],...groups.map(g=>[g.id,g.name]),['none','그룹 없음']]){
-   const b=button(t(name),()=>{groupFilter=id;renderRecents()});b.setAttribute('aria-pressed',String(groupFilter===id));const g=groups.find(g=>g.id===id);if(g)b.replaceChildren(groupBadge(g));host.append(b);
-  }
- };
  // Home navigation includes assigned paths even after they leave the recent list.
  const collapsed=new Set();let openingGroup=false,groupResult=null;
  window.renderHomeGroups=()=>{
-  const host=byId('homeGroups');host.replaceChildren();host.hidden=!groups.length||['none','recent','favorites'].includes(groupFilter);if(host.hidden)return;
+  const host=byId('homeGroups');host.replaceChildren();host.hidden=!groups.length;if(host.hidden)return;
   const query=byId('projectSearch').value.trim().toLocaleLowerCase();
   for(const group of groups){
-   if(groupFilter!=='all'&&groupFilter!==group.id)continue;
    const paths=Object.keys(projectGroups).filter(path=>projectGroups[path]===group.id);
    const visible=paths.filter(path=>(path+' '+group.name).toLocaleLowerCase().includes(query));
    if(query&&!visible.length)continue;
@@ -82,7 +75,7 @@
   const error=document.createElement('p');error.setAttribute('role','alert');error.className='error';error.hidden=true;const actions=document.createElement('div');actions.className='group-form-actions';const submit=document.createElement('button');submit.type='submit';submit.className='primary';submit.textContent=t(group?'그룹 저장':'그룹 만들기');actions.append(submit);form.append(error,actions);
   form.onsubmit=event=>{event.preventDefault();const title=name.value.trim();if(!title)return name.focus();if(groups.some(g=>g.id!==selected&&g.name.toLocaleLowerCase()===title.toLocaleLowerCase())){error.hidden=false;error.textContent=t('같은 이름의 그룹이 있습니다.');return}if(group)Object.assign(group,{name:title,color,icon});else{selected=crypto.randomUUID();groups.push({id:selected,name:title,color,icon});if(targetPath)projectGroups[targetPath]=selected}refresh();render()};
   if(!group){const hint=document.createElement('p');hint.textContent=t('그룹을 만든 뒤 프로젝트를 선택하세요.');editor.append(hint);return}
-  const deleteButton=button(t('그룹 삭제'),()=>{groups=groups.filter(g=>g.id!==selected);for(const [p,id] of Object.entries(projectGroups))if(id===selected)delete projectGroups[p];if(groupFilter===selected)groupFilter='all';selected=groups[0]?.id||null;refresh();render()});deleteButton.className='group-delete';actions.append(deleteButton);
+  const deleteButton=button(t('그룹 삭제'),()=>{groups=groups.filter(g=>g.id!==selected);for(const [p,id] of Object.entries(projectGroups))if(id===selected)delete projectGroups[p];selected=groups[0]?.id||null;refresh();render()});deleteButton.className='group-delete';actions.append(deleteButton);
   const note=document.createElement('p');note.textContent=t('그룹을 삭제해도 저장소와 파일은 유지됩니다.');note.className='group-help';editor.append(note);
   const heading=document.createElement('h3');heading.textContent=t('프로젝트 선택');const hint=document.createElement('p');hint.className='group-help';hint.textContent=t('체크하면 이 그룹으로 이동합니다. 변경은 즉시 저장됩니다.');const search=document.createElement('input');search.type='search';search.placeholder=t('프로젝트 검색');search.setAttribute('aria-label',t('프로젝트 검색'));const list=document.createElement('div');list.className='group-project-list';editor.append(heading,hint,search,list);
   const paths=[...new Set([targetPath,...projects.map(p=>p.path),...recents,...Object.keys(projectGroups)].filter(Boolean))];
@@ -90,5 +83,5 @@
   search.oninput=renderPaths;renderPaths();
  }
  window.openProjectGroups=(path,groupId)=>{targetPath=groupId!==undefined?null:path||projects.find(p=>p.id===activeId)?.path||null;selected=groupId!==undefined?groupId:projectGroups[targetPath]||groups[0]?.id||null;render();if(!dialog.open)dialog.showModal();byId('groupName').focus();body.scrollTop=0;dialog.scrollTop=0};
- PgitIcons.label(byId('createHomeGroup'),'plus','새 그룹');byId('createHomeGroup').onclick=()=>openProjectGroups(null,null);PgitIcons.label(byId('manageGroups'),'worktree');byId('manageGroups').onclick=()=>openProjectGroups();renderGroupFilters();renderHomeGroups();
+ PgitIcons.label(byId('createHomeGroup'),'plus','새 그룹');byId('createHomeGroup').onclick=()=>openProjectGroups(null,null);PgitIcons.label(byId('manageGroups'),'worktree');byId('manageGroups').onclick=()=>openProjectGroups();renderHomeGroups();
 })();

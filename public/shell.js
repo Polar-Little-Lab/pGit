@@ -5,7 +5,7 @@ const projectHeader=PgitUI.dialogFrame(byId('projectDialog'),{title:'프로젝�
 let draggedProject=null;
 const missingPaths=new Set();
 let recentDetails={};
-let groups=[],projectGroups=Object.create(null),groupFilter='all';
+let groups=[],projectGroups=Object.create(null);
 function projectGroup(path){return groups.find(g=>g.id===projectGroups[path])}
 function groupBadge(group){const badge=document.createElement('span');badge.className='project-group-badge literal-data';badge.style.setProperty('--group-color',PgitGroups.color(group));badge.append(groupIcon(group.icon),document.createTextNode(group.name));badge.title=group.name;return badge}
 
@@ -20,25 +20,23 @@ function notice(message){const host=byId('shellNotice');host.classList.remove('m
 function persisted(){return {groups,projectGroups,typography:window.PgitSettings?.typography,theme:window.PgitSettings?.theme||'light',language:window.PgitI18n?.language||'ko',projects:projects.filter(p=>p.path).map(p=>({path:p.path,name:p.name})),activePath:projects.find(p=>p.id===activeId)?.path||null,recents:recents.slice(0,18),recentDetails:Object.fromEntries(recents.filter(path=>recentDetails[path]).map(path=>[path,recentDetails[path]])),missingPaths:[...missingPaths].filter(path=>recents.includes(path))}}
 function save(){clearTimeout(saveTimer);saveTimer=setTimeout(()=>{const data=persisted();try{localStorage.setItem(sessionKey,JSON.stringify(data))}catch{}window.pgitDesktop?.saveWorkspace(data).catch(()=>notice('프로젝트 목록을 저장하지 못했습니다.'));},150)}
 for(const host of document.querySelectorAll('[data-home-icon]'))host.append(PgitIcons.icon(host.dataset.homeIcon));
-function renderResume(){
- const path=recents.filter(p=>!missingPaths.has(p)).sort((a,b)=>(recentDetails[b]?.openedAt||0)-(recentDetails[a]?.openedAt||0))[0];
- byId('resumeTitle').textContent=path?PgitPaths.basename(path):'프로젝트를 시작하세요';byId('resumeTitle').classList.toggle('literal-data',!!path);
- byId('resumeLabel').textContent=path?'최근 작업 이어가기':'프로젝트';
- byId('resumePath').textContent=path||'프로젝트를 열거나 원격 저장소를 복제하세요.';byId('resumePath').classList.toggle('literal-data',!!path);byId('resumePath').title=path||'';
- const branch=byId('resumeBranch');branch.replaceChildren();const name=path&&recentDetails[path]?.branch;if(name){branch.append(PgitIcons.icon('branch'),document.createTextNode(name));branch.title=name}branch.hidden=!name;
- byId('resumeProject').onclick=()=>path?openProject(path):chooseProject();
+function renderRecentQuickProjects(){
+ const host=byId('recentQuickProjects');host.replaceChildren();const q=byId('projectSearch').value.trim().toLocaleLowerCase();
+ const paths=[...new Set(recents)].filter(p=>!missingPaths.has(p)).sort((a,b)=>(recentDetails[b]?.openedAt||0)-(recentDetails[a]?.openedAt||0)).slice(0,3).filter(p=>(p+' '+(projectGroup(p)?.name||'')).toLocaleLowerCase().includes(q));
+ byId('recentQuickSection').hidden=!paths.length;
+ for(const path of paths){const group=projectGroup(path),b=document.createElement('button');b.className='recent-quick-project';b.title=path;b.append(group?groupIcon(group.icon):PgitIcons.icon('folder'));const copy=document.createElement('span');copy.className='recent-quick-copy literal-data';const name=document.createElement('strong');name.textContent=PgitPaths.basename(path);const location=document.createElement('small');location.textContent=path;copy.append(name,location);b.append(copy);const branch=document.createElement('span');branch.className='recent-quick-branch literal-data';branch.textContent=recentDetails[path]?.branch||'';b.append(branch);b.onclick=()=>openProject(path);host.append(b)}
+ byId('newTabShortcut').textContent=/Mac/.test(navigator.platform)?'⌘T':'Ctrl+T';
 }
 function renderRecents(){
- renderResume();window.renderGroupFilters?.();window.renderHomeGroups?.();
+ renderRecentQuickProjects();window.renderHomeGroups?.();
  const host=byId('recentProjects');host.replaceChildren();const query=byId('projectSearch').value.trim().toLocaleLowerCase();
  const matches=path=>(path+' '+(projectGroup(path)?.name||'')).toLocaleLowerCase().includes(query);
- const visible=recents.filter(path=>matches(path)&&(groupFilter==='recent'||groupFilter==='favorites'&&recentDetails[path]?.pinned||['all','none'].includes(groupFilter)&&!projectGroup(path))).sort((a,b)=>Number(!!recentDetails[b]?.pinned)-Number(!!recentDetails[a]?.pinned));
+ const visible=recents.filter(path=>matches(path)&&!projectGroup(path));
  const allPaths=[...new Set([...recents,...Object.keys(projectGroups)])];
- const total=groupFilter==='all'?allPaths.filter(matches).length:groups.some(g=>g.id===groupFilter)?allPaths.filter(path=>projectGroups[path]===groupFilter&&matches(path)).length:visible.length;
- byId('recentCount').textContent=String(total);
- byId('repositoryListTitle').textContent=window.PgitI18n.t(groupFilter==='recent'?'최근 프로젝트':groupFilter==='favorites'?'즐겨찾기':groupFilter==='none'?'그룹 없음':'저장소');
+ byId('recentCount').textContent=String(allPaths.filter(matches).length);
+ byId('repositoryListTitle').textContent=window.PgitI18n.t('저장소');
  const hasGroups=!!byId('homeGroups').children.length&&!byId('homeGroups').hidden;
- byId('ungroupedHeading').hidden=!(groupFilter==='all'&&hasGroups&&visible.length);
+ byId('ungroupedHeading').hidden=!visible.length;
  document.querySelector('.recent-columns').hidden=!visible.length;
  host.hidden=!visible.length&&hasGroups;
 
@@ -50,10 +48,9 @@ function renderRecents(){
   const time=document.createElement('span');time.className='recent-time';time.textContent=missingPaths.has(path)?'폴더 없음':details.openedAt?new Date(details.openedAt).toLocaleString(PgitI18n.language,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}):'—';
   b.append(icon,text,branch,time);b.onclick=()=>missingPaths.has(path)?reopenMissing(path):openProject(path);
   const actions=document.createElement('div');actions.className='recent-actions';
-  const pin=document.createElement('button');pin.type='button';pin.className='icon-control';pin.textContent=details.pinned?'★':'☆';pin.setAttribute('aria-label','즐겨찾기');pin.setAttribute('aria-pressed',String(!!details.pinned));pin.title='즐겨찾기';pin.onclick=()=>{recentDetails[path]={...details,pinned:!details.pinned};renderRecents();save();[...host.querySelectorAll('.recent-row')].find(row=>row.querySelector('.recent-project').title===path)?.querySelector('.recent-actions button').focus()};
-  const remove=PgitIcons.close(document.createElement('button'));remove.setAttribute('aria-label','목록에서 제거');remove.title='목록에서 제거';remove.onclick=()=>{recents=recents.filter(p=>p!==path);missingPaths.delete(path);delete recentDetails[path];renderRecents();save();byId('projectSearch').focus()};actions.append(pin,remove);row.append(b,actions);host.append(row);
+  const remove=PgitIcons.close(document.createElement('button'));remove.setAttribute('aria-label','목록에서 제거');remove.title='목록에서 제거해도 저장소와 파일은 유지됩니다.';remove.onclick=()=>{recents=recents.filter(p=>p!==path);missingPaths.delete(path);delete recentDetails[path];renderRecents();save();byId('projectSearch').focus()};actions.append(remove);row.append(b,actions);host.append(row);
  }
- if(!visible.length){const empty=document.createElement('div');empty.className='recent-empty';empty.textContent=query?'검색 결과가 없습니다.':groupFilter==='favorites'?'즐겨찾는 프로젝트가 없습니다.':'프로젝트를 열면 최근 목록에 표시됩니다.';host.append(empty)}
+ if(!visible.length){const empty=document.createElement('div');empty.className='recent-empty';empty.textContent=query?'검색 결과가 없습니다.':'프로젝트를 열면 최근 목록에 표시됩니다.';host.append(empty)}
 }
 byId('projectSearch').addEventListener('input',renderRecents);
 byId('welcomeInit').onclick=()=>showProjectDialog('init');
