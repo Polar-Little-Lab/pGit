@@ -160,3 +160,8 @@ pGit 후속 설계 제안: 홈에 그룹별 저장소 목록을 배치하고 그
 - 수정: `public/shell.html`, `shell.js`, `shell.css`, `project-groups-ui.js`, `i18n.js`, `locales.js`. `test/ui-group-home.mjs`를 `npm run test:ui` 첫 순서에 추가했다.
 - 로컬 검증: `npm test` 103 통과 / 1 skipped / 실패 0, JS 구문 및 diff 공백 검사 통과. Chromium은 실행 환경의 socket 권한 오류로 시작하지 못했으므로 새 UI 테스트의 실행 성공은 아직 확인하지 못했다. 테스트는 그룹 유지·검색·접기·키보드·묶음 열기·중복 탭·초안 보존·중간 실패·6개 언어·좁은 화면·재로드·Git 상태 보존을 다룬다.
 - 배포 없음. 후속 검증은 브라우저 실행이 가능한 CI 및 Windows/macOS 실제 앱에서 진행한다. 복제 진행률/취소와 탭 그룹 접기는 여전히 후속 과제다.
+
+
+## 별도 검토: 화면·움직임 개선
+
+`codex/interface-motion-polish`는 사용자 요청에 따라 main과 분리해 PR에서 검토한다. 자동 병합하지 않는다. 범위·모션 정책·검증 제한·되돌리기는 [화면 개선 기록](INTERFACE_POLISH.md)을 참고한다.

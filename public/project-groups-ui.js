@@ -23,7 +23,18 @@
    const header=document.createElement('div');header.className='home-group-header';
    const list=document.createElement('div');list.className='home-group-list';list.id='home-group-'+group.id;
    list.hidden=collapsed.has(group.id)&&!query;
-   const toggle=button('',()=>{if(collapsed.has(group.id))collapsed.delete(group.id);else collapsed.add(group.id);renderHomeGroups();byId(list.id)?.previousElementSibling?.querySelector('button').focus()});
+   const toggle=button('',()=>{
+    const expanded=toggle.getAttribute('aria-expanded')!=='true';
+    if(expanded)collapsed.delete(group.id);else collapsed.add(group.id);
+    toggle.setAttribute('aria-expanded',String(expanded));
+    // Collapse is presentation only: do not replace the focused button or list.
+    const from=list.hidden?0:list.getBoundingClientRect().height;
+    list.getAnimations().forEach(animation=>animation.cancel());
+    list.hidden=false;list.inert=!expanded;
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches){list.hidden=!expanded;return}
+    const animation=list.animate([{height:from+'px',opacity:expanded?0.65:1},{height:(expanded?list.scrollHeight:0)+'px',opacity:expanded?1:0}],{duration:180,easing:'cubic-bezier(.2,.7,.2,1)'});
+    animation.onfinish=()=>{list.hidden=!expanded;animation.cancel()};
+   });
    toggle.className='home-group-toggle';toggle.setAttribute('aria-expanded',String(!list.hidden));toggle.setAttribute('aria-controls',list.id);
    const count=document.createElement('span');count.className='home-group-count';count.textContent=String(visible.length);
    toggle.append(PgitIcons.icon('right'),groupBadge(group),count);

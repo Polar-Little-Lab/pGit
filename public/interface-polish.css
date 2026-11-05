@@ -1,0 +1,119 @@
+/* Product surfaces, not a landing page. Keep geometry out of virtualized rows. */
+:root {
+  --motion-fast: 120ms;
+  --motion-panel: 180ms;
+  --motion-ease: cubic-bezier(.2,.7,.2,1);
+}
+
+/* Home: one recent-work surface, one compact action rail, then real repositories. */
+#welcome {
+  max-width: 1180px;
+  padding: 30px 40px 24px;
+}
+.home-brand { margin-bottom: 24px; gap: 12px; }
+.home-wordmark { font-size: 23px; letter-spacing: -1px; }
+.home-brand > span:last-child { padding-left: 12px; border-left: 1px solid var(--border); }
+.home-overview {
+  display: grid;
+  grid-template-columns: minmax(0,1.55fr) minmax(260px,1fr);
+  gap: 28px;
+  margin-bottom: 32px;
+}
+.home-resume {
+  min-height: 180px;
+  border: 0;
+  border-left: 2px solid var(--accent);
+  border-radius: 0;
+  background: var(--canvas);
+}
+.resume-content { width: 100%; padding: 22px 24px; }
+.resume-label { font-size: 11px; font-weight: 600; }
+.resume-content h1 { font-size: 26px; margin: 10px 0 8px; letter-spacing: -.6px; }
+.resume-content p { font-size: 11px; }
+.resume-bottom { margin-top: 22px; gap: 14px; flex-wrap: wrap; }
+#resumeBranch { max-width: 100%; }
+#resumeProject { height: 32px; border-radius: 5px; }
+.home-start-actions { display: flex; flex-direction: column; gap: 0; margin: 0; }
+.home-start-actions > button {
+  width: 100%; flex: 1; min-height: 60px; padding: 10px 12px;
+  border: 0; border-bottom: 1px solid var(--border); border-radius: 0;
+  gap: 12px; background: transparent;
+}
+.home-start-actions > button:last-child { border-bottom: 0; }
+.home-start-actions > button:hover { border-color: var(--border); }
+.home-start-actions .start-icon { width: 26px; height: 26px; border-radius: 0; background: none; color: var(--muted); }
+.home-start-actions strong { font-size: 12px; }
+.home-start-actions small { margin-top: 2px; line-height: 1.5; }
+.home-start-actions .start-arrow { font-size: 16px; }
+.home-start-actions > button:is(:hover,:focus-visible) .start-icon { color: var(--accent); }
+.home-start-actions > button:is(:hover,:focus-visible) .start-arrow { transform: translate(2px,-2px); color: var(--accent); }
+
+/* Flat tabs, quieter dividers and an accent only where an action/selection needs it. */
+.project-home-toolbar { margin-bottom: 10px; }
+#projectSearch { height: 32px; border-radius: 5px; font-size: 12px; }
+.group-filters { gap: 4px; margin: 10px 0 18px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+.group-filters > button { height: 30px; border: 0; border-radius: 4px; background: transparent; }
+.group-filters > button[aria-pressed=true] { background: var(--soft); box-shadow: none; color: var(--accent); }
+.group-filters .project-group-badge { background: transparent; }
+.home-groups { gap: 0; margin: 0 0 22px; }
+.home-group { border: 0; border-bottom: 1px solid var(--border); border-radius: 0; }
+.home-group-header { padding: 4px 8px; background: transparent; }
+.home-group-toggle { min-height: 38px; height: auto; }
+.home-group-toggle .project-group-badge { background: transparent; font-size: 12px; font-weight: 600; }
+.home-group-count { font: 11px ui-monospace,monospace; }
+.home-group-header > button:last-child { height: 28px; border: 0; border-radius: 4px; background: transparent; font-size: 11px; color: var(--accent); }
+.home-group-header > button:last-child:hover { background: var(--soft); }
+.home-group-list { overflow: hidden; }
+.home-group-project { padding: 9px 16px 9px 38px; border-top: 0; font-size: 12px; }
+.home-group-project strong { font-weight: 500; }
+.home-group-project small { font: 11px/1.6 ui-monospace,monospace; }
+.recent-list { border-radius: 5px; }
+html[data-theme] .recent-row .recent-project { min-height: 62px; padding-top: 9px; padding-bottom: 9px; }
+.recent-project strong { font-size: 13px; }
+.recent-project small { font: 11px/1.6 ui-monospace,monospace; }
+.recent-columns { font-size: 10px; padding-bottom: 7px; }
+.recent-time,.recent-branch { font-size: 11px; }
+.recent-actions button { opacity: .6; }
+.recent-row:is(:hover,:focus-within) .recent-actions button,
+.recent-actions button[aria-pressed=true] { opacity: 1; }
+.welcome-footer { margin-top: 18px; font-size: 10px; }
+
+/* Motion describes interaction. No animated graph, counts, Git state or idle loops. */
+:is(.home-start-actions > button,.recent-row,.home-group-project,.group-filters > button,
+    .project-tab,.tab-close,.home-group-header > button,.workspace-toolbar button,
+    .shell > aside .nav,.commit-file,.file-select) {
+  transition: background-color var(--motion-fast), color var(--motion-fast), border-color var(--motion-fast);
+}
+.start-arrow,.home-group-toggle > .pgit-icon { transition: transform var(--motion-panel) var(--motion-ease); }
+.recent-actions button { transition: opacity var(--motion-fast),background-color var(--motion-fast); }
+/* The home overview enters only when the home becomes visible, never on data refresh. */
+@keyframes workspace-arrive { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+#welcome:not([hidden]) > .home-overview { animation: workspace-arrive var(--motion-panel) var(--motion-ease); }
+/* Starting-style also handles native showModal(), without delaying focus or Esc. */
+dialog[open] { opacity: 1; transform: none; transition: opacity var(--motion-panel),transform var(--motion-panel) var(--motion-ease); }
+@starting-style { dialog[open] { opacity: 0; transform: translateY(6px); } }
+
+@media (max-width: 900px) {
+  #welcome { padding: 24px; }
+  .home-overview { gap: 16px; grid-template-columns: minmax(0,1.3fr) minmax(220px,1fr); }
+}
+@media (max-width: 650px) {
+  #welcome { padding: 20px 16px; }
+  .home-brand { margin-bottom: 16px; }
+  .home-overview { grid-template-columns: minmax(0,1fr); gap: 12px; margin-bottom: 24px; }
+  .home-resume { min-height: 0; }
+  .resume-content { padding: 18px; }
+  .resume-content h1 { font-size: 23px; }
+  .home-start-actions > button { min-height: 56px; }
+  .home-group-project { padding-left: 28px; }
+  .home-group-header { gap: 0; }
+  .recent-actions button { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #welcome > .home-overview { animation: none !important; }
+  dialog[open],.start-arrow,.home-group-toggle > .pgit-icon,.recent-actions button,
+  .home-start-actions > button,.recent-row,.home-group-project,.group-filters > button,
+  .project-tab,.tab-close,.home-group-header > button,.workspace-toolbar button,
+  .shell > aside .nav,.commit-file,.file-select { transition: none; }
+  .home-start-actions > button:is(:hover,:focus-visible) .start-arrow { transform: none; }
+}
