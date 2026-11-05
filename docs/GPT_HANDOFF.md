@@ -213,3 +213,7 @@ See [Group icon UX](GROUP_ICON_UX.md) for current behavior. New selections inclu
 
 ### 전체 커밋 수
 선택한 브랜치·태그의 전체 커밋 수는 별도 읽기 요청으로 집계하여 `200 / 전체 1,905개`처럼 표시합니다. 목록은 기존처럼 200개씩 무한 스크롤로 추가합니다. 개수 집계는 목록 로딩을 막지 않으며, 같은 커밋 해시의 집계 결과를 재사용합니다. 검색은 불러온 목록에 적용하고 결과 수와 전체 수를 구분해 표시합니다. 집계 실패 시 개수만 다시 조회할 수 있습니다.
+
+
+### GitHub·GitLab 작업 검색 임시 비활성화
+`public/providers.js`의 `categories.push(...providerCommandCategories);`가 주석 처리되어 있습니다. 해당 한 줄의 주석을 해제하면 작업 검색의 GitHub·GitLab 항목을 모두 복원할 수 있습니다. 명령 정의와 연동 구현은 유지하며, 일반 Git의 Fetch/Pull/Push는 계속 표시합니다.
