@@ -19,7 +19,7 @@ const server=http.createServer(async(req,res)=>{
  try{
   const pathname=new URL(req.url,`http://${host}`).pathname;
   if(req.method==='GET'&&/^\/guide\/images\/[a-z0-9-]+\.png$/.test(pathname)){res.setHeader('Content-Type','image/png');return res.end(await readFile(new URL('./docs/'+pathname.slice(7),import.meta.url)))}
-  if(req.method==='GET'&&/^\/group-icons\/[a-z0-9-]+\.svg$/.test(pathname)){res.setHeader('Content-Type','image/svg+xml');return res.end(await readFile(new URL('./public'+pathname,import.meta.url)))}
+  if(req.method==='GET'&&/^\/group-icons\/[a-z0-9-]+\.(svg|png)$/.test(pathname)){res.setHeader('Content-Type',pathname.endsWith('.png')?'image/png':'image/svg+xml');return res.end(await readFile(new URL('./public'+pathname,import.meta.url)))}
   if(req.method==='GET'&&pathname==='/group-icon-catalog.js'){res.setHeader('Content-Type','text/javascript');return res.end(await readFile(new URL('./group-icon-catalog.cjs',import.meta.url)))}
   if(req.method==='GET'&&pathname==='/project-groups.js'){res.setHeader('Content-Type','text/javascript');return res.end(await readFile(new URL('./project-groups.cjs',import.meta.url)))}
   if(req.method==='GET'&&pathname==='/path-utils.js'){res.setHeader('Content-Type','text/javascript');return res.end(await readFile(new URL('./path-utils.cjs',import.meta.url)))}

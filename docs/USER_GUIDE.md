@@ -1311,8 +1311,15 @@ GitKraken 공식 Workspaces 화면을 참고했으며 클라우드 동기화나 
 
 ## 2026-11-05 SVG group icons
 
-The group editor offers searchable Recommended, AWS, Hana, Development and General categories. 868 SVG assets are bundled for offline display. Hana Bank and related affiliate entries use the official shared Hana symbol, not distinct affiliate wordmarks. See GROUP_ICON_SOURCES.md for provenance. The allowlisted icon ID persists across restarts; unknown IDs fall back to folder.
+The group editor offers searchable Recommended, AWS, Finance & payments, Development and General categories. Brand assets are bundled for offline display. Finance entries are distinct brands; duplicate Hana affiliate entries have been removed. GLN uses an official PNG, not SVG. See GROUP_ICON_SOURCES.md for provenance. The allowlisted icon ID persists across restarts; unknown IDs fall back to folder.
 
 Tabs now show one group icon followed by the project name on a single line. Hover reveals group name and path. Brand colors are retained. Existing groups are preserved; users choose new icons in the editor. The home resume area is a compact row, with Open/Clone/Create actions above the repository list.
 
 Validation: SVG search/selection/save/reload, bundled images, dark/light themes, narrow layout, and existing group/navigation flows.
+
+
+## Finance brand correction
+
+Finance & payments now contains Hana, Woori, BIDV, GLN, KB, Shinhan, NH, IBK, Kakao Bank, Kbank, SC, Citi, PayPal, Visa, Mastercard and Stripe. Eight identical Hana affiliate choices were removed. Their saved IDs migrate to the retained Hana icon without changing group names, colors or repository assignments. Woori/BIDV use genuine vector symbols; GLN uses its official PNG wordmark on a dark backing. No generated logo or raster-in-SVG wrapper is presented as a vector.
+
+Regression tests check distinct finance asset hashes, retired-ID migration, Woori/BIDV/GLN selection and persistence, local image loading and dark/light/compact presentation.

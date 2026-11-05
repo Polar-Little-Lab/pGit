@@ -113,6 +113,7 @@ const messages={
 "Development tools":["開発ツール","开发工具","Herramientas de desarrollo","Outils de développement"],
 "General":["一般","常规","General","Général"],
 "Hana":["Hana","Hana","Hana","Hana"],
+"Finance & payments":["金融・決済","金融与支付","Finanzas y pagos","Finance et paiements"],
 "Search projects":["プロジェクトを検索", "搜索项目", "Buscar proyectos", "Rechercher des projets"],
 "Search by name or path":["名前またはパスで検索", "按名称或路径搜索", "Buscar por nombre o ruta", "Rechercher par nom ou chemin"],
 "Last known branch":["最後に確認したブランチ", "最近确认的分支", "Última rama conocida", "Dernière branche connue"],

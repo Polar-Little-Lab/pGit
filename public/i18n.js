@@ -1,6 +1,7 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+금융·결제|Finance & payments
 아이콘 검색|Search icons
 아이콘 검색 · AWS, EC2, 하나은행, Docker|Search icons · AWS, EC2, Hana, Docker
 추천|Recommended
