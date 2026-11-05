@@ -22,7 +22,7 @@ try{
  await page.locator('#homeButton').click();
  assert.equal(await page.locator('.home-group-project').count(),2);
  assert.equal(await page.locator('.recent-row').count(),1);
- await page.locator('.home-group-toggle').click();assert.equal(await page.locator('.home-group-list').isVisible(),false);
+ await page.locator('.home-group-toggle').click();await page.locator('.home-group-list').waitFor({state:'hidden'});
  await page.locator('#projectSearch').fill(roots[1]);assert.equal(await page.locator('.home-group-project').count(),1);assert.equal(await page.locator('.home-group-list').isVisible(),true);
  await page.locator('#projectSearch').fill('');assert.equal(await page.locator('.home-group-list').isVisible(),false);
  await page.locator('.home-group-toggle').focus();await page.keyboard.press('Enter');assert.equal(await page.locator('.home-group-list').isVisible(),true);
