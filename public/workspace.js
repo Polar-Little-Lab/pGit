@@ -58,7 +58,7 @@ function renderHistorySearchResults(host,result){
  host.append(el('div',result.hasMore?'검색 결과 · 최근 200개 표시 · 검색어를 좁혀 주세요.':`검색 결과 ${commits.length.toLocaleString()}개`,'history-search-summary'));
  const list=el('div',undefined,'history-search-list');host.append(list);
  for(const commit of commits){const row=el('button',undefined,'history-search-row literal-data');row.type='button';row.dataset.hash=commit.hash;row.title=commit.title;row.setAttribute('aria-label',commit.title+' · '+commit.hash.slice(0,8)+' · 커밋 보기');
- const title=el('strong',commit.title),hash=el('code',commit.hash.slice(0,8)),meta=el('span',undefined,'history-search-meta');const date=el('time',new Date(commit.date).toLocaleString());date.dateTime=commit.date;meta.append(el('span',commit.author),date);row.append(title,hash,meta);
+ const title=el('strong',commit.title),hash=el('code',commit.hash.slice(0,8)),meta=el('span',undefined,'history-search-meta');const date=el('time',new Date(commit.date).toLocaleString());date.dateTime=commit.date;meta.append(hash,el('span','·','history-search-separator'),el('span',commit.author),el('span','·','history-search-separator'),date);row.append(title,meta);
  row.onclick=()=>{if(working)return;if(!state.history.some(c=>c.hash===commit.hash))state.history.push(commit);historyQuery='';panel.close();chooseHistoryRef(null,commit.hash);navigateToCommit(commit.hash)};list.append(row);
  }
 }
