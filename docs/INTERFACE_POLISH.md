@@ -1,6 +1,6 @@
-# 화면과 움직임 개선 · 별도 검토 브랜치
+# 화면과 움직임 개선
 
-기준: main `84e90c8`. 브랜치: `codex/interface-motion-polish`. 이 변경은 시각 검토용 PR이며 자동 병합·배포하지 않는다.
+기준: main `84e90c8`. 브랜치: `codex/interface-motion-polish`. 시각 검토 후 2026-11-05 사용자 승인으로 main에 병합했다.
 
 ## 방향
 
@@ -23,6 +23,6 @@ Stageshow의 [SKILL.md](https://github.com/benjitaylor/skills/blob/main/stagesho
 
 로컬 `npm test`: 103 통과, 1 skipped, 실패 0. 기본 6개 테마의 본문/버튼 명암비 검사도 포함한다. 새 UI 검증은 `node test/ui-interface-polish.mjs`: 키보드·빠른 재클릭·모션 감소·6개 언어의 좁은 화면·모달 닫기와 empty/light/dark/compact PNG를 생성한다. 기존 그룹 테스트도 애니메이션 완료를 기다리도록 수정했다.
 
-현재 로컬 환경에서 브라우저 실행 및 별도 브라우저의 localhost 연결이 제한되어 실제 렌더링 검증은 CI에서 확인해야 한다. CI 산출물은 `pGit-ui-verification-*`의 `interface-*.png`다. 플랫폼별 패키지 사용성 검수는 별도다.
+후속 로컬 Chrome 검증에서 ui-interface-polish, ui-group-home, ui-project-groups가 통과했다. CI 산출물은 `pGit-ui-verification-*`의 `interface-*.png`다. 플랫폼별 패키지 사용성 검수는 별도다.
 
 주요 스타일은 `public/interface-polish.css`에 분리했다. 서버 정적 파일 허용 목록에 추가했으며 데스크톱의 기존 `public/*.css` 패키징에 포함된다. 스키마·사용자 저장 데이터·Git 명령은 변경하지 않는다. PR 전체를 revert하면 이전 화면으로 되돌릴 수 있다.

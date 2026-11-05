@@ -34,7 +34,7 @@ try {
   await page.screenshot({path:`test-results/interface-${theme}.png`,fullPage:true,animations:'disabled'});
   assert.equal(await page.locator('#welcomeOpen').evaluate(el=>getComputedStyle(el).color),theme==='dark'?'rgb(229, 233, 238)':'rgb(37, 43, 50)');
  }
- for(const language of ['ko','en','ja','zh','es','fr']){
+ for(const language of ['ko','en','ja','zh-CN','es','fr']){
   await page.evaluate(language=>PgitI18n.setLanguage(language),language);
   await page.setViewportSize({width:600,height:720});
   assert.ok(await page.locator('#welcome').evaluate(el=>el.scrollWidth<=el.clientWidth),language+' horizontal overflow');

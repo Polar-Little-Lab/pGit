@@ -1,6 +1,10 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+열린 탭 검색|Search open tabs
+프로젝트 또는 그룹 검색|Search projects or groups
+그룹 편집|Edit group
+즐겨찾는 프로젝트가 없습니다.|No favorite projects.
 그룹 열기|Open group
 표시된 저장소 열기|Open shown repositories
 그룹 열기 완료|Group opened

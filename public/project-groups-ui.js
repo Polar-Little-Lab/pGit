@@ -5,21 +5,21 @@
  function refresh(){renderTabs();renderRecents();save()}
  window.renderGroupFilters=()=>{
   const host=byId('groupFilters');if(!host)return;host.replaceChildren();
-  for(const [id,name] of [['all','전체'],...groups.map(g=>[g.id,g.name]),['none','그룹 없음']]){
+  for(const [id,name] of [['all','전체'],['recent','최근 프로젝트'],['favorites','즐겨찾기'],...groups.map(g=>[g.id,g.name]),['none','그룹 없음']]){
    const b=button(t(name),()=>{groupFilter=id;renderRecents()});b.setAttribute('aria-pressed',String(groupFilter===id));const g=groups.find(g=>g.id===id);if(g)b.replaceChildren(groupBadge(g));host.append(b);
   }
  };
  // Home navigation includes assigned paths even after they leave the recent list.
  const collapsed=new Set();let openingGroup=false,groupResult=null;
  window.renderHomeGroups=()=>{
-  const host=byId('homeGroups');host.replaceChildren();host.hidden=!groups.length||groupFilter==='none';
+  const host=byId('homeGroups');host.replaceChildren();host.hidden=!groups.length||['none','recent','favorites'].includes(groupFilter);if(host.hidden)return;
   const query=byId('projectSearch').value.trim().toLocaleLowerCase();
   for(const group of groups){
    if(groupFilter!=='all'&&groupFilter!==group.id)continue;
    const paths=Object.keys(projectGroups).filter(path=>projectGroups[path]===group.id);
    const visible=paths.filter(path=>(path+' '+group.name).toLocaleLowerCase().includes(query));
    if(query&&!visible.length)continue;
-   const section=document.createElement('div');section.className='home-group';section.dataset.groupId=group.id;
+   const section=document.createElement('div');section.className='home-group';section.dataset.groupId=group.id;section.style.setProperty('--group-color',PgitGroups.colors[group.color]);
    const header=document.createElement('div');header.className='home-group-header';
    const list=document.createElement('div');list.className='home-group-list';list.id='home-group-'+group.id;
    list.hidden=collapsed.has(group.id)&&!query;
@@ -47,10 +47,10 @@
      groupResult={id:group.id,completed,total:visible.length};
     }finally{openingGroup=false;renderHomeGroups()}
    });open.disabled=openingGroup||!visible.length;
-   header.append(toggle,open);section.append(header,list);
+   const edit=button('',()=>openProjectGroups(null,group.id));PgitIcons.label(edit,'settings');edit.className='home-group-edit icon-control';edit.setAttribute('aria-label',t('그룹 편집')+' · '+group.name);edit.title=t('그룹 편집');open.classList.add('home-group-open');header.append(toggle,open,edit);section.append(header,list);
    for(const path of visible){
     const row=button('',()=>missingPaths.has(path)?reopenMissing(path):openProject(path,'open',{},true));row.className='home-group-project literal-data';row.title=path;
-    const name=document.createElement('strong');name.textContent=PgitPaths.basename(path);const location=document.createElement('small');location.textContent=path;row.append(name,location);list.append(row);
+    const name=document.createElement('strong');name.textContent=PgitPaths.basename(path);const location=document.createElement('small');location.textContent=path;const info=document.createElement('span');info.className='home-group-info';info.append(name,location);const branch=document.createElement('span');branch.className='home-group-branch';branch.append(PgitIcons.icon('branch'),document.createTextNode(recentDetails[path]?.branch||'—'));const status=document.createElement('span');status.className='home-group-state';status.textContent=missingPaths.has(path)?t('폴더 없음'):projects.some(p=>p.path===path)?t('열린 프로젝트'):'';row.append(PgitIcons.icon('folder'),info,branch,status);list.append(row);
    }
    if(!paths.length){const empty=document.createElement('p');empty.className='group-help';empty.textContent=t('그룹을 만든 뒤 프로젝트를 선택하세요.');list.append(empty)}
    if(groupResult?.id===group.id){const result=document.createElement('p');result.className='home-group-result';result.setAttribute('role','status');const label=document.createElement('span');label.textContent=t(groupResult.completed===groupResult.total?'그룹 열기 완료':'그룹 열기가 중단되었습니다.');result.append(label,document.createTextNode(' '+groupResult.completed+' / '+groupResult.total));section.append(result)}
@@ -86,6 +86,6 @@
   function renderPaths(){list.replaceChildren();for(const path of paths.filter(p=>p.toLocaleLowerCase().includes(search.value.toLocaleLowerCase()))){const input=document.createElement('input');input.type='checkbox';input.checked=projectGroups[path]===selected;input.setAttribute('aria-label',PgitPaths.basename(path));const row=document.createElement('label');row.className='group-project-row';row.classList.toggle('group-target',path===targetPath);const text=document.createElement('span');text.className='group-project-copy literal-data';const title=document.createElement('strong');title.textContent=PgitPaths.basename(path);const detail=document.createElement('small');detail.textContent=path;text.append(title,detail);row.append(input,text);const assigned=projectGroup(path);if(assigned)row.append(groupBadge(assigned));input.onchange=()=>{if(input.checked)projectGroups[path]=selected;else delete projectGroups[path];refresh();renderPaths();list.querySelectorAll('input')[paths.filter(p=>p.toLocaleLowerCase().includes(search.value.toLocaleLowerCase())).indexOf(path)]?.focus()};list.append(row)}if(!list.children.length){const empty=document.createElement('p');empty.textContent=t('프로젝트를 열면 여기에 표시됩니다.');list.append(empty)}}
   search.oninput=renderPaths;renderPaths();
  }
- window.openProjectGroups=path=>{targetPath=path||projects.find(p=>p.id===activeId)?.path||null;selected=projectGroups[targetPath]||groups[0]?.id||null;render();if(!dialog.open)dialog.showModal();byId('groupName').focus()};
- PgitIcons.label(byId('manageGroups'),'worktree');byId('manageGroups').onclick=()=>openProjectGroups();renderGroupFilters();renderHomeGroups();
+ window.openProjectGroups=(path,groupId)=>{targetPath=groupId!==undefined?null:path||projects.find(p=>p.id===activeId)?.path||null;selected=groupId!==undefined?groupId:projectGroups[targetPath]||groups[0]?.id||null;render();if(!dialog.open)dialog.showModal();byId('groupName').focus()};
+ PgitIcons.label(byId('createHomeGroup'),'plus','새 그룹');byId('createHomeGroup').onclick=()=>openProjectGroups(null,null);PgitIcons.label(byId('manageGroups'),'worktree');byId('manageGroups').onclick=()=>openProjectGroups();renderGroupFilters();renderHomeGroups();
 })();

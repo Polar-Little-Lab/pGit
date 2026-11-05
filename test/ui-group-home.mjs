@@ -21,7 +21,7 @@ try{
  await first.getByRole('textbox',{name:'커밋 메시지',exact:true}).fill('Keep my draft');
  await page.locator('#homeButton').click();
  assert.equal(await page.locator('.home-group-project').count(),2);
- assert.equal(await page.locator('.recent-row').count(),1);
+ assert.equal(await page.locator('.recent-row').count(),0);
  await page.locator('.home-group-toggle').click();await page.locator('.home-group-list').waitFor({state:'hidden'});
  await page.locator('#projectSearch').fill(roots[1]);assert.equal(await page.locator('.home-group-project').count(),1);assert.equal(await page.locator('.home-group-list').isVisible(),true);
  await page.locator('#projectSearch').fill('');assert.equal(await page.locator('.home-group-list').isVisible(),false);
@@ -42,7 +42,7 @@ try{
  await page.waitForFunction(()=>document.querySelector('.home-group-result')?.textContent.includes('1 / 1'));assert.equal(await page.getByRole('tab').count(),3);
  await page.locator('#homeButton').click();await page.locator('#projectSearch').fill('');
  await page.evaluate(()=>{groups[0].name='Very long group name '.repeat(2).slice(0,40);renderRecents()});
- for(const language of ['ko','en','ja','zh','es','fr']){
+ for(const language of ['ko','en','ja','zh-CN','es','fr']){
   await page.evaluate(language=>PgitI18n.setLanguage(language),language);
   for(const theme of ['light','dark']){
    await page.evaluate(theme=>PgitSettings.setTheme(theme),theme);await page.setViewportSize({width:600,height:650});
@@ -52,7 +52,7 @@ try{
  }
  await page.evaluate(()=>{PgitI18n.setLanguage('ko');PgitSettings.setTheme('light')});await page.setViewportSize({width:1440,height:960});
  await mkdir('test-results',{recursive:true});await page.screenshot({path:'test-results/group-home.png',fullPage:true});
- await page.waitForFunction(()=>Object.keys(JSON.parse(localStorage.getItem('pgit.arctic.workspace.v1')).projectGroups).length===4);
+ await page.waitForFunction(()=>Object.keys((JSON.parse(localStorage.getItem('pgit.arctic.workspace.v1'))?.projectGroups||{})).length===4);
  await page.reload();await page.locator('#homeButton').click();await page.locator('.home-group-project').first().waitFor();assert.equal(await page.locator('.home-group-project').count(),4);
  for(const repo of roots)assert.equal((await git(repo,['status','--porcelain'])).trim(),'');
  assert.deepEqual(errors,[]);console.log('Group home passed: retained membership, collapse/search/keyboard, batch open, duplicate tabs, draft preservation, partial failure, 6 languages, dark/light narrow layout, reload and unchanged Git.');
