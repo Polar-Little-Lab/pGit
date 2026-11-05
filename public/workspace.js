@@ -69,6 +69,20 @@ let selectedHistoryRef=null;
 let scopedHistoryRoot=null;const scopedHistoryPages=new Map();
 function currentHistoryPage(){return scopedHistoryRoot===state?.root?scopedHistoryPages.get(scope):null}
 function mergeScopedHistory(page){const known=new Set(state.history.map(c=>c.hash));state.history.push(...page.commits.filter(c=>!known.has(c.hash)))}
+function updateHistoryCount(){
+ const info=document.querySelector('.history-info');if(!info||!state)return;
+ const page=currentHistoryPage(),loaded=page?.commits.length||Number(info.dataset.visible||0),total=!scope?'0':Number.isSafeInteger(page?.total)?page.total.toLocaleString():null;
+ const count=loaded.toLocaleString()+' / '+(total!==null?'전체 '+total+'개':page?.countError?'전체 집계 실패':'전체 집계 중…');
+ info.textContent=(historyQuery.trim()?'검색 '+Number(info.dataset.matches||0).toLocaleString()+'개 · ':'')+count;
+ info.title='전체는 선택한 브랜치·태그에서 도달할 수 있는 커밋 수입니다. 검색과 그래프 필터는 불러온 이력에 적용됩니다.';
+ if(page?.countError){const retry=el('button','재시도','history-count-retry');retry.type='button';retry.setAttribute('aria-label','전체 커밋 수 다시 조회');retry.onclick=()=>loadHistoryCount(scope,page);info.append(retry);info.title=page.countError}
+}
+async function loadHistoryCount(hash,page){
+ if(page.countLoading||Number.isSafeInteger(page.total))return;
+ const root=state.root;page.countLoading=true;page.countError=null;updateHistoryCount();
+ try{const result=await api('historyCount',{ref:hash});page.total=result.total}catch(error){page.countError=error.message}
+ finally{page.countLoading=false;if(state?.root===root&&scope===hash&&currentHistoryPage()===page)updateHistoryCount()}
+}
 let historyPrefetchFrame=0;
 function scheduleHistoryPrefetch(){
  if(historyPrefetchFrame)return;
@@ -92,7 +106,7 @@ async function loadScopedHistory(hash,more=false){
  if(scopedHistoryRoot!==state.root){scopedHistoryRoot=state.root;scopedHistoryPages.clear()}
  const root=state.root;let page=scopedHistoryPages.get(hash);
  if(page?.loading||page&&(!more||!page.hasMore)&&!page.error)return;
- if(!page){page={commits:[],hasMore:true,nextOffset:0};scopedHistoryPages.set(hash,page)}
+ if(!page){page={commits:[],hasMore:true,nextOffset:0};scopedHistoryPages.set(hash,page);void loadHistoryCount(hash,page)}
  page.loading=true;page.error=null;
  if(more&&$('commitRows'))renderHistoryContinuation(page,$('commitRows'));
  try{const result=await api('historyPage',{ref:hash,offset:page.nextOffset});if(state?.root!==root)return;

@@ -72,3 +72,10 @@ export async function historyPage(root,{ref='HEAD',offset=0,limit=200}={}){
  const rows=raw.split('\0\n').filter(Boolean).map(s=>{const [hash,parents,author,date,title,body]=s.replace(/^\n/,'').split('\0');return {hash,parents:parents?parents.split(' '):[],author,date,title,body:body?.trim()||''}});
  return {hash,commits:rows.slice(0,limit),hasMore:rows.length>limit,nextOffset:offset+Math.min(rows.length,limit)};
 }
+
+export async function historyCount(root,ref){
+ const {hash}=await commitChoice(root,ref);
+ const total=Number((await git(root,['rev-list','--count',hash,'--'],{timeout:120000})).trim());
+ if(!Number.isSafeInteger(total)||total<0)throw Error('전체 커밋 수를 확인하지 못했습니다.');
+ return {hash,total};
+}

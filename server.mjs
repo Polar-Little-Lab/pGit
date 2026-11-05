@@ -37,6 +37,8 @@ const server=http.createServer(async(req,res)=>{
   const {action,workspaceId='default',...data}=JSON.parse(body);
   if(typeof workspaceId!=='string'||!/^[-a-zA-Z0-9_]{1,80}$/.test(workspaceId))throw Error('잘못된 작업 공간입니다.');
   if(action==='cloneProgress'){res.setHeader('Content-Type','application/json');return res.end(JSON.stringify({result:cloneProgress.get(workspaceId)||null}))}
+  // Counting immutable history is read-only and must not block page loads or other work.
+  if(action==='historyCount'){const root=workspaces.get(workspaceId);if(!root)throw Error('먼저 저장소를 여세요.');res.setHeader('Content-Type','application/json');return res.end(JSON.stringify({result:await git.historyCount(root,data.ref)}))}
   if(busyWorkspaces.has(workspaceId))throw Error('이 프로젝트에서 다른 작업이 진행 중입니다.');
   // Capture the root before awaiting. Another tab can never redirect this operation.
   let root=workspaces.get(workspaceId),lockedRoot=null;

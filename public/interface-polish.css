@@ -174,3 +174,5 @@ html[data-theme] #welcome .welcome-footer{background:transparent!important;flex-
 
 .history-continuation{min-height:40px;padding:12px 16px;text-align:center;color:var(--muted);font-size:12px}.history-continuation button{height:30px;padding:0 12px}
 .group-brand-icon[src*="finance-samsung"],.group-icon-option .group-brand-icon[src*="finance-samsung"]{width:42px;object-fit:contain;background:#fff;border-radius:3px;padding:2px}.tab-mark .group-brand-icon[src*="finance-samsung"]{width:30px;height:19px}
+
+.history-count-retry{height:24px;margin-left:6px;padding:0 6px;font-size:11px}.history-info{font-variant-numeric:tabular-nums}@media(max-width:900px){.filterbar{flex-wrap:wrap}.filterbar .history-info{display:block;flex-basis:100%;text-align:right}}
