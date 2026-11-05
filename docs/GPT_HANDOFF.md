@@ -176,3 +176,12 @@ pGit 후속 설계 제안: 홈에 그룹별 저장소 목록을 배치하고 그
 GitKraken 공식 Workspaces 화면을 참고했으며 클라우드 동기화나 일괄 Pull/Push는 추가하지 않았습니다. 회귀 검증은 test/ui-repo-navigation.mjs에 있으며 동일한 이름의 저장소, 그룹 편집, 즐겨찾기, 키보드, 좁은 창과 탭 넘침을 확인합니다.
 
 검증: 단위 테스트 104/104, 새 탐색 UI·기존 프로젝트 홈·새 탭 흐름·그룹 UI·디자인 UI 및 macOS 패키지 smoke 테스트 통과. macOS 패키지에서 저장소 열기, rebase helper, 세션 복원을 확인했습니다. Windows 수동 검증은 이번 작업에 포함하지 않았습니다.
+
+
+## 2026-11-05 SVG group icons
+
+The group editor offers searchable Recommended, AWS, Hana, Development and General categories. 868 SVG assets are bundled for offline display. Hana Bank and related affiliate entries use the official shared Hana symbol, not distinct affiliate wordmarks. See GROUP_ICON_SOURCES.md for provenance. The allowlisted icon ID persists across restarts; unknown IDs fall back to folder.
+
+Tabs now show one group icon followed by the project name on a single line. Hover reveals group name and path. Brand colors are retained. Existing groups are preserved; users choose new icons in the editor. The home resume area is a compact row, with Open/Clone/Create actions above the repository list.
+
+Validation: SVG search/selection/save/reload, bundled images, dark/light themes, narrow layout, and existing group/navigation flows.

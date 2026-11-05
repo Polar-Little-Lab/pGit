@@ -1307,3 +1307,12 @@ Git이 없거나 pGit에서 실행 파일을 찾지 못하면 **Git을 실행할
 탭 오른쪽 +는 새 탭을 엽니다. 옆의 아래 화살표는 열린 탭 검색입니다. 프로젝트 이름·경로·그룹명으로 찾고 방향키와 Enter로 이동합니다. Esc 또는 바깥 클릭으로 닫습니다. 탭이 많아도 두 버튼은 고정되며 선택한 탭은 보이는 위치로 스크롤됩니다.
 
 GitKraken 공식 Workspaces 화면을 참고했으며 클라우드 동기화나 일괄 Pull/Push는 추가하지 않았습니다. 회귀 검증은 test/ui-repo-navigation.mjs에 있으며 동일한 이름의 저장소, 그룹 편집, 즐겨찾기, 키보드, 좁은 창과 탭 넘침을 확인합니다.
+
+
+## 2026-11-05 SVG group icons
+
+The group editor offers searchable Recommended, AWS, Hana, Development and General categories. 868 SVG assets are bundled for offline display. Hana Bank and related affiliate entries use the official shared Hana symbol, not distinct affiliate wordmarks. See GROUP_ICON_SOURCES.md for provenance. The allowlisted icon ID persists across restarts; unknown IDs fall back to folder.
+
+Tabs now show one group icon followed by the project name on a single line. Hover reveals group name and path. Brand colors are retained. Existing groups are preserved; users choose new icons in the editor. The home resume area is a compact row, with Open/Clone/Create actions above the repository list.
+
+Validation: SVG search/selection/save/reload, bundled images, dark/light themes, narrow layout, and existing group/navigation flows.

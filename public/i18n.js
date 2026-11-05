@@ -1,6 +1,12 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+아이콘 검색|Search icons
+아이콘 검색 · AWS, EC2, 하나은행, Docker|Search icons · AWS, EC2, Hana, Docker
+추천|Recommended
+개발 도구|Development tools
+기본|General
+하나금융|Hana
 열린 탭 검색|Search open tabs
 프로젝트 또는 그룹 검색|Search projects or groups
 그룹 편집|Edit group

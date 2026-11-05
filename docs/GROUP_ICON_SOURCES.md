@@ -1,0 +1,876 @@
+# Project group SVG sources
+
+Assets are bundled locally for repository identification. Trademarks belong to their respective owners.
+
+AWS: official 2026-07-31 architecture package; one size/light variant per asset.
+Hana: official shared symbol extracted from the group color SVG without changing paths or colors. Affiliate entries use the shared Hana symbol, not separate affiliate wordmarks.
+Development: gilbarbara/logos (CC0 collection; underlying trademarks remain owned by their holders).
+
+- 하나금융그룹: https://www.hanafn.com/assets/img/ko/logo.svg
+- 하나금융티아이: https://www.hanafn.com/assets/img/ko/logo.svg
+- 하나생명: https://www.hanafn.com/assets/img/ko/logo.svg
+- 하나손해보험: https://www.hanafn.com/assets/img/ko/logo.svg
+- 하나은행: https://www.hanafn.com/assets/img/ko/logo.svg
+- 하나저축은행: https://www.hanafn.com/assets/img/ko/logo.svg
+- 하나증권: https://www.hanafn.com/assets/img/ko/logo.svg
+- 하나카드: https://www.hanafn.com/assets/img/ko/logo.svg
+- 하나캐피탈: https://www.hanafn.com/assets/img/ko/logo.svg
+- AWS Cloud logo: https://aws.amazon.com/architecture/icons/
+- AWS Account: https://aws.amazon.com/architecture/icons/
+- AWS Activate: https://aws.amazon.com/architecture/icons/
+- AWS Amplify: https://aws.amazon.com/architecture/icons/
+- AWS Amplify_AWS Amplify Studio: https://aws.amazon.com/architecture/icons/
+- AWS App Mesh: https://aws.amazon.com/architecture/icons/
+- AWS App Mesh_Mesh: https://aws.amazon.com/architecture/icons/
+- AWS App Mesh_Virtual Gateway: https://aws.amazon.com/architecture/icons/
+- AWS App Mesh_Virtual Node: https://aws.amazon.com/architecture/icons/
+- AWS App Mesh_Virtual Router: https://aws.amazon.com/architecture/icons/
+- AWS App Mesh_Virtual Service: https://aws.amazon.com/architecture/icons/
+- AWS App Runner: https://aws.amazon.com/architecture/icons/
+- AWS App Studio: https://aws.amazon.com/architecture/icons/
+- AWS AppConfig: https://aws.amazon.com/architecture/icons/
+- AWS AppFabric: https://aws.amazon.com/architecture/icons/
+- AWS AppSync: https://aws.amazon.com/architecture/icons/
+- AWS Application Auto Scaling: https://aws.amazon.com/architecture/icons/
+- AWS Application Discovery Service: https://aws.amazon.com/architecture/icons/
+- AWS Application Discovery Service_AWS Agentless Collector: https://aws.amazon.com/architecture/icons/
+- AWS Application Discovery Service_AWS Discovery Agent: https://aws.amazon.com/architecture/icons/
+- AWS Application Discovery Service_Migration Evaluator Collector: https://aws.amazon.com/architecture/icons/
+- AWS Application Migration Service: https://aws.amazon.com/architecture/icons/
+- AWS Artifact: https://aws.amazon.com/architecture/icons/
+- AWS Audit Manager: https://aws.amazon.com/architecture/icons/
+- AWS Auto Scaling: https://aws.amazon.com/architecture/icons/
+- AWS B2B Data Interchange: https://aws.amazon.com/architecture/icons/
+- AWS Backint Agent: https://aws.amazon.com/architecture/icons/
+- AWS Backup: https://aws.amazon.com/architecture/icons/
+- AWS Backup_AWS Backup Support for VMware Workloads: https://aws.amazon.com/architecture/icons/
+- AWS Backup_AWS Backup for AWS CloudFormation: https://aws.amazon.com/architecture/icons/
+- AWS Backup_AWS Backup support for Amazon FSx for NetApp ONTAP: https://aws.amazon.com/architecture/icons/
+- AWS Backup_AWS Backup support for Amazon S3: https://aws.amazon.com/architecture/icons/
+- AWS Backup_Audit Manager: https://aws.amazon.com/architecture/icons/
+- AWS Backup_Backup Plan: https://aws.amazon.com/architecture/icons/
+- AWS Backup_Backup Restore: https://aws.amazon.com/architecture/icons/
+- AWS Backup_Backup Vault: https://aws.amazon.com/architecture/icons/
+- AWS Backup_Compliance Reporting: https://aws.amazon.com/architecture/icons/
+- AWS Backup_Compute: https://aws.amazon.com/architecture/icons/
+- AWS Backup_Database: https://aws.amazon.com/architecture/icons/
+- AWS Backup_Gateway: https://aws.amazon.com/architecture/icons/
+- AWS Backup_Legal Hold: https://aws.amazon.com/architecture/icons/
+- AWS Backup_Recovery Point Objective: https://aws.amazon.com/architecture/icons/
+- AWS Backup_Recovery Time Objective: https://aws.amazon.com/architecture/icons/
+- AWS Backup_Storage: https://aws.amazon.com/architecture/icons/
+- AWS Backup_Vault Lock: https://aws.amazon.com/architecture/icons/
+- AWS Backup_Virtual Machine: https://aws.amazon.com/architecture/icons/
+- AWS Backup_Virtual Machine Monitor: https://aws.amazon.com/architecture/icons/
+- AWS Batch: https://aws.amazon.com/architecture/icons/
+- AWS Billing Conductor: https://aws.amazon.com/architecture/icons/
+- AWS Budgets: https://aws.amazon.com/architecture/icons/
+- AWS Certificate Manager: https://aws.amazon.com/architecture/icons/
+- AWS Certificate Manager_Certificate Authority: https://aws.amazon.com/architecture/icons/
+- AWS Chatbot: https://aws.amazon.com/architecture/icons/
+- AWS Clean Rooms: https://aws.amazon.com/architecture/icons/
+- AWS Client VPN: https://aws.amazon.com/architecture/icons/
+- AWS Cloud: https://aws.amazon.com/architecture/icons/
+- AWS Cloud Control API: https://aws.amazon.com/architecture/icons/
+- AWS Cloud Development Kit: https://aws.amazon.com/architecture/icons/
+- AWS Cloud Digital Interface: https://aws.amazon.com/architecture/icons/
+- AWS Cloud Map: https://aws.amazon.com/architecture/icons/
+- AWS Cloud Map_Namespace: https://aws.amazon.com/architecture/icons/
+- AWS Cloud Map_Resource: https://aws.amazon.com/architecture/icons/
+- AWS Cloud Map_Service: https://aws.amazon.com/architecture/icons/
+- AWS Cloud WAN: https://aws.amazon.com/architecture/icons/
+- AWS Cloud WAN_Core Network Edge: https://aws.amazon.com/architecture/icons/
+- AWS Cloud WAN_Segment Network: https://aws.amazon.com/architecture/icons/
+- AWS Cloud WAN_Transit Gateway Route Table Attachment: https://aws.amazon.com/architecture/icons/
+- AWS Cloud9: https://aws.amazon.com/architecture/icons/
+- AWS Cloud9_Cloud9: https://aws.amazon.com/architecture/icons/
+- AWS CloudFormation: https://aws.amazon.com/architecture/icons/
+- AWS CloudFormation_Change Set: https://aws.amazon.com/architecture/icons/
+- AWS CloudFormation_Stack: https://aws.amazon.com/architecture/icons/
+- AWS CloudFormation_Template: https://aws.amazon.com/architecture/icons/
+- AWS CloudHSM: https://aws.amazon.com/architecture/icons/
+- AWS CloudShell: https://aws.amazon.com/architecture/icons/
+- AWS CloudTrail: https://aws.amazon.com/architecture/icons/
+- AWS CloudTrail_CloudTrail Lake: https://aws.amazon.com/architecture/icons/
+- AWS CodeArtifact: https://aws.amazon.com/architecture/icons/
+- AWS CodeBuild: https://aws.amazon.com/architecture/icons/
+- AWS CodeCommit: https://aws.amazon.com/architecture/icons/
+- AWS CodeDeploy: https://aws.amazon.com/architecture/icons/
+- AWS CodePipeline: https://aws.amazon.com/architecture/icons/
+- AWS Command Line Interface: https://aws.amazon.com/architecture/icons/
+- AWS Compute Optimizer: https://aws.amazon.com/architecture/icons/
+- AWS Config: https://aws.amazon.com/architecture/icons/
+- AWS Console Mobile Application: https://aws.amazon.com/architecture/icons/
+- AWS Control Tower: https://aws.amazon.com/architecture/icons/
+- AWS Cost Explorer: https://aws.amazon.com/architecture/icons/
+- AWS Cost and Usage Report: https://aws.amazon.com/architecture/icons/
+- AWS Data Exchange: https://aws.amazon.com/architecture/icons/
+- AWS Data Exchange for APIs: https://aws.amazon.com/architecture/icons/
+- AWS Data Transfer Terminal: https://aws.amazon.com/architecture/icons/
+- AWS DataSync: https://aws.amazon.com/architecture/icons/
+- AWS DataSync_Discovery: https://aws.amazon.com/architecture/icons/
+- AWS Database Migration Service: https://aws.amazon.com/architecture/icons/
+- AWS Database Migration Service_Database migration workflow or job: https://aws.amazon.com/architecture/icons/
+- AWS Datasync_Agent: https://aws.amazon.com/architecture/icons/
+- AWS Deadline Cloud: https://aws.amazon.com/architecture/icons/
+- AWS Deep Learning AMIs: https://aws.amazon.com/architecture/icons/
+- AWS Deep Learning Containers: https://aws.amazon.com/architecture/icons/
+- AWS DeepRacer: https://aws.amazon.com/architecture/icons/
+- AWS DevOps Agent: https://aws.amazon.com/architecture/icons/
+- AWS Device Farm: https://aws.amazon.com/architecture/icons/
+- AWS Direct Connect: https://aws.amazon.com/architecture/icons/
+- AWS Direct Connect_Gateway: https://aws.amazon.com/architecture/icons/
+- AWS Directory Service: https://aws.amazon.com/architecture/icons/
+- AWS Directory Service_AD Connector: https://aws.amazon.com/architecture/icons/
+- AWS Directory Service_AWS Managed Microsoft AD: https://aws.amazon.com/architecture/icons/
+- AWS Directory Service_Simple AD: https://aws.amazon.com/architecture/icons/
+- AWS Distro for OpenTelemetry: https://aws.amazon.com/architecture/icons/
+- AWS Elastic Beanstalk: https://aws.amazon.com/architecture/icons/
+- AWS Elastic Beanstalk_Application: https://aws.amazon.com/architecture/icons/
+- AWS Elastic Beanstalk_Deployment: https://aws.amazon.com/architecture/icons/
+- AWS Elastic Disaster Recovery: https://aws.amazon.com/architecture/icons/
+- AWS Elemental Appliances & Software: https://aws.amazon.com/architecture/icons/
+- AWS Elemental Conductor: https://aws.amazon.com/architecture/icons/
+- AWS Elemental Delta: https://aws.amazon.com/architecture/icons/
+- AWS Elemental Inference: https://aws.amazon.com/architecture/icons/
+- AWS Elemental Link: https://aws.amazon.com/architecture/icons/
+- AWS Elemental Live: https://aws.amazon.com/architecture/icons/
+- AWS Elemental MediaConnect: https://aws.amazon.com/architecture/icons/
+- AWS Elemental MediaConnect_MediaConnect Gateway: https://aws.amazon.com/architecture/icons/
+- AWS Elemental MediaConvert: https://aws.amazon.com/architecture/icons/
+- AWS Elemental MediaLive: https://aws.amazon.com/architecture/icons/
+- AWS Elemental MediaPackage: https://aws.amazon.com/architecture/icons/
+- AWS Elemental MediaStore: https://aws.amazon.com/architecture/icons/
+- AWS Elemental MediaTailor: https://aws.amazon.com/architecture/icons/
+- AWS Elemental Server: https://aws.amazon.com/architecture/icons/
+- AWS End User Messaging: https://aws.amazon.com/architecture/icons/
+- AWS Entity Resolution: https://aws.amazon.com/architecture/icons/
+- AWS Express Workflows: https://aws.amazon.com/architecture/icons/
+- AWS Fargate: https://aws.amazon.com/architecture/icons/
+- AWS Fault Injection Service: https://aws.amazon.com/architecture/icons/
+- AWS FinOps Agent: https://aws.amazon.com/architecture/icons/
+- AWS Firewall Manager: https://aws.amazon.com/architecture/icons/
+- AWS Global Accelerator: https://aws.amazon.com/architecture/icons/
+- AWS Glue: https://aws.amazon.com/architecture/icons/
+- AWS Glue DataBrew: https://aws.amazon.com/architecture/icons/
+- AWS Glue_AWS Glue for Ray: https://aws.amazon.com/architecture/icons/
+- AWS Glue_Crawler: https://aws.amazon.com/architecture/icons/
+- AWS Glue_Data Catalog: https://aws.amazon.com/architecture/icons/
+- AWS Glue_Data Quality: https://aws.amazon.com/architecture/icons/
+- AWS Ground Station: https://aws.amazon.com/architecture/icons/
+- AWS Health Dashboard: https://aws.amazon.com/architecture/icons/
+- AWS HealthImaging: https://aws.amazon.com/architecture/icons/
+- AWS HealthLake: https://aws.amazon.com/architecture/icons/
+- AWS HealthOmics: https://aws.amazon.com/architecture/icons/
+- AWS HealthScribe: https://aws.amazon.com/architecture/icons/
+- AWS IAM Identity Center: https://aws.amazon.com/architecture/icons/
+- AWS IQ: https://aws.amazon.com/architecture/icons/
+- AWS Identity Access Management_AWS STS: https://aws.amazon.com/architecture/icons/
+- AWS Identity Access Management_AWS STS Alternate: https://aws.amazon.com/architecture/icons/
+- AWS Identity Access Management_Add on: https://aws.amazon.com/architecture/icons/
+- AWS Identity Access Management_Data Encryption Key: https://aws.amazon.com/architecture/icons/
+- AWS Identity Access Management_Encrypted Data: https://aws.amazon.com/architecture/icons/
+- AWS Identity Access Management_IAM Access Analyzer: https://aws.amazon.com/architecture/icons/
+- AWS Identity Access Management_IAM Roles Anywhere: https://aws.amazon.com/architecture/icons/
+- AWS Identity Access Management_Long Term Security Credential: https://aws.amazon.com/architecture/icons/
+- AWS Identity Access Management_MFA Token: https://aws.amazon.com/architecture/icons/
+- AWS Identity Access Management_Permissions: https://aws.amazon.com/architecture/icons/
+- AWS Identity Access Management_Role: https://aws.amazon.com/architecture/icons/
+- AWS Identity Access Management_Temporary Security Credential: https://aws.amazon.com/architecture/icons/
+- AWS Identity and Access Management: https://aws.amazon.com/architecture/icons/
+- AWS Infrastructure Composer: https://aws.amazon.com/architecture/icons/
+- AWS Interconnect: https://aws.amazon.com/architecture/icons/
+- AWS IoT Core: https://aws.amazon.com/architecture/icons/
+- AWS IoT Core_Device Advisor: https://aws.amazon.com/architecture/icons/
+- AWS IoT Core_Device Location: https://aws.amazon.com/architecture/icons/
+- AWS IoT Device Defender: https://aws.amazon.com/architecture/icons/
+- AWS IoT Device Defender_IoT Device Jobs: https://aws.amazon.com/architecture/icons/
+- AWS IoT Device Management: https://aws.amazon.com/architecture/icons/
+- AWS IoT Device Management_Fleet Hub: https://aws.amazon.com/architecture/icons/
+- AWS IoT Device Tester: https://aws.amazon.com/architecture/icons/
+- AWS IoT Events: https://aws.amazon.com/architecture/icons/
+- AWS IoT ExpressLink: https://aws.amazon.com/architecture/icons/
+- AWS IoT FleetWise: https://aws.amazon.com/architecture/icons/
+- AWS IoT Greengrass: https://aws.amazon.com/architecture/icons/
+- AWS IoT Greengrass Deployment: https://aws.amazon.com/architecture/icons/
+- AWS IoT Greengrass_Artifact: https://aws.amazon.com/architecture/icons/
+- AWS IoT Greengrass_Component: https://aws.amazon.com/architecture/icons/
+- AWS IoT Greengrass_Component Machine Learning: https://aws.amazon.com/architecture/icons/
+- AWS IoT Greengrass_Component Nucleus: https://aws.amazon.com/architecture/icons/
+- AWS IoT Greengrass_Component Private: https://aws.amazon.com/architecture/icons/
+- AWS IoT Greengrass_Component Public: https://aws.amazon.com/architecture/icons/
+- AWS IoT Greengrass_Connector: https://aws.amazon.com/architecture/icons/
+- AWS IoT Greengrass_Interprocess Communication: https://aws.amazon.com/architecture/icons/
+- AWS IoT Greengrass_Protocol: https://aws.amazon.com/architecture/icons/
+- AWS IoT Greengrass_Recipe: https://aws.amazon.com/architecture/icons/
+- AWS IoT Greengrass_Stream Manager: https://aws.amazon.com/architecture/icons/
+- AWS IoT Hardware Board: https://aws.amazon.com/architecture/icons/
+- AWS IoT Rule: https://aws.amazon.com/architecture/icons/
+- AWS IoT SiteWise: https://aws.amazon.com/architecture/icons/
+- AWS IoT SiteWise_Asset: https://aws.amazon.com/architecture/icons/
+- AWS IoT SiteWise_Asset Hierarchy: https://aws.amazon.com/architecture/icons/
+- AWS IoT SiteWise_Asset Model: https://aws.amazon.com/architecture/icons/
+- AWS IoT SiteWise_Asset Properties: https://aws.amazon.com/architecture/icons/
+- AWS IoT SiteWise_Data Streams: https://aws.amazon.com/architecture/icons/
+- AWS IoT TwinMaker: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Action: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Actuator: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Alexa_Enabled Device: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Alexa_Skill: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Alexa_Voice Service: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Certificate: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Desired State: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Device Gateway: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Echo: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Fire TV_Stick: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Fire_TV: https://aws.amazon.com/architecture/icons/
+- AWS IoT_HTTP2 Protocol: https://aws.amazon.com/architecture/icons/
+- AWS IoT_HTTP_Protocol: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Lambda_Function: https://aws.amazon.com/architecture/icons/
+- AWS IoT_LoRaWAN Protocol: https://aws.amazon.com/architecture/icons/
+- AWS IoT_MQTT_Protocol: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Over Air Update: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Policy: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Reported State: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Sailboat: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Sensor: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Servo: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Shadow: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Simulator: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Thing_Bank: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Thing_Bicycle: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Thing_Camera: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Thing_Car: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Thing_Cart: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Thing_Coffee Pot: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Thing_Door Lock: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Thing_Factory: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Thing_FreeRTOS Device: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Thing_Generic: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Thing_House: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Thing_Humidity Sensor: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Thing_Industrial PC: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Thing_Lightbulb: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Thing_Medical Emergency: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Thing_PLC: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Thing_Police Emergency: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Thing_Relay: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Thing_Stacklight: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Thing_Temperature Humidity Sensor: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Thing_Temperature Sensor: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Thing_Temperature Vibration Sensor: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Thing_Thermostat: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Thing_Travel: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Thing_Utility: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Thing_Vibration Sensor: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Thing_Windfarm: https://aws.amazon.com/architecture/icons/
+- AWS IoT_Topic: https://aws.amazon.com/architecture/icons/
+- AWS Key Management Service: https://aws.amazon.com/architecture/icons/
+- AWS Key Management Service_External Key Store: https://aws.amazon.com/architecture/icons/
+- AWS Lake Formation: https://aws.amazon.com/architecture/icons/
+- AWS Lake Formation_Data Lake: https://aws.amazon.com/architecture/icons/
+- AWS Lambda: https://aws.amazon.com/architecture/icons/
+- AWS Lambda_Lambda Function: https://aws.amazon.com/architecture/icons/
+- AWS Launch Wizard: https://aws.amazon.com/architecture/icons/
+- AWS License Manager: https://aws.amazon.com/architecture/icons/
+- AWS License Manager_Application Discovery: https://aws.amazon.com/architecture/icons/
+- AWS License Manager_License Blending: https://aws.amazon.com/architecture/icons/
+- AWS Local Zones: https://aws.amazon.com/architecture/icons/
+- AWS Mainframe Modernization: https://aws.amazon.com/architecture/icons/
+- AWS Mainframe Modernization_Analyzer: https://aws.amazon.com/architecture/icons/
+- AWS Mainframe Modernization_Compiler: https://aws.amazon.com/architecture/icons/
+- AWS Mainframe Modernization_Converter: https://aws.amazon.com/architecture/icons/
+- AWS Mainframe Modernization_Developer: https://aws.amazon.com/architecture/icons/
+- AWS Mainframe Modernization_Runtime: https://aws.amazon.com/architecture/icons/
+- AWS Managed Services: https://aws.amazon.com/architecture/icons/
+- AWS Management Console: https://aws.amazon.com/architecture/icons/
+- AWS Marketplace_Light: https://aws.amazon.com/architecture/icons/
+- AWS Migration Evaluator: https://aws.amazon.com/architecture/icons/
+- AWS Network Firewall: https://aws.amazon.com/architecture/icons/
+- AWS Network Firewall_Endpoints: https://aws.amazon.com/architecture/icons/
+- AWS Neuron: https://aws.amazon.com/architecture/icons/
+- AWS Nitro Enclaves: https://aws.amazon.com/architecture/icons/
+- AWS Organizations: https://aws.amazon.com/architecture/icons/
+- AWS Organizations_Account: https://aws.amazon.com/architecture/icons/
+- AWS Organizations_Management Account: https://aws.amazon.com/architecture/icons/
+- AWS Organizations_Organizational Unit: https://aws.amazon.com/architecture/icons/
+- AWS Outposts family: https://aws.amazon.com/architecture/icons/
+- AWS Outposts rack: https://aws.amazon.com/architecture/icons/
+- AWS Outposts servers: https://aws.amazon.com/architecture/icons/
+- AWS Panorama: https://aws.amazon.com/architecture/icons/
+- AWS Parallel Cluster: https://aws.amazon.com/architecture/icons/
+- AWS Parallel Computing Service: https://aws.amazon.com/architecture/icons/
+- AWS Partner Central: https://aws.amazon.com/architecture/icons/
+- AWS Payment Cryptography: https://aws.amazon.com/architecture/icons/
+- AWS Private Certificate Authority: https://aws.amazon.com/architecture/icons/
+- AWS PrivateLink: https://aws.amazon.com/architecture/icons/
+- AWS Professional Services: https://aws.amazon.com/architecture/icons/
+- AWS Proton: https://aws.amazon.com/architecture/icons/
+- AWS RTB Fabric: https://aws.amazon.com/architecture/icons/
+- AWS Resilience Hub: https://aws.amazon.com/architecture/icons/
+- AWS Resource Access Manager: https://aws.amazon.com/architecture/icons/
+- AWS Resource Explorer: https://aws.amazon.com/architecture/icons/
+- AWS Secrets Manager: https://aws.amazon.com/architecture/icons/
+- AWS Security Agent: https://aws.amazon.com/architecture/icons/
+- AWS Security Hub: https://aws.amazon.com/architecture/icons/
+- AWS Security Hub_Finding: https://aws.amazon.com/architecture/icons/
+- AWS Security Incident Response: https://aws.amazon.com/architecture/icons/
+- AWS Serverless Application Repository: https://aws.amazon.com/architecture/icons/
+- AWS Service Catalog: https://aws.amazon.com/architecture/icons/
+- AWS Service Management Connector: https://aws.amazon.com/architecture/icons/
+- AWS Shield: https://aws.amazon.com/architecture/icons/
+- AWS Shield_AWS Shield Advanced: https://aws.amazon.com/architecture/icons/
+- AWS Signer: https://aws.amazon.com/architecture/icons/
+- AWS SimSpace Weaver: https://aws.amazon.com/architecture/icons/
+- AWS Site to Site VPN: https://aws.amazon.com/architecture/icons/
+- AWS Snowball: https://aws.amazon.com/architecture/icons/
+- AWS Snowball Edge: https://aws.amazon.com/architecture/icons/
+- AWS Snowball_Snowball Import Export: https://aws.amazon.com/architecture/icons/
+- AWS Step Functions: https://aws.amazon.com/architecture/icons/
+- AWS Storage Gateway: https://aws.amazon.com/architecture/icons/
+- AWS Storage Gateway_Amazon FSx File Gateway: https://aws.amazon.com/architecture/icons/
+- AWS Storage Gateway_Amazon S3 File Gateway: https://aws.amazon.com/architecture/icons/
+- AWS Storage Gateway_Cached Volume: https://aws.amazon.com/architecture/icons/
+- AWS Storage Gateway_File Gateway: https://aws.amazon.com/architecture/icons/
+- AWS Storage Gateway_Noncached Volume: https://aws.amazon.com/architecture/icons/
+- AWS Storage Gateway_Tape Gateway: https://aws.amazon.com/architecture/icons/
+- AWS Storage Gateway_Virtual Tape Library: https://aws.amazon.com/architecture/icons/
+- AWS Storage Gateway_Volume Gateway: https://aws.amazon.com/architecture/icons/
+- AWS Supply Chain: https://aws.amazon.com/architecture/icons/
+- AWS Support: https://aws.amazon.com/architecture/icons/
+- AWS Sustainability: https://aws.amazon.com/architecture/icons/
+- AWS Systems Manager: https://aws.amazon.com/architecture/icons/
+- AWS Systems Manager_Application Manager: https://aws.amazon.com/architecture/icons/
+- AWS Systems Manager_Automation: https://aws.amazon.com/architecture/icons/
+- AWS Systems Manager_Change Calendar: https://aws.amazon.com/architecture/icons/
+- AWS Systems Manager_Change Manager: https://aws.amazon.com/architecture/icons/
+- AWS Systems Manager_Compliance: https://aws.amazon.com/architecture/icons/
+- AWS Systems Manager_Distributor: https://aws.amazon.com/architecture/icons/
+- AWS Systems Manager_Documents: https://aws.amazon.com/architecture/icons/
+- AWS Systems Manager_Incident Manager: https://aws.amazon.com/architecture/icons/
+- AWS Systems Manager_Inventory: https://aws.amazon.com/architecture/icons/
+- AWS Systems Manager_Maintenance Windows: https://aws.amazon.com/architecture/icons/
+- AWS Systems Manager_OpsCenter: https://aws.amazon.com/architecture/icons/
+- AWS Systems Manager_Parameter Store: https://aws.amazon.com/architecture/icons/
+- AWS Systems Manager_Patch Manager: https://aws.amazon.com/architecture/icons/
+- AWS Systems Manager_Run Command: https://aws.amazon.com/architecture/icons/
+- AWS Systems Manager_Session Manager: https://aws.amazon.com/architecture/icons/
+- AWS Systems Manager_State Manager: https://aws.amazon.com/architecture/icons/
+- AWS Telco Network Builder: https://aws.amazon.com/architecture/icons/
+- AWS Thinkbox Deadline: https://aws.amazon.com/architecture/icons/
+- AWS Thinkbox Frost: https://aws.amazon.com/architecture/icons/
+- AWS Thinkbox Krakatoa: https://aws.amazon.com/architecture/icons/
+- AWS Thinkbox Stoke: https://aws.amazon.com/architecture/icons/
+- AWS Thinkbox XMesh: https://aws.amazon.com/architecture/icons/
+- AWS Tools and SDKs: https://aws.amazon.com/architecture/icons/
+- AWS Training Certification: https://aws.amazon.com/architecture/icons/
+- AWS Transfer Family: https://aws.amazon.com/architecture/icons/
+- AWS Transfer Family_AWS AS2: https://aws.amazon.com/architecture/icons/
+- AWS Transfer Family_AWS FTP: https://aws.amazon.com/architecture/icons/
+- AWS Transfer Family_AWS FTPS: https://aws.amazon.com/architecture/icons/
+- AWS Transfer Family_AWS SFTP: https://aws.amazon.com/architecture/icons/
+- AWS Transform: https://aws.amazon.com/architecture/icons/
+- AWS Transit Gateway: https://aws.amazon.com/architecture/icons/
+- AWS Transit Gateway_Attachment: https://aws.amazon.com/architecture/icons/
+- AWS Trusted Advisor: https://aws.amazon.com/architecture/icons/
+- AWS Trusted Advisor_Checklist: https://aws.amazon.com/architecture/icons/
+- AWS Trusted Advisor_Checklist Cost: https://aws.amazon.com/architecture/icons/
+- AWS Trusted Advisor_Checklist Fault Tolerant: https://aws.amazon.com/architecture/icons/
+- AWS Trusted Advisor_Checklist Performance: https://aws.amazon.com/architecture/icons/
+- AWS Trusted Advisor_Checklist Security: https://aws.amazon.com/architecture/icons/
+- AWS User Notifications: https://aws.amazon.com/architecture/icons/
+- AWS Verified Access: https://aws.amazon.com/architecture/icons/
+- AWS WAF: https://aws.amazon.com/architecture/icons/
+- AWS WAF_Bad Bot: https://aws.amazon.com/architecture/icons/
+- AWS WAF_Bot: https://aws.amazon.com/architecture/icons/
+- AWS WAF_Bot Control: https://aws.amazon.com/architecture/icons/
+- AWS WAF_Filtering Rule: https://aws.amazon.com/architecture/icons/
+- AWS WAF_Labels: https://aws.amazon.com/architecture/icons/
+- AWS WAF_Managed Rule: https://aws.amazon.com/architecture/icons/
+- AWS WAF_Rule: https://aws.amazon.com/architecture/icons/
+- AWS Wavelength: https://aws.amazon.com/architecture/icons/
+- AWS Well Architected Tool: https://aws.amazon.com/architecture/icons/
+- AWS Wickr: https://aws.amazon.com/architecture/icons/
+- AWS X Ray: https://aws.amazon.com/architecture/icons/
+- AWS rePost: https://aws.amazon.com/architecture/icons/
+- AWS rePost Private: https://aws.amazon.com/architecture/icons/
+- Alert: https://aws.amazon.com/architecture/icons/
+- Amazon API Gateway: https://aws.amazon.com/architecture/icons/
+- Amazon API Gateway_Endpoint: https://aws.amazon.com/architecture/icons/
+- Amazon AppFlow: https://aws.amazon.com/architecture/icons/
+- Amazon Application Recovery Controller: https://aws.amazon.com/architecture/icons/
+- Amazon Athena: https://aws.amazon.com/architecture/icons/
+- Amazon Athena_Data Source Connectors: https://aws.amazon.com/architecture/icons/
+- Amazon Augmented AI A2I: https://aws.amazon.com/architecture/icons/
+- Amazon Aurora: https://aws.amazon.com/architecture/icons/
+- Amazon Aurora Instance: https://aws.amazon.com/architecture/icons/
+- Amazon Aurora MariaDB Instance: https://aws.amazon.com/architecture/icons/
+- Amazon Aurora MariaDB Instance Alternate: https://aws.amazon.com/architecture/icons/
+- Amazon Aurora MySQL Instance: https://aws.amazon.com/architecture/icons/
+- Amazon Aurora MySQL Instance Alternate: https://aws.amazon.com/architecture/icons/
+- Amazon Aurora Oracle Instance: https://aws.amazon.com/architecture/icons/
+- Amazon Aurora Oracle Instance Alternate: https://aws.amazon.com/architecture/icons/
+- Amazon Aurora PIOPS Instance: https://aws.amazon.com/architecture/icons/
+- Amazon Aurora PostgreSQL Instance: https://aws.amazon.com/architecture/icons/
+- Amazon Aurora PostgreSQL Instance Alternate: https://aws.amazon.com/architecture/icons/
+- Amazon Aurora SQL Server Instance: https://aws.amazon.com/architecture/icons/
+- Amazon Aurora SQL Server Instance Alternate: https://aws.amazon.com/architecture/icons/
+- Amazon Aurora_Amazon Aurora Instance alternate: https://aws.amazon.com/architecture/icons/
+- Amazon Aurora_Amazon RDS Instance: https://aws.amazon.com/architecture/icons/
+- Amazon Aurora_Amazon RDS Instance Aternate: https://aws.amazon.com/architecture/icons/
+- Amazon Aurora_Trusted Language Extensions for PostgreSQL: https://aws.amazon.com/architecture/icons/
+- Amazon Bedrock: https://aws.amazon.com/architecture/icons/
+- Amazon Bedrock AgentCore: https://aws.amazon.com/architecture/icons/
+- Amazon Braket: https://aws.amazon.com/architecture/icons/
+- Amazon Braket_Chandelier: https://aws.amazon.com/architecture/icons/
+- Amazon Braket_Chip: https://aws.amazon.com/architecture/icons/
+- Amazon Braket_Embedded Simulator: https://aws.amazon.com/architecture/icons/
+- Amazon Braket_Managed Simulator: https://aws.amazon.com/architecture/icons/
+- Amazon Braket_Noise Simulator: https://aws.amazon.com/architecture/icons/
+- Amazon Braket_QPU: https://aws.amazon.com/architecture/icons/
+- Amazon Braket_Simulator: https://aws.amazon.com/architecture/icons/
+- Amazon Braket_Simulator 1: https://aws.amazon.com/architecture/icons/
+- Amazon Braket_Simulator 2: https://aws.amazon.com/architecture/icons/
+- Amazon Braket_Simulator 3: https://aws.amazon.com/architecture/icons/
+- Amazon Braket_Simulator 4: https://aws.amazon.com/architecture/icons/
+- Amazon Braket_State Vector: https://aws.amazon.com/architecture/icons/
+- Amazon Braket_Tensor Network: https://aws.amazon.com/architecture/icons/
+- Amazon Chime: https://aws.amazon.com/architecture/icons/
+- Amazon Chime SDK: https://aws.amazon.com/architecture/icons/
+- Amazon Cloud Directory: https://aws.amazon.com/architecture/icons/
+- Amazon CloudFront: https://aws.amazon.com/architecture/icons/
+- Amazon CloudFront_Download Distribution: https://aws.amazon.com/architecture/icons/
+- Amazon CloudFront_Edge Location: https://aws.amazon.com/architecture/icons/
+- Amazon CloudFront_Functions: https://aws.amazon.com/architecture/icons/
+- Amazon CloudFront_Streaming Distribution: https://aws.amazon.com/architecture/icons/
+- Amazon CloudSearch: https://aws.amazon.com/architecture/icons/
+- Amazon CloudSearch_Search Documents: https://aws.amazon.com/architecture/icons/
+- Amazon CloudWatch: https://aws.amazon.com/architecture/icons/
+- Amazon CloudWatch_Alarm: https://aws.amazon.com/architecture/icons/
+- Amazon CloudWatch_Cross account Observability: https://aws.amazon.com/architecture/icons/
+- Amazon CloudWatch_Data Protection: https://aws.amazon.com/architecture/icons/
+- Amazon CloudWatch_Event Event Based: https://aws.amazon.com/architecture/icons/
+- Amazon CloudWatch_Event Time Based: https://aws.amazon.com/architecture/icons/
+- Amazon CloudWatch_Evidently: https://aws.amazon.com/architecture/icons/
+- Amazon CloudWatch_Logs: https://aws.amazon.com/architecture/icons/
+- Amazon CloudWatch_Metrics Insights: https://aws.amazon.com/architecture/icons/
+- Amazon CloudWatch_RUM: https://aws.amazon.com/architecture/icons/
+- Amazon CloudWatch_Rule: https://aws.amazon.com/architecture/icons/
+- Amazon CloudWatch_Synthetics: https://aws.amazon.com/architecture/icons/
+- Amazon CodeCatalyst: https://aws.amazon.com/architecture/icons/
+- Amazon CodeGuru: https://aws.amazon.com/architecture/icons/
+- Amazon CodeWhisperer: https://aws.amazon.com/architecture/icons/
+- Amazon Cognito: https://aws.amazon.com/architecture/icons/
+- Amazon Comprehend: https://aws.amazon.com/architecture/icons/
+- Amazon Comprehend Medical: https://aws.amazon.com/architecture/icons/
+- Amazon Connect: https://aws.amazon.com/architecture/icons/
+- Amazon Corretto: https://aws.amazon.com/architecture/icons/
+- Amazon DCV: https://aws.amazon.com/architecture/icons/
+- Amazon Data Firehose: https://aws.amazon.com/architecture/icons/
+- Amazon DataZone: https://aws.amazon.com/architecture/icons/
+- Amazon DataZone_Business Data Catalog: https://aws.amazon.com/architecture/icons/
+- Amazon DataZone_Data Portal: https://aws.amazon.com/architecture/icons/
+- Amazon DataZone_Data Projects: https://aws.amazon.com/architecture/icons/
+- Amazon Detective: https://aws.amazon.com/architecture/icons/
+- Amazon DevOps Guru: https://aws.amazon.com/architecture/icons/
+- Amazon DevOps Guru_Insights: https://aws.amazon.com/architecture/icons/
+- Amazon DocumentDB: https://aws.amazon.com/architecture/icons/
+- Amazon DocumentDB_Elastic Clusters: https://aws.amazon.com/architecture/icons/
+- Amazon DynamoDB: https://aws.amazon.com/architecture/icons/
+- Amazon DynamoDB_Amazon DynamoDB Accelerator: https://aws.amazon.com/architecture/icons/
+- Amazon DynamoDB_Attribute: https://aws.amazon.com/architecture/icons/
+- Amazon DynamoDB_Attributes: https://aws.amazon.com/architecture/icons/
+- Amazon DynamoDB_Global secondary index: https://aws.amazon.com/architecture/icons/
+- Amazon DynamoDB_Item: https://aws.amazon.com/architecture/icons/
+- Amazon DynamoDB_Items: https://aws.amazon.com/architecture/icons/
+- Amazon DynamoDB_Standard Access Table Class: https://aws.amazon.com/architecture/icons/
+- Amazon DynamoDB_Standard Infrequent Access Table Class: https://aws.amazon.com/architecture/icons/
+- Amazon DynamoDB_Stream: https://aws.amazon.com/architecture/icons/
+- Amazon DynamoDB_Table: https://aws.amazon.com/architecture/icons/
+- Amazon EC2: https://aws.amazon.com/architecture/icons/
+- Amazon EC2 Auto Scaling: https://aws.amazon.com/architecture/icons/
+- Amazon EC2 Image Builder: https://aws.amazon.com/architecture/icons/
+- Amazon EC2_AMI: https://aws.amazon.com/architecture/icons/
+- Amazon EC2_AWS Microservice Extractor for .NET: https://aws.amazon.com/architecture/icons/
+- Amazon EC2_DB Instance: https://aws.amazon.com/architecture/icons/
+- Amazon EC2_Elastic IP Address: https://aws.amazon.com/architecture/icons/
+- Amazon EC2_Instance: https://aws.amazon.com/architecture/icons/
+- Amazon EC2_Instance with CloudWatch: https://aws.amazon.com/architecture/icons/
+- Amazon EC2_Instances: https://aws.amazon.com/architecture/icons/
+- Amazon EC2_Rescue: https://aws.amazon.com/architecture/icons/
+- Amazon EC2_Spot Instance: https://aws.amazon.com/architecture/icons/
+- Amazon ECS Anywhere: https://aws.amazon.com/architecture/icons/
+- Amazon EFS: https://aws.amazon.com/architecture/icons/
+- Amazon EKS Anywhere: https://aws.amazon.com/architecture/icons/
+- Amazon EKS Distro: https://aws.amazon.com/architecture/icons/
+- Amazon EMR: https://aws.amazon.com/architecture/icons/
+- Amazon EMR_Cluster: https://aws.amazon.com/architecture/icons/
+- Amazon EMR_EMR Engine: https://aws.amazon.com/architecture/icons/
+- Amazon EMR_HDFS Cluster: https://aws.amazon.com/architecture/icons/
+- Amazon ElastiCache: https://aws.amazon.com/architecture/icons/
+- Amazon ElastiCache_Cache Node: https://aws.amazon.com/architecture/icons/
+- Amazon ElastiCache_ElastiCache for Memcached: https://aws.amazon.com/architecture/icons/
+- Amazon ElastiCache_ElastiCache for Redis: https://aws.amazon.com/architecture/icons/
+- Amazon ElastiCache_ElastiCache for Valkey: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic Block Store: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic Block Store_Amazon Data Lifecycle Manager: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic Block Store_Multiple Volumes: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic Block Store_Snapshot: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic Block Store_Volume: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic Block Store_Volume gp3: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic Container Registry: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic Container Registry_Image: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic Container Registry_Registry: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic Container Service: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic Container Service_Container 1: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic Container Service_Container 2: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic Container Service_Container 3: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic Container Service_CopiIoT CLI: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic Container Service_ECS Service Connect: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic Container Service_Service: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic Container Service_Task: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic File System_EFS Intelligent Tiering: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic File System_EFS One Zone: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic File System_EFS One Zone Infrequent Access: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic File System_EFS Standard: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic File System_EFS Standard Infrequent Access: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic File System_Elastic Throughput: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic File System_File System: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic Inference: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic Kubernetes Service: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic Kubernetes Service_EKS on Outposts: https://aws.amazon.com/architecture/icons/
+- Amazon Elastic VMware Service: https://aws.amazon.com/architecture/icons/
+- Amazon EventBridge: https://aws.amazon.com/architecture/icons/
+- Amazon EventBridge Event: https://aws.amazon.com/architecture/icons/
+- Amazon EventBridge_Custom Event Bus: https://aws.amazon.com/architecture/icons/
+- Amazon EventBridge_Default Event Bus: https://aws.amazon.com/architecture/icons/
+- Amazon EventBridge_Pipes: https://aws.amazon.com/architecture/icons/
+- Amazon EventBridge_Rule: https://aws.amazon.com/architecture/icons/
+- Amazon EventBridge_Saas Partner Event: https://aws.amazon.com/architecture/icons/
+- Amazon EventBridge_Scheduler: https://aws.amazon.com/architecture/icons/
+- Amazon EventBridge_Schema: https://aws.amazon.com/architecture/icons/
+- Amazon EventBridge_Schema Registry: https://aws.amazon.com/architecture/icons/
+- Amazon FSx: https://aws.amazon.com/architecture/icons/
+- Amazon FSx for Lustre: https://aws.amazon.com/architecture/icons/
+- Amazon FSx for NetApp ONTAP: https://aws.amazon.com/architecture/icons/
+- Amazon FSx for OpenZFS: https://aws.amazon.com/architecture/icons/
+- Amazon FSx for WFS: https://aws.amazon.com/architecture/icons/
+- Amazon File Cache: https://aws.amazon.com/architecture/icons/
+- Amazon File Cache_Hybrid NFS linked datasets: https://aws.amazon.com/architecture/icons/
+- Amazon File Cache_On premises NFS linked datasets: https://aws.amazon.com/architecture/icons/
+- Amazon File Cache_S3 linked datasets: https://aws.amazon.com/architecture/icons/
+- Amazon FinSpace: https://aws.amazon.com/architecture/icons/
+- Amazon Forecast: https://aws.amazon.com/architecture/icons/
+- Amazon Fraud Detector: https://aws.amazon.com/architecture/icons/
+- Amazon GameLift Servers: https://aws.amazon.com/architecture/icons/
+- Amazon GameLift Streams: https://aws.amazon.com/architecture/icons/
+- Amazon GuardDuty: https://aws.amazon.com/architecture/icons/
+- Amazon Inspector: https://aws.amazon.com/architecture/icons/
+- Amazon Inspector_Agent: https://aws.amazon.com/architecture/icons/
+- Amazon Interactive Video Service: https://aws.amazon.com/architecture/icons/
+- Amazon Kendra: https://aws.amazon.com/architecture/icons/
+- Amazon Keyspaces: https://aws.amazon.com/architecture/icons/
+- Amazon Kinesis: https://aws.amazon.com/architecture/icons/
+- Amazon Kinesis Data Streams: https://aws.amazon.com/architecture/icons/
+- Amazon Kinesis Video Streams: https://aws.amazon.com/architecture/icons/
+- Amazon Lex: https://aws.amazon.com/architecture/icons/
+- Amazon Lightsail: https://aws.amazon.com/architecture/icons/
+- Amazon Lightsail for Research: https://aws.amazon.com/architecture/icons/
+- Amazon Location Service: https://aws.amazon.com/architecture/icons/
+- Amazon Location Service_Geofence: https://aws.amazon.com/architecture/icons/
+- Amazon Location Service_Map : https://aws.amazon.com/architecture/icons/
+- Amazon Location Service_Place: https://aws.amazon.com/architecture/icons/
+- Amazon Location Service_Routes: https://aws.amazon.com/architecture/icons/
+- Amazon Location Service_Track : https://aws.amazon.com/architecture/icons/
+- Amazon Lookout for Equipment: https://aws.amazon.com/architecture/icons/
+- Amazon Lookout for Vision: https://aws.amazon.com/architecture/icons/
+- Amazon MQ: https://aws.amazon.com/architecture/icons/
+- Amazon MQ_Broker: https://aws.amazon.com/architecture/icons/
+- Amazon MSK_Amazon MSK Connect: https://aws.amazon.com/architecture/icons/
+- Amazon Macie: https://aws.amazon.com/architecture/icons/
+- Amazon Managed Blockchain: https://aws.amazon.com/architecture/icons/
+- Amazon Managed Blockchain_Blockchain: https://aws.amazon.com/architecture/icons/
+- Amazon Managed Grafana: https://aws.amazon.com/architecture/icons/
+- Amazon Managed Service for Apache Flink: https://aws.amazon.com/architecture/icons/
+- Amazon Managed Service for Prometheus: https://aws.amazon.com/architecture/icons/
+- Amazon Managed Streaming for Apache Kafka: https://aws.amazon.com/architecture/icons/
+- Amazon Managed Workflows for Apache Airflow: https://aws.amazon.com/architecture/icons/
+- Amazon MemoryDB: https://aws.amazon.com/architecture/icons/
+- Amazon Monitron: https://aws.amazon.com/architecture/icons/
+- Amazon Neptune: https://aws.amazon.com/architecture/icons/
+- Amazon Nova: https://aws.amazon.com/architecture/icons/
+- Amazon OpenSearch Service: https://aws.amazon.com/architecture/icons/
+- Amazon OpenSearch Service_Cluster Administrator Node: https://aws.amazon.com/architecture/icons/
+- Amazon OpenSearch Service_Data Node: https://aws.amazon.com/architecture/icons/
+- Amazon OpenSearch Service_Index: https://aws.amazon.com/architecture/icons/
+- Amazon OpenSearch Service_Observability: https://aws.amazon.com/architecture/icons/
+- Amazon OpenSearch Service_OpenSearch Dashboards: https://aws.amazon.com/architecture/icons/
+- Amazon OpenSearch Service_OpenSearch Ingestion: https://aws.amazon.com/architecture/icons/
+- Amazon OpenSearch Service_Traces: https://aws.amazon.com/architecture/icons/
+- Amazon OpenSearch Service_UltraWarm Node: https://aws.amazon.com/architecture/icons/
+- Amazon Personalize: https://aws.amazon.com/architecture/icons/
+- Amazon Pinpoint: https://aws.amazon.com/architecture/icons/
+- Amazon Pinpoint APIs: https://aws.amazon.com/architecture/icons/
+- Amazon Pinpoint_Journey: https://aws.amazon.com/architecture/icons/
+- Amazon Polly: https://aws.amazon.com/architecture/icons/
+- Amazon Q: https://aws.amazon.com/architecture/icons/
+- Amazon Quick: https://aws.amazon.com/architecture/icons/
+- Amazon RDS: https://aws.amazon.com/architecture/icons/
+- Amazon RDS Proxy Instance: https://aws.amazon.com/architecture/icons/
+- Amazon RDS Proxy Instance Alternate: https://aws.amazon.com/architecture/icons/
+- Amazon RDS_Blue Green Deployments: https://aws.amazon.com/architecture/icons/
+- Amazon RDS_Multi AZ: https://aws.amazon.com/architecture/icons/
+- Amazon RDS_Multi AZ DB Cluster: https://aws.amazon.com/architecture/icons/
+- Amazon RDS_Optimized Writes: https://aws.amazon.com/architecture/icons/
+- Amazon RDS_Trusted Language Extensions for PostgreSQL: https://aws.amazon.com/architecture/icons/
+- Amazon Redshift: https://aws.amazon.com/architecture/icons/
+- Amazon Redshift_Auto copy: https://aws.amazon.com/architecture/icons/
+- Amazon Redshift_Data Sharing Governance: https://aws.amazon.com/architecture/icons/
+- Amazon Redshift_Dense Compute Node: https://aws.amazon.com/architecture/icons/
+- Amazon Redshift_Dense Storage Node: https://aws.amazon.com/architecture/icons/
+- Amazon Redshift_ML: https://aws.amazon.com/architecture/icons/
+- Amazon Redshift_Query Editor v2.0: https://aws.amazon.com/architecture/icons/
+- Amazon Redshift_RA3: https://aws.amazon.com/architecture/icons/
+- Amazon Redshift_Streaming Ingestion: https://aws.amazon.com/architecture/icons/
+- Amazon Rekognition: https://aws.amazon.com/architecture/icons/
+- Amazon Rekognition_Image: https://aws.amazon.com/architecture/icons/
+- Amazon Rekognition_Video: https://aws.amazon.com/architecture/icons/
+- Amazon Route 53: https://aws.amazon.com/architecture/icons/
+- Amazon Route 53 Hosted Zone: https://aws.amazon.com/architecture/icons/
+- Amazon Route 53_Readiness Checks: https://aws.amazon.com/architecture/icons/
+- Amazon Route 53_Resolver: https://aws.amazon.com/architecture/icons/
+- Amazon Route 53_Resolver DNS Firewall: https://aws.amazon.com/architecture/icons/
+- Amazon Route 53_Resolver Query Logging: https://aws.amazon.com/architecture/icons/
+- Amazon Route 53_Route Table: https://aws.amazon.com/architecture/icons/
+- Amazon Route 53_Routing Controls: https://aws.amazon.com/architecture/icons/
+- Amazon S3 on Outposts: https://aws.amazon.com/architecture/icons/
+- Amazon SageMaker: https://aws.amazon.com/architecture/icons/
+- Amazon SageMaker AI: https://aws.amazon.com/architecture/icons/
+- Amazon SageMaker AI_Canvas: https://aws.amazon.com/architecture/icons/
+- Amazon SageMaker AI_Geospatial ML: https://aws.amazon.com/architecture/icons/
+- Amazon SageMaker AI_Model: https://aws.amazon.com/architecture/icons/
+- Amazon SageMaker AI_Notebook: https://aws.amazon.com/architecture/icons/
+- Amazon SageMaker AI_Shadow Testing: https://aws.amazon.com/architecture/icons/
+- Amazon SageMaker AI_Train: https://aws.amazon.com/architecture/icons/
+- Amazon SageMaker Ground Truth: https://aws.amazon.com/architecture/icons/
+- Amazon SageMaker Studio Lab: https://aws.amazon.com/architecture/icons/
+- Amazon Security Lake: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Email Service: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Email Service_Email: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Notification Service: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Notification Service_Email Notification: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Notification Service_HTTP Notification: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Notification Service_Topic: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Queue Service: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Queue Service_Message: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Queue Service_Queue: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service Glacier: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service Glacier_Archive: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service Glacier_Vault: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service_Bucket: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service_Bucket With Objects: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service_Directory bucket: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service_General Access Points: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service_Object: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service_S3 Batch Operations: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service_S3 Express One Zone: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service_S3 Files: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service_S3 Glacier Deep Archive: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service_S3 Glacier Flexible Retrieval: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service_S3 Glacier Instant Retrieval: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service_S3 Intelligent Tiering: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service_S3 Multi Region Access Points: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service_S3 Object Lambda: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service_S3 Object Lambda Access Points: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service_S3 Object Lock: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service_S3 On Outposts: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service_S3 One Zone IA: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service_S3 Replication: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service_S3 Replication Time Control: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service_S3 Select: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service_S3 Standard: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service_S3 Standard IA: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service_S3 Storage Lens: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service_S3 Tables: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service_S3 Vectors: https://aws.amazon.com/architecture/icons/
+- Amazon Simple Storage Service_VPC Access Points: https://aws.amazon.com/architecture/icons/
+- Amazon Textract: https://aws.amazon.com/architecture/icons/
+- Amazon Textract_Analyze Lending: https://aws.amazon.com/architecture/icons/
+- Amazon Timestream: https://aws.amazon.com/architecture/icons/
+- Amazon Transcribe: https://aws.amazon.com/architecture/icons/
+- Amazon Translate: https://aws.amazon.com/architecture/icons/
+- Amazon VPC Lattice: https://aws.amazon.com/architecture/icons/
+- Amazon VPC_Carrier Gateway: https://aws.amazon.com/architecture/icons/
+- Amazon VPC_Customer Gateway: https://aws.amazon.com/architecture/icons/
+- Amazon VPC_Elastic Network Adapter: https://aws.amazon.com/architecture/icons/
+- Amazon VPC_Elastic Network Interface: https://aws.amazon.com/architecture/icons/
+- Amazon VPC_Endpoints: https://aws.amazon.com/architecture/icons/
+- Amazon VPC_Flow Logs: https://aws.amazon.com/architecture/icons/
+- Amazon VPC_Internet Gateway: https://aws.amazon.com/architecture/icons/
+- Amazon VPC_NAT Gateway: https://aws.amazon.com/architecture/icons/
+- Amazon VPC_Network Access Analyzer: https://aws.amazon.com/architecture/icons/
+- Amazon VPC_Network Access Control List: https://aws.amazon.com/architecture/icons/
+- Amazon VPC_Peering Connection: https://aws.amazon.com/architecture/icons/
+- Amazon VPC_Reachability Analyzer: https://aws.amazon.com/architecture/icons/
+- Amazon VPC_Router: https://aws.amazon.com/architecture/icons/
+- Amazon VPC_Traffic Mirroring: https://aws.amazon.com/architecture/icons/
+- Amazon VPC_VPN Connection: https://aws.amazon.com/architecture/icons/
+- Amazon VPC_VPN Gateway: https://aws.amazon.com/architecture/icons/
+- Amazon VPC_Virtual private cloud VPC: https://aws.amazon.com/architecture/icons/
+- Amazon Verified Permissions: https://aws.amazon.com/architecture/icons/
+- Amazon Virtual Private Cloud: https://aws.amazon.com/architecture/icons/
+- Amazon WorkDocs: https://aws.amazon.com/architecture/icons/
+- Amazon WorkDocs SDK: https://aws.amazon.com/architecture/icons/
+- Amazon WorkMail: https://aws.amazon.com/architecture/icons/
+- Amazon WorkSpaces: https://aws.amazon.com/architecture/icons/
+- Apache MXNet on AWS: https://aws.amazon.com/architecture/icons/
+- Arch Category_Analytics: https://aws.amazon.com/architecture/icons/
+- Arch Category_Analytics_16: https://aws.amazon.com/architecture/icons/
+- Arch Category_Application Integration: https://aws.amazon.com/architecture/icons/
+- Arch Category_Application Integration_16: https://aws.amazon.com/architecture/icons/
+- Arch Category_Artificial Intelligence: https://aws.amazon.com/architecture/icons/
+- Arch Category_Artificial Intelligence_16: https://aws.amazon.com/architecture/icons/
+- Arch Category_Blockchain: https://aws.amazon.com/architecture/icons/
+- Arch Category_Blockchain_16: https://aws.amazon.com/architecture/icons/
+- Arch Category_Business Applications: https://aws.amazon.com/architecture/icons/
+- Arch Category_Business Applications_16: https://aws.amazon.com/architecture/icons/
+- Arch Category_Cloud Financial Management: https://aws.amazon.com/architecture/icons/
+- Arch Category_Cloud Financial Management_16: https://aws.amazon.com/architecture/icons/
+- Arch Category_Compute: https://aws.amazon.com/architecture/icons/
+- Arch Category_Compute_16: https://aws.amazon.com/architecture/icons/
+- Arch Category_Containers: https://aws.amazon.com/architecture/icons/
+- Arch Category_Containers_16: https://aws.amazon.com/architecture/icons/
+- Arch Category_Customer Enablement: https://aws.amazon.com/architecture/icons/
+- Arch Category_Customer Enablement_16: https://aws.amazon.com/architecture/icons/
+- Arch Category_Customer Experience: https://aws.amazon.com/architecture/icons/
+- Arch Category_Customer Experience_16: https://aws.amazon.com/architecture/icons/
+- Arch Category_Databases: https://aws.amazon.com/architecture/icons/
+- Arch Category_Databases_16: https://aws.amazon.com/architecture/icons/
+- Arch Category_Developer Tools: https://aws.amazon.com/architecture/icons/
+- Arch Category_Developer Tools_16: https://aws.amazon.com/architecture/icons/
+- Arch Category_End User Computing: https://aws.amazon.com/architecture/icons/
+- Arch Category_End User Computing_16: https://aws.amazon.com/architecture/icons/
+- Arch Category_Front End Web Mobile: https://aws.amazon.com/architecture/icons/
+- Arch Category_Front End Web Mobile_16: https://aws.amazon.com/architecture/icons/
+- Arch Category_Games: https://aws.amazon.com/architecture/icons/
+- Arch Category_Games_16: https://aws.amazon.com/architecture/icons/
+- Arch Category_Internet of Things: https://aws.amazon.com/architecture/icons/
+- Arch Category_Internet of Things_16: https://aws.amazon.com/architecture/icons/
+- Arch Category_Management Tools: https://aws.amazon.com/architecture/icons/
+- Arch Category_Management Tools_16: https://aws.amazon.com/architecture/icons/
+- Arch Category_Media Services: https://aws.amazon.com/architecture/icons/
+- Arch Category_Media Services_16: https://aws.amazon.com/architecture/icons/
+- Arch Category_Migration Modernization: https://aws.amazon.com/architecture/icons/
+- Arch Category_Migration Modernization_16: https://aws.amazon.com/architecture/icons/
+- Arch Category_Multicloud and Hybrid: https://aws.amazon.com/architecture/icons/
+- Arch Category_Multicloud and Hybrid_16: https://aws.amazon.com/architecture/icons/
+- Arch Category_Networking Content Delivery: https://aws.amazon.com/architecture/icons/
+- Arch Category_Networking Content Delivery_16: https://aws.amazon.com/architecture/icons/
+- Arch Category_Quantum Technologies: https://aws.amazon.com/architecture/icons/
+- Arch Category_Quantum Technologies_16: https://aws.amazon.com/architecture/icons/
+- Arch Category_Satellite: https://aws.amazon.com/architecture/icons/
+- Arch Category_Satellite_16: https://aws.amazon.com/architecture/icons/
+- Arch Category_Security Identity: https://aws.amazon.com/architecture/icons/
+- Arch Category_Security Identity_16: https://aws.amazon.com/architecture/icons/
+- Arch Category_Serverless: https://aws.amazon.com/architecture/icons/
+- Arch Category_Serverless_16: https://aws.amazon.com/architecture/icons/
+- Arch Category_Storage: https://aws.amazon.com/architecture/icons/
+- Arch Category_Storage_16: https://aws.amazon.com/architecture/icons/
+- Authenticated User: https://aws.amazon.com/architecture/icons/
+- Auto Scaling group: https://aws.amazon.com/architecture/icons/
+- Bottlerocket: https://aws.amazon.com/architecture/icons/
+- Camera: https://aws.amazon.com/architecture/icons/
+- Chat: https://aws.amazon.com/architecture/icons/
+- Client: https://aws.amazon.com/architecture/icons/
+- Cold Storage: https://aws.amazon.com/architecture/icons/
+- Corporate data center: https://aws.amazon.com/architecture/icons/
+- Credentials: https://aws.amazon.com/architecture/icons/
+- Data Stream: https://aws.amazon.com/architecture/icons/
+- Data Table: https://aws.amazon.com/architecture/icons/
+- Database: https://aws.amazon.com/architecture/icons/
+- Disk: https://aws.amazon.com/architecture/icons/
+- Document: https://aws.amazon.com/architecture/icons/
+- Documents: https://aws.amazon.com/architecture/icons/
+- EC2 instance contents: https://aws.amazon.com/architecture/icons/
+- Elastic Fabric Adapter: https://aws.amazon.com/architecture/icons/
+- Elastic Load Balancing: https://aws.amazon.com/architecture/icons/
+- Elastic Load Balancing_Application Load Balancer: https://aws.amazon.com/architecture/icons/
+- Elastic Load Balancing_Classic Load Balancer: https://aws.amazon.com/architecture/icons/
+- Elastic Load Balancing_Gateway Load Balancer: https://aws.amazon.com/architecture/icons/
+- Elastic Load Balancing_Network Load Balancer: https://aws.amazon.com/architecture/icons/
+- Email: https://aws.amazon.com/architecture/icons/
+- Firewall: https://aws.amazon.com/architecture/icons/
+- Folder: https://aws.amazon.com/architecture/icons/
+- Folders: https://aws.amazon.com/architecture/icons/
+- Forums: https://aws.amazon.com/architecture/icons/
+- FreeRTOS: https://aws.amazon.com/architecture/icons/
+- Gear: https://aws.amazon.com/architecture/icons/
+- Generic Application: https://aws.amazon.com/architecture/icons/
+- Git Repository: https://aws.amazon.com/architecture/icons/
+- Globe: https://aws.amazon.com/architecture/icons/
+- Internet: https://aws.amazon.com/architecture/icons/
+- Internet alt1: https://aws.amazon.com/architecture/icons/
+- Internet alt2: https://aws.amazon.com/architecture/icons/
+- JSON Script: https://aws.amazon.com/architecture/icons/
+- Logs: https://aws.amazon.com/architecture/icons/
+- Magnifying Glass: https://aws.amazon.com/architecture/icons/
+- Metrics: https://aws.amazon.com/architecture/icons/
+- Mobile client: https://aws.amazon.com/architecture/icons/
+- Multimedia: https://aws.amazon.com/architecture/icons/
+- Office building: https://aws.amazon.com/architecture/icons/
+- Open 3D Engine: https://aws.amazon.com/architecture/icons/
+- Oracle Database at AWS: https://aws.amazon.com/architecture/icons/
+- Private subnet: https://aws.amazon.com/architecture/icons/
+- Programming Language: https://aws.amazon.com/architecture/icons/
+- Public subnet: https://aws.amazon.com/architecture/icons/
+- PyTorch on AWS: https://aws.amazon.com/architecture/icons/
+- Question: https://aws.amazon.com/architecture/icons/
+- Recover: https://aws.amazon.com/architecture/icons/
+- Red Hat OpenShift Service on AWS: https://aws.amazon.com/architecture/icons/
+- Region: https://aws.amazon.com/architecture/icons/
+- Reserved Instance Reporting: https://aws.amazon.com/architecture/icons/
+- SAML token: https://aws.amazon.com/architecture/icons/
+- SDK: https://aws.amazon.com/architecture/icons/
+- SSL padlock: https://aws.amazon.com/architecture/icons/
+- Savings Plans: https://aws.amazon.com/architecture/icons/
+- Server: https://aws.amazon.com/architecture/icons/
+- Server contents: https://aws.amazon.com/architecture/icons/
+- Servers: https://aws.amazon.com/architecture/icons/
+- Shield: https://aws.amazon.com/architecture/icons/
+- Source Code: https://aws.amazon.com/architecture/icons/
+- Spot Fleet: https://aws.amazon.com/architecture/icons/
+- Tape storage: https://aws.amazon.com/architecture/icons/
+- TensorFlow on AWS: https://aws.amazon.com/architecture/icons/
+- Toolkit: https://aws.amazon.com/architecture/icons/
+- User: https://aws.amazon.com/architecture/icons/
+- Users: https://aws.amazon.com/architecture/icons/
+- Virtual private cloud VPC: https://aws.amazon.com/architecture/icons/
+- azure: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/microsoft-azure.svg
+- cloudflare: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/cloudflare-icon.svg
+- docker: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/docker-icon.svg
+- figma: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/figma.svg
+- github: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/github-icon.svg
+- gitlab: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/gitlab.svg
+- google-cloud: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/google-cloud.svg
+- grafana: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/grafana.svg
+- java: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/java.svg
+- jenkins: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/jenkins.svg
+- kotlin: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/kotlin-icon.svg
+- kubernetes: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/kubernetes.svg
+- mongodb: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/mongodb-icon.svg
+- mysql: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/mysql-icon.svg
+- nginx: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/nginx.svg
+- nodejs: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/nodejs-icon.svg
+- notion: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/notion-icon.svg
+- postgresql: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/postgresql.svg
+- prometheus: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/prometheus.svg
+- python: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/python.svg
+- react: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/react.svg
+- redis: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/redis.svg
+- slack: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/slack-icon.svg
+- spring: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/spring-icon.svg
+- supabase: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/supabase-icon.svg
+- terraform: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/terraform-icon.svg
+- typescript: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/typescript-icon.svg
+- vercel: https://raw.githubusercontent.com/gilbarbara/logos/main/logos/vercel-icon.svg
