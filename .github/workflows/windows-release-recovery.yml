@@ -45,7 +45,7 @@ jobs:
             if ($attempt -eq 3) { throw 'Official Electron download failed' }
             Start-Sleep -Seconds 5
           }
-          $checksumLine = Get-Content (Join-Path $downloadDir 'SHASUMS256.txt') | Where-Object { $_ -match ('\s+' + [regex]::Escape($archive) + '$') }
+          $checksumLine = Get-Content (Join-Path $downloadDir 'SHASUMS256.txt') | Where-Object { $_ -match ('\s+\*?' + [regex]::Escape($archive) + '$') }
           if (!$checksumLine) { throw 'Official checksum entry missing' }
           $expected = ($checksumLine -split '\s+')[0]
           $actual = (Get-FileHash (Join-Path $downloadDir $archive) -Algorithm SHA256).Hash
