@@ -44,6 +44,8 @@ html[data-theme] .project-tab>.tab-close{align-self:stretch;width:32px;height:au
 html[data-theme] .project-tab>.tab-close:hover{background:transparent;color:var(--accent)}
 html[data-theme] .project-tab>button:focus-visible{outline-offset:-3px;border-radius:4px}
 html[data-theme] .project-tab.selected:before{background:var(--accent);pointer-events:none}
+/* Group identity takes precedence over both selected and inactive theme borders. */
+html[data-theme] .project-tab.has-group{border-top:2px solid var(--group-color)}
 /* Keep the destination legible against alternating history-row backgrounds. */
 html[data-theme] .historyrow.active{box-shadow:inset 3px 0 var(--accent),inset 0 1px var(--border),inset 0 -1px var(--border)}
 html[data-theme] .historyrow.active .subject-text{font-weight:600}
