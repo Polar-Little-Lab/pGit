@@ -1,8 +1,8 @@
 {
-  "capturedAt": "2026-11-05T16:18:29.602Z",
+  "capturedAt": "2026-11-08T11:44:45.935Z",
   "source": "https://github.com/expressjs/express",
   "sourceHead": "43fca52d28a422c8be48fd489cbd4f2d6152bab6",
-  "practice": "/Users/polar/pgit-guide-projects/session-fUaDgV/express-practice",
+  "practice": "/Users/polar/pgit-guide-projects/session-rHTjhb/express-practice",
   "viewport": {
     "width": 1440,
     "height": 960
@@ -12,207 +12,665 @@
     {
       "name": "clone",
       "file": "images/manual-clone.png",
-      "capturedAt": "2026-11-05T16:18:08.689Z"
+      "capturedAt": "2026-11-08T11:44:16.012Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "복제할 저장소의 URL을 입력합니다."
+        },
+        {
+          "number": 2,
+          "text": "내 컴퓨터에 만들 폴더 경로를 확인하거나 수정합니다."
+        },
+        {
+          "number": 3,
+          "text": "복제를 누릅니다. 완료되면 저장소 탭이 열립니다."
+        }
+      ]
     },
     {
       "name": "clone-progress",
       "file": "images/manual-clone-progress.png",
-      "capturedAt": "2026-11-05T16:18:08.984Z"
+      "capturedAt": "2026-11-08T11:44:16.485Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "현재 단계와 진행률을 확인하고 완료될 때까지 기다립니다."
+        }
+      ]
     },
     {
       "name": "home",
       "file": "images/manual-home.png",
-      "capturedAt": "2026-11-05T16:18:11.848Z"
+      "capturedAt": "2026-11-08T11:44:19.524Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "상단 +를 눌러 새 프로젝트 탭을 엽니다."
+        },
+        {
+          "number": 2,
+          "text": "프로젝트 열기를 누르고 내 컴퓨터의 저장소 폴더를 선택합니다."
+        },
+        {
+          "number": 3,
+          "text": "원격 주소로 시작하려면 저장소 복제를 누릅니다."
+        }
+      ]
     },
     {
       "name": "groups",
       "file": "images/manual-groups.png",
-      "capturedAt": "2026-11-05T16:18:12.166Z"
+      "capturedAt": "2026-11-08T11:44:20.069Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "프로젝트를 묶을 그룹 이름을 입력합니다."
+        },
+        {
+          "number": 2,
+          "text": "아이콘을 선택합니다. 추천에는 하나금융그룹·GLN과 기본 아이콘이 있습니다."
+        },
+        {
+          "number": 3,
+          "text": "탭에 표시될 이름과 아이콘을 확인합니다."
+        },
+        {
+          "number": 4,
+          "text": "그룹 저장 버튼을 눌러 진행합니다. 실행 전 대상과 입력값을 다시 확인합니다."
+        }
+      ]
     },
     {
       "name": "graph",
       "file": "images/manual-graph.png",
-      "capturedAt": "2026-11-05T16:18:12.648Z"
+      "capturedAt": "2026-11-08T11:44:20.838Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "로컬 브랜치를 한 번 눌러 조회할 이력을 선택합니다. 더블클릭은 실제 브랜치 전환입니다."
+        },
+        {
+          "number": 2,
+          "text": "커밋 행을 누르면 오른쪽에서 메시지와 변경 파일을 볼 수 있습니다."
+        },
+        {
+          "number": 3,
+          "text": "변경 파일을 눌러 해당 커밋의 Diff를 엽니다."
+        }
+      ]
     },
     {
       "name": "tag-history",
       "file": "images/manual-tag-history.png",
-      "capturedAt": "2026-11-05T16:18:13.078Z"
+      "capturedAt": "2026-11-08T11:44:21.543Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "태그를 눌러 그 릴리스까지의 이력을 조회합니다."
+        },
+        {
+          "number": 2,
+          "text": "현재 조회 기준을 확인합니다. 작업 파일은 바뀌지 않습니다."
+        }
+      ]
     },
     {
       "name": "search",
       "file": "images/manual-search.png",
-      "capturedAt": "2026-11-05T16:18:13.699Z"
+      "capturedAt": "2026-11-08T11:44:22.386Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "커밋 메시지에서 찾을 검색어를 입력합니다."
+        },
+        {
+          "number": 2,
+          "text": "검색을 눌러 저장소 전체 이력에서 찾습니다."
+        },
+        {
+          "number": 3,
+          "text": "결과 행을 눌러 해당 커밋으로 이동합니다."
+        }
+      ]
     },
     {
       "name": "search-empty",
       "file": "images/manual-search-empty.png",
-      "capturedAt": "2026-11-05T16:18:14.088Z"
+      "capturedAt": "2026-11-08T11:44:22.975Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "검색어를 더 짧게 바꾸거나 다른 단어를 입력합니다."
+        },
+        {
+          "number": 2,
+          "text": "검색을 다시 누릅니다. 결과가 없으면 없는 상태가 그대로 안내됩니다."
+        }
+      ]
     },
     {
       "name": "file-history",
       "file": "images/manual-file-history.png",
-      "capturedAt": "2026-11-05T16:18:14.432Z"
+      "capturedAt": "2026-11-08T11:44:23.521Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "메시지와 날짜를 확인한 뒤 커밋 행을 눌러 이 파일의 변경을 엽니다."
+        }
+      ]
     },
     {
       "name": "file-diff",
       "file": "images/manual-file-diff.png",
-      "capturedAt": "2026-11-05T16:18:14.916Z"
+      "capturedAt": "2026-11-08T11:44:24.236Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "파일 경로와 비교 기준을 먼저 확인합니다."
+        },
+        {
+          "number": 2,
+          "text": "추가·삭제된 줄과 줄 안의 강조를 비교합니다. 긴 코드는 이 영역을 스크롤합니다."
+        }
+      ]
     },
     {
       "name": "blame",
       "file": "images/manual-blame.png",
-      "capturedAt": "2026-11-05T16:18:15.270Z"
+      "capturedAt": "2026-11-08T11:44:24.821Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "각 줄 옆의 커밋·작성자를 확인합니다. 마지막으로 그 줄을 바꾼 기록입니다."
+        }
+      ]
     },
     {
       "name": "commands",
       "file": "images/manual-commands.png",
-      "capturedAt": "2026-11-05T16:18:15.555Z"
+      "capturedAt": "2026-11-08T11:44:25.288Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "실행할 작업의 이름을 입력합니다."
+        },
+        {
+          "number": 2,
+          "text": "검색 결과에서 원하는 작업을 누르면 해당 화면이 열립니다."
+        }
+      ]
     },
     {
       "name": "changes",
       "file": "images/manual-changes.png",
-      "capturedAt": "2026-11-05T16:18:16.893Z"
+      "capturedAt": "2026-11-08T11:44:26.886Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "변경 사항을 눌러 작업 중인 파일을 엽니다."
+        },
+        {
+          "number": 2,
+          "text": "파일 이름을 눌러 변경 내용을 검토합니다."
+        },
+        {
+          "number": 3,
+          "text": "Diff를 확인한 파일의 스테이징 버튼을 눌러 이번 커밋에 포함합니다."
+        }
+      ]
     },
     {
       "name": "partial",
       "file": "images/manual-partial.png",
-      "capturedAt": "2026-11-05T16:18:17.194Z"
+      "capturedAt": "2026-11-08T11:44:27.419Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "추가·삭제 줄의 체크박스로 이번 커밋에 넣을 줄을 선택합니다."
+        },
+        {
+          "number": 2,
+          "text": "선택한 변경 스테이징을 눌러 실제로 반영합니다. 체크만으로는 반영되지 않습니다."
+        }
+      ]
     },
     {
       "name": "editor",
       "file": "images/manual-editor.png",
-      "capturedAt": "2026-11-05T16:18:17.505Z"
+      "capturedAt": "2026-11-08T11:44:27.943Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "문법 색상을 보며 파일을 편집합니다."
+        },
+        {
+          "number": 2,
+          "text": "파일 저장 버튼을 눌러 진행합니다. 실행 전 대상과 입력값을 다시 확인합니다."
+        }
+      ]
     },
     {
       "name": "ignore",
       "file": "images/manual-ignore.png",
-      "capturedAt": "2026-11-05T16:18:18.080Z"
+      "capturedAt": "2026-11-08T11:44:28.715Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "기록하지 않을 파일이나 폴더를 체크합니다."
+        },
+        {
+          "number": 2,
+          "text": "무시 목록에 추가 버튼을 눌러 진행합니다. 실행 전 대상과 입력값을 다시 확인합니다."
+        }
+      ]
     },
     {
       "name": "staging",
       "file": "images/manual-staging.png",
-      "capturedAt": "2026-11-05T16:18:19.492Z"
+      "capturedAt": "2026-11-08T11:44:30.319Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "이번 커밋에 들어갈 파일이 맞는지 스테이징 목록을 확인합니다."
+        },
+        {
+          "number": 2,
+          "text": "변경 목적을 커밋 메시지로 작성합니다."
+        },
+        {
+          "number": 3,
+          "text": "커밋을 누릅니다. 스테이징한 내용만 로컬 이력에 기록됩니다."
+        }
+      ]
     },
     {
       "name": "commit",
       "file": "images/manual-commit.png",
-      "capturedAt": "2026-11-05T16:18:20.596Z"
+      "capturedAt": "2026-11-08T11:44:31.684Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "새 메시지의 커밋이 이력 맨 위에 생겼는지 확인합니다."
+        },
+        {
+          "number": 2,
+          "text": "남겨 둔 변경은 변경 사항에서 계속 작업합니다."
+        }
+      ]
     },
     {
       "name": "amend-message",
       "file": "images/manual-amend-message.png",
-      "capturedAt": "2026-11-05T16:18:20.915Z"
+      "capturedAt": "2026-11-08T11:44:32.194Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "새 커밋 메시지 항목을 확인하고 값을 지정합니다."
+        },
+        {
+          "number": 2,
+          "text": "메시지 수정 버튼을 눌러 진행합니다. 실행 전 대상과 입력값을 다시 확인합니다."
+        }
+      ]
     },
     {
       "name": "amend-files",
       "file": "images/manual-amend-files.png",
-      "capturedAt": "2026-11-05T16:18:21.305Z"
+      "capturedAt": "2026-11-08T11:44:33.119Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "추가할 파일을 체크합니다. 파일 이름을 누르면 Diff를 볼 수 있습니다."
+        },
+        {
+          "number": 2,
+          "text": "선택한 파일의 변경을 검토합니다."
+        },
+        {
+          "number": 3,
+          "text": "선택한 변경 추가 버튼을 눌러 진행합니다. 실행 전 대상과 입력값을 다시 확인합니다."
+        }
+      ]
     },
     {
       "name": "branch",
       "file": "images/manual-branch.png",
-      "capturedAt": "2026-11-05T16:18:21.585Z"
+      "capturedAt": "2026-11-08T11:44:33.644Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "브랜치 이름 항목을 확인하고 값을 지정합니다."
+        },
+        {
+          "number": 2,
+          "text": "기준 브랜치 항목을 확인하고 값을 지정합니다."
+        },
+        {
+          "number": 3,
+          "text": "브랜치 만들기 버튼을 눌러 진행합니다. 실행 전 대상과 입력값을 다시 확인합니다."
+        }
+      ]
     },
     {
       "name": "tag-create",
       "file": "images/manual-tag-create.png",
-      "capturedAt": "2026-11-05T16:18:21.866Z"
+      "capturedAt": "2026-11-08T11:44:34.143Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "태그 이름 항목을 확인하고 값을 지정합니다."
+        },
+        {
+          "number": 2,
+          "text": "대상 커밋 항목을 확인하고 값을 지정합니다."
+        },
+        {
+          "number": 3,
+          "text": "설명 (비우면 lightweight) 항목을 확인하고 값을 지정합니다."
+        },
+        {
+          "number": 4,
+          "text": "실행 버튼을 눌러 진행합니다. 실행 전 대상과 입력값을 다시 확인합니다."
+        }
+      ]
     },
     {
       "name": "stash",
       "file": "images/manual-stash.png",
-      "capturedAt": "2026-11-05T16:18:22.135Z"
+      "capturedAt": "2026-11-08T11:44:34.606Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "설명 항목을 확인하고 값을 지정합니다."
+        },
+        {
+          "number": 2,
+          "text": "실행 버튼을 눌러 진행합니다. 실행 전 대상과 입력값을 다시 확인합니다."
+        }
+      ]
     },
     {
       "name": "remotes",
       "file": "images/manual-remotes.png",
-      "capturedAt": "2026-11-05T16:18:22.435Z"
+      "capturedAt": "2026-11-08T11:44:35.092Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "조회 결과를 확인합니다. 등록된 항목이 없으면 빈 상태 안내가 표시됩니다."
+        }
+      ]
     },
     {
       "name": "fetch",
       "file": "images/manual-fetch.png",
-      "capturedAt": "2026-11-05T16:18:22.700Z"
+      "capturedAt": "2026-11-08T11:44:35.557Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "원격 항목을 확인하고 값을 지정합니다."
+        },
+        {
+          "number": 2,
+          "text": "실행 버튼을 눌러 진행합니다. 실행 전 대상과 입력값을 다시 확인합니다."
+        }
+      ]
     },
     {
       "name": "pull",
       "file": "images/manual-pull.png",
-      "capturedAt": "2026-11-05T16:18:22.967Z"
+      "capturedAt": "2026-11-08T11:44:36.025Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "Pull 방식 항목을 확인하고 값을 지정합니다."
+        },
+        {
+          "number": 2,
+          "text": "실행 버튼을 눌러 진행합니다. 실행 전 대상과 입력값을 다시 확인합니다."
+        }
+      ]
     },
     {
       "name": "push",
       "file": "images/manual-push.png",
-      "capturedAt": "2026-11-05T16:18:23.232Z"
+      "capturedAt": "2026-11-08T11:44:36.476Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "원격 항목을 확인하고 값을 지정합니다."
+        },
+        {
+          "number": 2,
+          "text": "실행 버튼을 눌러 진행합니다. 실행 전 대상과 입력값을 다시 확인합니다."
+        }
+      ]
     },
     {
       "name": "author",
       "file": "images/manual-author.png",
-      "capturedAt": "2026-11-05T16:18:23.533Z"
+      "capturedAt": "2026-11-08T11:44:36.993Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "이름 항목을 확인하고 값을 지정합니다."
+        },
+        {
+          "number": 2,
+          "text": "이메일 항목을 확인하고 값을 지정합니다."
+        },
+        {
+          "number": 3,
+          "text": "Git에 설정된 키로 커밋 서명 항목을 확인하고 값을 지정합니다."
+        },
+        {
+          "number": 4,
+          "text": "저장 버튼을 눌러 진행합니다. 실행 전 대상과 입력값을 다시 확인합니다."
+        }
+      ]
     },
     {
       "name": "submodules",
       "file": "images/manual-submodules.png",
-      "capturedAt": "2026-11-05T16:18:23.865Z"
+      "capturedAt": "2026-11-08T11:44:37.528Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "조회 결과를 확인합니다. 등록된 항목이 없으면 빈 상태 안내가 표시됩니다."
+        }
+      ]
     },
     {
       "name": "reflog",
       "file": "images/manual-reflog.png",
-      "capturedAt": "2026-11-05T16:18:24.167Z"
+      "capturedAt": "2026-11-08T11:44:38.038Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "조회 결과를 확인합니다. 등록된 항목이 없으면 빈 상태 안내가 표시됩니다."
+        }
+      ]
     },
     {
       "name": "merge",
       "file": "images/manual-merge.png",
-      "capturedAt": "2026-11-05T16:18:25.049Z"
+      "capturedAt": "2026-11-08T11:44:39.171Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "가져올 브랜치를 선택하고 현재 브랜치로 향하는 방향을 확인합니다."
+        },
+        {
+          "number": 2,
+          "text": "자동 사전 검사 결과를 읽습니다. 이 단계에서는 아직 병합되지 않습니다."
+        },
+        {
+          "number": 3,
+          "text": "병합 버튼을 눌러 진행합니다. 실행 전 대상과 입력값을 다시 확인합니다."
+        }
+      ]
     },
     {
       "name": "worktrees",
       "file": "images/manual-worktrees.png",
-      "capturedAt": "2026-11-05T16:18:25.350Z"
+      "capturedAt": "2026-11-08T11:44:39.667Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "작업 폴더를 선택해 사용 중인 브랜치와 경로를 확인합니다."
+        },
+        {
+          "number": 2,
+          "text": "브랜치 또는 폴더 이름으로 찾을 수 있습니다."
+        },
+        {
+          "number": 3,
+          "text": "워크트리 만들기 버튼을 눌러 진행합니다. 실행 전 대상과 입력값을 다시 확인합니다."
+        }
+      ]
     },
     {
       "name": "organizer-range",
       "file": "images/manual-organizer-range.png",
-      "capturedAt": "2026-11-05T16:18:26.164Z"
+      "capturedAt": "2026-11-08T11:44:40.720Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "정리할 첫 커밋을 선택합니다. 해당 커밋부터 최신 커밋까지 포함됩니다."
+        },
+        {
+          "number": 2,
+          "text": "선택한 범위를 확인하고 선택한 커밋 정리를 누릅니다."
+        }
+      ]
     },
     {
       "name": "organizer",
       "file": "images/manual-organizer.png",
-      "capturedAt": "2026-11-05T16:18:26.655Z"
+      "capturedAt": "2026-11-08T11:44:41.426Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "정리할 커밋 행을 눌러 작업을 선택합니다."
+        },
+        {
+          "number": 2,
+          "text": "오른쪽 미리보기에서 적용 후 커밋 수와 메시지 순서를 확인합니다."
+        },
+        {
+          "number": 3,
+          "text": "적용 후 이력을 확인한 뒤 변경 적용을 누릅니다."
+        }
+      ]
     },
     {
       "name": "reset",
       "file": "images/manual-reset.png",
-      "capturedAt": "2026-11-05T16:18:27.171Z"
+      "capturedAt": "2026-11-08T11:44:42.171Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "Reset 방식을 선택합니다. Soft·Mixed·Hard의 파일 영향을 확인합니다."
+        },
+        {
+          "number": 2,
+          "text": "대상 커밋으로 이동할 때 바뀌는 내용을 확인합니다."
+        },
+        {
+          "number": 3,
+          "text": "Reset 실행 버튼을 눌러 진행합니다. 실행 전 대상과 입력값을 다시 확인합니다."
+        }
+      ]
     },
     {
       "name": "cherry-pick",
       "file": "images/manual-cherry-pick.png",
-      "capturedAt": "2026-11-05T16:18:27.450Z"
+      "capturedAt": "2026-11-08T11:44:42.625Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "가져올 브랜치 항목을 확인하고 값을 지정합니다."
+        },
+        {
+          "number": 2,
+          "text": "현재 브랜치에 적용 버튼을 눌러 진행합니다. 실행 전 대상과 입력값을 다시 확인합니다."
+        }
+      ]
     },
     {
       "name": "revert",
       "file": "images/manual-revert.png",
-      "capturedAt": "2026-11-05T16:18:27.732Z"
+      "capturedAt": "2026-11-08T11:44:43.107Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "대상 커밋 항목을 확인하고 값을 지정합니다."
+        },
+        {
+          "number": 2,
+          "text": "실행 버튼을 눌러 진행합니다. 실행 전 대상과 입력값을 다시 확인합니다."
+        }
+      ]
     },
     {
       "name": "conflict",
       "file": "images/manual-conflict.png",
-      "capturedAt": "2026-11-05T16:18:28.580Z"
+      "capturedAt": "2026-11-08T11:44:44.352Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "왼쪽·오른쪽·양쪽 중 필요한 내용을 고르거나 결과를 직접 편집합니다."
+        },
+        {
+          "number": 2,
+          "text": "최종 결과를 검토합니다. 직접 편집했다면 현재 충돌 해결을 눌러 해결 처리합니다. 모든 충돌을 해결하면 저장 버튼이 활성화됩니다."
+        },
+        {
+          "number": 3,
+          "text": "결과 저장·스테이징 버튼을 눌러 진행합니다. 실행 전 대상과 입력값을 다시 확인합니다."
+        }
+      ]
     },
     {
       "name": "settings",
       "file": "images/manual-settings.png",
-      "capturedAt": "2026-11-05T16:18:29.079Z"
+      "capturedAt": "2026-11-08T11:44:45.037Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "설정에서 화면 항목을 엽니다."
+        },
+        {
+          "number": 2,
+          "text": "사용할 테마를 누릅니다. 즉시 반영됩니다."
+        }
+      ]
     },
     {
       "name": "typography",
       "file": "images/manual-typography.png",
-      "capturedAt": "2026-11-05T16:18:29.330Z"
+      "capturedAt": "2026-11-08T11:44:45.478Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "코드 글자 크기를 선택합니다."
+        },
+        {
+          "number": 2,
+          "text": "미리보기에서 코드가 읽기 편한지 확인합니다."
+        }
+      ]
     },
     {
       "name": "auto-fetch",
       "file": "images/manual-auto-fetch.png",
-      "capturedAt": "2026-11-05T16:18:29.581Z"
+      "capturedAt": "2026-11-08T11:44:45.914Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "자동 Fetch 주기를 선택합니다. 원격 정보만 갱신하며 자동 Pull은 하지 않습니다."
+        }
+      ]
     }
   ]
 }

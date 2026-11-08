@@ -251,3 +251,14 @@ See [Group icon UX](GROUP_ICON_UX.md) for current behavior. New selections inclu
 `stageSelection`은 여러 블록의 선택을 하나의 패치로 만들어 revision 검증 및 Git apply --check 이후 인덱스에 적용한다. 블록마다 연속 호출해 인덱스가 중간 상태로 남는 구조로 바꾸지 않는다. 새 파일·삭제·이름 변경·모드 변경·비텍스트는 기존 파일 단위 작업을 사용한다.
 
 검증: `test/advanced.test.mjs`의 다중 블록·오래된 revision·실패 시 인덱스 보존·역적용, `test/ui-inline-staging.mjs`의 혼합 선택·보기 전환·스테이징/해제·실제 부분 커밋·바이너리 안내. 전체 단위 테스트 111개 및 기존 Diff UI 회귀 검사를 통과했다.
+
+## 빨간 번호 클릭 가이드 (2026-11-08)
+
+24개 장 모두 열기 경로 → 실제 화면의 빨간 번호별 조작 → 완료 확인 → 알아두기 형식으로 교체했다. 41개 이미지는 최신 UI를 deviceScaleFactor 2로 촬영한다. `scripts/guide-callouts.mjs`가 실제 DOM 위치에서 빨간 테두리·번호·화살표를 계산하며 캡처 후 오버레이를 제거한다. 제품 화면에는 주석이 남지 않는다. 캡처 대상이 없으면 실패시켜 낡은 위치로 안내하지 않는다.
+
+1. `node scripts/capture-guide-current.mjs`로 격리된 Express 실습 저장소와 모든 캡처를 만든다.
+2. `node scripts/write-guide-current.mjs`로 24개 장의 설명과 캡처 manifest의 번호별 설명을 합쳐 `docs/USER_GUIDE.md`를 갱신한다.
+3. `PGIT_BROWSER_PATH='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' node test/ui-settings.mjs`로 이미지 경로·번호·본문 연결, 검색·목차·확대 동작을 확인한다.
+4. 실제 그림을 열어 번호 위치·화살표·가려진 글자·선택 상태를 검토한다. 입력·실행·결과 확인을 구분하고 버튼을 누르지 않는 조회 단계는 확인이라고 쓴다.
+
+화면 문구 또는 가이드 설명을 바꿀 때 `write-guide-current.mjs`와 필요 시 `guide-callouts.mjs`를 함께 수정한다. 자동 생성된 Markdown만 수정하면 다음 생성 때 덮어쓴다. 생성 원본도 인수인계 ZIP에 포함한다.

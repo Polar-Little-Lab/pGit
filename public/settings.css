@@ -100,3 +100,9 @@ body dialog.guide-image-viewer{width:96vw;max-width:96vw;height:92vh;max-height:
 .guide-content figcaption{padding:0 2px}
 .guide-content section{padding-bottom:28px}
 @media(max-width:700px){.guide-image-button img{max-height:260px}}
+/* Match the numbered instructions to the red callouts in current guide captures. */
+.guide-content ol>li::marker{color:#e33d3d;font-weight:700}
+.guide-content ol>li{padding-left:4px;margin:9px 0;line-height:1.8}
+.guide-content .guide-image-button img{max-height:560px}
+.guide-image-scroll img{max-width:100%;height:auto}
+@media(max-width:700px){.guide-content .guide-image-button img{max-height:320px}}
