@@ -1,2 +1,2 @@
 const {contextBridge,ipcRenderer}=require('electron');
-contextBridge.exposeInMainWorld('pgitDesktop',{platform:process.platform,defaultProjectParent:()=>ipcRenderer.invoke('default-project-parent'),chooseFolder:options=>ipcRenderer.invoke('choose-folder',options),loadWorkspace:()=>ipcRenderer.invoke('workspace-load'),saveWorkspace:value=>ipcRenderer.invoke('workspace-save',value)});
+contextBridge.exposeInMainWorld('pgitDesktop',{platform:process.platform,appInfo:()=>ipcRenderer.invoke('app-info'),defaultProjectParent:()=>ipcRenderer.invoke('default-project-parent'),chooseFolder:options=>ipcRenderer.invoke('choose-folder',options),loadWorkspace:()=>ipcRenderer.invoke('workspace-load'),saveWorkspace:value=>ipcRenderer.invoke('workspace-save',value)});

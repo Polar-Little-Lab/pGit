@@ -59,6 +59,11 @@
  }
  const preview=document.createElement('pre');preview.className='typography-preview literal-data';preview.textContent='// pGit · 코드 미리보기 · Preview\nconst branch = "main";\n+ const message = "변경 사항 · 日本語";';typographyPanel.append(preview);
  const resetType=document.createElement('button');resetType.type='button';resetType.textContent='글꼴 및 크기 초기화';resetType.onclick=()=>setTypography(typographyDefaults);typographyPanel.append(resetType);page.querySelector('[data-settings-panel=appearance]').after(typographyPanel);
+ const aboutNav=document.createElement('button');aboutNav.type='button';aboutNav.dataset.settingsSection='about';aboutNav.textContent='앱 정보';page.querySelector('nav').append(aboutNav);
+ const aboutPanel=document.createElement('section');aboutPanel.dataset.settingsPanel='about';aboutPanel.setAttribute('aria-labelledby','aboutTitle');aboutPanel.innerHTML='<h2 id="aboutTitle" tabindex="-1">앱 정보</h2><h3>pGit</h3><p data-app-version role="status">버전 확인 중…</p><p class="settings-help">Powered by Polar</p>';
+ page.querySelector('.settings-content').append(aboutPanel);
+ const versionLabel=aboutPanel.querySelector('[data-app-version]');
+ if(window.pgitDesktop?.appInfo)window.pgitDesktop.appInfo().then(info=>{versionLabel.textContent=`버전 ${info.version} · ${info.platform==='darwin'?'macOS':info.platform==='win32'?'Windows':info.platform} · ${info.arch}`}).catch(()=>{versionLabel.textContent='버전 정보를 불러오지 못했습니다.'});else versionLabel.textContent='브라우저에서 실행 중';
  const container=document.querySelector('#projectPanels')||document.body;container.append(page);setTypography(typography,{persist:false});
  const siblings=new Map();let previousFocus=null,previousHash='';
  function sync(){const minutes=localStorage.getItem('pgit.autoFetchMinutes')??'10';page.querySelectorAll('[data-fetch-minutes]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.fetchMinutes===minutes)));page.querySelectorAll('[data-language-choice]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.languageChoice===window.PgitI18n.language)));page.querySelectorAll('[data-theme-choice]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.themeChoice===theme)))}
@@ -84,12 +89,12 @@
  }
  page.querySelector('[data-close-settings]').onclick=()=>close();
  PgitIcons.label(page.querySelector('[data-close-settings]'),'back','작업 공간으로 돌아가기');
- for(const item of page.querySelectorAll('[data-settings-section]')){PgitIcons.label(item,item.dataset.settingsSection==='appearance'?'palette':item.dataset.settingsSection==='sync'?'fetch':item.dataset.settingsSection==='typography'?'typography':'language',item.textContent);item.onclick=()=>open(item.dataset.settingsSection)}
+ for(const item of page.querySelectorAll('[data-settings-section]')){PgitIcons.label(item,item.dataset.settingsSection==='about'?'settings':item.dataset.settingsSection==='appearance'?'palette':item.dataset.settingsSection==='sync'?'fetch':item.dataset.settingsSection==='typography'?'typography':'language',item.textContent);item.onclick=()=>open(item.dataset.settingsSection)}
  page.querySelectorAll('[data-language-choice]').forEach(b=>b.onclick=()=>{window.PgitI18n.setLanguage(b.dataset.languageChoice);sync()});
  const button=document.createElement('button');button.type='button';button.className='settings-button';button.setAttribute('aria-pressed','false');PgitIcons.label(button,'settings');button.setAttribute('aria-label','설정');button.dataset.tooltip='설정 · ⌘/Ctrl+,';button.onclick=()=>page.hidden?open():close();
  (document.querySelector('.project-bar')||document.querySelector('header'))?.append(button);
  Object.assign(window.PgitSettings,{open,close});
  document.addEventListener('keydown',event=>{if((event.metaKey||event.ctrlKey)&&event.key===','){event.preventDefault();open()}else if(event.key==='Escape'&&!page.hidden&&!document.querySelector('dialog[open]')){event.preventDefault();close()}});
- window.addEventListener('popstate',()=>{if(location.hash.startsWith('#settings/'))show(['appearance','typography','language','sync'].find(section=>location.hash==='#settings/'+section)||'appearance');else close()});
- sync();if(location.hash.startsWith('#settings/'))show(['appearance','typography','language','sync'].find(section=>location.hash==='#settings/'+section)||'appearance',false);
+ window.addEventListener('popstate',()=>{if(location.hash.startsWith('#settings/'))show(['appearance','typography','language','sync','about'].find(section=>location.hash==='#settings/'+section)||'appearance');else close()});
+ sync();if(location.hash.startsWith('#settings/'))show(['appearance','typography','language','sync','about'].find(section=>location.hash==='#settings/'+section)||'appearance',false);
 })();
