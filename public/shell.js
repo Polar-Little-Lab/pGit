@@ -33,6 +33,8 @@ function renderRecents(){
  const matches=path=>(path+' '+(projectGroup(path)?.name||'')).toLocaleLowerCase().includes(query);
  const visible=recents.filter(path=>matches(path)&&!projectGroup(path));
  const allPaths=[...new Set([...recents,...Object.keys(projectGroups)])];
+ const firstRun=allPaths.length===0&&groups.length===0;
+ byId('welcome').classList.toggle('is-first-run',firstRun);byId('firstRunIntro').hidden=!firstRun;byId('firstRunWorkflow').hidden=!firstRun;document.querySelector('.recent-section').hidden=firstRun;
  byId('recentCount').textContent=String(allPaths.filter(matches).length);
  byId('repositoryListTitle').textContent=window.PgitI18n.t('저장소');
  const hasGroups=!!byId('homeGroups').children.length&&!byId('homeGroups').hidden;
@@ -195,3 +197,5 @@ if(window.pgitDesktop?.platform==='win32')byId('projectPath').placeholder=String
 
 // Shell chrome is outside each workspace dialog (iframe events do not bubble here).
 document.addEventListener('click',()=>{for(const project of projects)send(project,{type:'dismiss-dialog'})});
+
+byId('firstRunGuide').onclick=()=>document.querySelector('.guide-button')?.click();
