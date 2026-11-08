@@ -35,6 +35,7 @@ function renderRecents(){
  const allPaths=[...new Set([...recents,...Object.keys(projectGroups)])];
  window.updateHomeDashboard?.(allPaths.length,groups.length);
  const firstRun=allPaths.length===0&&groups.length===0;
+ const groupEntry=byId('createHomeGroup');if(firstRun)document.querySelector('.welcome-footer').insertBefore(groupEntry,document.querySelector('.footer-shortcut'));else document.querySelector('.project-home-toolbar').append(groupEntry);
  byId('welcome').classList.toggle('is-first-run',firstRun);byId('firstRunIntro').hidden=!firstRun;byId('firstRunWorkflow').hidden=!firstRun;document.querySelector('.recent-section').hidden=firstRun;
  byId('recentCount').textContent=String(allPaths.filter(matches).length);
  byId('repositoryListTitle').textContent=window.PgitI18n.t('저장소');
