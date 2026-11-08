@@ -67,3 +67,15 @@ html[data-appearance=dark] .bridge-add{fill:#233f36}
 html[data-appearance=dark] .bridge-delete{fill:#4b3035}
 html[data-appearance=dark] .bridge-change{fill:#253d55}
 html[data-theme] .diff-bridge{background:var(--surface)!important}
+
+/* Change-list controls must follow the selected theme, including selected rows. */
+html[data-theme] #changes .file{color:var(--text);border-color:var(--border)}
+html[data-theme] #changes .file:not(.active):hover{background:var(--soft)}
+html[data-theme] #changes .file .file-select{background:transparent;color:var(--text)}
+html[data-theme] #changes .file .file-stage{background:var(--surface);color:var(--text);border-color:var(--border)}
+html[data-theme] #changes .file .file-stage:not(:disabled):hover{background:var(--soft);border-color:var(--polar-accent)}
+html[data-theme] #changes .stage-all{color:var(--polar-accent)}
+html[data-theme] #changes :is(.file-stage,.stage-all):disabled{background:transparent;color:var(--muted);opacity:.65}
+html[data-theme] #changes .change-empty{color:var(--muted)}
+html[data-theme] #changes #commitDescription{background:var(--surface);color:var(--text);border-color:var(--border)}
+html[data-theme] #changes #commit:disabled{background:var(--soft);border-color:var(--border);color:var(--muted)}

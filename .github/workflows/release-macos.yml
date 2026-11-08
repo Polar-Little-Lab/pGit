@@ -80,6 +80,7 @@ jobs:
           node test/ui-finance-icons.mjs
           node test/ui-sidebar.mjs
           node test/ui-inline-staging.mjs
+          node test/ui-new-file.mjs
           node test/ui-settings.mjs
           node test/ui-git-setup.mjs
       - name: Build macOS installers

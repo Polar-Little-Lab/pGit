@@ -50,7 +50,23 @@ async function discardPartial(root,d){
  try{const file=path.join(temp,d.name);await mkdir(path.dirname(file),{recursive:true});await writeFile(file,preview.content);await runGit(temp,['apply',...(partial?[]:['--reverse']),'-'],{input:content});await discardContent(root,preview,await readFile(file,'utf8'))}
  finally{await rm(temp,{recursive:true,force:true})}
 }
-export const advancedActions=new Set(['rebaseCandidates','rewordInfo','rewordCommit','discardHunk','discardLines','redoDiscard','discardPreview','discardFile','recoveryList','recoverFile','hunks','stageHunk','stageLines','stageSelection','readText','saveText','conflictRead','conflictSave','ignoreFile','ignoreCandidates','amendSelectionInfo','amend','amendMessage','rebasePlan','rebaseApply','searchHistory','worktreeLock','worktreeUnlock','submodules','submoduleUpdate','profileRead','profileSave','diffSides']);
+// Create text files without replacing existing files or following directory links.
+async function createText(root,{name,content=''}){
+ if(typeof name!=='string'||!name||path.isAbsolute(name)||name.includes('\\')||name.split('/').some(part=>!part||part==='.'||part==='..'||part.toLowerCase()==='.git'||/[<>:"|?*\x00-\x1f]/.test(part)||/[. ]$/.test(part)||/^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(part)))throw Error('저장소 안의 파일 경로를 입력하세요. 예: src/example.yml');
+ if(typeof content!=='string'||Buffer.byteLength(content)>1024*1024||content.includes('\0'))throw Error('1MB 이하의 텍스트만 저장할 수 있습니다.');
+ if((await git(root,['ls-files','-z','--cached','--',name])).split('\0').includes(name))throw Error('이미 추적 중인 파일입니다. 기존 파일 편집을 사용하세요.');
+ let ignored=false;try{ignored=!!(await git(root,['check-ignore','--no-index','--',name])).trim()}catch(error){if(error.code!==1)throw error}
+ if(ignored)throw Error('무시 규칙에 포함된 경로입니다. 다른 경로를 입력하거나 무시 규칙을 수정하세요.');
+ const top=await realpath(root);let parent=top;
+ for(const part of name.split('/').slice(0,-1)){
+  parent=path.join(parent,part);
+  try{await mkdir(parent)}catch(error){if(error.code!=='EEXIST')throw error}
+  if(!(await lstat(parent)).isDirectory()||await realpath(parent)!==parent)throw Error('심볼릭 링크 또는 파일을 포함한 경로에는 생성할 수 없습니다.');
+ }
+ try{await writeFile(path.join(parent,name.split('/').at(-1)),content,{flag:'wx'})}
+ catch(error){if(error.code==='EEXIST')throw Error('같은 이름의 파일 또는 폴더가 이미 있습니다. 다른 이름을 입력하세요.');throw error}
+}
+export const advancedActions=new Set(['rebaseCandidates','rewordInfo','rewordCommit','discardHunk','discardLines','redoDiscard','discardPreview','discardFile','recoveryList','recoverFile','hunks','stageHunk','stageLines','stageSelection','readText','createText','saveText','conflictRead','conflictSave','ignoreFile','ignoreCandidates','amendSelectionInfo','amend','amendMessage','rebasePlan','rebaseApply','searchHistory','worktreeLock','worktreeUnlock','submodules','submoduleUpdate','profileRead','profileSave','diffSides']);
 export const advancedReads=new Set(['rebaseCandidates','rewordInfo','amendSelectionInfo','ignoreCandidates','discardPreview','recoveryList','hunks','readText','conflictRead','rebasePlan','searchHistory','submodules','profileRead','diffSides']);
 export async function advanced(root,action,d={}){switch(action){
 case 'discardPreview':return discardPreview(root,d.name);
@@ -74,6 +90,7 @@ case 'stageSelection':{
 }
 case 'stageLines':{const p=await hunks(root,d.name,!!d.staged);if(p.revision!==d.revision)throw Error('파일이 변경되었습니다.');const h=p.hunks.find(h=>h.index===d.index);if(!h)throw Error('변경 블록 없음');const patch=selectedLinePatch(p.header,h.text,d.lines,!!d.staged);await runGit(root,['apply','--cached','--check','-'],{input:patch});await runGit(root,['apply','--cached','-'],{input:patch});break}
 case 'stageHunk':{const p=await hunks(root,d.name,!!d.staged);if(p.revision!==d.revision)throw Error('파일이 변경되었습니다. Diff를 다시 열어 주세요.');const h=p.hunks.find(h=>h.index===d.index);if(!h)throw Error('변경 블록이 없습니다.');await runGit(root,['apply','--cached',...(d.staged?['--reverse']:[]),'--check','-'],{input:p.header+h.text});await runGit(root,['apply','--cached',...(d.staged?['--reverse']:[]),'-'],{input:p.header+h.text});break}
+case 'createText':await createText(root,d);break;
 case 'readText':await known(root,d.name);{const {content,revision}=await textFile(root,d.name);return {content,revision}}
 case 'saveText':{await known(root,d.name);const f=await textFile(root,d.name);if(f.revision!==d.revision)throw Error('파일이 외부에서 변경되었습니다. 다시 열어 주세요.');if(typeof d.content!=='string'||Buffer.byteLength(d.content)>1024*1024||d.content.includes('\0'))throw Error('텍스트가 너무 큽니다.');await writeFile(f.absolute,d.content);break}
 case 'conflictRead':{if(!(await snapshot(root)).files.some(f=>f.name===d.name&&f.conflict))throw Error('충돌 파일이 아닙니다.');const f=await textFile(root,d.name);const sides=await Promise.all([1,2,3].map(n=>git(root,['show',`:${n}:${d.name}`]).catch(()=>'')));return {...f,absolute:undefined,base:sides[0],ours:sides[1],theirs:sides[2]}}

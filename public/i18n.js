@@ -447,6 +447,11 @@ Git 작업 검색|Search Git commands
 파일을 선택하세요.|Select a file.
 파일을 선택하면 해당 영역의 변경을 보여줍니다.|Select a file to review changes in this area.
 새 파일|New file
+파일 만들기|Create file
+파일 경로|File path
+새 파일 내용|New file content
+현재 저장소를 기준으로 입력하세요. 없는 폴더는 함께 만듭니다.|Enter a path relative to this repository. Missing folders will be created.
+파일만 저장합니다. 스테이징과 커밋은 변경 사항에서 진행하세요.|Save the file here, then stage and commit it in Changes.
 추가|Added
 수정|Modified
 삭제|Deleted

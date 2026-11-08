@@ -46,3 +46,20 @@ test('inline selection applies multiple hunks atomically and reverses without to
  await assert.rejects(advanced(root,'stageSelection',{name,staged:true,revision:staged.revision,selections:[all[0],{index:999,lines:[0]}]}));assert.match(await git(root,['diff','--cached']),/first/);
  await advanced(root,'stageSelection',{name,staged:true,revision:staged.revision,selections:all});assert.equal(await git(root,['diff','--cached']),'');assert.equal(await readFile(root+'/'+name,'utf8'),draft);
 });
+
+test('new text files support nested paths without staging, overwriting, or escaping the repository',async t=>{
+ const r=await fixture(t);
+ await advanced(r,'createText',{name:'docs/새 파일.yml',content:'enabled: true\n'});
+ assert.equal(await readFile(r+'/docs/새 파일.yml','utf8'),'enabled: true\n');
+ assert.equal(await git(r,['diff','--cached']),'');
+ assert.match(await git(r,['status','--porcelain','--untracked-files=all']),/docs/);
+ await assert.rejects(advanced(r,'createText',{name:'docs/새 파일.yml',content:'replace'}),/이미/);
+ await assert.rejects(advanced(r,'createText',{name:'file.txt',content:'replace'}),/추적/);
+ for(const name of ['../outside.txt','.git/config','.GIT/config','/tmp/outside','dir/../x','dir\\x','CON.txt'])await assert.rejects(advanced(r,'createText',{name}),/경로/);
+ await writeFile(r+'/.gitignore','cache/\n');await assert.rejects(advanced(r,'createText',{name:'cache/file.txt'}),/무시/);
+ const outside=await mkdtemp(path.join(os.tmpdir(),'pgit-create-outside-'));t.after(()=>rm(outside,{recursive:true,force:true}));
+ await symlink(outside,r+'/linked','junction');await assert.rejects(advanced(r,'createText',{name:'linked/new.txt'}));
+ await assert.rejects(readFile(outside+'/new.txt'),{code:'ENOENT'});
+ await advanced(r,'createText',{name:'empty.txt',content:''});assert.equal(await readFile(r+'/empty.txt','utf8'),'');
+ assert.equal(await readFile(r+'/docs/새 파일.yml','utf8'),'enabled: true\n');
+});

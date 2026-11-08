@@ -1,6 +1,14 @@
 // One description catalog for the palette and its destination screens.
 window.PgitCommandHelp=(()=>{
 const catalog={
+  "createText": {
+    "ko": "현재 저장소에 텍스트 파일을 만듭니다. 필요한 폴더를 함께 생성하며 자동으로 스테이징하거나 커밋하지 않습니다.",
+    "en": "Create a text file and its parent folders in this repository without staging or committing it.",
+    "ja": "現在のリポジトリにテキストファイルと必要なフォルダーを作成します。自動ステージやコミットは行いません。",
+    "zh-CN": "在当前仓库中创建文本文件和所需文件夹，不会自动暂存或提交。",
+    "es": "Crea un archivo de texto y sus carpetas en este repositorio sin prepararlo ni confirmarlo.",
+    "fr": "Crée un fichier texte et ses dossiers dans ce dépôt sans indexation ni commit automatique."
+},
   "init": {
     "ko": "Git으로 관리하지 않는 폴더에 새 저장소를 만듭니다. 기존 파일을 유지하면서 변경 이력을 기록할 준비를 합니다.",
     "en": "Create a Git repository in an unversioned folder, keeping its existing files.",
