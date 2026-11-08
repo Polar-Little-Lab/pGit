@@ -1,0 +1,41 @@
+name: Publish verified desktop artifacts
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify build results
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$(gh api repos/$GITHUB_REPOSITORY/actions/runs/42479271249/jobs --jq '.jobs[] | select(.name == "build (macos-15, macos)") | .conclusion')" = success
+          test "$(gh api repos/$GITHUB_REPOSITORY/actions/runs/42479787947 --jq .conclusion)" = success
+          test "$(gh api repos/$GITHUB_REPOSITORY/actions/runs/42479271249 --jq .head_sha)" = "$(git ls-remote origin refs/tags/v0.4.0-preview.10 | cut -f1)"
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: 42479271249
+          name: pGit-macos
+          path: release
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          run-id: 42479787947
+          name: pGit-windows-recovery
+          path: release
+      - name: Publish preview with checksums
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          for file in pGit-0.4.0-preview.10-macos-arm64.dmg pGit-0.4.0-preview.10-macos-arm64.zip pGit-0.4.0-preview.10-macos-x64.dmg pGit-0.4.0-preview.10-macos-x64.zip pGit-0.4.0-preview.10-windows-x64-setup.exe; do
+            test -s "release/$file"
+          done
+          (cd release && sha256sum *.dmg *.zip *.exe > SHA256SUMS.txt)
+          gh release create v0.4.0-preview.10 release/* --verify-tag --prerelease --title 'pGit v0.4.0-preview.10 · Windows & macOS' --notes-file docs/releases/v0.4.0-preview.10.md
