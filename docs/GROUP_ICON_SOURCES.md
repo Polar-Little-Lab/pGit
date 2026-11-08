@@ -927,3 +927,7 @@ Only 25 AWS service-level icons are offered for new selections. Other AWS assets
 - 네이버페이: https://developers.pay.naver.com/design/brand/logo 의 공식 배포 ZIP https://developers.pay.naver.com/img/logo/zip/npayLogos.zip 내 `symbol/symbol_cr_npaygr_large.svg`. 배지 대신 원형 서비스 심볼 사용.
 - GLN: 기존 공식 원본 PNG를 그대로 보존하고 CSS의 정사각형 표시 영역으로 왼쪽 보라색 심볼만 표시. 글자 부분은 탭과 선택 목록에서 노출하지 않음.
 - 추천은 하나금융그룹·GLN·기본 아이콘 13개로 제한. 나머지 브랜드 자산은 카테고리 및 검색에서 유지.
+
+### 글자 없는 네이버페이·토스 심볼
+- 네이버페이: 위 공식 SVG의 N 경로만 분리해 브랜드 초록색으로 표시. 원형 배경과 pay 글자 제거.
+- 토스: 공식 정사각형 심볼 PNG https://static.toss.im/icons/png/4x/icon-toss-logo.png 로 교체. 원본 색상·형태 유지.
