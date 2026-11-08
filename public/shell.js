@@ -33,6 +33,7 @@ function renderRecents(){
  const matches=path=>(path+' '+(projectGroup(path)?.name||'')).toLocaleLowerCase().includes(query);
  const visible=recents.filter(path=>matches(path)&&!projectGroup(path));
  const allPaths=[...new Set([...recents,...Object.keys(projectGroups)])];
+ window.updateHomeDashboard?.(allPaths.length,groups.length);
  const firstRun=allPaths.length===0&&groups.length===0;
  byId('welcome').classList.toggle('is-first-run',firstRun);byId('firstRunIntro').hidden=!firstRun;byId('firstRunWorkflow').hidden=!firstRun;document.querySelector('.recent-section').hidden=firstRun;
  byId('recentCount').textContent=String(allPaths.filter(matches).length);

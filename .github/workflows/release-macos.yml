@@ -72,6 +72,7 @@ jobs:
           node test/ui-history-edits.mjs
           node test/ui-provider-review.mjs
           node test/ui-command-help.mjs
+          node test/ui-project-home.mjs
           node test/ui-project-dialog.mjs
           node test/ui-direct-project-open.mjs
           node test/ui-project-groups.mjs
