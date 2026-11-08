@@ -1,0 +1,97 @@
+{
+  "replacement": "v1.0.0",
+  "status": "draft",
+  "note": "Previous preview releases are retained as drafts. Tags, commits, release notes and assets remain available to maintainers.",
+  "releases": [
+    {
+      "tag": "v0.4.0-preview.19",
+      "releaseId": 438302657,
+      "publishedAt": "2026-11-08T14:35:13Z",
+      "assets": 6
+    },
+    {
+      "tag": "v0.4.0-preview.17",
+      "releaseId": 438288751,
+      "publishedAt": "2026-11-08T14:10:43Z",
+      "assets": 6
+    },
+    {
+      "tag": "v0.4.0-preview.16",
+      "releaseId": 438280640,
+      "publishedAt": "2026-11-08T13:55:56Z",
+      "assets": 6
+    },
+    {
+      "tag": "v0.4.0-preview.15",
+      "releaseId": 438267394,
+      "publishedAt": "2026-11-08T13:32:45Z",
+      "assets": 6
+    },
+    {
+      "tag": "v0.4.0-preview.14",
+      "releaseId": 438259462,
+      "publishedAt": "2026-11-08T13:18:41Z",
+      "assets": 6
+    },
+    {
+      "tag": "v0.4.0-preview.12",
+      "releaseId": 438246379,
+      "publishedAt": "2026-11-08T12:55:17Z",
+      "assets": 6
+    },
+    {
+      "tag": "v0.4.0-preview.11",
+      "releaseId": 438237623,
+      "publishedAt": "2026-11-08T12:39:05Z",
+      "assets": 6
+    },
+    {
+      "tag": "v0.4.0-preview.10",
+      "releaseId": 438231012,
+      "publishedAt": "2026-11-08T12:27:16Z",
+      "assets": 6
+    },
+    {
+      "tag": "v0.4.0-preview.6",
+      "releaseId": 433714029,
+      "publishedAt": "2026-11-04T09:02:46Z",
+      "assets": 6
+    },
+    {
+      "tag": "v0.4.0-preview.3",
+      "releaseId": 433532334,
+      "publishedAt": "2026-11-04T05:02:10Z",
+      "assets": 6
+    },
+    {
+      "tag": "v0.3.0-preview.12",
+      "releaseId": 425662302,
+      "publishedAt": "2026-10-27T15:47:26Z",
+      "assets": 4
+    },
+    {
+      "tag": "v0.3.0-preview.11",
+      "releaseId": 425639782,
+      "publishedAt": "2026-10-27T15:28:06Z",
+      "assets": 4
+    },
+    {
+      "tag": "v0.2.0-preview.10",
+      "releaseId": 425600943,
+      "publishedAt": "2026-10-27T14:55:52Z",
+      "assets": 4
+    },
+    {
+      "tag": "v0.1.0-preview.9",
+      "releaseId": 425560319,
+      "publishedAt": "2026-10-27T14:22:45Z",
+      "assets": 4
+    },
+    {
+      "tag": "v0.1.0-preview.5",
+      "releaseId": 425551943,
+      "publishedAt": "2026-10-27T14:15:29Z",
+      "assets": 4
+    }
+  ]
+}
