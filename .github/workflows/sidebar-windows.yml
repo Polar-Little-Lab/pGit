@@ -1,4 +1,4 @@
-name: Windows sidebar regression
+name: Windows UI regression
 on:
   workflow_dispatch:
 permissions:
@@ -17,7 +17,13 @@ jobs:
         env:
           ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
       - run: npx playwright install chromium
-      - run: node test/ui-sidebar.mjs
+      - name: Verify sidebar, staging, guide and setup
+        shell: bash
+        run: |
+          node test/ui-sidebar.mjs
+          node test/ui-inline-staging.mjs
+          node test/ui-settings.mjs
+          node test/ui-git-setup.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
