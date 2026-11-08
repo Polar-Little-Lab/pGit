@@ -40,6 +40,11 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Create file":["ファイルを作成", "创建文件", "Crear archivo", "Créer un fichier"],
+"File path":["ファイルパス", "文件路径", "Ruta del archivo", "Chemin du fichier"],
+"New file content":["新しいファイルの内容", "新文件内容", "Contenido del nuevo archivo", "Contenu du nouveau fichier"],
+"Enter a path relative to this repository. Missing folders will be created.":["リポジトリからの相対パスを入力してください。存在しないフォルダーも作成します。", "输入相对于此仓库的路径。不存在的文件夹将一并创建。", "Introduce una ruta relativa a este repositorio. Se crearán las carpetas que falten.", "Saisissez un chemin relatif à ce dépôt. Les dossiers manquants seront créés."],
+"Save the file here, then stage and commit it in Changes.":["ここでファイルを保存し、変更一覧でステージしてコミットしてください。", "先保存文件，然后在更改列表中暂存并提交。", "Guarda el archivo aquí; después, prepáralo y confírmalo en Cambios.", "Enregistrez le fichier ici, puis indexez-le et créez un commit dans Modifications."],
 "Git is unavailable":["Gitを実行できません", "无法运行 Git", "Git no está disponible", "Git est indisponible"],
 "Check permission to run Git.":["Gitの実行権限を確認してください。", "请检查 Git 执行权限。", "Comprueba el permiso para ejecutar Git.", "Vérifiez le droit d’exécuter Git."],
 "Check the macOS developer tools setup.":["macOS開発者ツールの設定を確認してください。", "请检查 macOS 开发者工具设置。", "Comprueba las herramientas de desarrollo de macOS.", "Vérifiez les outils de développement macOS."],
