@@ -49,6 +49,11 @@ jobs:
           node test/ui-project-dialog.mjs
           node test/ui-direct-project-open.mjs
           node test/ui-project-groups.mjs
+          node test/ui-group-curation.mjs
+          node test/ui-finance-icons.mjs
+          node test/ui-sidebar.mjs
+          node test/ui-inline-staging.mjs
+          node test/ui-settings.mjs
           node test/ui-git-setup.mjs
       - name: Build macOS installers
         if: runner.os == 'macOS'
@@ -121,6 +126,12 @@ jobs:
 
           This preview is not signed with a Windows publisher certificate or notarized by Apple; the operating system may show an unidentified-publisher warning.
 
-          Includes file-selective amend, earlier commit message editing, PR/MR context selection, and the redesigned commit history organizer. Automated Git/UI tests and packaged application launch checks run on Windows and macOS before publication. Windows installation is tested on Windows Server 2022; manual Windows 10/11 QA remains pending.
+          ## What's new
+          - Rewritten 24-chapter guide with 41 current screenshots and numbered red click annotations.
+          - Simplified recommended group icons, compact Naver Pay / Toss / GLN symbols, and clearer single-remote sidebar alignment.
+          - Inline line/block staging, shared history search and file history browser, and a redesigned commit history organizer.
+          - Clone progress, automatic history loading, repository groups, and improved project navigation.
+
+          Automated Git/UI tests and packaged application launch checks run on Windows and macOS before publication. Windows installation is tested on Windows Server 2022; manual Windows 10/11 QA remains pending.
           NOTES
           gh release create "$RELEASE_TAG" ./* --target "$GITHUB_SHA" --prerelease --title "pGit $RELEASE_TAG · Windows & macOS" --notes-file "$RUNNER_TEMP/release-notes.md"
