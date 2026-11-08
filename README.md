@@ -118,8 +118,6 @@ npm run dist:win
 | `scripts/` | 아이콘 빌드, 가이드 촬영·문서 생성 |
 
 - [사용 가이드](docs/USER_GUIDE.md): 화면의 빨간 번호를 따라 수행하는 기능별 절차
-- [AI 작업 인수인계](docs/GPT_HANDOFF.md): 구조와 구현·검증 시 참고할 내용
-- [웹 GPT 작업 안내](docs/GPT_WEB_TASK_PROMPT.md): 원격 작업을 위한 안내
 - [프로젝트 작업 공간](docs/ARCTIC_WORKSPACE.md): 탭과 저장소별 상태 관리
 
 Powered by Polar.
