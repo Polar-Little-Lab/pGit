@@ -1,6 +1,7 @@
 // One 24px grid, rounded 1.75px strokes. All icons inherit the control's color.
 (()=>{
  const paths={
+  external:'M14 3h7v7M21 3L11 13M10 3H3v18h18v-7',
   briefcase:'M8 7V3h8v4M3 7h18v14H3zM3 12c6 4 12 4 18 0M12 12v4',
   user:'M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0M4 21v-3a8 6 0 0 1 16 0v3',
   server:'M3 3h18v7H3zM3 14h18v7H3zM7 6v1m0 10v1M11 6h6m-6 11h6',
