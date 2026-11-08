@@ -1,8 +1,8 @@
 {
-  "capturedAt": "2026-11-08T13:24:59.506Z",
+  "capturedAt": "2026-11-08T14:26:28.460Z",
   "source": "https://github.com/expressjs/express",
   "sourceHead": "43fca52d28a422c8be48fd489cbd4f2d6152bab6",
-  "practice": "/Users/polar/pgit-guide-projects/session-QmhySl/express-practice",
+  "practice": "/Users/polar/pgit-guide-projects/session-6ZVoQk/express-practice",
   "viewport": {
     "width": 1440,
     "height": 960
@@ -12,7 +12,7 @@
     {
       "name": "clone",
       "file": "images/manual-clone.png",
-      "capturedAt": "2026-11-08T13:24:27.685Z",
+      "capturedAt": "2026-11-08T14:25:55.091Z",
       "annotations": [
         {
           "number": 1,
@@ -31,7 +31,7 @@
     {
       "name": "clone-progress",
       "file": "images/manual-clone-progress.png",
-      "capturedAt": "2026-11-08T13:24:28.176Z",
+      "capturedAt": "2026-11-08T14:25:55.557Z",
       "annotations": [
         {
           "number": 1,
@@ -42,7 +42,7 @@
     {
       "name": "home",
       "file": "images/manual-home.png",
-      "capturedAt": "2026-11-08T13:24:33.298Z",
+      "capturedAt": "2026-11-08T14:26:00.609Z",
       "annotations": [
         {
           "number": 1,
@@ -61,7 +61,7 @@
     {
       "name": "groups",
       "file": "images/manual-groups.png",
-      "capturedAt": "2026-11-08T13:24:33.825Z",
+      "capturedAt": "2026-11-08T14:26:01.140Z",
       "annotations": [
         {
           "number": 1,
@@ -84,7 +84,7 @@
     {
       "name": "graph",
       "file": "images/manual-graph.png",
-      "capturedAt": "2026-11-08T13:24:34.566Z",
+      "capturedAt": "2026-11-08T14:26:01.842Z",
       "annotations": [
         {
           "number": 1,
@@ -103,7 +103,7 @@
     {
       "name": "tag-history",
       "file": "images/manual-tag-history.png",
-      "capturedAt": "2026-11-08T13:24:35.266Z",
+      "capturedAt": "2026-11-08T14:26:02.526Z",
       "annotations": [
         {
           "number": 1,
@@ -118,7 +118,7 @@
     {
       "name": "search",
       "file": "images/manual-search.png",
-      "capturedAt": "2026-11-08T13:24:36.133Z",
+      "capturedAt": "2026-11-08T14:26:03.314Z",
       "annotations": [
         {
           "number": 1,
@@ -137,7 +137,7 @@
     {
       "name": "search-empty",
       "file": "images/manual-search-empty.png",
-      "capturedAt": "2026-11-08T13:24:36.732Z",
+      "capturedAt": "2026-11-08T14:26:03.910Z",
       "annotations": [
         {
           "number": 1,
@@ -152,7 +152,7 @@
     {
       "name": "file-history",
       "file": "images/manual-file-history.png",
-      "capturedAt": "2026-11-08T13:24:37.277Z",
+      "capturedAt": "2026-11-08T14:26:04.450Z",
       "annotations": [
         {
           "number": 1,
@@ -163,7 +163,7 @@
     {
       "name": "file-diff",
       "file": "images/manual-file-diff.png",
-      "capturedAt": "2026-11-08T13:24:37.989Z",
+      "capturedAt": "2026-11-08T14:26:05.143Z",
       "annotations": [
         {
           "number": 1,
@@ -178,7 +178,7 @@
     {
       "name": "blame",
       "file": "images/manual-blame.png",
-      "capturedAt": "2026-11-08T13:24:38.577Z",
+      "capturedAt": "2026-11-08T14:26:05.714Z",
       "annotations": [
         {
           "number": 1,
@@ -189,7 +189,7 @@
     {
       "name": "commands",
       "file": "images/manual-commands.png",
-      "capturedAt": "2026-11-08T13:24:39.045Z",
+      "capturedAt": "2026-11-08T14:26:06.181Z",
       "annotations": [
         {
           "number": 1,
@@ -202,9 +202,24 @@
       ]
     },
     {
+      "name": "commands-alias",
+      "file": "images/manual-commands-alias.png",
+      "capturedAt": "2026-11-08T14:26:06.641Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "파일 추가처럼 익숙한 표현으로 검색합니다. 파일 생성·파일생성·add file도 사용할 수 있습니다."
+        },
+        {
+          "number": 2,
+          "text": "검색 결과의 새 파일을 누릅니다. 표현이 달라도 같은 파일 생성 화면으로 이동합니다."
+        }
+      ]
+    },
+    {
       "name": "changes",
       "file": "images/manual-changes.png",
-      "capturedAt": "2026-11-08T13:24:40.626Z",
+      "capturedAt": "2026-11-08T14:26:08.192Z",
       "annotations": [
         {
           "number": 1,
@@ -223,7 +238,7 @@
     {
       "name": "partial",
       "file": "images/manual-partial.png",
-      "capturedAt": "2026-11-08T13:24:41.137Z",
+      "capturedAt": "2026-11-08T14:26:08.707Z",
       "annotations": [
         {
           "number": 1,
@@ -236,9 +251,47 @@
       ]
     },
     {
+      "name": "new-file",
+      "file": "images/manual-new-file.png",
+      "capturedAt": "2026-11-08T14:26:09.300Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "파일 경로를 입력합니다. 예: docs/local-guide.yml. 저장소 안의 상대 경로이며 없는 폴더도 함께 만듭니다."
+        },
+        {
+          "number": 2,
+          "text": "파일 내용을 입력합니다. 확장자에 맞는 문법 색상으로 표시됩니다."
+        },
+        {
+          "number": 3,
+          "text": "파일 만들기 버튼을 눌러 진행합니다. 실행 전 대상과 입력값을 다시 확인합니다."
+        }
+      ]
+    },
+    {
+      "name": "new-file-result",
+      "file": "images/manual-new-file-result.png",
+      "capturedAt": "2026-11-08T14:26:10.832Z",
+      "annotations": [
+        {
+          "number": 1,
+          "text": "다른 파일을 만들려면 변경 사항의 새 파일을 누릅니다."
+        },
+        {
+          "number": 2,
+          "text": "생성한 파일이 작업 중 목록에 새 파일로 표시되는지 확인하고 이름을 눌러 내용을 검토합니다."
+        },
+        {
+          "number": 3,
+          "text": "이번 커밋에 넣으려면 스테이징을 누릅니다. 파일 생성만으로는 커밋되지 않습니다."
+        }
+      ]
+    },
+    {
       "name": "editor",
       "file": "images/manual-editor.png",
-      "capturedAt": "2026-11-08T13:24:41.666Z",
+      "capturedAt": "2026-11-08T14:26:11.334Z",
       "annotations": [
         {
           "number": 1,
@@ -253,7 +306,7 @@
     {
       "name": "ignore",
       "file": "images/manual-ignore.png",
-      "capturedAt": "2026-11-08T13:24:42.443Z",
+      "capturedAt": "2026-11-08T14:26:12.097Z",
       "annotations": [
         {
           "number": 1,
@@ -268,7 +321,7 @@
     {
       "name": "staging",
       "file": "images/manual-staging.png",
-      "capturedAt": "2026-11-08T13:24:44.052Z",
+      "capturedAt": "2026-11-08T14:26:13.182Z",
       "annotations": [
         {
           "number": 1,
@@ -287,7 +340,7 @@
     {
       "name": "commit",
       "file": "images/manual-commit.png",
-      "capturedAt": "2026-11-08T13:24:45.384Z",
+      "capturedAt": "2026-11-08T14:26:14.407Z",
       "annotations": [
         {
           "number": 1,
@@ -302,7 +355,7 @@
     {
       "name": "amend-message",
       "file": "images/manual-amend-message.png",
-      "capturedAt": "2026-11-08T13:24:45.889Z",
+      "capturedAt": "2026-11-08T14:26:14.908Z",
       "annotations": [
         {
           "number": 1,
@@ -317,7 +370,7 @@
     {
       "name": "amend-files",
       "file": "images/manual-amend-files.png",
-      "capturedAt": "2026-11-08T13:24:46.840Z",
+      "capturedAt": "2026-11-08T14:26:15.811Z",
       "annotations": [
         {
           "number": 1,
@@ -336,7 +389,7 @@
     {
       "name": "branch",
       "file": "images/manual-branch.png",
-      "capturedAt": "2026-11-08T13:24:47.334Z",
+      "capturedAt": "2026-11-08T14:26:16.305Z",
       "annotations": [
         {
           "number": 1,
@@ -355,7 +408,7 @@
     {
       "name": "tag-create",
       "file": "images/manual-tag-create.png",
-      "capturedAt": "2026-11-08T13:24:47.817Z",
+      "capturedAt": "2026-11-08T14:26:16.807Z",
       "annotations": [
         {
           "number": 1,
@@ -378,7 +431,7 @@
     {
       "name": "stash",
       "file": "images/manual-stash.png",
-      "capturedAt": "2026-11-08T13:24:48.282Z",
+      "capturedAt": "2026-11-08T14:26:17.267Z",
       "annotations": [
         {
           "number": 1,
@@ -393,7 +446,7 @@
     {
       "name": "remotes",
       "file": "images/manual-remotes.png",
-      "capturedAt": "2026-11-08T13:24:48.767Z",
+      "capturedAt": "2026-11-08T14:26:17.756Z",
       "annotations": [
         {
           "number": 1,
@@ -404,7 +457,7 @@
     {
       "name": "fetch",
       "file": "images/manual-fetch.png",
-      "capturedAt": "2026-11-08T13:24:49.231Z",
+      "capturedAt": "2026-11-08T14:26:18.217Z",
       "annotations": [
         {
           "number": 1,
@@ -419,7 +472,7 @@
     {
       "name": "pull",
       "file": "images/manual-pull.png",
-      "capturedAt": "2026-11-08T13:24:49.699Z",
+      "capturedAt": "2026-11-08T14:26:18.667Z",
       "annotations": [
         {
           "number": 1,
@@ -434,7 +487,7 @@
     {
       "name": "push",
       "file": "images/manual-push.png",
-      "capturedAt": "2026-11-08T13:24:50.150Z",
+      "capturedAt": "2026-11-08T14:26:19.138Z",
       "annotations": [
         {
           "number": 1,
@@ -449,7 +502,7 @@
     {
       "name": "author",
       "file": "images/manual-author.png",
-      "capturedAt": "2026-11-08T13:24:50.668Z",
+      "capturedAt": "2026-11-08T14:26:19.642Z",
       "annotations": [
         {
           "number": 1,
@@ -472,7 +525,7 @@
     {
       "name": "submodules",
       "file": "images/manual-submodules.png",
-      "capturedAt": "2026-11-08T13:24:51.185Z",
+      "capturedAt": "2026-11-08T14:26:20.177Z",
       "annotations": [
         {
           "number": 1,
@@ -483,7 +536,7 @@
     {
       "name": "reflog",
       "file": "images/manual-reflog.png",
-      "capturedAt": "2026-11-08T13:24:51.694Z",
+      "capturedAt": "2026-11-08T14:26:20.677Z",
       "annotations": [
         {
           "number": 1,
@@ -494,7 +547,7 @@
     {
       "name": "merge",
       "file": "images/manual-merge.png",
-      "capturedAt": "2026-11-08T13:24:52.770Z",
+      "capturedAt": "2026-11-08T14:26:21.756Z",
       "annotations": [
         {
           "number": 1,
@@ -513,7 +566,7 @@
     {
       "name": "worktrees",
       "file": "images/manual-worktrees.png",
-      "capturedAt": "2026-11-08T13:24:53.272Z",
+      "capturedAt": "2026-11-08T14:26:22.240Z",
       "annotations": [
         {
           "number": 1,
@@ -532,7 +585,7 @@
     {
       "name": "organizer-range",
       "file": "images/manual-organizer-range.png",
-      "capturedAt": "2026-11-08T13:24:54.292Z",
+      "capturedAt": "2026-11-08T14:26:23.231Z",
       "annotations": [
         {
           "number": 1,
@@ -547,7 +600,7 @@
     {
       "name": "organizer",
       "file": "images/manual-organizer.png",
-      "capturedAt": "2026-11-08T13:24:54.964Z",
+      "capturedAt": "2026-11-08T14:26:23.901Z",
       "annotations": [
         {
           "number": 1,
@@ -566,7 +619,7 @@
     {
       "name": "reset",
       "file": "images/manual-reset.png",
-      "capturedAt": "2026-11-08T13:24:55.709Z",
+      "capturedAt": "2026-11-08T14:26:24.628Z",
       "annotations": [
         {
           "number": 1,
@@ -585,7 +638,7 @@
     {
       "name": "cherry-pick",
       "file": "images/manual-cherry-pick.png",
-      "capturedAt": "2026-11-08T13:24:56.166Z",
+      "capturedAt": "2026-11-08T14:26:25.108Z",
       "annotations": [
         {
           "number": 1,
@@ -600,7 +653,7 @@
     {
       "name": "revert",
       "file": "images/manual-revert.png",
-      "capturedAt": "2026-11-08T13:24:56.648Z",
+      "capturedAt": "2026-11-08T14:26:25.602Z",
       "annotations": [
         {
           "number": 1,
@@ -615,7 +668,7 @@
     {
       "name": "conflict",
       "file": "images/manual-conflict.png",
-      "capturedAt": "2026-11-08T13:24:57.893Z",
+      "capturedAt": "2026-11-08T14:26:26.831Z",
       "annotations": [
         {
           "number": 1,
@@ -634,7 +687,7 @@
     {
       "name": "settings",
       "file": "images/manual-settings.png",
-      "capturedAt": "2026-11-08T13:24:58.604Z",
+      "capturedAt": "2026-11-08T14:26:27.528Z",
       "annotations": [
         {
           "number": 1,
@@ -649,7 +702,7 @@
     {
       "name": "typography",
       "file": "images/manual-typography.png",
-      "capturedAt": "2026-11-08T13:24:59.051Z",
+      "capturedAt": "2026-11-08T14:26:27.992Z",
       "annotations": [
         {
           "number": 1,
@@ -664,7 +717,7 @@
     {
       "name": "auto-fetch",
       "file": "images/manual-auto-fetch.png",
-      "capturedAt": "2026-11-08T13:24:59.485Z",
+      "capturedAt": "2026-11-08T14:26:28.444Z",
       "annotations": [
         {
           "number": 1,

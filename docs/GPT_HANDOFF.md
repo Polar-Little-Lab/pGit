@@ -266,3 +266,7 @@ See [Group icon UX](GROUP_ICON_UX.md) for current behavior. New selections inclu
 ### Light guide captures and visible entry
 
 Guide captures now default to the light theme. All 41 annotated images were recaptured with the current UI. The start guide shares these assets regardless of the application theme. Keep the start-guide card visible in the first-run hero copy; returning users see it in the workspace summary. The illustrative search branch selects the filter commit and shows the corresponding src/search.ts diff. It is explicitly marked as an example, not repository data.
+
+### 파일 생성·검색 별칭 가이드 갱신 (v0.4.0-preview.18)
+
+현재 밝은 테마로 44개 화면을 다시 촬영했다. 10장에 새 파일의 경로·내용 입력과 생성 결과 확인을, 24장에 파일 추가 등의 별칭 검색을 추가했다. 새 파일 생성은 작업 폴더만 변경하며 스테이징·커밋은 별도다. 기존 파일과 무시 경로를 덮어쓰지 않는다. `public/command-help.js`의 `searchAliases`는 검색 전용이며 메뉴 제목·설명에는 표시하지 않는다. 변경 목록의 색상은 테마 토큰을 사용한다. 새 캡처는 `manual-new-file.png`, `manual-new-file-result.png`, `manual-commands-alias.png`이며 시작 가이드도 갱신된 공용 이미지를 사용한다.
