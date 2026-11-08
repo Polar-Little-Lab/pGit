@@ -602,9 +602,331 @@ const catalog={
     "fr": "Publie votre commentaire sur l’issue GitHub sélectionnée."
   }
 };
+// Internal search terms only: never render these as command labels or help text.
+const searchAliases={
+  "createText": [
+    "파일 추가",
+    "파일 생성",
+    "파일 만들기",
+    "새 문서",
+    "new file",
+    "create file",
+    "add file"
+  ],
+  "readText": [
+    "파일 수정",
+    "코드 편집",
+    "코드 수정",
+    "edit file"
+  ],
+  "ignoreFile": [
+    "파일 제외",
+    "파일 무시",
+    "추적 제외",
+    "무시 목록",
+    "gitignore",
+    "ignore file"
+  ],
+  "init": [
+    "저장소 생성",
+    "프로젝트 생성",
+    "저장소 초기화",
+    "git init",
+    "initialize repository"
+  ],
+  "clone": [
+    "클론",
+    "프로젝트 복제",
+    "저장소 다운로드",
+    "git clone"
+  ],
+  "branchCreate": [
+    "브랜치 추가",
+    "브랜치 생성",
+    "새 브랜치",
+    "new branch",
+    "create branch"
+  ],
+  "branchSwitch": [
+    "브랜치 변경",
+    "브랜치 이동",
+    "체크아웃",
+    "checkout",
+    "git switch"
+  ],
+  "branchRename": [
+    "브랜치 이름 수정",
+    "브랜치명 변경",
+    "rename branch"
+  ],
+  "branchDelete": [
+    "브랜치 제거",
+    "delete branch"
+  ],
+  "remoteAdd": [
+    "원격 등록",
+    "원격 연결",
+    "리모트 추가",
+    "remote add"
+  ],
+  "remoteRemove": [
+    "원격 삭제",
+    "원격 연결 해제",
+    "remote remove"
+  ],
+  "remoteList": [
+    "원격 URL",
+    "저장소 주소",
+    "리모트 주소",
+    "remote url"
+  ],
+  "fetch": [
+    "페치",
+    "패치",
+    "원격 갱신",
+    "원격 정보 가져오기",
+    "git fetch"
+  ],
+  "pull": [
+    "풀",
+    "원격 변경 받기",
+    "원격 변경 가져오기",
+    "git pull"
+  ],
+  "push": [
+    "푸시",
+    "푸쉬",
+    "커밋 올리기",
+    "원격 업로드",
+    "git push"
+  ],
+  "stashSave": [
+    "스태시",
+    "스테시",
+    "임시 저장",
+    "변경 보관",
+    "stash save"
+  ],
+  "stashApply": [
+    "스태시 적용",
+    "임시 저장 불러오기",
+    "보관한 변경 적용",
+    "stash apply"
+  ],
+  "stashPop": [
+    "스태시 꺼내기",
+    "보관 적용 후 삭제",
+    "stash pop"
+  ],
+  "stashDrop": [
+    "스태시 삭제",
+    "보관 삭제",
+    "stash drop"
+  ],
+  "stashDiff": [
+    "스태시 비교",
+    "보관 내용 보기",
+    "stash diff"
+  ],
+  "tagCreate": [
+    "태그 추가",
+    "태그 생성",
+    "new tag"
+  ],
+  "tagDelete": [
+    "태그 제거",
+    "delete tag"
+  ],
+  "merge": [
+    "브랜치 합치기",
+    "브랜치 병합",
+    "merge"
+  ],
+  "mergePreview": [
+    "병합 미리보기",
+    "충돌 확인",
+    "충돌 사전 검사",
+    "merge preview"
+  ],
+  "rebase": [
+    "리베이스",
+    "브랜치 기준 변경",
+    "git rebase"
+  ],
+  "rebasePlan": [
+    "인터랙티브 리베이스",
+    "커밋 정리",
+    "커밋 순서 변경",
+    "커밋 합치기",
+    "interactive rebase",
+    "squash",
+    "fixup"
+  ],
+  "cherryPick": [
+    "체리픽",
+    "체리 피크",
+    "커밋 가져오기",
+    "cherry pick"
+  ],
+  "revert": [
+    "리버트",
+    "커밋 변경 취소",
+    "반대 커밋",
+    "git revert"
+  ],
+  "undoCommit": [
+    "커밋 취소",
+    "최근 커밋 취소",
+    "undo commit"
+  ],
+  "amendMessage": [
+    "커밋 메시지 변경",
+    "커밋명 수정",
+    "커밋 제목 수정",
+    "reword",
+    "edit commit message"
+  ],
+  "amend": [
+    "마지막 커밋 변경 추가",
+    "커밋에 파일 추가",
+    "어멘드",
+    "git commit amend"
+  ],
+  "fileHistory": [
+    "파일 기록",
+    "파일 히스토리",
+    "file history",
+    "file log"
+  ],
+  "searchHistory": [
+    "커밋 찾기",
+    "커밋 검색",
+    "메시지 검색",
+    "이력 검색",
+    "search commits"
+  ],
+  "blame": [
+    "줄 작성자",
+    "코드 작성자",
+    "누가 수정",
+    "git blame"
+  ],
+  "compare": [
+    "커밋 비교",
+    "브랜치 비교",
+    "diff"
+  ],
+  "diffSides": [
+    "파일 비교",
+    "좌우 비교",
+    "file diff"
+  ],
+  "reflog": [
+    "참조 이동 기록",
+    "헤드 이동 기록",
+    "reflog"
+  ],
+  "hunks": [
+    "부분 커밋",
+    "블록 커밋",
+    "줄 선택",
+    "부분 스테이징",
+    "stage hunk"
+  ],
+  "discardPreview": [
+    "수정 취소",
+    "파일 되돌리기",
+    "변경 버리기",
+    "discard changes"
+  ],
+  "recoveryList": [
+    "버린 변경 복원",
+    "파일 복구",
+    "recover file"
+  ],
+  "resetPreview": [
+    "리셋",
+    "커밋으로 이동",
+    "git reset"
+  ],
+  "resetJournal": [
+    "리셋 취소",
+    "리셋 복구",
+    "undo reset"
+  ],
+  "conflictRead": [
+    "충돌 수정",
+    "충돌 편집",
+    "conflict editor"
+  ],
+  "resolve": [
+    "충돌 해결 완료",
+    "해결됨 표시",
+    "mark resolved"
+  ],
+  "continue": [
+    "충돌 해결 후 계속",
+    "작업 재개",
+    "continue"
+  ],
+  "abort": [
+    "병합 중단",
+    "리베이스 중단",
+    "작업 취소",
+    "abort"
+  ],
+  "worktreeList": [
+    "워크트리 목록",
+    "작업 폴더 목록",
+    "worktree list"
+  ],
+  "worktreeAdd": [
+    "워크트리 추가",
+    "워크트리 생성",
+    "작업 폴더 추가",
+    "worktree add"
+  ],
+  "worktreeRemove": [
+    "워크트리 삭제",
+    "작업 폴더 제거",
+    "worktree remove"
+  ],
+  "worktreeLock": [
+    "워크트리 잠금",
+    "worktree lock"
+  ],
+  "worktreeUnlock": [
+    "워크트리 잠금 해제",
+    "worktree unlock"
+  ],
+  "submodules": [
+    "서브모듈",
+    "하위 저장소 상태",
+    "submodule status"
+  ],
+  "submoduleUpdate": [
+    "서브모듈 갱신",
+    "서브모듈 초기화",
+    "submodule update"
+  ],
+  "profileRead": [
+    "작성자 변경",
+    "이름 이메일",
+    "커밋 서명",
+    "git config user"
+  ]
+};
+function normalizeSearch(value){return String(value).normalize('NFKC').toLocaleLowerCase().replace(/[\s_\-]+/g,'')}
+function matches(key,title,query){
+ const needle=normalizeSearch(query);if(!needle)return true;
+ const sources=[title,window.PgitI18n?.t(title)||title,text(key),...(searchAliases[key]||[])].map(normalizeSearch);
+ if(sources.some(source=>source.includes(needle)))return true;
+ const words=String(query).trim().split(/\s+/).map(normalizeSearch).filter(Boolean);
+ return words.length>1&&words.every(word=>sources.some(source=>source.includes(word)));
+}
 function text(key,language=window.PgitI18n?.language||'ko'){return catalog[key]?.[language]||catalog[key]?.en||''}
 function node(key){const p=document.createElement('p');p.className='command-help';p.dataset.commandHelp=key;p.textContent=text(key);return p}
 function mount(host,key){host.querySelector(':scope > .command-help')?.remove();if(catalog[key])host.prepend(node(key))}
 window.addEventListener('pgit-language-change',()=>{document.querySelectorAll('[data-command-help]').forEach(el=>el.textContent=text(el.dataset.commandHelp))});
-return {catalog,text,node,mount};
+return {catalog,text,node,mount,matches};
 })();
