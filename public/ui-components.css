@@ -232,3 +232,7 @@ body dialog .organizer-actions>button[aria-pressed=true]{background:var(--contro
 .organizer-v2>.command-error:empty{display:none}
 @media(max-width:800px){.organizer-edit-layout{grid-template-columns:minmax(0,1fr) 200px}.organizer-edit-tools>span{display:none}}
 @media(max-width:600px){.organizer-edit-layout{display:flex;flex-direction:column;overflow:auto}.organizer-v2 .organizer-edit-layout>.organizer-rows{flex:none;overflow:visible}.organizer-result-pane{flex:none;overflow:visible}.organizer-context>span{display:none}body dialog .advanced-body.organizer-v2{padding:12px}.organizer-list-hint{line-height:1.5}}
+
+.organizer-guidance{border:1px solid var(--border);border-radius:8px;background:var(--soft);padding:12px 14px;flex-shrink:0;max-height:210px;overflow:auto;font-size:12px;line-height:1.6}
+.organizer-guidance>strong{font-size:13px}.organizer-guidance p{margin:6px 0;color:var(--muted)}.organizer-guidance summary{cursor:pointer;color:var(--accent);margin-top:8px}.organizer-guidance summary:focus-visible{outline:2px solid var(--accent)}
+.organizer-v2 .organizer-commit:disabled{opacity:1;color:var(--muted);cursor:default}.organizer-restriction{grid-column:2/-1;font-size:11px;color:var(--muted);white-space:normal;text-align:left}
