@@ -262,3 +262,7 @@ See [Group icon UX](GROUP_ICON_UX.md) for current behavior. New selections inclu
 4. 실제 그림을 열어 번호 위치·화살표·가려진 글자·선택 상태를 검토한다. 입력·실행·결과 확인을 구분하고 버튼을 누르지 않는 조회 단계는 확인이라고 쓴다.
 
 화면 문구 또는 가이드 설명을 바꿀 때 `write-guide-current.mjs`와 필요 시 `guide-callouts.mjs`를 함께 수정한다. 자동 생성된 Markdown만 수정하면 다음 생성 때 덮어쓴다. 생성 원본도 인수인계 ZIP에 포함한다.
+
+### Light guide captures and visible entry
+
+Guide captures now default to the light theme. All 41 annotated images were recaptured with the current UI. The start guide shares these assets regardless of the application theme. Keep the start-guide card visible in the first-run hero copy; returning users see it in the workspace summary. The illustrative search branch selects the filter commit and shows the corresponding src/search.ts diff. It is explicitly marked as an example, not repository data.
