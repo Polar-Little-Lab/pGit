@@ -1,8 +1,8 @@
 {
-  "capturedAt": "2026-11-08T14:26:28.460Z",
+  "capturedAt": "2026-11-08T14:43:47.892Z",
   "source": "https://github.com/expressjs/express",
   "sourceHead": "43fca52d28a422c8be48fd489cbd4f2d6152bab6",
-  "practice": "/Users/polar/pgit-guide-projects/session-6ZVoQk/express-practice",
+  "practice": "/Users/polar/pgit-guide-projects/session-edLqGI/express-practice",
   "viewport": {
     "width": 1440,
     "height": 960
@@ -12,7 +12,7 @@
     {
       "name": "clone",
       "file": "images/manual-clone.png",
-      "capturedAt": "2026-11-08T14:25:55.091Z",
+      "capturedAt": "2026-11-08T14:43:16.955Z",
       "annotations": [
         {
           "number": 1,
@@ -31,7 +31,7 @@
     {
       "name": "clone-progress",
       "file": "images/manual-clone-progress.png",
-      "capturedAt": "2026-11-08T14:25:55.557Z",
+      "capturedAt": "2026-11-08T14:43:17.440Z",
       "annotations": [
         {
           "number": 1,
@@ -42,7 +42,7 @@
     {
       "name": "home",
       "file": "images/manual-home.png",
-      "capturedAt": "2026-11-08T14:26:00.609Z",
+      "capturedAt": "2026-11-08T14:43:20.026Z",
       "annotations": [
         {
           "number": 1,
@@ -61,7 +61,7 @@
     {
       "name": "groups",
       "file": "images/manual-groups.png",
-      "capturedAt": "2026-11-08T14:26:01.140Z",
+      "capturedAt": "2026-11-08T14:43:20.560Z",
       "annotations": [
         {
           "number": 1,
@@ -84,7 +84,7 @@
     {
       "name": "graph",
       "file": "images/manual-graph.png",
-      "capturedAt": "2026-11-08T14:26:01.842Z",
+      "capturedAt": "2026-11-08T14:43:21.285Z",
       "annotations": [
         {
           "number": 1,
@@ -103,7 +103,7 @@
     {
       "name": "tag-history",
       "file": "images/manual-tag-history.png",
-      "capturedAt": "2026-11-08T14:26:02.526Z",
+      "capturedAt": "2026-11-08T14:43:21.973Z",
       "annotations": [
         {
           "number": 1,
@@ -118,7 +118,7 @@
     {
       "name": "search",
       "file": "images/manual-search.png",
-      "capturedAt": "2026-11-08T14:26:03.314Z",
+      "capturedAt": "2026-11-08T14:43:22.752Z",
       "annotations": [
         {
           "number": 1,
@@ -137,7 +137,7 @@
     {
       "name": "search-empty",
       "file": "images/manual-search-empty.png",
-      "capturedAt": "2026-11-08T14:26:03.910Z",
+      "capturedAt": "2026-11-08T14:43:23.334Z",
       "annotations": [
         {
           "number": 1,
@@ -152,7 +152,7 @@
     {
       "name": "file-history",
       "file": "images/manual-file-history.png",
-      "capturedAt": "2026-11-08T14:26:04.450Z",
+      "capturedAt": "2026-11-08T14:43:23.864Z",
       "annotations": [
         {
           "number": 1,
@@ -163,7 +163,7 @@
     {
       "name": "file-diff",
       "file": "images/manual-file-diff.png",
-      "capturedAt": "2026-11-08T14:26:05.143Z",
+      "capturedAt": "2026-11-08T14:43:24.574Z",
       "annotations": [
         {
           "number": 1,
@@ -178,7 +178,7 @@
     {
       "name": "blame",
       "file": "images/manual-blame.png",
-      "capturedAt": "2026-11-08T14:26:05.714Z",
+      "capturedAt": "2026-11-08T14:43:25.148Z",
       "annotations": [
         {
           "number": 1,
@@ -189,7 +189,7 @@
     {
       "name": "commands",
       "file": "images/manual-commands.png",
-      "capturedAt": "2026-11-08T14:26:06.181Z",
+      "capturedAt": "2026-11-08T14:43:25.614Z",
       "annotations": [
         {
           "number": 1,
@@ -204,7 +204,7 @@
     {
       "name": "commands-alias",
       "file": "images/manual-commands-alias.png",
-      "capturedAt": "2026-11-08T14:26:06.641Z",
+      "capturedAt": "2026-11-08T14:43:26.074Z",
       "annotations": [
         {
           "number": 1,
@@ -219,7 +219,7 @@
     {
       "name": "changes",
       "file": "images/manual-changes.png",
-      "capturedAt": "2026-11-08T14:26:08.192Z",
+      "capturedAt": "2026-11-08T14:43:27.657Z",
       "annotations": [
         {
           "number": 1,
@@ -238,7 +238,7 @@
     {
       "name": "partial",
       "file": "images/manual-partial.png",
-      "capturedAt": "2026-11-08T14:26:08.707Z",
+      "capturedAt": "2026-11-08T14:43:28.161Z",
       "annotations": [
         {
           "number": 1,
@@ -253,7 +253,7 @@
     {
       "name": "new-file",
       "file": "images/manual-new-file.png",
-      "capturedAt": "2026-11-08T14:26:09.300Z",
+      "capturedAt": "2026-11-08T14:43:28.730Z",
       "annotations": [
         {
           "number": 1,
@@ -272,7 +272,7 @@
     {
       "name": "new-file-result",
       "file": "images/manual-new-file-result.png",
-      "capturedAt": "2026-11-08T14:26:10.832Z",
+      "capturedAt": "2026-11-08T14:43:30.266Z",
       "annotations": [
         {
           "number": 1,
@@ -291,7 +291,7 @@
     {
       "name": "editor",
       "file": "images/manual-editor.png",
-      "capturedAt": "2026-11-08T14:26:11.334Z",
+      "capturedAt": "2026-11-08T14:43:30.770Z",
       "annotations": [
         {
           "number": 1,
@@ -306,7 +306,7 @@
     {
       "name": "ignore",
       "file": "images/manual-ignore.png",
-      "capturedAt": "2026-11-08T14:26:12.097Z",
+      "capturedAt": "2026-11-08T14:43:31.529Z",
       "annotations": [
         {
           "number": 1,
@@ -321,7 +321,7 @@
     {
       "name": "staging",
       "file": "images/manual-staging.png",
-      "capturedAt": "2026-11-08T14:26:13.182Z",
+      "capturedAt": "2026-11-08T14:43:32.613Z",
       "annotations": [
         {
           "number": 1,
@@ -340,7 +340,7 @@
     {
       "name": "commit",
       "file": "images/manual-commit.png",
-      "capturedAt": "2026-11-08T14:26:14.407Z",
+      "capturedAt": "2026-11-08T14:43:33.841Z",
       "annotations": [
         {
           "number": 1,
@@ -355,7 +355,7 @@
     {
       "name": "amend-message",
       "file": "images/manual-amend-message.png",
-      "capturedAt": "2026-11-08T14:26:14.908Z",
+      "capturedAt": "2026-11-08T14:43:34.339Z",
       "annotations": [
         {
           "number": 1,
@@ -370,7 +370,7 @@
     {
       "name": "amend-files",
       "file": "images/manual-amend-files.png",
-      "capturedAt": "2026-11-08T14:26:15.811Z",
+      "capturedAt": "2026-11-08T14:43:35.239Z",
       "annotations": [
         {
           "number": 1,
@@ -389,7 +389,7 @@
     {
       "name": "branch",
       "file": "images/manual-branch.png",
-      "capturedAt": "2026-11-08T14:26:16.305Z",
+      "capturedAt": "2026-11-08T14:43:35.740Z",
       "annotations": [
         {
           "number": 1,
@@ -408,7 +408,7 @@
     {
       "name": "tag-create",
       "file": "images/manual-tag-create.png",
-      "capturedAt": "2026-11-08T14:26:16.807Z",
+      "capturedAt": "2026-11-08T14:43:36.220Z",
       "annotations": [
         {
           "number": 1,
@@ -431,7 +431,7 @@
     {
       "name": "stash",
       "file": "images/manual-stash.png",
-      "capturedAt": "2026-11-08T14:26:17.267Z",
+      "capturedAt": "2026-11-08T14:43:36.689Z",
       "annotations": [
         {
           "number": 1,
@@ -446,7 +446,7 @@
     {
       "name": "remotes",
       "file": "images/manual-remotes.png",
-      "capturedAt": "2026-11-08T14:26:17.756Z",
+      "capturedAt": "2026-11-08T14:43:37.172Z",
       "annotations": [
         {
           "number": 1,
@@ -457,7 +457,7 @@
     {
       "name": "fetch",
       "file": "images/manual-fetch.png",
-      "capturedAt": "2026-11-08T14:26:18.217Z",
+      "capturedAt": "2026-11-08T14:43:37.655Z",
       "annotations": [
         {
           "number": 1,
@@ -472,7 +472,7 @@
     {
       "name": "pull",
       "file": "images/manual-pull.png",
-      "capturedAt": "2026-11-08T14:26:18.667Z",
+      "capturedAt": "2026-11-08T14:43:38.100Z",
       "annotations": [
         {
           "number": 1,
@@ -487,7 +487,7 @@
     {
       "name": "push",
       "file": "images/manual-push.png",
-      "capturedAt": "2026-11-08T14:26:19.138Z",
+      "capturedAt": "2026-11-08T14:43:38.555Z",
       "annotations": [
         {
           "number": 1,
@@ -502,7 +502,7 @@
     {
       "name": "author",
       "file": "images/manual-author.png",
-      "capturedAt": "2026-11-08T14:26:19.642Z",
+      "capturedAt": "2026-11-08T14:43:39.055Z",
       "annotations": [
         {
           "number": 1,
@@ -525,7 +525,7 @@
     {
       "name": "submodules",
       "file": "images/manual-submodules.png",
-      "capturedAt": "2026-11-08T14:26:20.177Z",
+      "capturedAt": "2026-11-08T14:43:39.587Z",
       "annotations": [
         {
           "number": 1,
@@ -536,7 +536,7 @@
     {
       "name": "reflog",
       "file": "images/manual-reflog.png",
-      "capturedAt": "2026-11-08T14:26:20.677Z",
+      "capturedAt": "2026-11-08T14:43:40.073Z",
       "annotations": [
         {
           "number": 1,
@@ -547,7 +547,7 @@
     {
       "name": "merge",
       "file": "images/manual-merge.png",
-      "capturedAt": "2026-11-08T14:26:21.756Z",
+      "capturedAt": "2026-11-08T14:43:41.139Z",
       "annotations": [
         {
           "number": 1,
@@ -566,7 +566,7 @@
     {
       "name": "worktrees",
       "file": "images/manual-worktrees.png",
-      "capturedAt": "2026-11-08T14:26:22.240Z",
+      "capturedAt": "2026-11-08T14:43:41.624Z",
       "annotations": [
         {
           "number": 1,
@@ -585,7 +585,7 @@
     {
       "name": "organizer-range",
       "file": "images/manual-organizer-range.png",
-      "capturedAt": "2026-11-08T14:26:23.231Z",
+      "capturedAt": "2026-11-08T14:43:42.628Z",
       "annotations": [
         {
           "number": 1,
@@ -600,7 +600,7 @@
     {
       "name": "organizer",
       "file": "images/manual-organizer.png",
-      "capturedAt": "2026-11-08T14:26:23.901Z",
+      "capturedAt": "2026-11-08T14:43:43.334Z",
       "annotations": [
         {
           "number": 1,
@@ -619,7 +619,7 @@
     {
       "name": "reset",
       "file": "images/manual-reset.png",
-      "capturedAt": "2026-11-08T14:26:24.628Z",
+      "capturedAt": "2026-11-08T14:43:44.057Z",
       "annotations": [
         {
           "number": 1,
@@ -638,7 +638,7 @@
     {
       "name": "cherry-pick",
       "file": "images/manual-cherry-pick.png",
-      "capturedAt": "2026-11-08T14:26:25.108Z",
+      "capturedAt": "2026-11-08T14:43:44.520Z",
       "annotations": [
         {
           "number": 1,
@@ -653,7 +653,7 @@
     {
       "name": "revert",
       "file": "images/manual-revert.png",
-      "capturedAt": "2026-11-08T14:26:25.602Z",
+      "capturedAt": "2026-11-08T14:43:45.008Z",
       "annotations": [
         {
           "number": 1,
@@ -668,7 +668,7 @@
     {
       "name": "conflict",
       "file": "images/manual-conflict.png",
-      "capturedAt": "2026-11-08T14:26:26.831Z",
+      "capturedAt": "2026-11-08T14:43:46.228Z",
       "annotations": [
         {
           "number": 1,
@@ -687,7 +687,7 @@
     {
       "name": "settings",
       "file": "images/manual-settings.png",
-      "capturedAt": "2026-11-08T14:26:27.528Z",
+      "capturedAt": "2026-11-08T14:43:46.973Z",
       "annotations": [
         {
           "number": 1,
@@ -702,7 +702,7 @@
     {
       "name": "typography",
       "file": "images/manual-typography.png",
-      "capturedAt": "2026-11-08T14:26:27.992Z",
+      "capturedAt": "2026-11-08T14:43:47.440Z",
       "annotations": [
         {
           "number": 1,
@@ -717,7 +717,7 @@
     {
       "name": "auto-fetch",
       "file": "images/manual-auto-fetch.png",
-      "capturedAt": "2026-11-08T14:26:28.444Z",
+      "capturedAt": "2026-11-08T14:43:47.873Z",
       "annotations": [
         {
           "number": 1,

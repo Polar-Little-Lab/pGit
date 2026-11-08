@@ -145,4 +145,9 @@ jobs:
           cd downloads
           sha256sum * > SHA256SUMS.txt
           cp "$GITHUB_WORKSPACE/docs/releases/$RELEASE_TAG.md" "$RUNNER_TEMP/release-notes.md"
-          gh release create "$RELEASE_TAG" ./* --target "$GITHUB_SHA" --prerelease --title "pGit $RELEASE_TAG · Windows & macOS" --notes-file "$RUNNER_TEMP/release-notes.md"
+          if [[ "$RELEASE_TAG" == *-* ]]; then
+            RELEASE_FLAGS=(--prerelease --latest=false)
+          else
+            RELEASE_FLAGS=(--latest)
+          fi
+          gh release create "$RELEASE_TAG" ./* --target "$GITHUB_SHA" "${RELEASE_FLAGS[@]}" --title "pGit $RELEASE_TAG · Windows & macOS" --notes-file "$RUNNER_TEMP/release-notes.md"

@@ -1,14 +1,14 @@
-# pGit · 0.4.0 — Arctic workspace
+# pGit · 1.0.0
 
 프로젝트 탭, 커밋 그래프, 오른쪽 스테이징·커밋 패널을 갖춘 macOS·Windows Git 클라이언트입니다. Polar Frost 디자인 시스템의 얼음색 표면과 차분한 북극 테마를 사용합니다. AI 기능은 포함하지 않습니다. 로고는 Polar 제품군 A안: 공통 북극곰 얼굴과 pGit 분기 심볼입니다.
 
-[Windows · macOS 미리보기 다운로드](https://github.com/Polar-Little-Lab/pGit/releases)
+[Windows · macOS 정식 버전 다운로드](https://github.com/Polar-Little-Lab/pGit/releases/latest)
 
-Apple Silicon은 `macos-arm64`, Intel은 `macos-x64` 파일을 받으세요. Node.js는 앱에 포함되어 있으며 Git은 별도 설치가 필요합니다(`xcode-select --install`). Ad-hoc 서명된 미리보기이며 Apple 공증은 받지 않았습니다. 수동 macOS 실기기 QA는 아직 남아 있습니다.
+Apple Silicon은 `macos-arm64`, Intel은 `macos-x64` 파일을 받으세요. Node.js는 앱에 포함되어 있으며 Git은 별도 설치가 필요합니다(`xcode-select --install`). macOS 앱은 Ad-hoc 서명되었으며 Apple 공증은 아직 적용하지 않았습니다. 수동 macOS 실기기 QA는 아직 남아 있습니다.
 
 ## Windows 10·11
 
-Windows 10·11 **64비트(x64)** 설치 파일은 `pGit-0.4.0-windows-x64-setup.exe`입니다. 설치 위치를 선택할 수 있으며 Node.js는 앱에 포함됩니다. Git for Windows를 별도로 설치한 뒤 pGit을 실행하세요. GitHub·GitLab의 API 기능은 각각 `gh`·`glab` 설치 및 로그인이 필요합니다.
+Windows 10·11 **64비트(x64)** 설치 파일은 `pGit-1.0.0-windows-x64-setup.exe`입니다. 설치 위치를 선택할 수 있으며 Node.js는 앱에 포함됩니다. Git for Windows를 별도로 설치한 뒤 pGit을 실행하세요. GitHub·GitLab의 API 기능은 각각 `gh`·`glab` 설치 및 로그인이 필요합니다.
 
 드라이브 경로(`C:\Users\you\Projects\repo`)와 UNC 공유 폴더 경로를 지원하며, Git 저장소 접근 권한은 현재 사용자의 권한을 따릅니다. 단축키는 Windows에서 Ctrl을 사용합니다. Git 작업은 기존 SSH·인증 도우미 설정을 사용합니다.
 
@@ -41,7 +41,7 @@ Windows 설치 파일의 교차 빌드와 macOS 테스트를 확인했습니다.
 | 이력 | 분기·합류 그래프, HEAD/브랜치/원격/태그, 인라인 Diff, 방향키·검색, WIP |
 | 저장소 | 열기·초기화·복제, 최근 저장소 |
 | 브랜치·원격 | 생성·전환·이름 변경·안전한 삭제, 원격 추가·조회·제거, Fetch/Prune·fast-forward Pull·Push |
-| 변경·커밋 | 파일/블록/줄 Stage·Unstage, 커밋·Amend, HEAD와 작업 폴더 좌우 비교, 텍스트 편집, ignore 추가 |
+| 변경·커밋 | 파일/블록/줄 Stage·Unstage, 커밋·Amend, HEAD와 작업 폴더 좌우 비교, 텍스트 생성·편집, ignore 추가 |
 | 통합 | Merge·Rebase·Cherry-pick·Revert, 충돌 상태·계속·중단, Base/Ours/Theirs와 결과 편집 |
 | 이력 편집 | 선형 이력의 Interactive Rebase: 순서 변경·Pick·Drop·Squash·Fixup, 마지막 커밋 soft undo |
 | 탐색·보관 | 파일 History·Blame, Reflog·참조 비교, 태그, Stash 생성·Diff·Apply·Pop·Drop |
