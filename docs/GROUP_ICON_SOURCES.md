@@ -922,3 +922,8 @@ Only 25 AWS service-level icons are offered for new selections. Other AWS assets
 - SBI그룹 공통 브랜드: https://www.sbigroup.co.jp/company/information/brand.html
 - 삼성금융네트웍스 공통 로고 [공식 PNG]: https://www.samsungfire.com/v2/resources/images/company/brand/finacial_logo_kr.png (기존 삼성증권 자산을 그룹 공통 로고로 교체)
 - JB금융그룹 CI: https://www.jbfg.com/ko/about/ci.do
+
+## 2026-11-08 심볼 표시 개선
+- 네이버페이: https://developers.pay.naver.com/design/brand/logo 의 공식 배포 ZIP https://developers.pay.naver.com/img/logo/zip/npayLogos.zip 내 `symbol/symbol_cr_npaygr_large.svg`. 배지 대신 원형 서비스 심볼 사용.
+- GLN: 기존 공식 원본 PNG를 그대로 보존하고 CSS의 정사각형 표시 영역으로 왼쪽 보라색 심볼만 표시. 글자 부분은 탭과 선택 목록에서 노출하지 않음.
+- 추천은 하나금융그룹·GLN·기본 아이콘 13개로 제한. 나머지 브랜드 자산은 카테고리 및 검색에서 유지.
