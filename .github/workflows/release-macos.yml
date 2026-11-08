@@ -37,6 +37,32 @@ jobs:
           New-Item -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock' -Force | Out-Null
           New-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock' -Name AllowDevelopmentWithoutDevLicense -Value 1 -PropertyType DWord -Force | Out-Null
       - run: npm ci
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: ${{ runner.os == 'Windows' && '1' || '' }}
+      - name: Download and verify official Electron runtime
+        if: runner.os == 'Windows'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: |
+          $electronVersion = (Get-Content node_modules/electron/package.json | ConvertFrom-Json).version
+          $archive = "electron-v$electronVersion-win32-x64.zip"
+          $downloadDir = Join-Path $env:RUNNER_TEMP 'electron-official'
+          New-Item -ItemType Directory -Path $downloadDir -Force | Out-Null
+          for ($attempt = 1; $attempt -le 3; $attempt++) {
+            gh release download "v$electronVersion" --repo electron/electron --pattern $archive --pattern SHASUMS256.txt --dir $downloadDir --clobber
+            if ($LASTEXITCODE -eq 0) { break }
+            if ($attempt -eq 3) { throw 'Official Electron download failed' }
+            Start-Sleep -Seconds 5
+          }
+          $checksumLine = Get-Content (Join-Path $downloadDir 'SHASUMS256.txt') | Where-Object { $_ -match ('\s+\*?' + [regex]::Escape($archive) + '$') }
+          if (!$checksumLine) { throw 'Official checksum entry missing' }
+          $expected = ($checksumLine -split '\s+')[0]
+          $actual = (Get-FileHash (Join-Path $downloadDir $archive) -Algorithm SHA256).Hash
+          if ($actual -ne $expected) { throw 'Electron checksum mismatch' }
+          Expand-Archive (Join-Path $downloadDir $archive) node_modules/electron/dist -Force
+          Set-Content node_modules/electron/path.txt 'electron.exe' -NoNewline -Encoding ascii
+          Write-Host "Official Electron $electronVersion checksum verified: $actual"
       - run: npm test
       - run: npx playwright install chromium
       - name: Verify history and review interfaces
@@ -62,7 +88,7 @@ jobs:
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
       - name: Build Windows installer
         if: runner.os == 'Windows'
-        run: npm run dist:win
+        run: npm run dist:win -- --config.electronDist=node_modules/electron/dist
       - name: Verify Mac bundles and launch
         if: runner.os == 'macOS'
         run: |
@@ -101,6 +127,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
           pattern: pGit-*
@@ -115,23 +142,5 @@ jobs:
         run: |
           cd downloads
           sha256sum * > SHA256SUMS.txt
-          cat > "$RUNNER_TEMP/release-notes.md" <<'NOTES'
-          ## Downloads
-          - Windows 10/11 (64-bit): `windows-x64-setup.exe`
-          - macOS Apple Silicon (M1/M2/M3/M4): `macos-arm64.dmg`
-          - macOS Intel: `macos-x64.dmg`
-          - ZIP archives are also available for macOS.
-
-          Node.js is included. Install Git for Windows on Windows, or Xcode Command Line Tools on macOS before using local repositories.
-
-          This preview is not signed with a Windows publisher certificate or notarized by Apple; the operating system may show an unidentified-publisher warning.
-
-          ## What's new
-          - Rewritten 24-chapter guide with 41 current screenshots and numbered red click annotations.
-          - Simplified recommended group icons, compact Naver Pay / Toss / GLN symbols, and clearer single-remote sidebar alignment.
-          - Inline line/block staging, shared history search and file history browser, and a redesigned commit history organizer.
-          - Clone progress, automatic history loading, repository groups, and improved project navigation.
-
-          Automated Git/UI tests and packaged application launch checks run on Windows and macOS before publication. Windows installation is tested on Windows Server 2022; manual Windows 10/11 QA remains pending.
-          NOTES
+          cp "$GITHUB_WORKSPACE/docs/releases/$RELEASE_TAG.md" "$RUNNER_TEMP/release-notes.md"
           gh release create "$RELEASE_TAG" ./* --target "$GITHUB_SHA" --prerelease --title "pGit $RELEASE_TAG · Windows & macOS" --notes-file "$RUNNER_TEMP/release-notes.md"
