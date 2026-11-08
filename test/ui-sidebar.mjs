@@ -19,5 +19,14 @@ try{
  await git(root,['update-ref','-d','refs/remotes/origin/main']);await page.evaluate(async()=>{state=await api('state');state.branches=[];render()});for(const key of ['local','remote'])assert.equal(await sidebar.locator(`[data-section=${key}] summary`).count(),0);
  await page.screenshot({path:'test-results/sidebar-empty-sections.png'});
  await git(root,['tag','v2.0']);await writeFile(root+'/file','new stash');await git(root,['stash','push','-m','new']);await git(root,['update-ref','refs/remotes/origin/main','HEAD']);await page.evaluate(async()=>{state=await api('state');render()});for(const key of ['local','tags','stashes']){const group=sidebar.locator(`[data-section=${key}]`);assert.equal(await group.evaluate(e=>e.tagName),'DETAILS');assert.equal(await group.locator(':scope>summary').count(),1);assert.equal(await group.locator('.branch-section-body').isVisible(),true)}
+
+ const x=locator=>locator.evaluate(e=>e.getBoundingClientRect().left);
+ const localMain=sidebar.locator('[data-ref="refs/heads/main"]');const remoteMain=origin.locator('.remote-branch');
+ assert.equal(Math.round(await x(remoteMain)-await x(localMain)),12);
+ await git(root,['remote','remove','upstream']);await git(root,['remote','remove','local']);await page.evaluate(async()=>{state=await api('state');render()});
+ assert.equal(await sidebar.locator('.remote-site').count(),1);
+ assert.equal(Math.round(await x(remoteMain)-await x(localMain)),0);
+ assert.equal(Math.round(await x(origin.locator('.remote-tags'))-await x(sidebar.locator('[data-section=tags]'))),0);
+ await page.screenshot({path:'test-results/sidebar-single-remote.png'});
  assert.deepEqual(errors,[]);console.log('Sidebar UI passed: hierarchy, counts, disclosure keyboard/persistence, history scope, stash identity and translations.');
 }finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await rm(root,{recursive:true,force:true})}
