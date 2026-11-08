@@ -15,5 +15,5 @@
 .inline-stage-toolbar>[role=status]{color:var(--muted);font-size:12px;margin-right:auto}.inline-stage-toolbar button{height:32px;font-size:12px}
 .inline-stage-note{margin:0;padding:8px 12px;color:var(--muted);font-size:12px;border-bottom:1px solid var(--border)}
 .inline-stage-gutter{position:sticky;left:0;display:inline-flex;align-items:center;gap:4px;width:44px;min-width:44px;padding:0 4px;background:var(--canvas);z-index:3}
-.inline-stage-gutter input{width:15px;height:15px;margin:0;accent-color:var(--accent);cursor:pointer}.inline-block-spacer{width:15px;flex-shrink:0}.inline-block-check{outline:1px solid var(--accent);outline-offset:1px}
-.diff-code-row:has(.inline-stage-gutter) .diff-line-number{left:44px}.diff-code-row.is-stage-selected{box-shadow:inset 0 0 0 1px var(--accent)}
+.inline-stage-gutter input{width:15px;height:15px;margin:0;accent-color:var(--accent);cursor:pointer}.inline-block-spacer{width:15px;flex-shrink:0}
+.diff-code-row:has(.inline-stage-gutter) .diff-line-number{left:44px}.diff-code-row:has(.inline-stage-gutter){box-shadow:none}.diff-code-row.is-stage-selected .inline-stage-gutter{background:color-mix(in srgb,var(--accent) 14%,var(--canvas))}
