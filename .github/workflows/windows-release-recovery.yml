@@ -1,0 +1,96 @@
+name: Recover Windows release from official Electron assets
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Exact release tag to build
+        required: true
+        default: v0.4.0-preview.10
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-2022
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Configure Git
+        shell: pwsh
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.symlinks true
+          New-Item -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock' -Force | Out-Null
+          New-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock' -Name AllowDevelopmentWithoutDevLicense -Value 1 -PropertyType DWord -Force | Out-Null
+      - run: npm ci
+        env:
+          ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
+      - name: Download and verify official Electron runtime
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: |
+          $electronVersion = (Get-Content node_modules/electron/package.json | ConvertFrom-Json).version
+          $archive = "electron-v$electronVersion-win32-x64.zip"
+          $downloadDir = Join-Path $env:RUNNER_TEMP 'electron-official'
+          New-Item -ItemType Directory -Path $downloadDir -Force | Out-Null
+          for ($attempt = 1; $attempt -le 3; $attempt++) {
+            gh release download "v$electronVersion" --repo electron/electron --pattern $archive --pattern SHASUMS256.txt --dir $downloadDir --clobber
+            if ($LASTEXITCODE -eq 0) { break }
+            if ($attempt -eq 3) { throw 'Official Electron download failed' }
+            Start-Sleep -Seconds 5
+          }
+          $checksumLine = Get-Content (Join-Path $downloadDir 'SHASUMS256.txt') | Where-Object { $_ -match ('\s+' + [regex]::Escape($archive) + '$') }
+          if (!$checksumLine) { throw 'Official checksum entry missing' }
+          $expected = ($checksumLine -split '\s+')[0]
+          $actual = (Get-FileHash (Join-Path $downloadDir $archive) -Algorithm SHA256).Hash
+          if ($actual -ne $expected) { throw 'Electron checksum mismatch' }
+          Expand-Archive (Join-Path $downloadDir $archive) node_modules/electron/dist -Force
+          Set-Content node_modules/electron/path.txt 'electron.exe' -NoNewline -Encoding ascii
+          Write-Host "Official Electron $electronVersion checksum verified: $actual"
+      - run: npm test
+      - run: npx playwright install chromium
+      - name: Verify release interfaces
+        shell: bash
+        run: |
+          node test/ui-amend.mjs
+          node test/ui-history-edits.mjs
+          node test/ui-provider-review.mjs
+          node test/ui-command-help.mjs
+          node test/ui-project-dialog.mjs
+          node test/ui-direct-project-open.mjs
+          node test/ui-project-groups.mjs
+          node test/ui-group-curation.mjs
+          node test/ui-finance-icons.mjs
+          node test/ui-sidebar.mjs
+          node test/ui-inline-staging.mjs
+          node test/ui-settings.mjs
+          node test/ui-git-setup.mjs
+      - run: npm run dist:win -- --config.electronDist=node_modules/electron/dist
+      - name: Verify installer and installed application
+        shell: pwsh
+        run: |
+          $installer = Get-ChildItem dist/*-windows-x64-setup.exe | Select-Object -First 1
+          if (!$installer -or $installer.Length -eq 0) { throw 'Installer missing' }
+          $installDir = Join-Path $env:RUNNER_TEMP 'pgit-installed'
+          $process = Start-Process -FilePath $installer.FullName -ArgumentList @('/S', "/D=$installDir") -Wait -PassThru
+          if ($process.ExitCode -ne 0) { throw "Installer failed: $($process.ExitCode)" }
+          $env:PGIT_APP_EXECUTABLE = Join-Path $installDir 'pGit.exe'
+          if (!(Test-Path $env:PGIT_APP_EXECUTABLE)) { throw 'Installed application missing' }
+          node test/desktop-smoke.mjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pGit-windows-recovery
+          path: dist/*-windows-x64-setup.exe
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verification-windows-recovery
+          path: test-results/
