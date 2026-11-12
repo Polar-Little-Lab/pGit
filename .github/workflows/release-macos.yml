@@ -2,6 +2,8 @@ name: Build desktop downloads
 on:
   push:
     tags: ['v*']
+    branches: [main]
+    paths: ['package.json']
   workflow_dispatch:
 permissions:
   contents: write
@@ -63,6 +65,7 @@ jobs:
           Expand-Archive (Join-Path $downloadDir $archive) node_modules/electron/dist -Force
           Set-Content node_modules/electron/path.txt 'electron.exe' -NoNewline -Encoding ascii
           Write-Host "Official Electron $electronVersion checksum verified: $actual"
+      - run: npm audit --include=dev --audit-level=high
       - run: npm test
       - run: npx playwright install chromium
       - name: Verify history and review interfaces
@@ -125,11 +128,14 @@ jobs:
           name: verification-${{ matrix.platform }}
           path: test-results/
   publish:
-    if: startsWith(github.ref, 'refs/tags/')
+    if: startsWith(github.ref, 'refs/tags/') || (github.event_name == 'push' && github.ref == 'refs/heads/main')
     needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
       - uses: actions/download-artifact@v4
         with:
           pattern: pGit-*
@@ -139,10 +145,19 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-          RELEASE_TAG: ${{ github.ref_name }}
+          RELEASE_REF: ${{ github.ref }}
         shell: bash
         run: |
+          set -euo pipefail
+          RELEASE_TAG="v$(node -p "require('./package.json').version")"
+          if [[ "$RELEASE_REF" == refs/tags/* && "${RELEASE_REF#refs/tags/}" != "$RELEASE_TAG" ]]; then
+            echo 'Tag and package version must match' >&2
+            exit 1
+          fi
           cd downloads
+          for file in "pGit-${RELEASE_TAG#v}-macos-arm64.dmg" "pGit-${RELEASE_TAG#v}-macos-arm64.zip" "pGit-${RELEASE_TAG#v}-macos-x64.dmg" "pGit-${RELEASE_TAG#v}-macos-x64.zip" "pGit-${RELEASE_TAG#v}-windows-x64-setup.exe"; do
+            test -s "$file"
+          done
           sha256sum * > SHA256SUMS.txt
           cp "$GITHUB_WORKSPACE/docs/releases/$RELEASE_TAG.md" "$RUNNER_TEMP/release-notes.md"
           if [[ "$RELEASE_TAG" == *-* ]]; then
