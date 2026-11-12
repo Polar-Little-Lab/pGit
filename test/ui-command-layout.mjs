@@ -9,4 +9,4 @@ try{
  if(key==='mergePreview'){assert.equal(await form.locator('.merge-preview').isVisible(),false);await form.getByRole('button',{name:'검사',exact:true}).click();await form.locator('.merge-preview[data-status]').waitFor();assert.ok(await form.locator('.merge-preview').evaluate(e=>e.getBoundingClientRect().top>=e.parentElement.querySelector('[type=submit]').getBoundingClientRect().bottom));await mkdir('test-results/command-layout',{recursive:true});await page.screenshot({path:`test-results/command-layout/preview-${width}.png`})}
  await page.keyboard.press('Escape');}}
  assert.deepEqual(errors,[]);console.log('Command layouts: 14 commands, desktop input/action alignment, narrow stacking, manual inspection and results below action passed');
-}finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await rm(root,{recursive:true,force:true})}
+}finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await rm(root,{recursive:true,force:true,maxRetries:10,retryDelay:200})}
