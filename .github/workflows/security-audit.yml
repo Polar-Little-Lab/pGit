@@ -1,0 +1,21 @@
+name: Dependency security audit
+on:
+  pull_request:
+  push:
+    branches: [main, 'codex/**']
+  schedule:
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      # Electron is a devDependency but is shipped as the application runtime.
+      - run: npm audit --include=dev --audit-level=high
