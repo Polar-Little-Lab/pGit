@@ -12,7 +12,7 @@ try{
  await page.goto((await ready)+'workspace');await page.getByRole('button',{name:'저장소 열기',exact:true}).click();await page.locator('#pathInput').fill(root);await page.locator('#openForm').getByRole('button',{name:'열기',exact:true}).click();await page.locator('.historyrow').first().waitFor();await page.locator('.historyrow').first().click({button:'right'});await page.locator('.advanced-dialog').getByRole('button',{name:'체리픽',exact:true}).waitFor();await page.locator('.advanced-dialog').getByRole('button',{name:'닫기',exact:true}).click();assert.equal(await page.locator('.brand').count(),0);
  assert.equal(await page.locator('.git-toolbar').first().evaluate(el=>getComputedStyle(el).display),'flex');
  await page.getByRole('button',{name:'브랜치 만들기',exact:true}).click();await page.locator('#command-name').fill('ui-feature');await page.locator('#commandDialog').getByRole('button',{name:'브랜치 만들기',exact:true}).click();await page.locator('#commandDialog').waitFor({state:'hidden'});assert.match(await git(root,['branch','--list']),/ui-feature/);
- await page.locator('#changesNav').click();await page.getByRole('button',{name:'블록 스테이징',exact:true}).click();await page.locator('.hunk-card').first().waitFor();assert.equal(await page.locator('.hunk-card').count(),2);await page.locator('.hunk-card').first().getByRole('button',{name:'이 블록 스테이징',exact:true}).click();await page.waitForFunction(()=>document.querySelectorAll('.hunk-card').length===1);assert.match(await git(root,['diff','--cached']),/modified line 1/);assert.doesNotMatch(await git(root,['diff','--cached']),/modified line 25/);await page.locator('.advanced-dialog').getByRole('button',{name:'닫기',exact:true}).click();
+ await page.locator('#changesNav').click();await page.getByRole('button',{name:'example.txt · 작업 중',exact:true}).click();await page.locator('#diff .diff-count').getByText('2개 변경',{exact:true}).waitFor();await page.locator('.inline-block-check').first().check();await page.getByRole('button',{name:'선택한 변경 스테이징',exact:true}).click();await page.waitForFunction(()=>!working&&state.files.find(f=>f.name==='example.txt')?.index==='M');assert.match(await git(root,['diff','--cached']),/modified line 1/);assert.doesNotMatch(await git(root,['diff','--cached']),/modified line 25/);
  // A partially staged file must show exactly which lines will be committed.
  await page.getByRole('button',{name:'example.txt · 커밋할 변경',exact:true}).click();
  await page.locator('#diff .diff-added code').getByText('modified line 1', {exact:true}).waitFor();
@@ -44,11 +44,9 @@ try{
  assert.equal(await git(root,['diff','--cached','--','new.txt']),'');
  assert.equal(await readFile(root+'/new.txt','utf8'),'untracked preview\n');
  await page.getByRole('button',{name:'example.txt · 커밋할 변경',exact:true}).click();
- await page.getByRole('button',{name:'블록 스테이징',exact:true}).click();
- await page.getByRole('button',{name:'이 블록 스테이징 해제',exact:true}).waitFor();
- assert.match(await page.locator('.hunk-card').textContent(),/modified line 1/);
- assert.doesNotMatch(await page.locator('.hunk-card').textContent(),/modified line 25/);
- await page.locator('.advanced-dialog').getByRole('button',{name:'닫기',exact:true}).click();
+ await page.getByRole('button',{name:'선택한 변경 스테이징 해제',exact:true}).waitFor();
+ await page.locator('#diff .diff-added code').getByText('modified line 1',{exact:true}).waitFor();
+ assert.doesNotMatch(await page.locator('#diff').textContent(),/modified line 25/);
  await mkdir('test-results',{recursive:true});
  await page.screenshot({path:'test-results/partial-staging.png',fullPage:true});
  // Commit via the UI and inspect Git itself, not just the rendered state.
@@ -87,4 +85,4 @@ try{
  // Local and remote refs sharing a hash must still select independently; browsing never checks out.
  await git(root,['update-ref','refs/remotes/origin/main','HEAD']);await page.locator('#reset').click();await page.locator('[data-ref="refs/remotes/origin/main"]').waitFor();assert.equal(await page.getByRole('button',{name:'전체 브랜치',exact:true}).count(),0);await page.locator('[data-ref="refs/remotes/origin/main"]').click();assert.equal(await page.locator('.history-scope').textContent(),'브랜치: origin/main');assert.equal(await page.locator('[data-ref="refs/heads/main"]').getAttribute('aria-pressed'),'false');assert.equal(await page.locator('[data-ref="refs/remotes/origin/main"]').getAttribute('aria-pressed'),'true');await page.locator('[data-ref="refs/heads/ui-feature"]').click();assert.equal(await page.locator('.history-scope').textContent(),'브랜치: ui-feature');assert.equal((await git(root,['branch','--show-current'])).trim(),'main');await page.locator('[data-ref="refs/heads/main"]').click();assert.equal(await page.locator('#allHistory').count(),0);assert.equal(await page.locator('.history-scope').textContent(),'브랜치: main');assert.equal(await page.locator('.historyrow').count(),4);await page.locator('.historyrow').first().click();await page.locator('.commit-file[data-name="example.txt"]').click();await page.locator('.diff-added mark').first().waitFor();
  await page.screenshot({path:'test-results/workspace.png',fullPage:true});if(process.env.PGIT_SCREENSHOT_LOG==='1')console.log('PGIT_WORKSPACE_BASE64:'+(await page.screenshot({type:'jpeg',quality:50})).toString('base64'));assert.deepEqual(errors,[]);console.log('UI passed: staged/working areas, partial commit, file stage/unstage, diff mode persistence, open, graph, styles, branch, hunk staging, editor, comparison and interactive rebase.');
-}finally{await browser?.close();await new Promise(r=>server.close(r));await rm(root,{recursive:true,force:true})}
+}finally{await browser?.close();await new Promise(r=>server.close(r));await rm(root,{recursive:true,force:true,maxRetries:10,retryDelay:200})}

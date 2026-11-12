@@ -2,7 +2,7 @@
 
 **여러 저장소의 변경을 검토하고 필요한 내용만 커밋하는 Windows·macOS Git 클라이언트입니다.**
 
-[1.1.0 정식 버전](https://github.com/Polar-Little-Lab/pGit/releases/latest) · [사용 가이드](docs/USER_GUIDE.md)
+[1.1.0 정식 버전](https://github.com/Polar-Little-Lab/pGit/releases/latest) · [사용 가이드](docs/USER_GUIDE.md) · [기술 스택](docs/TECH_STACK.md) · [보안 검토](docs/SECURITY_REVIEW.md)
 
 ## 다운로드
 
