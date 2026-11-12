@@ -11,9 +11,9 @@ try{
  await page.mouse.click(5,5);await palette.waitFor({state:'hidden'});await page.getByRole('button',{name:/작업 검색/}).click();await commandSearch.waitFor();await page.keyboard.press('Escape');await palette.waitFor({state:'hidden'});
  await page.locator('[data-ref="refs/heads/feature/aurora"]').click();
  const historySearch=page.getByRole('searchbox',{name:'커밋 검색'});
- await historySearch.fill('Aurora feature');assert.match(await page.locator('.history-info').textContent(),/검색 결과 1개/);
- await historySearch.fill('nothing-matches-this');assert.match(await page.locator('.history-info').textContent(),/검색 결과 0개/);
- await historySearch.fill('');assert.match(await page.locator('.history-info').textContent(),/개 커밋/);
+ await historySearch.fill('Aurora feature');assert.match(await page.locator('.history-info').textContent(),/검색 1개/);
+ await historySearch.fill('nothing-matches-this');assert.match(await page.locator('.history-info').textContent(),/검색 0개/);
+ await historySearch.fill('');assert.match(await page.locator('.history-info').textContent(),/전체/);
  // Group shared prefixes while retaining full refs for filtering and actions.
  const folder=page.locator('#branches .branch-folder').first();
  assert.equal(await folder.locator(':scope>summary .branch-folder-name').textContent(),'feature');
@@ -37,4 +37,4 @@ try{
  // Drag/drop reviews exact direction and preselects the source without executing immediately.
  const head=(await git(root,['rev-parse','HEAD'])).trim();await page.locator('[data-ref="refs/heads/feature/aurora"]').dragTo(page.locator('[data-ref="refs/heads/main"]'));await page.getByRole('dialog',{name:'브랜치 작업 선택'}).waitFor();assert.equal((await git(root,['rev-parse','HEAD'])).trim(),head);await page.getByRole('button',{name:'병합 · feature/aurora → main',exact:true}).click();assert.equal(await page.locator('#command-ref').inputValue(),'feature/aurora');await page.getByRole('combobox',{name:'현재 브랜치에 합칠 참조'}).click();await mkdir('test-results',{recursive:true});await page.screenshot({path:'test-results/frost-select.png'});await page.getByRole('searchbox',{name:'현재 브랜치에 합칠 참조 검색'}).press('Escape');await page.locator('#commandDialog').getByRole('button',{name:'실행',exact:true}).click();await page.locator('#commandDialog').waitFor({state:'hidden'});await git(root,['merge-base','--is-ancestor','feature/aurora','main']);assert.equal((await git(root,['branch','--show-current'])).trim(),'main');assert.deepEqual(errors,[]);
  console.log('Workflow UI passed: searchable picker, keyboard/Escape, bulk stage/unstage, multiline commit, shortcuts, reviewed drag-to-merge.');
-}finally{await browser?.close();await new Promise(r=>server.close(r));await rm(root,{recursive:true,force:true})}
+}finally{await browser?.close();await new Promise(r=>server.close(r));await rm(root,{recursive:true,force:true,maxRetries:10,retryDelay:200})}
