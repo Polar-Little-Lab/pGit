@@ -24,7 +24,7 @@ try{
  assert.equal(await first.getByRole('textbox',{name:'커밋 메시지',exact:true}).inputValue(),'Aurora draft stays here');
  await first.getByRole('button',{name:'app.txt · 작업 중',exact:true}).click();
  const second=await open(roots[1]);await second.locator('#changesNav').click();assert.equal(await page.getByRole('tab').count(),2);assert.equal(await second.getByRole('textbox',{name:'커밋 메시지',exact:true}).inputValue(),'');
- const hoveredTab=page.locator('.project-tab').filter({hasText:'aurora-api'});await hoveredTab.getByRole('tab').hover();await page.waitForTimeout(250);const tabHover=await hoveredTab.evaluate(e=>getComputedStyle(e).backgroundColor);await hoveredTab.locator('.tab-close').hover();await page.waitForTimeout(250);assert.equal(await hoveredTab.evaluate(e=>getComputedStyle(e).backgroundColor),tabHover);await page.screenshot({path:'test-results/tab-full-hover.png'});
+ const hoveredTab=page.locator('.project-tab').filter({hasText:'aurora-api'});await hoveredTab.getByRole('tab').hover();await page.waitForTimeout(250);const tabHover=await hoveredTab.evaluate(e=>getComputedStyle(e).backgroundColor.replace(/^rgba\((.*), 1\)$/, 'rgb($1)'));await hoveredTab.locator('.tab-close').hover();await page.waitForTimeout(250);assert.equal(await hoveredTab.evaluate(e=>getComputedStyle(e).backgroundColor.replace(/^rgba\((.*), 1\)$/, 'rgb($1)')),tabHover);await page.screenshot({path:'test-results/tab-full-hover.png'});
  await page.locator('.project-tab').filter({hasText:'aurora-api'}).dragTo(page.locator('.project-tab').filter({hasText:'glacier-web'}));
  assert.match(await page.getByRole('tab').first().textContent(),/glacier-web/);
 
