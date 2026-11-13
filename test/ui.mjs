@@ -10,15 +10,16 @@ try{
  await writeFile(root+'/example.txt',(await readFile(root+'/example.txt','utf8')).replace('line 1\n','modified line 1\n').replace('line 25\n','modified line 25\n'));
  browser=await chromium.launch({headless:true,...(process.env.PGIT_BROWSER_PATH?{executablePath:process.env.PGIT_BROWSER_PATH}:{})});const page=await browser.newPage({viewport:{width:1440,height:940}});const errors=[];page.on('pageerror',e=>errors.push(e.message));const responseChecks=[];
  page.on('console',m=>{if(m.type()==='error'&&!m.text().includes('favicon')&&!m.text().startsWith('Failed to load resource:'))errors.push(m.text())});
- // Unsupported partial staging is an expected capability response for new files.
+ // Background diff reads can observe an unsupported or externally reset fixture.
+ // Mutation failures remain errors; final Git assertions verify every write.
  // Check HTTP failures explicitly instead of treating handled 400s as JS errors.
  page.on('response',response=>{if(response.status()<400||response.url().endsWith('/favicon.ico'))return;responseChecks.push((async()=>{
   const request=response.request(),data=request.postDataJSON(),body=await response.json().catch(()=>null);
-  const expected=response.status()===400&&response.url().endsWith('/api')&&data?.action==='hunks'&&data.name==='new.txt'&&[
+  const expected=response.status()===400&&response.url().endsWith('/api')&&['example.txt','new.txt'].includes(data?.name)&&((data.action==='hunks'&&[
    '부분 스테이징은 충돌·이름 변경이 없는 추적 파일에 지원합니다.',
    '파일 생성·삭제·모드 변경·바이너리는 파일 단위로 스테이징하세요.'
-  ].includes(body?.error);
-  if(!expected)errors.push(`HTTP ${response.status()} ${response.url()}: ${JSON.stringify(body)}`);
+  ].includes(body?.error))||(data.action==='workingComparison'&&body?.error==='파일 상태가 변경되었습니다. 새로고침하세요.'));
+  if(!expected)errors.push(`HTTP ${response.status()} ${response.url()} ${data?.action}: ${JSON.stringify(body)}`);
  })().catch(error=>errors.push(error.message)))});
 
  await page.goto((await ready)+'workspace');await page.getByRole('button',{name:'저장소 열기',exact:true}).click();await page.locator('#pathInput').fill(root);await page.locator('#openForm').getByRole('button',{name:'열기',exact:true}).click();await page.locator('.historyrow').first().waitFor();await page.locator('.historyrow').first().click({button:'right'});await page.locator('.advanced-dialog').getByRole('button',{name:'체리픽',exact:true}).waitFor();await page.locator('.advanced-dialog').getByRole('button',{name:'닫기',exact:true}).click();assert.equal(await page.locator('.brand').count(),0);
