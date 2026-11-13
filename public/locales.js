@@ -832,6 +832,12 @@ messages['Show all history']=['すべての履歴を表示','查看全部历史'
 messages['Branch: {0}']=['ブランチ: {0}','分支：{0}','Rama: {0}','Branche : {0}'];
 messages['Tag: {0}']=['タグ: {0}','标签：{0}','Etiqueta: {0}','Tag : {0}'];
 messages['Commit: {0}']=['コミット: {0}','提交：{0}','Commit: {0}','Commit : {0}'];
+messages["{0} / {1} total commits"]=["{0} / 全 {1} コミット", "{0} / 共 {1} 个提交", "{0} / {1} commits en total", "{0} / {1} commits au total"];
+messages["{0} / Counting total\u2026"]=["{0} / 合計を集計中…", "{0} / 正在统计总数…", "{0} / Calculando total…", "{0} / Calcul du total…"];
+messages["{0} / Total count failed"]=["{0} / 合計の集計に失敗", "{0} / 总数统计失败", "{0} / Error al calcular el total", "{0} / Échec du calcul du total"];
+messages["{0} results \u00b7 {1} / {2} total commits"]=["{0} 件 · {1} / 全 {2} コミット", "{0} 个结果 · {1} / 共 {2} 个提交", "{0} resultados · {1} / {2} commits en total", "{0} résultats · {1} / {2} commits au total"];
+messages["{0} results \u00b7 {1} / Counting total\u2026"]=["{0} 件 · {1} / 合計を集計中…", "{0} 个结果 · {1} / 正在统计总数…", "{0} resultados · {1} / Calculando total…", "{0} résultats · {1} / Calcul du total…"];
+messages["{0} results \u00b7 {1} / Total count failed"]=["{0} 件 · {1} / 合計の集計に失敗", "{0} 个结果 · {1} / 总数统计失败", "{0} resultados · {1} / Error al calcular el total", "{0} résultats · {1} / Échec du calcul du total"];
 const escape=value=>value.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 const templates=Object.keys(messages).filter(key=>/\{\d+\}/.test(key)).sort((a,b)=>b.replace(/\{\d+\}/g,'').length-a.replace(/\{\d+\}/g,'').length).map(key=>{
  const indices=[];let pattern='',last=0;
