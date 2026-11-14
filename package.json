@@ -31,8 +31,6 @@
     "files": [
       "desktop/**/*",
       "docs/USER_GUIDE.md",
-      "docs/GPT_HANDOFF.md",
-      "docs/GPT_WEB_TASK_PROMPT.md",
       "docs/images/*.png",
       "git.mjs",
       "server.mjs",
@@ -61,7 +59,6 @@
       "public/group-icons/*.svg",
       "public/group-icons/*.png",
       "docs/GROUP_ICON_SOURCES.md",
-      "docs/GROUP_ICON_UX.md",
       "git-runtime.mjs",
       "scripts/git-noop.cjs",
       "scripts/git-no-prompt.cjs"
