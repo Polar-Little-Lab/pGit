@@ -8,8 +8,8 @@ Baseline: e6cf13fe2c0f90f398f24e9586498342c9c45211.
 - electron-builder 26.0.12 -> 26.18.0.
 - Regenerated package-lock.json; tar 6.2.1 -> 7.5.23,
   builder-util-runtime 9.3.1 -> 9.7.0; extract-zip removed.
-- Added weekly Dependabot updates and an audit gate including devDependencies.
-- Playwright remains 1.58.2; no advisory reported for it in this audit.
+- Added daily npm and weekly GitHub Actions Dependabot updates and an audit gate including devDependencies.
+- Playwright 1.58.2 -> 1.65.0 as part of the reviewed Dependabot updates.
 
 ## Compatibility
 
@@ -30,7 +30,7 @@ end-user exploitability is not demonstrated. npm proposes electron-builder 25.1.
 a downgrade: do not use audit fix --force. Track an upstream compatible fix;
 do not silently override minimatch to a different major without packaging tests.
 
-## Validation
+## Initial review validation (2026-11-13)
 
 - npm test: 112 tests, 111 passed, 1 skipped, 0 failed.
 - UI suite attempted using system Chromium; blocked at browser startup by the
@@ -42,8 +42,8 @@ do not silently override minimatch to a different major without packaging tests.
 ## Follow-up hardening (not confirmed exploits)
 
 - Remove script-src unsafe-inline with nonces or external scripts.
-- Use Developer ID signing, notarization and hardened runtime for macOS releases;
-  current signing is ad hoc.
+- Developer ID signing, notarization and hardened runtime are now configured for
+  macOS releases, with codesign, stapler and Gatekeeper checks before publication.
 - Inventory installed Git, gh and glab versions separately; they are not pinned
   by package-lock.json and were not audited on end-user machines.
 - Retain third-party license notices and review bundled logo redistribution terms.

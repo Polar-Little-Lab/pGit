@@ -1,6 +1,6 @@
 # pGit 기술 스택
 
-기준: v1.1.0 / 2026-11-13. 실제 의존성 버전은 `package.json`과 `package-lock.json`이 기준입니다.
+기준: v1.1.0 / 2026-11-14. 실제 의존성 버전은 `package.json`과 `package-lock.json`이 기준입니다.
 
 pGit은 사용자 PC에 설치된 Git을 GUI로 조작하는 Windows·macOS 데스크톱 앱입니다. Electron 내부에서 Node.js HTTP 서버를 실행하고, 로컬 화면에서 저장소 상태를 조회하거나 Git 작업을 요청합니다.
 
@@ -18,7 +18,7 @@ pGit은 사용자 PC에 설치된 Git을 GUI로 조작하는 Windows·macOS 데�
 | 설정 저장 | 로컬 JSON / 브라우저 localStorage | 워크스페이스, 최근 프로젝트, 화면 설정 | `desktop/workspace-store.cjs`, `public/settings.js` |
 | 패키징 | electron-builder 26.18.0 | Windows NSIS, macOS DMG·ZIP | `package.json`의 `build` |
 | 단위·통합 테스트 | Node.js 내장 `node:test` | Git 작업·검증·상태 및 경로 처리 | `test/*.test.mjs` |
-| UI / 데스크톱 테스트 | Playwright 1.58.2 | Chromium UI와 패키징된 앱 실행 검증 | `test/ui*.mjs`, `test/desktop*.mjs` |
+| UI / 데스크톱 테스트 | Playwright 1.65.0 | Chromium UI와 패키징된 앱 실행 검증 | `test/ui*.mjs`, `test/desktop*.mjs` |
 | CI/CD | GitHub Actions | OS별 테스트·설치 파일 빌드·검증·릴리스 | `.github/workflows/` |
 
 React, Vue, Express, ORM 및 별도 DB 서버는 사용하지 않습니다. 코드 비교와 문법 강조는 저장소 내부 코드로 구현되어 있습니다. GitHub·GitLab 전용 기능은 구현 코드가 있지만 현재 일반 사용자 작업 검색에서는 숨겨져 있습니다.
@@ -48,7 +48,7 @@ React, Vue, Express, ORM 및 별도 DB 서버는 사용하지 않습니다. 코�
 |---|---|---|---|
 | electron | 45.3.1 | MIT | 배포 앱 런타임 |
 | electron-builder | 26.18.0 | MIT | 설치 파일 생성 |
-| playwright | 1.58.2 | Apache-2.0 | UI·데스크톱 테스트 |
+| playwright | 1.65.0 | Apache-2.0 | UI·데스크톱 테스트 |
 
 세 패키지는 모두 `devDependencies`에 선언되어 있습니다. 하지만 Electron은 실제 배포 앱의 런타임이므로 개발 의존성을 보안 검사에서 제외하면 안 됩니다. 하위 의존성은 lockfile에 기록하며, Electron의 Chromium·Node.js 등 번들 구성요소 고지도 별도로 유지해야 합니다.
 
@@ -64,12 +64,12 @@ AWS 공식 아키텍처 아이콘, gilbarbara/logos, Wikimedia, Toss 및 금융�
 - IPC: 발신 창, main frame, URL 검증.
 - HTTP: loopback 바인딩, Host·Origin·무작위 토큰 검사, 요청 크기 제한.
 - Git: `execFile`/`spawn` 인자 배열 사용, 파일 작업 경로·심볼릭 링크 검사.
-- Dependabot: npm 및 GitHub Actions 주간 업데이트 PR.
+- Dependabot: npm 매일, GitHub Actions 주간 업데이트 PR.
 - 보안 CI: `npm audit --include=dev --audit-level=high`.
 
 v1.1.0 준비 시 npm audit에서 Critical/High 항목은 0개이며, 빌드 도구의 minimatch에서 파생된 Moderate 6개 항목이 남았습니다. 이는 공격 가능성을 입증한 수치가 아닙니다. [SECURITY_REVIEW.md](SECURITY_REVIEW.md)에 범위와 한계를 정리했습니다.
 
-현재 CSP에는 `unsafe-inline`이 있으며 macOS는 ad-hoc 서명, hardened runtime 비활성 상태입니다. Windows 게시자 인증서 서명과 Apple 공증은 적용하지 않았습니다.
+현재 CSP에는 `unsafe-inline`이 있습니다. macOS 정식 배포는 Developer ID 서명·Hardened Runtime·Apple 공증을 적용하며, 로컬 기본 빌드는 ad-hoc 서명을 유지합니다. Windows 게시자 인증서 서명은 적용하지 않았습니다.
 
 ## 실행 및 검증 명령
 
