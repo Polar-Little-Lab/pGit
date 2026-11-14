@@ -12,3 +12,8 @@ test('localized counts and compound messages preserve repository identifiers',()
  assert.equal(translate('fr','1 results / 12 commits'),'1 résultat / 12 commits');assert.equal(translate('es','1 commits'),'1 commit');
  assert.equal(translate('ja','literal Settings file'),'literal Settings file');
 });
+
+test('history counts translate loaded, total and search counts in all locales',()=>{
+ for(const language of columns){for(const text of ['0 results · 50 / 1,200 total commits','50 / Counting total…','0 results · 50 / Total count failed'])assert.notEqual(translate(language,text),text,`${language}: ${text}`)}
+ assert.equal(translate('ja','0 results · 50 / 1,200 total commits'),'0 件 · 50 / 全 1,200 コミット');
+});

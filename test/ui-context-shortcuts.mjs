@@ -12,4 +12,4 @@ try{
  await writeFile(root+'/file','stash text');await git(root,['stash','push','-m','Preview stash']);await page.evaluate(()=>mutate('state'));await page.locator('.stash-ref').click();await page.locator('.advanced-dialog .command-output').getByText('+stash text',{exact:false}).waitFor();assert.equal(await page.locator('#commandDialog').isVisible(),false);assert.match(await git(root,['stash','list']),/Preview stash/);await page.locator('.advanced-dialog .close-control').click();
  await page.evaluate(()=>openCommand('branchSwitch'));assert.equal(await page.getByRole('combobox',{name:'전환할 브랜치',exact:true}).isVisible(),true);
  console.log('Context actions passed: direct checkout, dirty guard, disabled current actions, direct merge/reset/stash previews, palette picker retained.');
-}finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await rm(root,{recursive:true,force:true})}
+}finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await rm(root,{recursive:true,force:true,maxRetries:10,retryDelay:200})}

@@ -20,4 +20,4 @@ try{
  await git(root,['worktree','add','-b','test/linked',linked]);await page.evaluate(()=>mutate('state'));await rejected('test/linked','branch-delete-linked-blocked');
  await git(root,['switch','-c','test/unmerged']);await writeFile(path.join(root,'unmerged.txt'),'unmerged');await git(root,['add','.']);await git(root,['commit','-m','Unmerged change']);await git(root,['switch','main']);await page.evaluate(()=>mutate('state'));await rejected('test/unmerged','branch-delete-unmerged-blocked');
  console.log('Branch deletion UI safety passed: current and linked-worktree branches protected; viewed branch deletable; unmerged branch protected.');
-}finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await rm(root,{recursive:true,force:true});await rm(linked,{recursive:true,force:true})}
+}finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await rm(root,{recursive:true,force:true,maxRetries:10,retryDelay:200});await rm(linked,{recursive:true,force:true,maxRetries:10,retryDelay:200})}

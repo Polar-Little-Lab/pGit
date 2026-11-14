@@ -2,17 +2,17 @@
 
 **여러 저장소의 변경을 검토하고 필요한 내용만 커밋하는 Windows·macOS Git 클라이언트입니다.**
 
-[1.0.0 정식 버전](https://github.com/Polar-Little-Lab/pGit/releases/latest) · [사용 가이드](docs/USER_GUIDE.md)
+[1.1.0 정식 버전](https://github.com/Polar-Little-Lab/pGit/releases/latest) · [사용 가이드](docs/USER_GUIDE.md) · [기술 스택](docs/TECH_STACK.md) · [보안 검토](docs/SECURITY_REVIEW.md)
 
 ## 다운로드
 
 | 운영체제 | 설치 파일 |
 |---|---|
-| Windows 10/11 · x64 | [Windows 설치 프로그램](https://github.com/Polar-Little-Lab/pGit/releases/download/v1.0.0/pGit-1.0.0-windows-x64-setup.exe) |
-| macOS · Apple Silicon | [Mac ARM64 DMG](https://github.com/Polar-Little-Lab/pGit/releases/download/v1.0.0/pGit-1.0.0-macos-arm64.dmg) |
-| macOS · Intel | [Mac x64 DMG](https://github.com/Polar-Little-Lab/pGit/releases/download/v1.0.0/pGit-1.0.0-macos-x64.dmg) |
+| Windows 10/11 · x64 | [Windows 설치 프로그램](https://github.com/Polar-Little-Lab/pGit/releases/download/v1.1.0/pGit-1.1.0-windows-x64-setup.exe) |
+| macOS 13 이상 · Apple Silicon | [Mac ARM64 DMG](https://github.com/Polar-Little-Lab/pGit/releases/download/v1.1.0/pGit-1.1.0-macos-arm64.dmg) |
+| macOS 13 이상 · Intel | [Mac x64 DMG](https://github.com/Polar-Little-Lab/pGit/releases/download/v1.1.0/pGit-1.1.0-macos-x64.dmg) |
 
-Mac ZIP 파일과 `SHA256SUMS.txt`는 [릴리스 첨부 파일](https://github.com/Polar-Little-Lab/pGit/releases/tag/v1.0.0)에서 받을 수 있습니다.
+Mac ZIP 파일과 `SHA256SUMS.txt`는 [릴리스 첨부 파일](https://github.com/Polar-Little-Lab/pGit/releases/tag/v1.1.0)에서 받을 수 있습니다.
 
 ## 개발한 기능
 
@@ -75,7 +75,8 @@ Mac ZIP 파일과 `SHA256SUMS.txt`는 [릴리스 첨부 파일](https://github.c
 - 부분 스테이징은 지원되는 추적 텍스트 파일에 적용합니다. 새 파일·삭제·이름 변경·바이너리는 파일 단위로 처리합니다.
 - 커밋 이력 정리는 병합 커밋을 포함하지 않는 지원 범위의 선형 이력을 대상으로 합니다. 이미 공유한 이력을 수정할 때는 다른 작업자와 조율하세요.
 - GitHub·GitLab 전용 리뷰·이슈 연동은 현재 작업 검색에서 숨겨져 있습니다. 일반 Git 원격 작업은 사용할 수 있습니다.
-- Windows 게시자 인증서 서명과 Apple 공증은 아직 적용되지 않았습니다.
+- macOS 배포는 Developer ID 서명·Hardened Runtime·Apple 공증을 적용합니다.
+- Windows EXE는 코드 서명 없이 배포합니다. 알 수 없는 게시자·SmartScreen 경고가 표시될 수 있고, Smart App Control 또는 조직 정책에 따라 실행이 차단될 수 있습니다. [Microsoft 안내](https://learn.microsoft.com/windows/apps/package-and-deploy/smartscreen-reputation)
 - 텍스트 편집은 1MB 이하 일반 텍스트 파일을 지원합니다. Diff는 큰 파일·바이너리·서브모듈 등 미리보기가 제한되는 상태를 따로 안내합니다.
 - Windows·macOS CI에서 기능·UI 검사와 설치·실행 검증을 수행합니다. Windows Server 2022 자동 검증은 Windows 10/11 실기기 수동 검증을 대신하지 않습니다.
 
@@ -118,6 +119,9 @@ npm run dist:win
 | `scripts/` | 아이콘 빌드, 가이드 촬영·문서 생성 |
 
 - [사용 가이드](docs/USER_GUIDE.md): 화면의 빨간 번호를 따라 수행하는 기능별 절차
-- [프로젝트 작업 공간](docs/ARCTIC_WORKSPACE.md): 탭과 저장소별 상태 관리
+- [기술 스택](docs/TECH_STACK.md): 실행 구조와 개발 환경
+- [공통 UI](docs/UI_COMPONENTS.md): 화면 컴포넌트 사용 방법
+- [macOS 서명·공증](docs/APPLE_SIGNING.md): 인증서와 배포 설정
+- [의존성 자동화](docs/DEPENDENCY_AUTOMATION.md): 보안 검사와 자동 병합 정책
 
 Powered by Polar.

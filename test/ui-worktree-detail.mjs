@@ -11,4 +11,4 @@ try{
  }
  await page.evaluate(async()=>{await openWorktrees();worktreeCreate.click()});await page.getByRole('textbox',{name:'새 브랜치',exact:true}).fill('draft/escape');await page.keyboard.press('Escape');await page.locator('.worktree-dialog').waitFor({state:'hidden'});await page.evaluate(async()=>{await openWorktrees();worktreeCreate.click()});assert.equal(await page.getByRole('textbox',{name:'새 브랜치',exact:true}).inputValue(),'draft/escape');await page.keyboard.press('Escape');await page.locator('.worktree-dialog').waitFor({state:'hidden'});
  console.log('Worktree detail passed: current main/linked hide redundant badge/open action; main badge, linked lock and other worktree opening retained.');
-}finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await rm(root,{recursive:true,force:true});await rm(target,{recursive:true,force:true})}
+}finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await rm(root,{recursive:true,force:true,maxRetries:10,retryDelay:200});await rm(target,{recursive:true,force:true,maxRetries:10,retryDelay:200})}

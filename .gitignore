@@ -5,3 +5,8 @@ node_modules/
 build/
 dist/
 test-results/
+
+# Apple signing private keys and certificate exports
+*.p12
+*.p8
+*.keychain-db
