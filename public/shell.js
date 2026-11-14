@@ -150,7 +150,19 @@ async function openProject(path,action='open',extra={},direct=false){
  }finally{stopProgress?.();opening=false;if(starter)starter.busy=false;renderTabs();projectBusy();if(created){delete created.resolveOpen;delete created.rejectOpen}}
 }
 
-async function removeProject(p){if(p.busy)return;const index=projects.indexOf(p);try{if(!p.start)await fetch('/api',{method:'POST',headers:{'Content-Type':'application/json','X-Pgit-Token':shellToken},body:JSON.stringify({action:'closeWorkspace',workspaceId:p.id})})}catch{}p.frame.remove();projects=projects.filter(x=>x!==p);if(activeId===p.id)selectProject(projects[Math.min(index,projects.length-1)]?.id||null);else{renderTabs();save()}byId('addProject').focus()}
+async function removeProject(p){
+ if(p.busy||p.removing)return;
+ const index=projects.indexOf(p),wasHidden=p.frame.hidden;p.removing=true;p.closing=true;p.frame.hidden=true;
+ try{
+  if(!p.start)for(let attempt=0;;attempt++){
+   const response=await fetch('/api',{method:'POST',headers:{'Content-Type':'application/json','X-Pgit-Token':shellToken},body:JSON.stringify({action:'closeWorkspace',workspaceId:p.id})});
+   const body=await response.json();if(response.ok)break;
+   if(body.error!=='이 프로젝트에서 다른 작업이 진행 중입니다.'||attempt>=49)throw Error(body.error||'요청 실패');
+   await new Promise(resolve=>setTimeout(resolve,100));
+  }
+ }catch(error){p.closing=false;p.removing=false;p.frame.hidden=wasHidden;notice(error.message);return false}
+ p.frame.remove();projects=projects.filter(x=>x!==p);if(activeId===p.id)selectProject(projects[Math.min(index,projects.length-1)]?.id||null);else{renderTabs();save()}byId('addProject').focus();return true;
+}
 function requestClose(p){if(p.busy)return notice('진행 중인 Git 작업이 끝난 뒤 탭을 닫아 주세요.');if(p.draft.trim()){pendingClose=p;byId('closeTabDialog').showModal()}else removeProject(p)}
 window.addEventListener('message',event=>{if(event.origin!==location.origin||event.data?.source!=='pgit-pane')return;const p=projects.find(p=>p.frame.contentWindow===event.source);if(!p||p.closing)return;const m=event.data;if(m.type==='git-unavailable'){PgitGitSetup.show(m);return}if(m.type==='notification'&&typeof m.message==='string'){notice(m.message);return}if(m.type==='repository-missing'){closeMissingProject(p);return}if(m.type==='ready'){p.ready=true;p.frame.contentWindow.postMessage({source:'pgit-theme',theme:window.PgitSettings.theme},location.origin);p.frame.contentWindow.postMessage({source:'pgit-language',language:window.PgitI18n.language},location.origin);send(p,{type:'open',...(p.initial||{action:'open',path:p.path})})}else if(m.type==='state'){p.busy=!!m.busy;p.count=m.count||0;p.draft=typeof m.draft==='string'?m.draft:'';if(m.path){const details=recentDetails[m.path]||{};recentDetails[m.path]={...details,...(typeof m.branch==='string'?{branch:m.branch}:{}),...(!p.openedAtRecorded&&!m.busy?{openedAt:Date.now()}: {})};if(!m.busy)p.openedAtRecorded=true;missingPaths.delete(m.path);p.path=m.path;p.name=PgitPaths.basename(m.path);p.frame.title=p.name+' 작업 공간';recents=[p.path,...recents.filter(r=>r!==p.path)].slice(0,18);renderRecents()}renderTabs();save();if(m.path&&!m.busy)p.resolveOpen?.()}else if(m.type==='open-error'){p.busy=false;renderTabs();if(p.rejectOpen)p.rejectOpen(Object.assign(Error(m.message||'저장소를 열지 못했습니다.'),{code:m.code}));else if(m.code!=='GIT_UNAVAILABLE')notice(m.message||'저장소를 열지 못했습니다.')}else if(m.type==='open-worktree'&&typeof m.path==='string'&&PgitPaths.isAbsolute(m.path))openProject(m.path);else if(m.type==='settings')window.PgitSettings.open();else if(m.type==='add-project')newProjectTab();else if(m.type==='shortcut'){if(m.command==='new')newProjectTab();if(m.command==='close')requestClose(p);if(m.command==='next'){const index=projects.indexOf(p);selectProject(projects[(index+1)%projects.length]?.id,true)}}});
 byId('addProject').onclick=()=>newProjectTab();byId('welcomeOpen').onclick=()=>chooseProject();byId('welcomeClone').onclick=()=>showProjectDialog('clone');PgitIcons.label(byId('homeButton'),'folder');byId('homeButton').onclick=()=>selectProject(null);

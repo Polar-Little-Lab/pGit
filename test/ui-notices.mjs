@@ -24,4 +24,4 @@ try{
  await page.locator('#shellNotice').waitFor({state:'hidden'});
  const standalone=await browser.newPage();await standalone.goto((await ready)+'workspace');await standalone.waitForFunction(()=>typeof PgitUI!=='undefined');await standalone.evaluate(()=>{showCommands();notify('Standalone notice')});await standalone.locator('#toast').waitFor({state:'visible'});assert.ok(await standalone.locator('#toast').evaluate(el=>el.matches(':popover-open')));await standalone.locator('#toast').waitFor({state:'hidden'});await standalone.close();
  console.log('Notice contrast passed across six themes; downward entrance, upward exit, replacement, duration and reduced-motion passed');
-}finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await rm(root,{recursive:true,force:true})}
+}finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await rm(root,{recursive:true,force:true,maxRetries:10,retryDelay:200})}

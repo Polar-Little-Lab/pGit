@@ -10,4 +10,4 @@ try{
  await page.evaluate(()=>showFileHistory('file.txt'));await check();await page.locator('.file-history-toolbar .refresh-control').click();await page.locator('.file-history-open').waitFor();await page.evaluate(()=>document.querySelector('.file-history-footer button').hidden=false);await check();await page.keyboard.press('Escape');
  for(const provider of ['github','gitlab']){await page.evaluate(provider=>showProviderReview(provider,1),provider);await check();await page.locator('.review-toolbar .refresh-control').click();await page.locator('.review-heading h2').waitFor();await page.keyboard.press('Escape')}
  assert.deepEqual(errors,[]);console.log('Refresh controls: all six locations, six themes, both font sizes, centered square icons, accessible names and click handlers passed');
-}finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await rm(root,{recursive:true,force:true})}
+}finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await rm(root,{recursive:true,force:true,maxRetries:10,retryDelay:200})}

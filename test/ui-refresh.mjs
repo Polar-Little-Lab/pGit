@@ -37,4 +37,4 @@ try{
  release();await mutation;await page.unroute('**/api');
  assert.equal(await page.evaluate(()=>state.branches.some(b=>b.name==='user/wins')),true);
  assert.deepEqual(errors,[]);console.log('Automatic refresh UI passed: external edits, same-status edits, staging, commit, checkout, modal pause and draft/search preservation.');
-}catch(error){console.error(error);throw error}finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await rm(root,{recursive:true,force:true})}
+}catch(error){console.error(error);throw error}finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await rm(root,{recursive:true,force:true,maxRetries:10,retryDelay:200})}

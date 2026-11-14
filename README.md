@@ -2,17 +2,17 @@
 
 **여러 저장소의 변경을 검토하고 필요한 내용만 커밋하는 Windows·macOS Git 클라이언트입니다.**
 
-[1.0.0 정식 버전](https://github.com/Polar-Little-Lab/pGit/releases/latest) · [사용 가이드](docs/USER_GUIDE.md)
+[1.1.0 정식 버전](https://github.com/Polar-Little-Lab/pGit/releases/latest) · [사용 가이드](docs/USER_GUIDE.md) · [기술 스택](docs/TECH_STACK.md) · [보안 검토](docs/SECURITY_REVIEW.md)
 
 ## 다운로드
 
 | 운영체제 | 설치 파일 |
 |---|---|
-| Windows 10/11 · x64 | [Windows 설치 프로그램](https://github.com/Polar-Little-Lab/pGit/releases/download/v1.0.0/pGit-1.0.0-windows-x64-setup.exe) |
-| macOS · Apple Silicon | [Mac ARM64 DMG](https://github.com/Polar-Little-Lab/pGit/releases/download/v1.0.0/pGit-1.0.0-macos-arm64.dmg) |
-| macOS · Intel | [Mac x64 DMG](https://github.com/Polar-Little-Lab/pGit/releases/download/v1.0.0/pGit-1.0.0-macos-x64.dmg) |
+| Windows 10/11 · x64 | [Windows 설치 프로그램](https://github.com/Polar-Little-Lab/pGit/releases/download/v1.1.0/pGit-1.1.0-windows-x64-setup.exe) |
+| macOS 13 이상 · Apple Silicon | [Mac ARM64 DMG](https://github.com/Polar-Little-Lab/pGit/releases/download/v1.1.0/pGit-1.1.0-macos-arm64.dmg) |
+| macOS 13 이상 · Intel | [Mac x64 DMG](https://github.com/Polar-Little-Lab/pGit/releases/download/v1.1.0/pGit-1.1.0-macos-x64.dmg) |
 
-Mac ZIP 파일과 `SHA256SUMS.txt`는 [릴리스 첨부 파일](https://github.com/Polar-Little-Lab/pGit/releases/tag/v1.0.0)에서 받을 수 있습니다.
+Mac ZIP 파일과 `SHA256SUMS.txt`는 [릴리스 첨부 파일](https://github.com/Polar-Little-Lab/pGit/releases/tag/v1.1.0)에서 받을 수 있습니다.
 
 ## 개발한 기능
 

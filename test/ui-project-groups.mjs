@@ -10,8 +10,8 @@ try{
   await page.evaluate(({platform,theme})=>{document.documentElement.dataset.platform=platform;document.body.classList.add('desktop');PgitSettings.setTheme(theme)}, {platform,theme});
   for(const active of [false,true]){
    await page.evaluate(active=>selectProject(active?projects.find(p=>p.path).id:null),active);await page.waitForTimeout(200);
-   const style=await page.locator('.project-tab.has-group').first().evaluate(e=>{const s=getComputedStyle(e);return {color:s.borderTopColor,width:s.borderTopWidth,style:s.borderTopStyle}});
-   assert.equal(style.color,'rgb(231, 111, 0)',`${platform}/${theme}/selected=${active}`);assert.ok(parseFloat(style.width)>=2);assert.equal(style.style,'solid');
+   await page.waitForFunction(()=>{const e=document.querySelector('.project-tab.has-group');if(!e)return false;const s=getComputedStyle(e);return s.borderTopColor==='rgb(231, 111, 0)'&&parseFloat(s.borderTopWidth)>=2&&s.borderTopStyle==='solid'});
+
   }
  }
  await page.evaluate(()=>{document.documentElement.dataset.platform='win32';PgitSettings.setTheme('dark')});await page.waitForTimeout(350);await mkdir('test-results',{recursive:true});await page.screenshot({path:'test-results/java-group-tabs.png'});

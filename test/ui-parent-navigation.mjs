@@ -12,4 +12,4 @@ try{
  const before=await page.locator('#historyScroll').evaluate(e=>e.scrollTop);await row.locator('.subject-text').click();assert.equal(await page.locator('#historyScroll').evaluate(e=>e.scrollTop),before);
  await page.locator('.filterbar input').fill('Merge navigation fixture');await page.locator(`.historyrow[data-hash="${merge}"]`).click();await parent(tip).press('Enter');assert.equal(await page.locator('.filterbar input').inputValue(),'');assert.equal(await page.locator(`.historyrow[data-hash="${tip}"]`).getAttribute('aria-pressed'),'true');assert.equal(await page.locator('#selectedCommitPanel').getAttribute('data-hash'),tip);
  assert.deepEqual(errors,[]);console.log('Parent navigation UI passed: merge parents, centered destination, focus, search recovery and stable normal selection.');
-}finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await rm(root,{recursive:true,force:true})}
+}finally{await browser?.close();server.closeAllConnections();await new Promise(r=>server.close(r));await rm(root,{recursive:true,force:true,maxRetries:10,retryDelay:200})}
