@@ -24,7 +24,7 @@ jobs:
           node test/ui-inline-staging.mjs
           node test/ui-settings.mjs
           node test/ui-git-setup.mjs
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: sidebar-windows
