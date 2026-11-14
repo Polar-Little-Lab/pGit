@@ -65,7 +65,7 @@ jobs:
           Expand-Archive (Join-Path $downloadDir $archive) node_modules/electron/dist -Force
           Set-Content node_modules/electron/path.txt 'electron.exe' -NoNewline -Encoding ascii
           Write-Host "Official Electron $electronVersion checksum verified: $actual"
-      - run: npm audit --include=dev --audit-level=high
+      - run: npm audit --include=dev --audit-level=moderate
       - run: npm test
       - run: npx playwright install chromium
       - name: Verify history and review interfaces

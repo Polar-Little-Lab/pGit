@@ -59,3 +59,17 @@ do not silently override minimatch to a different major without packaging tests.
 
 Audit is a dependency and targeted source review, not a penetration test or
 proof that all application/runtime/native-binary vulnerabilities are absent.
+
+
+## 1.1.1 follow-up - 2026-11-14
+
+Applied a version-scoped override from minimatch >=7 <11.0.1 to 11.0.1.
+This replaces the vulnerable 9.x/10.x build-tool paths while leaving legacy
+3.x/5.x callable APIs intact. Upstream electron-builder remains 26.18.0;
+no downgrade was used. The newer minimatch retains the named CommonJS exports
+used by app-builder-lib and @electron/universal.
+
+`npm audit --include=dev`: 0 vulnerabilities (previously 6 moderate entries
+from one advisory). Local unit tests: 115 passed. The release workflow must
+also pass native packaging, launch and signed macOS notarization checks before
+publication; these are required compatibility checks for the major override.

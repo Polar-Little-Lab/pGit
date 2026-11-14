@@ -19,4 +19,4 @@ jobs:
           node-version: '22'
       # Electron ships in the app despite being a devDependency. Audit the lockfile
       # without installing packages or running their lifecycle scripts.
-      - run: npm audit --include=dev --audit-level=high
+      - run: npm audit --include=dev --audit-level=moderate
