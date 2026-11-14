@@ -1,0 +1,47 @@
+name: Dependabot auto-merge
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize, ready_for_review]
+permissions:
+  contents: read
+jobs:
+  enable-auto-merge:
+    if: >-
+      github.event.pull_request.user.login == 'dependabot[bot]' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.base.ref == 'main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      # Never check out or execute PR code in this privileged workflow.
+      - uses: dependabot/fetch-metadata@21025c705c08248db411dc16f3619e6b5f9ea21a # v2
+        id: metadata
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Queue compatible npm updates after required checks
+        if: >-
+          steps.metadata.outputs.package-ecosystem == 'npm' &&
+          (steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
+           steps.metadata.outputs.update-type == 'version-update:semver-minor')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          # Fail closed if required checks are removed from repository settings.
+          gh api graphql \
+            -f query='query($owner:String!,$name:String!){repository(owner:$owner,name:$name){branchProtectionRules(first:100){nodes{pattern requiredStatusCheckContexts requiresStrictStatusChecks requiresStatusChecks}}}}' \
+            -f owner="${GH_REPO%/*}" -f name="${GH_REPO#*/}" \
+            --jq '.data.repository.branchProtectionRules.nodes[] | select(.pattern == "main" and .requiresStatusChecks and .requiresStrictStatusChecks) | .requiredStatusCheckContexts | sort | contains(["Dependency update gate", "audit"])' | grep -qx true
+          # Only dependency manifests may enter the automatic merge path.
+          gh api --paginate "repos/$GH_REPO/pulls/$PR_NUMBER/files" --jq '.[].filename' > "$RUNNER_TEMP/changed-files"
+          if grep -Ev '^(package.json|package-lock.json)$' "$RUNNER_TEMP/changed-files"; then
+            echo 'Additional files require manual review.'
+            exit 0
+          fi
+          gh pr merge "$PR_NUMBER" --auto --squash --match-head-commit "$HEAD_SHA"

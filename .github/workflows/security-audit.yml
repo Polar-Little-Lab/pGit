@@ -4,7 +4,7 @@ on:
   push:
     branches: [main, 'codex/**']
   schedule:
-    - cron: '0 0 * * 1'
+    - cron: '0 0 * * *'
   workflow_dispatch:
 permissions:
   contents: read
@@ -17,5 +17,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      # Electron is a devDependency but is shipped as the application runtime.
+      # Electron ships in the app despite being a devDependency. Audit the lockfile
+      # without installing packages or running their lifecycle scripts.
       - run: npm audit --include=dev --audit-level=high

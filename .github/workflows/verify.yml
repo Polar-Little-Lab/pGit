@@ -1,7 +1,7 @@
 name: Verify Git workflows
 on:
   push:
-    branches: ['feat/**', 'codex/**']
+    branches: [main, 'feat/**', 'codex/**']
   pull_request:
 permissions:
   contents: read
@@ -42,3 +42,14 @@ jobs:
         with:
           name: pGit-ui-verification-${{ matrix.os }}
           path: test-results/
+  dependency-gate:
+    name: Dependency update gate
+    if: always()
+    needs: [test]
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Require every platform test to pass
+        env:
+          TEST_RESULT: ${{ needs.test.result }}
+        run: test "$TEST_RESULT" = success
