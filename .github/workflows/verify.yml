@@ -37,7 +37,7 @@ jobs:
       - run: npm run test:ui
         env:
           PGIT_SCREENSHOT_LOG: '1'
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: pGit-ui-verification-${{ matrix.os }}
