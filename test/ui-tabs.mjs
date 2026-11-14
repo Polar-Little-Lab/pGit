@@ -1,3 +1,4 @@
+import {expect} from 'playwright/test';
 import {chromium} from 'playwright';import assert from 'node:assert/strict';
 import {mkdtemp,writeFile,rm,mkdir} from 'node:fs/promises';import os from 'node:os';import path from 'node:path';
 import {git} from '../git.mjs';import {server,ready} from '../server.mjs';
@@ -24,8 +25,12 @@ try{
  assert.equal(await first.getByRole('textbox',{name:'커밋 메시지',exact:true}).inputValue(),'Aurora draft stays here');
  await first.getByRole('button',{name:'app.txt · 작업 중',exact:true}).click();
  const second=await open(roots[1]);await second.locator('#changesNav').click();assert.equal(await page.getByRole('tab').count(),2);assert.equal(await second.getByRole('textbox',{name:'커밋 메시지',exact:true}).inputValue(),'');
- // A tab rerender can cancel CSS transitions; still compare the final hover colors.
- const hoveredTab=page.locator('.project-tab').filter({hasText:'aurora-api'});await hoveredTab.getByRole('tab').hover();await hoveredTab.evaluate(async e=>{await new Promise(requestAnimationFrame);await Promise.allSettled(e.getAnimations({subtree:true}).map(a=>a.finished))});const tabHover=await hoveredTab.evaluate(e=>getComputedStyle(e).backgroundColor.replace(/^rgba\((.*), 1\)$/, 'rgb($1)'));await hoveredTab.locator('.tab-close').hover();await hoveredTab.evaluate(async e=>{await new Promise(requestAnimationFrame);await Promise.allSettled(e.getAnimations({subtree:true}).map(a=>a.finished))});assert.equal(await hoveredTab.evaluate(e=>getComputedStyle(e).backgroundColor.replace(/^rgba\((.*), 1\)$/, 'rgb($1)')),tabHover);await page.screenshot({path:'test-results/tab-full-hover.png'});
+ // Compare the theme's final hover color, not an in-flight transition snapshot.
+ const tabHover=await page.evaluate(()=>{const probe=document.createElement('span');probe.style.backgroundColor='var(--control-hover)';document.body.append(probe);const color=getComputedStyle(probe).backgroundColor;probe.remove();return color});
+ const hoveredTab=page.locator('.project-tab').filter({hasText:'aurora-api'});
+ await hoveredTab.getByRole('tab').hover();await expect(hoveredTab).toHaveCSS('background-color',tabHover);
+ await hoveredTab.locator('.tab-close').hover();await expect(hoveredTab).toHaveCSS('background-color',tabHover);
+ await page.screenshot({path:'test-results/tab-full-hover.png'});
  await page.locator('.project-tab').filter({hasText:'aurora-api'}).dragTo(page.locator('.project-tab').filter({hasText:'glacier-web'}));
  assert.match(await page.getByRole('tab').first().textContent(),/glacier-web/);
 

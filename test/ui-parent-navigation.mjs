@@ -1,3 +1,4 @@
+import {expect} from 'playwright/test';
 import {chromium} from 'playwright';import assert from 'node:assert/strict';import {mkdtemp,writeFile,rm,mkdir} from 'node:fs/promises';import os from 'node:os';import path from 'node:path';import {git} from '../git.mjs';import {server,ready} from '../server.mjs';
 const root=await mkdtemp(path.join(os.tmpdir(),'pgit-parent-'));let browser;
 try{
@@ -5,7 +6,9 @@ try{
  for(let i=0;i<25;i++)await git(root,['commit','--allow-empty','-m',`Earlier ${i}`]);const base=(await git(root,['rev-parse','HEAD'])).trim();await git(root,['checkout','-b','topic']);for(let i=0;i<35;i++)await git(root,['commit','--allow-empty','-m',`Topic ${i}`]);const tip=(await git(root,['rev-parse','HEAD'])).trim();await git(root,['checkout','main']);await git(root,['merge','--no-ff','topic','-m','Merge navigation fixture']);const merge=(await git(root,['rev-parse','HEAD'])).trim();
  browser=await chromium.launch({headless:true,...(process.env.PGIT_BROWSER_PATH?{executablePath:process.env.PGIT_BROWSER_PATH}:{})});const page=await browser.newPage({viewport:{width:1440,height:850}});const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto((await ready)+'workspace');assert.equal(await page.evaluate(root=>mutate('open',{path:root}),root),true);await page.locator('.commit-parents button').first().waitFor();
  const parent=hash=>page.locator('.commit-parents').getByRole('button',{name:hash.slice(0,7),exact:true});
- await parent(base).click();const row=page.locator(`.historyrow[data-hash="${base}"]`);assert.equal(await row.getAttribute('aria-pressed'),'true');assert.equal(await row.evaluate(e=>e===document.activeElement),true);
+ await parent(base).click();const row=page.locator(`.historyrow[data-hash="${base}"]`);await expect(row).toHaveAttribute('aria-pressed','true');await expect(row).toBeFocused();
+ // Late history loads must preserve keyboard focus on the same commit.
+ await page.evaluate(()=>renderHistory());await expect(row).toBeFocused();
  const center=await page.evaluate(hash=>{const row=document.querySelector(`[data-hash="${hash}"].historyrow`).getBoundingClientRect(),host=document.querySelector('#historyScroll'),box=host.getBoundingClientRect(),head=host.querySelector('.history-head').offsetHeight;return {distance:Math.abs(row.top+row.height/2-(box.top+head+(host.clientHeight-head)/2)),scroll:host.scrollTop}},base);assert.ok(center.distance<3,JSON.stringify(center));assert.ok(center.scroll>300);
  await mkdir('test-results',{recursive:true});await page.screenshot({path:'test-results/parent-navigation.png'});
  // A normal row click keeps the user's current scroll position.
