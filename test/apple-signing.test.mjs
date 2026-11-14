@@ -24,5 +24,5 @@ test('signed distribution replaces ad-hoc signing and requires hardened notarize
   assert.equal(build.forceCodeSigning, true);
   assert.equal(build.mac.hardenedRuntime, true);
   assert.equal(build.mac.notarize, true);
-  assert.match(build.mac.identity, /^Developer ID Application:/);
+  assert.equal(build.mac.identity, 'Test (ABCDEFGHIJ)');
 });

@@ -17,7 +17,7 @@ module.exports = {
   forceCodeSigning: true,
   mac: {
     ...base.mac,
-    identity: process.env.CSC_NAME,
+    identity: process.env.CSC_NAME.replace(/^Developer ID Application:\s*/, ''),
     hardenedRuntime: true,
     notarize: true,
     entitlements: 'desktop/signing/entitlements.mac.plist',
