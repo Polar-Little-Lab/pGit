@@ -17,13 +17,13 @@ jobs:
           test "$(gh api repos/$GITHUB_REPOSITORY/actions/runs/42479271249/jobs --jq '.jobs[] | select(.name == "build (macos-15, macos)") | .conclusion')" = success
           test "$(gh api repos/$GITHUB_REPOSITORY/actions/runs/42479787947 --jq .conclusion)" = success
           test "$(gh api repos/$GITHUB_REPOSITORY/actions/runs/42479271249 --jq .head_sha)" = "$(git ls-remote origin 'refs/tags/v0.4.0-preview.10^{}' | cut -f1)"
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           github-token: ${{ github.token }}
           run-id: 42479271249
           name: pGit-macos
           path: release
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           github-token: ${{ github.token }}
           run-id: 42479787947
