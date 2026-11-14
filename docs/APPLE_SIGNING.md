@@ -5,9 +5,9 @@ pGit은 GitHub에서 DMG/ZIP으로 배포하므로 **Developer ID Application** 
 ## Apple 계정 준비
 
 1. Apple Developer Program 가입 승인이 완료되어 있어야 합니다.
-2. Xcode → Settings → Accounts에서 Apple 계정을 추가하고 팀을 선택합니다. Manage Certificates에서 **Developer ID Application** 인증서를 생성합니다. 조직 계정은 Account Holder 권한이 필요할 수 있습니다.
+2. 키체인 접근 → 인증서 지원 → 인증 기관에서 인증서 요청에서 CSR을 디스크에 저장합니다. Apple Developer의 Certificates → + → **Developer ID Application**에 CSR을 올려 발급받고, 내려받은 `.cer`를 CSR을 만든 Mac의 로그인 키체인에 추가합니다. 이미 사용한 CSR은 재사용하지 말고 새로 생성합니다. Xcode의 Manage Certificates에서도 생성할 수 있습니다.
 3. Keychain Access의 내 인증서에서 해당 인증서와 개인 키를 함께 암호화된 `.p12`로 내보냅니다. `.cer`만으로는 CI에서 서명할 수 없습니다.
-4. App Store Connect의 Users and Access → Integrations에서 공증에 사용할 **Team API Key**를 생성합니다. `.p8`, Key ID, Issuer ID를 준비합니다. 키 생성 권한이 없다면 Account Holder에게 요청합니다.
+4. App Store Connect의 Users and Access → Integrations에서 공증에 사용할 제품 개발(Developer) 권한의 **Team API Key**를 생성합니다. `.p8`, Key ID, Issuer ID를 준비합니다. 키 생성 권한이 없다면 Account Holder에게 요청합니다.
 
 ## GitHub 설정
 
