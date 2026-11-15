@@ -40,6 +40,23 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"About":["アプリ情報", "关于应用", "Acerca de", "À propos"],
+"Version":["バージョン", "版本", "Versión", "Version"],
+"Loading version…":["バージョンを読み込み中…", "正在读取版本…", "Cargando versión…", "Chargement de la version…"],
+"Could not load version information.":["バージョン情報を読み込めませんでした。", "无法读取版本信息。", "No se pudo cargar la información de versión.", "Impossible de charger les informations de version."],
+"Running in a browser":["ブラウザーで実行中", "正在浏览器中运行", "En ejecución en el navegador", "Exécution dans le navigateur"],
+"Check for updates":["アップデートを確認", "检查更新", "Buscar actualizaciones", "Rechercher des mises à jour"],
+"View release":["リリースを表示", "查看发布版本", "Ver versión", "Voir la version"],
+"Checking for updates…":["アップデートを確認中…", "正在检查更新…", "Buscando actualizaciones…", "Recherche de mises à jour…"],
+"A new version is available.":["新しいバージョンが利用できます。", "有新版本可用。", "Hay una nueva versión disponible.", "Une nouvelle version est disponible."],
+"You are using the latest version.":["最新バージョンを使用しています。", "您正在使用最新版本。", "Estás usando la última versión.", "Vous utilisez la dernière version."],
+"You are using a version newer than the latest stable release.":["最新の安定版より新しいバージョンを使用しています。", "您使用的版本比最新正式版更新。", "Estás usando una versión más reciente que la última versión estable.", "Vous utilisez une version plus récente que la dernière version stable."],
+"No public stable release is available.":["公開された安定版はありません。", "暂无公开的正式版本。", "No hay ninguna versión estable pública disponible.", "Aucune version stable publique n’est disponible."],
+"Too many requests. Please try again later.":["リクエストが多すぎます。しばらくしてから再試行してください。", "请求过多，请稍后重试。", "Demasiadas solicitudes. Inténtalo de nuevo más tarde.", "Trop de requêtes. Réessayez plus tard."],
+"Could not check for updates. Check your internet connection and try again.":["アップデートを確認できませんでした。インターネット接続を確認して再試行してください。", "无法检查更新。请检查网络连接后重试。", "No se pudieron buscar actualizaciones. Comprueba la conexión a internet e inténtalo de nuevo.", "Impossible de rechercher les mises à jour. Vérifiez votre connexion Internet et réessayez."],
+"You can check for updates in the desktop app.":["デスクトップアプリでアップデートを確認できます。", "可在桌面应用中检查更新。", "Puedes buscar actualizaciones en la aplicación de escritorio.", "Vous pouvez rechercher les mises à jour dans l’application de bureau."],
+"Checks the latest stable release on GitHub. Installation is not automatic.":["GitHubの最新の安定版を確認します。インストールは自動では行われません。", "检查 GitHub 上的最新正式版本，不会自动安装。", "Busca la última versión estable en GitHub. La instalación no es automática.", "Recherche la dernière version stable sur GitHub. L’installation n’est pas automatique."],
+
 "Create file":["ファイルを作成", "创建文件", "Crear archivo", "Créer un fichier"],
 "File path":["ファイルパス", "文件路径", "Ruta del archivo", "Chemin du fichier"],
 "New file content":["新しいファイルの内容", "新文件内容", "Contenido del nuevo archivo", "Contenu du nouveau fichier"],

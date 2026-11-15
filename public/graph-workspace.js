@@ -15,7 +15,8 @@ function openWip(){tab('changes')}
 function clearCommitSelection(){++commitSelectionVersion;delete commitPanel.dataset.hash;selectedCommitFile=null;commitPanel.replaceChildren(el('p',state?.history.length?'선택된 커밋 없음':'아직 커밋이 없습니다.','compare-empty'));setPanel('commit')}
 let renderSelecting=false;
 selectCommit=async function(commit){
- if(renderSelecting&&mode!=='history')return;
+ // Background history reads must preserve an open immutable commit review.
+ if(renderSelecting&&(mode!=='history'||(activeCommit===commit.hash&&selectedCommitFile&&!commitReview.hidden)))return;
  activeCommit=commit.hash;commitPanel.dataset.hash=commit.hash;selectedCommitFile=null;const version=++commitSelectionVersion;
  setPanel('commit');graphHome();document.querySelector('.wip-row')?.classList.remove('active');
  document.querySelectorAll('.historyrow').forEach(r=>{r.classList.toggle('active',r.dataset.hash===commit.hash);r.setAttribute('aria-pressed',String(r.dataset.hash===commit.hash))});
@@ -36,7 +37,7 @@ selectCommit=async function(commit){
  }catch(error){if(version===commitSelectionVersion)status.textContent=error.message}
 };
 const contextHistory=renderHistory;renderHistory=function(){const focusedHash=document.activeElement?.closest('.historyrow')?.dataset.hash;renderSelecting=true;try{contextHistory()}finally{renderSelecting=false}if(focusedHash)document.querySelector(`.historyrow[data-hash="${CSS.escape(focusedHash)}"]`)?.focus({preventScroll:true});document.querySelector('.commit-inspector')?.remove();document.querySelector('.wip-row')?.remove();if(mode==='history'&&!document.querySelector('.historyrow')){++commitSelectionVersion;delete commitPanel.dataset.hash;commitPanel.replaceChildren(el('p',state?.history.length?'선택된 커밋 없음':'아직 커밋이 없습니다.','compare-empty'));setPanel('commit')}};
-const contextRender=render;render=function(){const wasReview=!commitReview.hidden;const file=selectedCommitFile;contextRender();setPanel(panelSelection);if(wasReview&&file){const waitVersion=commitSelectionVersion;queue.then(()=>{if(waitVersion===commitSelectionVersion){const button=[...commitPanel.querySelectorAll('.commit-file')].find(b=>b.dataset.name===file);button?.click()}})}};
+const contextRender=render;render=function(){const wasReview=!commitReview.hidden;const file=selectedCommitFile;contextRender();setPanel(panelSelection);if(wasReview&&file&&commitReview.hidden){const waitVersion=commitSelectionVersion;queue.then(()=>{if(waitVersion===commitSelectionVersion){const button=[...commitPanel.querySelectorAll('.commit-file')].find(b=>b.dataset.name===file);button?.click()}})}};
 // Icons share one stroke weight and visual size instead of platform-dependent Unicode glyphs.
 function toolIcon(key){return PgitIcons.icon({undoCommit:'undo',fetch:'fetch',pull:'pull',push:'push',branchCreate:'branch',stashSave:'stash',stashPop:'unstash'}[key])}
 const popTool=el('button');popTool.dataset.repoCommand='stashPop';popTool.onclick=()=>openCommand('stashPop');arcticToolbar.append(popTool);
