@@ -1,6 +1,22 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+앱 정보|About
+버전|Version
+버전 확인 중…|Loading version…
+버전 정보를 불러오지 못했습니다.|Could not load version information.
+브라우저에서 실행 중|Running in a browser
+최신 버전 확인|Check for updates
+릴리즈 보기|View release
+업데이트 확인 중…|Checking for updates…
+새 버전을 사용할 수 있습니다.|A new version is available.
+최신 버전을 사용하고 있습니다.|You are using the latest version.
+최신 정식 릴리즈보다 새로운 버전을 사용하고 있습니다.|You are using a version newer than the latest stable release.
+공개된 정식 릴리즈가 없습니다.|No public stable release is available.
+요청이 많습니다. 잠시 후 다시 확인하세요.|Too many requests. Please try again later.
+업데이트를 확인하지 못했습니다. 인터넷 연결을 확인하고 다시 시도하세요.|Could not check for updates. Check your internet connection and try again.
+데스크톱 앱에서 최신 버전을 확인할 수 있습니다.|You can check for updates in the desktop app.
+GitHub의 최신 정식 릴리즈를 확인합니다. 설치는 자동으로 진행하지 않습니다.|Checks the latest stable release on GitHub. Installation is not automatic.
 디자인|Design
 모바일|Mobile
 테스트|Testing

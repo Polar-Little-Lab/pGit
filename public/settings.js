@@ -60,10 +60,25 @@
  const preview=document.createElement('pre');preview.className='typography-preview literal-data';preview.textContent='// pGit · 코드 미리보기 · Preview\nconst branch = "main";\n+ const message = "변경 사항 · 日本語";';typographyPanel.append(preview);
  const resetType=document.createElement('button');resetType.type='button';resetType.textContent='글꼴 및 크기 초기화';resetType.onclick=()=>setTypography(typographyDefaults);typographyPanel.append(resetType);page.querySelector('[data-settings-panel=appearance]').after(typographyPanel);
  const aboutNav=document.createElement('button');aboutNav.type='button';aboutNav.dataset.settingsSection='about';aboutNav.textContent='앱 정보';page.querySelector('nav').append(aboutNav);
- const aboutPanel=document.createElement('section');aboutPanel.dataset.settingsPanel='about';aboutPanel.setAttribute('aria-labelledby','aboutTitle');aboutPanel.innerHTML='<h2 id="aboutTitle" tabindex="-1">앱 정보</h2><h3>pGit</h3><p data-app-version role="status">버전 확인 중…</p><p class="settings-help">Powered by Polar</p>';
+ const aboutPanel=document.createElement('section');aboutPanel.dataset.settingsPanel='about';aboutPanel.setAttribute('aria-labelledby','aboutTitle');aboutPanel.innerHTML='<h2 id="aboutTitle" tabindex="-1">앱 정보</h2><h3>pGit</h3><p data-app-version role="status"><span data-version-state>버전 확인 중…</span> <span class="literal-data" data-version-value></span></p><div class="about-update-actions"><button type="button" data-check-updates>최신 버전 확인</button><a data-release-link target="_blank" rel="noopener noreferrer" hidden>릴리즈 보기</a></div><p data-update-status role="status" aria-live="polite"></p><p class="settings-help">GitHub의 최신 정식 릴리즈를 확인합니다. 설치는 자동으로 진행하지 않습니다.</p><p class="settings-help">Powered by Polar</p>';
  page.querySelector('.settings-content').append(aboutPanel);
- const versionLabel=aboutPanel.querySelector('[data-app-version]');
- if(window.pgitDesktop?.appInfo)window.pgitDesktop.appInfo().then(info=>{versionLabel.textContent=`버전 ${info.version} · ${info.platform==='darwin'?'macOS':info.platform==='win32'?'Windows':info.platform} · ${info.arch}`}).catch(()=>{versionLabel.textContent='버전 정보를 불러오지 못했습니다.'});else versionLabel.textContent='브라우저에서 실행 중';
+ const versionState=aboutPanel.querySelector('[data-version-state]'),versionValue=aboutPanel.querySelector('[data-version-value]');
+ const updateButton=aboutPanel.querySelector('[data-check-updates]'),updateStatus=aboutPanel.querySelector('[data-update-status]'),releaseLink=aboutPanel.querySelector('[data-release-link]');
+ if(window.pgitDesktop?.appInfo)window.pgitDesktop.appInfo().then(info=>{versionState.textContent='버전';versionValue.textContent=`${info.version} · ${info.platform==='darwin'?'macOS':info.platform==='win32'?'Windows':info.platform} · ${info.arch}`}).catch(()=>{versionState.textContent='버전 정보를 불러오지 못했습니다.'});else versionState.textContent='브라우저에서 실행 중';
+ if(!window.pgitDesktop?.checkForUpdates){updateButton.disabled=true;updateStatus.textContent='데스크톱 앱에서 최신 버전을 확인할 수 있습니다.'}
+ updateButton.onclick=async()=>{
+  updateButton.disabled=true;updateButton.textContent='업데이트 확인 중…';updateStatus.textContent='';releaseLink.hidden=true;
+  try{
+   const result=await window.pgitDesktop.checkForUpdates();
+   const messages={available:'새 버전을 사용할 수 있습니다.',current:'최신 버전을 사용하고 있습니다.',ahead:'최신 정식 릴리즈보다 새로운 버전을 사용하고 있습니다.',unavailable:'공개된 정식 릴리즈가 없습니다.','rate-limited':'요청이 많습니다. 잠시 후 다시 확인하세요.',error:'업데이트를 확인하지 못했습니다. 인터넷 연결을 확인하고 다시 시도하세요.'};
+   updateStatus.textContent=messages[result.status]||messages.error;
+   if(['available','current','ahead'].includes(result.status)){
+    const version=document.createElement('span');version.className='literal-data';version.textContent=` (v${result.version})`;updateStatus.append(version);
+    if(typeof result.url==='string'&&result.url.startsWith('https://github.com/Polar-Little-Lab/pGit/releases/tag/')){releaseLink.href=result.url;releaseLink.hidden=false}
+   }
+  }catch{updateStatus.textContent='업데이트를 확인하지 못했습니다. 인터넷 연결을 확인하고 다시 시도하세요.'}
+  finally{updateButton.disabled=false;updateButton.textContent='최신 버전 확인'}
+ };
  const container=document.querySelector('#projectPanels')||document.body;container.append(page);setTypography(typography,{persist:false});
  const siblings=new Map();let previousFocus=null,previousHash='';
  function sync(){const minutes=localStorage.getItem('pgit.autoFetchMinutes')??'10';page.querySelectorAll('[data-fetch-minutes]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.fetchMinutes===minutes)));page.querySelectorAll('[data-language-choice]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.languageChoice===window.PgitI18n.language)));page.querySelectorAll('[data-theme-choice]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.themeChoice===theme)))}

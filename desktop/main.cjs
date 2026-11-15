@@ -1,5 +1,6 @@
 const {app,BrowserWindow,dialog,ipcMain,Menu,shell}=require('electron');
 const path=require('node:path');
+const checkForUpdates=require('./updates.cjs').createUpdateChecker();
 const {runtimeEnvironment,windowChrome}=require('./platform.cjs');
 const {requireTrustedSender}=require('./trust.cjs');
 const {readWorkspace,writeWorkspace}=require('./workspace-store.cjs');
@@ -13,6 +14,7 @@ const backend=await import('../server.mjs');server=backend.server;url=await back
 ipcMain.handle('choose-folder',async(event,options={})=>{trusted(event);const title=typeof options?.title==='string'?options.title.slice(0,120):'Git 저장소 선택',defaultPath=typeof options?.defaultPath==='string'&&path.isAbsolute(options.defaultPath)?options.defaultPath:undefined;const result=await dialog.showOpenDialog(window,{properties:['openDirectory','createDirectory'],title,defaultPath});return result.canceled?null:result.filePaths[0]});
 const store=path.join(app.getPath('userData'),'arctic-workspace.json');
 function trusted(event){requireTrustedSender(event,window.webContents,url)}
+ipcMain.handle('check-for-updates',event=>{trusted(event);return checkForUpdates(app.getVersion())});
 ipcMain.handle('app-info',event=>{trusted(event);return {version:app.getVersion(),platform:process.platform,arch:process.arch}});
 ipcMain.handle('default-project-parent',event=>{trusted(event);return app.getPath('home')});
 ipcMain.handle('workspace-load',async event=>{trusted(event);return readWorkspace(store)});
