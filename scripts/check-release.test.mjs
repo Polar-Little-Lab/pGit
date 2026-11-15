@@ -13,6 +13,10 @@ try{
  }
  const run=(ref='',args=[])=>spawnSync(process.execPath,[resolve('scripts/check-release.mjs'),...args],{cwd:fixture,env:{...process.env,GITHUB_REF:ref},encoding:'utf8'});
  assert.equal(run().status,0,'valid release fixture should pass');
+ const notesPath=join(fixture,notes),notesOriginal=readFileSync(notesPath,'utf8');
+ writeFileSync(notesPath,notesOriginal.replace(/\r?\n/g,'\r\n'));
+ assert.equal(run().status,0,'Windows CRLF release notes should pass');
+ writeFileSync(notesPath,notesOriginal);
  assert.notEqual(run('refs/tags/v999.0.0').status,0,'mismatched tag must fail');
  assert.notEqual(run('refs/heads/feature',['--publish']).status,0,'feature branch must not publish');
  const lockPath=join(fixture,c.lock),original=readFileSync(lockPath,'utf8'),lock=JSON.parse(original);
