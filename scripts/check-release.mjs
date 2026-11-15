@@ -1,7 +1,7 @@
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import assert from 'node:assert/strict';
-const read=path=>readFileSync(path,'utf8');
+const read=path=>readFileSync(path,'utf8').replace(/\r\n/g,'\n');
 const json=path=>JSON.parse(read(path));
 const c=json('release.config.json'), pkg=json(c.package), version=pkg.version;
 assert.match(version,/^\d+\.\d+\.\d+(?:-[\w.-]+)?$/,'Semantic version required');
