@@ -9,6 +9,7 @@ import {fullState,operate,readOperations,createRepository} from './operations.mj
 import {advanced,advancedActions,advancedReads} from './advanced.mjs';
 import {provider,providerActions} from './providers.mjs';
 import {comparisonFiles,comparisonFile,workingComparison} from './comparison.mjs';
+const appVersion=JSON.parse(await readFile(new URL('./package.json',import.meta.url),'utf8')).version;
 const token=randomBytes(32).toString('hex');
 const cloneProgress=new Map();
 const workspaces=new Map(), busyWorkspaces=new Set(), busyRoots=new Set();
@@ -29,7 +30,7 @@ const server=http.createServer(async(req,res)=>{
   if(req.method==='GET'&&['/','/workspace'].includes(pathname)){
    res.setHeader('Content-Type','text/html; charset=utf-8');
    res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self'; frame-src 'self'; frame-ancestors 'self'; base-uri 'none'; form-action 'none'");
-   return res.end((await readFile(new URL(pathname==='/'?'./public/shell.html':'./public/index.html',import.meta.url),'utf8')).replace('__PGIT_TOKEN__',token));
+   return res.end((await readFile(new URL(pathname==='/'?'./public/shell.html':'./public/index.html',import.meta.url),'utf8')).replace('__PGIT_TOKEN__',token).replace('__PGIT_VERSION__',appVersion));
   }
   if(req.method!=='POST'||pathname!=='/api'){res.writeHead(404);return res.end()}
   if(req.headers.origin!==`http://${host}`||req.headers['x-pgit-token']!==token){res.writeHead(403);return res.end('Forbidden')}
@@ -39,7 +40,7 @@ const server=http.createServer(async(req,res)=>{
   if(action==='cloneProgress'){res.setHeader('Content-Type','application/json');return res.end(JSON.stringify({result:cloneProgress.get(workspaceId)||null}))}
   // Counting immutable history is read-only and must not block page loads or other work.
   if(action==='historyCount'){const root=workspaces.get(workspaceId);if(!root)throw Error('먼저 저장소를 여세요.');res.setHeader('Content-Type','application/json');return res.end(JSON.stringify({result:await git.historyCount(root,data.ref)}))}
-  if(busyWorkspaces.has(workspaceId))throw Error('이 프로젝트에서 다른 작업이 진행 중입니다.');
+  if(busyWorkspaces.has(workspaceId))throw Object.assign(Error('이 프로젝트에서 다른 작업이 진행 중입니다.'),{code:'WORKSPACE_BUSY'});
   // Capture the root before awaiting. Another tab can never redirect this operation.
   let root=workspaces.get(workspaceId),lockedRoot=null;
   busyWorkspaces.add(workspaceId);
@@ -55,7 +56,7 @@ const server=http.createServer(async(req,res)=>{
      root=action==='open'?await git.openRepo(data.path):await createRepository(action,data,progress=>cloneProgress.set(workspaceId,progress));
     }
     if(!root)throw Error('먼저 저장소를 여세요.');
-    if(busyRoots.has(root))throw Error('같은 저장소에서 다른 작업이 진행 중입니다.');
+    if(busyRoots.has(root))throw Object.assign(Error('같은 저장소에서 다른 작업이 진행 중입니다.'),{code:'REPOSITORY_BUSY'});
     busyRoots.add(root);lockedRoot=root;
     if(action==='worktreeRemove'){const target=await realpath(data.path);if([...workspaces.values()].includes(target))throw Error('열려 있는 프로젝트 탭을 먼저 닫으세요.');}
     if(['open','init','clone'].includes(action)){result=await fullState(root);workspaces.set(workspaceId,root)}
@@ -80,7 +81,7 @@ const server=http.createServer(async(req,res)=>{
    }
   }finally{cloneProgress.delete(workspaceId);busyWorkspaces.delete(workspaceId);if(lockedRoot)busyRoots.delete(lockedRoot)}
   res.setHeader('Content-Type','application/json');res.end(JSON.stringify({result}));
- }catch(e){res.writeHead(400,{'Content-Type':'application/json'});res.end(JSON.stringify({error:e.stderr||e.message,...(e.code==='GIT_UNAVAILABLE'?{code:e.code,reason:e.reason,platform:e.platform}:{}),...(e.code==='REPOSITORY_MISSING'?{code:e.code,repositoryPath:e.repositoryPath}:{})}));}
+ }catch(e){res.writeHead(400,{'Content-Type':'application/json'});res.end(JSON.stringify({error:e.stderr||e.message,...(['WORKSPACE_BUSY','REPOSITORY_BUSY'].includes(e.code)?{code:e.code}:{}),...(e.code==='GIT_UNAVAILABLE'?{code:e.code,reason:e.reason,platform:e.platform}:{}),...(e.code==='REPOSITORY_MISSING'?{code:e.code,repositoryPath:e.repositoryPath}:{})}));}
 });
 export {server};
 export const ready=new Promise((resolve,reject)=>{server.once('error',reject);server.listen(0,'127.0.0.1',()=>{const url=`http://127.0.0.1:${server.address().port}/`;console.log(`pGit: ${url}`);resolve(url)});});
