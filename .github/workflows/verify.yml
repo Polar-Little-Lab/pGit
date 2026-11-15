@@ -35,8 +35,6 @@ jobs:
       - run: npm test
       - run: npx playwright install --with-deps chromium
       - run: npm run test:ui
-        env:
-          PGIT_SCREENSHOT_LOG: '1'
       - uses: actions/upload-artifact@v7
         if: always()
         with:

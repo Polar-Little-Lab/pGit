@@ -15,6 +15,7 @@ const tests = [
   "test/ui-project-groups.mjs",
   "test/ui.mjs",
   "test/ui-tabs.mjs",
+  "test/ui-tab-restore.mjs",
   "test/ui-missing-repository.mjs",
   "test/ui-notices.mjs",
   "test/ui-workflow.mjs",

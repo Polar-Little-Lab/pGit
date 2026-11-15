@@ -1,0 +1,6 @@
+{
+  "product": "pGit",
+  "package": "package.json",
+  "lock": "package-lock.json",
+  "notes": "docs/releases/v{version}.md"
+}
