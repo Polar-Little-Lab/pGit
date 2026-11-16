@@ -1,6 +1,20 @@
 (() => {
 // UI copy only. Repository names, commit messages, code, paths and command output stay verbatim.
 const pairs=`
+새 버전 다운로드|Download update
+다운로드 취소|Cancel download
+설치 파일 열기|Open installer
+폴더에서 보기|Show in folder
+다운로드 진행률|Download progress
+이 컴퓨터에 맞는 설치 파일을 다운로드합니다.|Download the installer for this computer.
+다운로드 준비 중…|Preparing download…
+설치 파일 다운로드 중…|Downloading installer…
+설치 파일 확인 중…|Verifying installer…
+다운로드가 완료되었습니다. 설치 파일을 열어 업데이트하세요.|Download complete. Open the installer to update.
+다운로드를 취소했습니다.|Download cancelled.
+다운로드 또는 파일 검증에 실패했습니다. 다시 시도하세요.|Download or verification failed. Please try again.
+다시 다운로드|Download again
+파일을 열지 못했습니다. 폴더에서 확인하거나 다시 다운로드하세요.|Could not open the file. Check the folder or download again.
 앱 정보|About
 버전|Version
 버전 확인 중…|Loading version…

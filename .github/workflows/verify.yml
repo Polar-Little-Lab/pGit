@@ -15,7 +15,9 @@ jobs:
       matrix:
         os: [ubuntu-24.04, windows-2022, windows-2025]
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 15
+    # Windows 2025 setup plus all 44 UI scenarios can take 15 minutes;
+    # reserve time for artifact upload and runner cleanup after tests pass.
+    timeout-minutes: ${{ startsWith(matrix.os, 'windows-') && 20 || 15 }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7

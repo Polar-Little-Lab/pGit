@@ -62,6 +62,28 @@
  const aboutNav=document.createElement('button');aboutNav.type='button';aboutNav.dataset.settingsSection='about';aboutNav.textContent='앱 정보';page.querySelector('nav').append(aboutNav);
  const aboutPanel=document.createElement('section');aboutPanel.dataset.settingsPanel='about';aboutPanel.setAttribute('aria-labelledby','aboutTitle');aboutPanel.innerHTML='<h2 id="aboutTitle" tabindex="-1">앱 정보</h2><h3>pGit</h3><p data-app-version role="status"><span data-version-state>버전 확인 중…</span> <span class="literal-data" data-version-value></span></p><div class="about-update-actions"><button type="button" data-check-updates>최신 버전 확인</button><a data-release-link target="_blank" rel="noopener noreferrer" hidden>릴리즈 보기</a></div><p data-update-status role="status" aria-live="polite"></p><p class="settings-help">GitHub의 최신 정식 릴리즈를 확인합니다. 설치는 자동으로 진행하지 않습니다.</p><p class="settings-help">Powered by Polar</p>';
  page.querySelector('.settings-content').append(aboutPanel);
+ const downloadPanel=document.createElement('div');downloadPanel.className='about-download';downloadPanel.hidden=true;
+ downloadPanel.innerHTML='<p data-download-label role="status" aria-live="polite"></p><p class="literal-data" data-download-name></p><progress data-download-progress aria-label="다운로드 진행률" max="100" value="0" hidden></progress><p class="literal-data" data-download-size></p><div class="about-update-actions"><button data-download-start>새 버전 다운로드</button><button data-download-cancel hidden>다운로드 취소</button><button data-download-open hidden>설치 파일 열기</button><button data-download-reveal hidden>폴더에서 보기</button></div>';
+ aboutPanel.querySelector('[data-update-status]').after(downloadPanel);
+ const desktop=window.pgitDesktop,downloadStart=downloadPanel.querySelector('[data-download-start]'),downloadCancel=downloadPanel.querySelector('[data-download-cancel]'),downloadOpen=downloadPanel.querySelector('[data-download-open]'),downloadReveal=downloadPanel.querySelector('[data-download-reveal]'),downloadLabel=downloadPanel.querySelector('[data-download-label]'),downloadProgress=downloadPanel.querySelector('progress');
+ let downloadTimer,downloadAvailable=false,downloadState={status:'idle'};
+ function renderDownload(state){
+  const statusChanged=downloadState.status!==state.status;downloadState=state;const busy=['preparing','downloading','verifying'].includes(state.status),done=state.status==='completed';
+  downloadPanel.hidden=!desktop?.startDownload||(!downloadAvailable&&state.status==='idle');
+  if(statusChanged||!downloadLabel.textContent)downloadLabel.textContent=({idle:'이 컴퓨터에 맞는 설치 파일을 다운로드합니다.',preparing:'다운로드 준비 중…',downloading:'설치 파일 다운로드 중…',verifying:'설치 파일 확인 중…',completed:'다운로드가 완료되었습니다. 설치 파일을 열어 업데이트하세요.',cancelled:'다운로드를 취소했습니다.',error:'다운로드 또는 파일 검증에 실패했습니다. 다시 시도하세요.'})[state.status]||'';
+  downloadPanel.querySelector('[data-download-name]').textContent=state.name||'';
+  downloadPanel.querySelector('[data-download-size]').textContent=state.total?`${(state.received/1048576).toFixed(1)} / ${(state.total/1048576).toFixed(1)} MB`:'';
+  downloadProgress.hidden=!busy;downloadProgress.value=state.total?Math.min(100,state.received/state.total*100):0;
+  downloadStart.hidden=busy||done;downloadStart.textContent=['error','cancelled'].includes(state.status)?'다시 다운로드':'새 버전 다운로드';
+  downloadCancel.hidden=!busy;downloadCancel.disabled=state.status==='verifying';downloadOpen.hidden=!done;downloadReveal.hidden=!done;
+  clearTimeout(downloadTimer);if(busy)downloadTimer=setTimeout(pollDownload,500);
+ }
+ async function pollDownload(){try{renderDownload(await desktop.downloadState())}catch{renderDownload({...downloadState,status:'error'})}}
+ downloadStart.onclick=async()=>{renderDownload({status:'preparing',received:0,total:0});try{renderDownload(await desktop.startDownload())}catch{renderDownload({status:'error'})}};
+ downloadCancel.onclick=async()=>{downloadCancel.disabled=true;try{renderDownload(await desktop.cancelDownload())}catch{renderDownload({...downloadState,status:'error'})}};
+ for(const [button,method] of [[downloadOpen,'openDownload'],[downloadReveal,'revealDownload']])button.onclick=async()=>{button.disabled=true;try{if(!await desktop[method]())downloadLabel.textContent='파일을 열지 못했습니다. 폴더에서 확인하거나 다시 다운로드하세요.'}catch{downloadLabel.textContent='파일을 열지 못했습니다. 폴더에서 확인하거나 다시 다운로드하세요.'}finally{button.disabled=false;const state=await desktop.downloadState().catch(()=>null);if(state?.status==='error')renderDownload(state)}};
+ if(desktop?.downloadState)pollDownload();
+ window.addEventListener('beforeunload',()=>clearTimeout(downloadTimer));
  const versionState=aboutPanel.querySelector('[data-version-state]'),versionValue=aboutPanel.querySelector('[data-version-value]');
  const updateButton=aboutPanel.querySelector('[data-check-updates]'),updateStatus=aboutPanel.querySelector('[data-update-status]'),releaseLink=aboutPanel.querySelector('[data-release-link]');
  if(window.pgitDesktop?.appInfo)window.pgitDesktop.appInfo().then(info=>{versionState.textContent='버전';versionValue.textContent=`${info.version} · ${info.platform==='darwin'?'macOS':info.platform==='win32'?'Windows':info.platform} · ${info.arch}`}).catch(()=>{versionState.textContent='버전 정보를 불러오지 못했습니다.'});else versionState.textContent='브라우저에서 실행 중';
@@ -70,6 +92,7 @@
   updateButton.disabled=true;updateButton.textContent='업데이트 확인 중…';updateStatus.textContent='';releaseLink.hidden=true;
   try{
    const result=await window.pgitDesktop.checkForUpdates();
+   downloadAvailable=result.status==='available'&&Boolean(result.download);renderDownload(downloadState);
    const messages={available:'새 버전을 사용할 수 있습니다.',current:'최신 버전을 사용하고 있습니다.',ahead:'최신 정식 릴리즈보다 새로운 버전을 사용하고 있습니다.',unavailable:'공개된 정식 릴리즈가 없습니다.','rate-limited':'요청이 많습니다. 잠시 후 다시 확인하세요.',error:'업데이트를 확인하지 못했습니다. 인터넷 연결을 확인하고 다시 시도하세요.'};
    updateStatus.textContent=messages[result.status]||messages.error;
    if(['available','current','ahead'].includes(result.status)){
