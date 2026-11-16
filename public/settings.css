@@ -108,3 +108,10 @@ body dialog.guide-image-viewer{width:96vw;max-width:96vw;height:92vh;max-height:
 @media(max-width:700px){.guide-content .guide-image-button img{max-height:320px}}
 
 .about-update-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:20px}.about-update-actions button{min-height:34px;padding:7px 14px;border:1px solid var(--polar-border);border-radius:5px;background:var(--polar-surface);color:var(--polar-text);font:inherit}.about-update-actions button:hover:not(:disabled){background:var(--polar-soft)}.about-update-actions button:disabled{opacity:.6;cursor:default}.about-update-actions a{color:var(--polar-accent)}[data-update-status]{line-height:1.6;max-width:560px;overflow-wrap:anywhere}
+
+.about-download{margin-top:16px;padding:16px;border:1px solid var(--polar-border);border-radius:8px;max-width:560px;background:var(--polar-surface)}
+.about-download[hidden]{display:none}
+.about-download p{margin:0 0 8px;line-height:1.6;overflow-wrap:anywhere}
+.about-download [data-download-name],.about-download [data-download-size]{font-size:12px;color:var(--polar-muted)}
+.about-download progress{width:100%;height:8px;accent-color:var(--polar-accent)}
+.about-download .about-update-actions{margin-top:12px;gap:8px}

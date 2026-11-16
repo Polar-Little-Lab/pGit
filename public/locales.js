@@ -40,6 +40,21 @@ const languages=[
 ];
 const columns=["ja","zh-CN","es","fr"];
 const messages={
+"Download update":["更新をダウンロード", "下载更新", "Descargar actualización", "Télécharger la mise à jour"],
+"Cancel download":["ダウンロードをキャンセル", "取消下载", "Cancelar descarga", "Annuler le téléchargement"],
+"Open installer":["インストーラーを開く", "打开安装程序", "Abrir instalador", "Ouvrir le programme d’installation"],
+"Show in folder":["フォルダーで表示", "在文件夹中显示", "Mostrar en carpeta", "Afficher dans le dossier"],
+"Download progress":["ダウンロードの進行状況", "下载进度", "Progreso de descarga", "Progression du téléchargement"],
+"Download the installer for this computer.":["このコンピューター用のインストーラーをダウンロードします。", "下载适用于此电脑的安装程序。", "Descarga el instalador para este equipo.", "Téléchargez le programme d’installation pour cet ordinateur."],
+"Preparing download…":["ダウンロードを準備中…", "正在准备下载…", "Preparando descarga…", "Préparation du téléchargement…"],
+"Downloading installer…":["インストーラーをダウンロード中…", "正在下载安装程序…", "Descargando instalador…", "Téléchargement du programme d’installation…"],
+"Verifying installer…":["インストーラーを検証中…", "正在验证安装程序…", "Verificando instalador…", "Vérification du programme d’installation…"],
+"Download complete. Open the installer to update.":["ダウンロードが完了しました。インストーラーを開いて更新してください。", "下载完成。打开安装程序以更新。", "Descarga completa. Abre el instalador para actualizar.", "Téléchargement terminé. Ouvrez le programme d’installation pour mettre à jour."],
+"Download cancelled.":["ダウンロードをキャンセルしました。", "下载已取消。", "Descarga cancelada.", "Téléchargement annulé."],
+"Download or verification failed. Please try again.":["ダウンロードまたは検証に失敗しました。再試行してください。", "下载或验证失败。请重试。", "Error de descarga o verificación. Inténtalo de nuevo.", "Échec du téléchargement ou de la vérification. Réessayez."],
+"Download again":["再ダウンロード", "重新下载", "Descargar de nuevo", "Télécharger à nouveau"],
+"Could not open the file. Check the folder or download again.":["ファイルを開けませんでした。フォルダーを確認するか再ダウンロードしてください。", "无法打开文件。请检查文件夹或重新下载。", "No se pudo abrir el archivo. Revisa la carpeta o descárgalo de nuevo.", "Impossible d’ouvrir le fichier. Vérifiez le dossier ou téléchargez-le à nouveau."],
+
 "About":["アプリ情報", "关于应用", "Acerca de", "À propos"],
 "Version":["バージョン", "版本", "Versión", "Version"],
 "Loading version…":["バージョンを読み込み中…", "正在读取版本…", "Cargando versión…", "Chargement de la version…"],

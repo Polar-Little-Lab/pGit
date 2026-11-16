@@ -30,6 +30,7 @@ const tests = [
   "test/ui-history-tools.mjs",
   "test/ui-settings.mjs",
   "test/ui-about.mjs",
+  "test/ui-update-download.mjs",
   "test/ui-command-help.mjs",
   "test/ui-remote-addresses.mjs",
   "test/ui-settings-layout.mjs",

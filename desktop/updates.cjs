@@ -10,7 +10,7 @@ function compareStableRelease(current,latest){
  for(let i=0;i<3;i++){if(a.parts[i]!==b.parts[i])return a.parts[i]<b.parts[i]?-1:1}
  return a.prerelease?-1:0;
 }
-function createUpdateChecker({fetchImpl=globalThis.fetch,now=Date.now}={}){
+function createUpdateChecker({fetchImpl=globalThis.fetch,now=Date.now,platform=process.platform,arch=process.arch}={}){
  let pending,cached;
  return function check(current){
   if(cached&&cached.current===current&&now()-cached.at<60000)return Promise.resolve(cached.result);
@@ -25,6 +25,7 @@ function createUpdateChecker({fetchImpl=globalThis.fetch,now=Date.now}={}){
     if(release.draft||release.prerelease)throw Error('Not a public stable release');
     const comparison=compareStableRelease(current,release.tag_name);
     const result={status:comparison<0?'available':comparison>0?'ahead':'current',version:release.tag_name.replace(/^v/,''),url:`${RELEASES}/tag/${encodeURIComponent(release.tag_name)}`};
+    const download=require('./update-download.cjs').selectDownload(release,platform,arch);if(download)result.download=download;
     cached={current,at:now(),result};return result;
    }catch{return {status:'error'}}
    finally{pending=null}
