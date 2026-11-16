@@ -68,9 +68,9 @@
  const desktop=window.pgitDesktop,downloadStart=downloadPanel.querySelector('[data-download-start]'),downloadCancel=downloadPanel.querySelector('[data-download-cancel]'),downloadOpen=downloadPanel.querySelector('[data-download-open]'),downloadReveal=downloadPanel.querySelector('[data-download-reveal]'),downloadLabel=downloadPanel.querySelector('[data-download-label]'),downloadProgress=downloadPanel.querySelector('progress');
  let downloadTimer,downloadAvailable=false,downloadState={status:'idle'};
  function renderDownload(state){
-  downloadState=state;const busy=['preparing','downloading','verifying'].includes(state.status),done=state.status==='completed';
+  const statusChanged=downloadState.status!==state.status;downloadState=state;const busy=['preparing','downloading','verifying'].includes(state.status),done=state.status==='completed';
   downloadPanel.hidden=!desktop?.startDownload||(!downloadAvailable&&state.status==='idle');
-  downloadLabel.textContent=({idle:'이 컴퓨터에 맞는 설치 파일을 다운로드합니다.',preparing:'다운로드 준비 중…',downloading:'설치 파일 다운로드 중…',verifying:'설치 파일 확인 중…',completed:'다운로드가 완료되었습니다. 설치 파일을 열어 업데이트하세요.',cancelled:'다운로드를 취소했습니다.',error:'다운로드 또는 파일 검증에 실패했습니다. 다시 시도하세요.'})[state.status]||'';
+  if(statusChanged||!downloadLabel.textContent)downloadLabel.textContent=({idle:'이 컴퓨터에 맞는 설치 파일을 다운로드합니다.',preparing:'다운로드 준비 중…',downloading:'설치 파일 다운로드 중…',verifying:'설치 파일 확인 중…',completed:'다운로드가 완료되었습니다. 설치 파일을 열어 업데이트하세요.',cancelled:'다운로드를 취소했습니다.',error:'다운로드 또는 파일 검증에 실패했습니다. 다시 시도하세요.'})[state.status]||'';
   downloadPanel.querySelector('[data-download-name]').textContent=state.name||'';
   downloadPanel.querySelector('[data-download-size]').textContent=state.total?`${(state.received/1048576).toFixed(1)} / ${(state.total/1048576).toFixed(1)} MB`:'';
   downloadProgress.hidden=!busy;downloadProgress.value=state.total?Math.min(100,state.received/state.total*100):0;
